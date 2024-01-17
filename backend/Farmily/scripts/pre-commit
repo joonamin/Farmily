@@ -1,0 +1,15 @@
+#!/bin/sh
+
+echo "***** Unit Testing 시작 ******"
+
+git stash -q --keep-index
+
+./gradlew test
+
+status=$?
+
+git stash pop -q
+
+echo "***** Unit Testing 완료******"
+
+exit $status
