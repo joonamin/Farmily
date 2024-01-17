@@ -1,0 +1,25 @@
+#!/bin/sh
+
+echo "*****  시작 ******"
+
+# 이동 전에 현재 디렉토리 저장
+current_dir=$PWD
+
+# 프로젝트 루트 디렉토리로 이동
+cd "${PWD}/backend/Farmily" || exit
+
+git stash -q --keep-index
+
+echo "execute: ./gradlew check"
+./gradlew check
+
+status=$?
+
+git stash pop -q
+
+echo "***** Unit Testing 완료******"
+
+# 이전 디렉토리로 복귀
+cd "$current_dir" || exit
+
+exit $status
