@@ -61,6 +61,7 @@ checkstyle {
 
 checkstyleMain.source = fileTree('src/main/java')
 
+// 아래는 주기적으로 script에 대한 변경사항을 반영하기 위해 모든 commit에 적용합니다.
 task installLocalGitHook(type: Copy){
     from new File(rootProject.rootDir, 'scripts/pre-commit')
     into { new File(rootProject.rootDir, '.git/hooks')}
