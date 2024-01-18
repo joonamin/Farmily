@@ -5,6 +5,7 @@ import com.ssafy.farmily.code.ItemType;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -25,10 +26,10 @@ public class FamilyItem extends BaseEntity {
 	private Family family;
 
 	@Column
-	@Enumerated
+	@Enumerated(EnumType.STRING)
 	private Item code;
 
 	@Column
-	@Enumerated
+	@Enumerated(EnumType.STRING)
 	private ItemType type;
 }

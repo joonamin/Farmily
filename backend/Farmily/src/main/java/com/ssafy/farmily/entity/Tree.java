@@ -6,6 +6,7 @@ import com.ssafy.farmily.code.TreeType;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -26,7 +27,7 @@ public class Tree extends BaseEntity {
 	private Family family;
 
 	@Column
-	@Enumerated
+	@Enumerated(EnumType.STRING)
 	private TreeType type;
 
 

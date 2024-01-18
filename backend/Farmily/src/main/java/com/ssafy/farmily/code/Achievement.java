@@ -1,5 +1,8 @@
 package com.ssafy.farmily.code;
 
-public enum Achievement {
+import lombok.Getter;
 
+@Getter
+public enum Achievement {
+	ACHIEVEMENT;
 }
