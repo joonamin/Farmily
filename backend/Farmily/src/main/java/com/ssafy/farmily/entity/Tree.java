@@ -30,7 +30,6 @@ public class Tree extends BaseEntity {
 	@Enumerated(EnumType.STRING)
 	private TreeType type;
 
-
 	@OneToMany(mappedBy = "tree")
 	private Collection<Placement> placements;
 }
