@@ -37,7 +37,6 @@ public class Record extends BaseEntity {
 	@Column
 	private String content;
 
-
 	@OneToMany(mappedBy = "record")
 	private Collection<Comment> comments;
 }
