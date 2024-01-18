@@ -1,0 +1,35 @@
+package com.ssafy.farmily.entity;
+
+import java.util.Collection;
+
+import com.ssafy.farmily.code.TreeType;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.MapsId;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
+import lombok.Getter;
+
+@Entity
+@Getter
+public class Tree extends BaseEntity {
+	@Id
+	private Long id;
+
+	@OneToOne
+	@JoinColumn(name = "id")
+	@MapsId
+	private Family family;
+
+	@Column
+	@Enumerated
+	private TreeType type;
+
+
+	@OneToMany(mappedBy = "tree")
+	private Collection<Placement> placements;
+}
