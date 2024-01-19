@@ -1,6 +1,6 @@
 package com.ssafy.farmily.entity;
 
-import java.util.Collection;
+import java.util.List;
 
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
@@ -12,5 +12,5 @@ import lombok.Getter;
 @Getter
 public class EventRecord extends Record {
 	@OneToMany(mappedBy = "event")
-	private Collection<ImageCard> imageCards;
+	private List<ImageCard> imageCards;
 }

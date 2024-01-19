@@ -1,6 +1,7 @@
 package com.ssafy.farmily.entity;
 
 import java.util.Collection;
+import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorColumn;
@@ -17,6 +18,7 @@ import lombok.Getter;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
+@DiscriminatorColumn(columnDefinition = "CHAR(1)")
 @Getter
 public class Record extends BaseEntity {
 	@Id
@@ -38,5 +40,5 @@ public class Record extends BaseEntity {
 	private String content;
 
 	@OneToMany(mappedBy = "record")
-	private Collection<Comment> comments;
+	private List<Comment> comments;
 }

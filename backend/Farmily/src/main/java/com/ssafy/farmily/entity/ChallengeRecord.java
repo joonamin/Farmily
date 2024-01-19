@@ -1,6 +1,6 @@
 package com.ssafy.farmily.entity;
 
-import java.util.Collection;
+import java.util.List;
 
 import com.ssafy.farmily.type.DateRange;
 
@@ -22,5 +22,5 @@ public class ChallengeRecord extends Record {
 	private Boolean rewarded;
 
 	@OneToMany(mappedBy = "challenge")
-	private Collection<ChallengeProgress> progresses;
+	private List<ChallengeProgress> progresses;
 }

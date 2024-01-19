@@ -1,6 +1,6 @@
 package com.ssafy.farmily.entity;
 
-import java.util.Collection;
+import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -38,7 +38,7 @@ public class Family extends BaseEntity {
 
 
 	@OneToMany(mappedBy = "family")
-	private Collection<FamilyItem> items;
+	private List<FamilyItem> items;
 
 	@OneToOne(mappedBy = "family")
 	@PrimaryKeyJoinColumn
@@ -49,11 +49,11 @@ public class Family extends BaseEntity {
 	private Tree tree;
 
 	@OneToMany(mappedBy = "family")
-	private Collection<CalendarSchedule> calendarSchedules;
+	private List<CalendarSchedule> calendarSchedules;
 
 	@OneToMany(mappedBy = "family")
-	private Collection<AchievementRewardHistory> achievementRewardHistories;
+	private List<AchievementRewardHistory> achievementRewardHistories;
 
 	@OneToMany(mappedBy = "family")
-	private Collection<Sprint> sprints;
+	private List<Sprint> sprints;
 }

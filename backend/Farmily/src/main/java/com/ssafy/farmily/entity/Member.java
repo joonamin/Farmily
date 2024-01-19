@@ -1,6 +1,6 @@
 package com.ssafy.farmily.entity;
 
-import java.util.Collection;
+import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -34,8 +34,8 @@ public class Member extends BaseEntity {
 
 
 	@OneToMany(mappedBy = "member")
-	private Collection<FamilyMembership> familyMemberships;
+	private List<FamilyMembership> familyMemberships;
 
 	@OneToMany(mappedBy = "author")
-	private Collection<Record> records;
+	private List<Record> records;
 }

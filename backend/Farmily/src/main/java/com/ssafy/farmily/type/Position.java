@@ -10,6 +10,6 @@ import lombok.Setter;
 @Setter
 @RequiredArgsConstructor
 public class Position {
-	private int y;
-	private int x;
+	private int row;
+	private int col;
 }

@@ -1,6 +1,6 @@
 package com.ssafy.farmily.entity;
 
-import java.util.Collection;
+import java.util.List;
 
 import com.ssafy.farmily.code.TreeType;
 
@@ -31,5 +31,5 @@ public class Tree extends BaseEntity {
 	private TreeType type;
 
 	@OneToMany(mappedBy = "tree")
-	private Collection<Placement> placements;
+	private List<Placement> placements;
 }

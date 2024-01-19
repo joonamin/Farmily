@@ -1,6 +1,6 @@
 package com.ssafy.farmily.entity;
 
-import java.util.Collection;
+import java.util.List;
 
 import com.ssafy.farmily.type.DateRange;
 
@@ -34,5 +34,5 @@ public class Sprint extends BaseEntity {
 
 
 	@OneToMany(mappedBy = "sprint")
-	private Collection<Record> records;
+	private List<Record> records;
 }
