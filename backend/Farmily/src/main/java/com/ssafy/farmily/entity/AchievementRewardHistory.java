@@ -1,6 +1,6 @@
 package com.ssafy.farmily.entity;
 
-import com.ssafy.farmily.code.Achievement;
+import com.ssafy.farmily.entity.type.Achievement;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

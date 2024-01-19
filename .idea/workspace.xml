@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="87384368-c5d1-4ad3-9a2e-ff8aa3624fa8" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/checkstyle-idea.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/checkstyleidea-libs/readme.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules/Farmily.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules/Farmily.main.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules/Farmily.test.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/8/e/8ec9a00bfd09b3190ac6b22251dbb1aa95a0579d" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/8/e/8ec9a00bfd09b3190ac6b22251dbb1aa95a0579d" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/index.pb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/Farmily/src/main/java/com/ssafy/farmily/code/AccessoryType.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/Farmily/src/main/java/com/ssafy/farmily/entity/type/AccessoryType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/Farmily/src/main/java/com/ssafy/farmily/code/Achievement.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/Farmily/src/main/java/com/ssafy/farmily/entity/type/Achievement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/Farmily/src/main/java/com/ssafy/farmily/code/Item.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/Farmily/src/main/java/com/ssafy/farmily/entity/type/Item.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/Farmily/src/main/java/com/ssafy/farmily/code/ItemType.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/Farmily/src/main/java/com/ssafy/farmily/entity/type/ItemType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/Farmily/src/main/java/com/ssafy/farmily/code/TreeType.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/Farmily/src/main/java/com/ssafy/farmily/entity/type/TreeType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/Farmily/src/main/java/com/ssafy/farmily/entity/AccessoryPlacement.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/Farmily/src/main/java/com/ssafy/farmily/entity/AccessoryPlacement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/Farmily/src/main/java/com/ssafy/farmily/entity/AchievementRewardHistory.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/Farmily/src/main/java/com/ssafy/farmily/entity/AchievementRewardHistory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/Farmily/src/main/java/com/ssafy/farmily/entity/ChallengeRecord.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/Farmily/src/main/java/com/ssafy/farmily/entity/ChallengeRecord.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/Farmily/src/main/java/com/ssafy/farmily/entity/FamilyItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/Farmily/src/main/java/com/ssafy/farmily/entity/FamilyItem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/Farmily/src/main/java/com/ssafy/farmily/entity/Placement.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/Farmily/src/main/java/com/ssafy/farmily/entity/Placement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/Farmily/src/main/java/com/ssafy/farmily/entity/Sprint.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/Farmily/src/main/java/com/ssafy/farmily/entity/Sprint.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/Farmily/src/main/java/com/ssafy/farmily/entity/Tree.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/Farmily/src/main/java/com/ssafy/farmily/entity/Tree.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/Farmily/src/main/java/com/ssafy/farmily/type/DateRange.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/Farmily/src/main/java/com/ssafy/farmily/entity/type/DateRange.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/Farmily/src/main/java/com/ssafy/farmily/type/Position.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/Farmily/src/main/java/com/ssafy/farmily/entity/type/Position.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/Farmily/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/Farmily/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/Farmily/src/test/java/com/ssafy/farmily/FarmilyApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/Farmily/src/test/java/com/ssafy/farmily/FarmilyApplicationTests.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$/backend/Farmily">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <task path="$PROJECT_DIR$/backend/Farmily">
+          <activation />
+        </task>
+        <projects_view>
+          <tree_state>
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="Farmily" type="f1a62948:ProjectNode" />
+              </path>
+            </expand>
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitLabMergeRequestFiltersHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPENED&quot;,
+    &quot;assignee&quot;: {
+      &quot;type&quot;: &quot;org.jetbrains.plugins.gitlab.mergerequest.ui.filters.GitLabMergeRequestsFiltersValue.MergeRequestsMemberFilterValue.MergeRequestsAssigneeFilterValue&quot;,
+      &quot;username&quot;: &quot;joonamin44&quot;,
+      &quot;fullname&quot;: &quot;강민준&quot;
+    }
+  }
+}</component>
+  <component name="GitLabMergeRequestsSettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;first&quot;: &quot;https://lab.ssafy.com/s10-webmobile1-sub2/S10P12E102.git&quot;,
+    &quot;second&quot;: &quot;d19a22a5-c739-441c-87c0-9ae4acd263de&quot;
+  }
+}</component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 5
+}</component>
+  <component name="ProjectId" id="2b6WyEWJ5BcyUfvBQJGiODQonEO" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Gradle.Build Farmily.executor": "Run",
+    "Gradle.FarmilyApplicationTests.contextLoads.executor": "Run",
+    "Gradle.FarmilyApplicationTests.executor": "Run",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "Spring Boot.FarmilyApplication.executor": "Run",
+    "git-widget-placeholder": "feat/S10P12E102-136",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/SSAFY/Desktop/S10P12E102/backend/Farmily/checkstyle/naver-checkstyle-rules.xml",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "org.infernus.idea.checkstyle.CheckStyleConfigurable",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="com.ssafy.farmily.config" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Gradle.FarmilyApplicationTests.contextLoads">
+    <configuration name="FarmilyApplicationTests" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/backend/Farmily" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":test" />
+            <option value="--tests" />
+            <option value="&quot;com.ssafy.farmily.FarmilyApplicationTests&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>true</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <configuration name="FarmilyApplicationTests.contextLoads" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/backend/Farmily" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":test" />
+            <option value="--tests" />
+            <option value="&quot;com.ssafy.farmily.FarmilyApplicationTests.contextLoads&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>true</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <configuration name="FarmilyApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+      <module name="Farmily.main" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.ssafy.farmily.FarmilyApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Gradle.FarmilyApplicationTests.contextLoads" />
+        <item itemvalue="Gradle.FarmilyApplicationTests" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="jdk-17.0.10-corretto-17.0.10-f644763e9732-24fca987" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="87384368-c5d1-4ad3-9a2e-ff8aa3624fa8" name="Changes" comment="" />
+      <created>1705536261858</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1705536261858</updated>
+      <workItem from="1705536264909" duration="15181000" />
+      <workItem from="1705640651887" duration="2449000" />
+      <workItem from="1705643470055" duration="59000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+</project>
