@@ -18,5 +18,5 @@ public class Image extends BaseEntity {
 	private String location;
 
 	@Column
-	private String oFileName;
+	private String originalFileName;
 }
