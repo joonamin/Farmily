@@ -19,7 +19,7 @@ public class ChallengeRecord extends Record {
 	private DateRange range;
 
 	@Column(columnDefinition = "BOOLEAN")
-	private Boolean rewarded;
+	private Boolean isRewarded;
 
 	@OneToMany(mappedBy = "challenge")
 	private List<ChallengeProgress> progresses;

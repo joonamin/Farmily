@@ -30,7 +30,7 @@ public class Sprint extends BaseEntity {
 	private DateRange range;
 
 	@Column(columnDefinition = "BOOLEAN")
-	private Boolean harvested;
+	private Boolean isHarvested;
 
 
 	@OneToMany(mappedBy = "sprint")
