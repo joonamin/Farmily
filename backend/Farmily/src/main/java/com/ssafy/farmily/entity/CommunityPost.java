@@ -16,6 +16,9 @@ public class CommunityPost extends BaseEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@Column(columnDefinition = "VARCHAR(255)")
+	private String title;
+
 	@ManyToOne
 	@JoinColumn(name = "authorId")
 	private Member author;
