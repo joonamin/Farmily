@@ -1,9 +1,7 @@
 package com.ssafy.farmily.entity;
 
-import com.ssafy.farmily.type.Position;
+import com.ssafy.farmily.entity.type.Position;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.DiscriminatorColumn;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

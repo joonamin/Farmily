@@ -2,7 +2,7 @@ package com.ssafy.farmily.entity;
 
 import java.util.List;
 
-import com.ssafy.farmily.type.DateRange;
+import com.ssafy.farmily.entity.type.DateRange;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorValue;

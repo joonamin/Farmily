@@ -1,4 +1,4 @@
-package com.ssafy.farmily.code;
+package com.ssafy.farmily.entity.type;
 
 import lombok.Getter;
 

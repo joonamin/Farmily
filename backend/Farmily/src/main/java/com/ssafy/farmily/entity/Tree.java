@@ -2,7 +2,7 @@ package com.ssafy.farmily.entity;
 
 import java.util.List;
 
-import com.ssafy.farmily.code.TreeType;
+import com.ssafy.farmily.entity.type.TreeType;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
