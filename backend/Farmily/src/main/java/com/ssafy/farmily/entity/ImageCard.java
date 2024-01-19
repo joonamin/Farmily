@@ -21,8 +21,8 @@ public class ImageCard extends BaseEntity {
 	private Image image;
 
 	@ManyToOne
-	@JoinColumn(name = "eventId")
-	private EventRecord event;
+	@JoinColumn(name = "recordId")
+	private Record event;
 
 	@Column(columnDefinition = "VARCHAR(255)")
 	private String description;
