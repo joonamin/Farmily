@@ -41,4 +41,8 @@ public class Record extends BaseEntity {
 
 	@OneToMany(mappedBy = "record")
 	private List<Comment> comments;
+
+
+	@OneToMany(mappedBy = "record")
+	private List<ImageCard> imageCards;
 }

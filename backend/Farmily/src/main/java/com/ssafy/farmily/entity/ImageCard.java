@@ -22,7 +22,7 @@ public class ImageCard extends BaseEntity {
 
 	@ManyToOne
 	@JoinColumn(name = "recordId")
-	private Record event;
+	private Record record;
 
 	@Column(columnDefinition = "VARCHAR(255)")
 	private String description;
