@@ -1,5 +1,7 @@
 package com.ssafy.farmily.entity;
 
+import org.w3c.dom.CDATASection;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -24,6 +26,6 @@ public class FamilyMembership extends BaseEntity {
 	@JoinColumn(name = "familyId")
 	private Family family;
 
-	@Column
+	@Column(columnDefinition = "BOOLEAN")
 	private Boolean isLeader;
 }

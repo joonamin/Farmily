@@ -18,7 +18,7 @@ public class ChallengeRecord extends Record {
 	@Embedded
 	private DateRange range;
 
-	@Column
+	@Column(columnDefinition = "BOOLEAN")
 	private Boolean rewarded;
 
 	@OneToMany(mappedBy = "challenge")

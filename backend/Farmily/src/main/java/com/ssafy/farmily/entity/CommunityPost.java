@@ -20,7 +20,7 @@ public class CommunityPost extends BaseEntity {
 	@JoinColumn(name = "authorId")
 	private Member author;
 
-	@Column
+	@Column(columnDefinition = "TEXT")
 	private String content;
 
 	@ManyToOne

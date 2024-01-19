@@ -13,7 +13,7 @@ import lombok.Getter;
 @Getter
 @DiscriminatorValue("A")
 public class AccessoryPlacement extends Placement {
-	@Column
+	@Column(columnDefinition = "VARCHAR(32)")
 	@Enumerated(EnumType.STRING)
 	private AccessoryType type;
 }

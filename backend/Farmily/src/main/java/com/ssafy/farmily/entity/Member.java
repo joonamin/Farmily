@@ -2,6 +2,8 @@ package com.ssafy.farmily.entity;
 
 import java.util.List;
 
+import org.w3c.dom.CDATASection;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -19,13 +21,13 @@ public class Member extends BaseEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column
+	@Column(columnDefinition = "VARCHAR(16)")
 	private String username;
 
-	@Column
+	@Column(columnDefinition = "VARCHAR(32)")
 	private String password;
 
-	@Column
+	@Column(columnDefinition = "VARCHAR(16)")
 	private String nickname;
 
 	@OneToOne

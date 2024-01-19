@@ -29,7 +29,7 @@ public class Sprint extends BaseEntity {
 	@Embedded
 	private DateRange range;
 
-	@Column
+	@Column(columnDefinition = "BOOLEAN")
 	private Boolean harvested;
 
 
