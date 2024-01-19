@@ -18,8 +18,8 @@ public class ChallengeRecord extends Record {
 	@Embedded
 	private DateRange range;
 
-	@Column
-	private Boolean rewarded;
+	@Column(columnDefinition = "BOOLEAN")
+	private Boolean isRewarded;
 
 	@OneToMany(mappedBy = "challenge")
 	private List<ChallengeProgress> progresses;

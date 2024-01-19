@@ -14,9 +14,9 @@ public class Image extends BaseEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column
+	@Column(columnDefinition = "VARCHAR(255)")
 	private String location;
 
-	@Column
-	private String oFileName;
+	@Column(columnDefinition = "VARCHAR(255)")
+	private String originalFileName;
 }

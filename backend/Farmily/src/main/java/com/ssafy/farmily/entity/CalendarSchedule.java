@@ -28,6 +28,6 @@ public class CalendarSchedule extends BaseEntity {
 	@Temporal(TemporalType.DATE)
 	private LocalDate date;
 
-	@Column
+	@Column(columnDefinition = "VARCHAR(16)")
 	private String memo;
 }

@@ -24,6 +24,6 @@ public class ImageCard extends BaseEntity {
 	@JoinColumn(name = "eventId")
 	private EventRecord event;
 
-	@Column
+	@Column(columnDefinition = "VARCHAR(255)")
 	private String description;
 }

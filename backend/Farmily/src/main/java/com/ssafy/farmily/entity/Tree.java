@@ -26,7 +26,7 @@ public class Tree extends BaseEntity {
 	@MapsId
 	private Family family;
 
-	@Column
+	@Column(columnDefinition = "VARCHAR(32)")
 	@Enumerated(EnumType.STRING)
 	private TreeType type;
 

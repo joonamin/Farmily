@@ -24,7 +24,7 @@ public class AchievementRewardHistory extends BaseEntity {
 	@JoinColumn(name = "familyId")
 	private Family family;
 
-	@Column
+	@Column(columnDefinition = "VARCHAR(32)")
 	@Enumerated(EnumType.STRING)
 	private Achievement achievement;
 }

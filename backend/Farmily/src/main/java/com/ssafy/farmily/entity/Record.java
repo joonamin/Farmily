@@ -29,14 +29,14 @@ public class Record extends BaseEntity {
 	@JoinColumn(name = "sprintId")
 	private Sprint sprint;
 
-	@Column
+	@Column(columnDefinition = "VARCHAR(255)")
 	private String title;
 
 	@ManyToOne
 	@JoinColumn(name = "authorId")
 	private Member author;
 
-	@Column
+	@Column(columnDefinition = "TEXT")
 	private String content;
 
 	@OneToMany(mappedBy = "record")

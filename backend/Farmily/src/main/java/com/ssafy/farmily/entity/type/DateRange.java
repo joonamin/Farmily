@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.time.Period;
 
 import jakarta.persistence.Embeddable;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -13,7 +15,10 @@ import lombok.Setter;
 @Setter
 @RequiredArgsConstructor
 public class DateRange {
+	@Temporal(TemporalType.DATE)
 	private LocalDate startDate;
+
+	@Temporal(TemporalType.DATE)
 	private LocalDate endDate;
 
 	/**

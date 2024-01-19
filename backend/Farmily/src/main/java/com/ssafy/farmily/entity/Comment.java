@@ -20,7 +20,7 @@ public class Comment extends BaseEntity {
 	@JoinColumn(name = "recordId")
 	private Record record;
 
-	@Column
+	@Column(columnDefinition = "TEXT")
 	private String content;
 
 	@ManyToOne

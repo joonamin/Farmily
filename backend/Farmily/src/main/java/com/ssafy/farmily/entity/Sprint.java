@@ -29,8 +29,8 @@ public class Sprint extends BaseEntity {
 	@Embedded
 	private DateRange range;
 
-	@Column
-	private Boolean harvested;
+	@Column(columnDefinition = "BOOLEAN")
+	private Boolean isHarvested;
 
 
 	@OneToMany(mappedBy = "sprint")
