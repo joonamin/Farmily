@@ -5,41 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="87384368-c5d1-4ad3-9a2e-ff8aa3624fa8" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/checkstyle-idea.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/checkstyleidea-libs/readme.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules/Farmily.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules/Farmily.main.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules/Farmily.test.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/8/e/8ec9a00bfd09b3190ac6b22251dbb1aa95a0579d" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/8/e/8ec9a00bfd09b3190ac6b22251dbb1aa95a0579d" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/index.pb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/Farmily/src/main/java/com/ssafy/farmily/code/AccessoryType.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/Farmily/src/main/java/com/ssafy/farmily/entity/type/AccessoryType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/Farmily/src/main/java/com/ssafy/farmily/code/Achievement.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/Farmily/src/main/java/com/ssafy/farmily/entity/type/Achievement.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/Farmily/src/main/java/com/ssafy/farmily/code/Item.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/Farmily/src/main/java/com/ssafy/farmily/entity/type/Item.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/Farmily/src/main/java/com/ssafy/farmily/code/ItemType.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/Farmily/src/main/java/com/ssafy/farmily/entity/type/ItemType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/Farmily/src/main/java/com/ssafy/farmily/code/TreeType.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/Farmily/src/main/java/com/ssafy/farmily/entity/type/TreeType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/Farmily/src/main/java/com/ssafy/farmily/entity/AccessoryPlacement.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/Farmily/src/main/java/com/ssafy/farmily/entity/AccessoryPlacement.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/Farmily/src/main/java/com/ssafy/farmily/entity/AchievementRewardHistory.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/Farmily/src/main/java/com/ssafy/farmily/entity/AchievementRewardHistory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/Farmily/src/main/java/com/ssafy/farmily/entity/ChallengeRecord.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/Farmily/src/main/java/com/ssafy/farmily/entity/ChallengeRecord.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/Farmily/src/main/java/com/ssafy/farmily/entity/FamilyItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/Farmily/src/main/java/com/ssafy/farmily/entity/FamilyItem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/Farmily/src/main/java/com/ssafy/farmily/entity/Placement.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/Farmily/src/main/java/com/ssafy/farmily/entity/Placement.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/Farmily/src/main/java/com/ssafy/farmily/entity/Sprint.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/Farmily/src/main/java/com/ssafy/farmily/entity/Sprint.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/Farmily/src/main/java/com/ssafy/farmily/entity/Tree.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/Farmily/src/main/java/com/ssafy/farmily/entity/Tree.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/Farmily/src/main/java/com/ssafy/farmily/type/DateRange.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/Farmily/src/main/java/com/ssafy/farmily/entity/type/DateRange.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/Farmily/src/main/java/com/ssafy/farmily/type/Position.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/Farmily/src/main/java/com/ssafy/farmily/entity/type/Position.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/Farmily/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/Farmily/src/main/resources/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/Farmily/src/test/java/com/ssafy/farmily/FarmilyApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/Farmily/src/test/java/com/ssafy/farmily/FarmilyApplicationTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/index.pb" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/index.pb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -109,31 +77,31 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Gradle.Build Farmily.executor": "Run",
-    "Gradle.FarmilyApplicationTests.contextLoads.executor": "Run",
-    "Gradle.FarmilyApplicationTests.executor": "Run",
-    "RequestMappingsPanelOrder0": "0",
-    "RequestMappingsPanelOrder1": "1",
-    "RequestMappingsPanelWidth0": "75",
-    "RequestMappingsPanelWidth1": "75",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "Spring Boot.FarmilyApplication.executor": "Run",
-    "git-widget-placeholder": "feat/S10P12E102-136",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/SSAFY/Desktop/S10P12E102/backend/Farmily/checkstyle/naver-checkstyle-rules.xml",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "org.infernus.idea.checkstyle.CheckStyleConfigurable",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Gradle.Build Farmily.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.FarmilyApplicationTests.contextLoads.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.FarmilyApplicationTests.executor&quot;: &quot;Run&quot;,
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;Spring Boot.FarmilyApplication.executor&quot;: &quot;Run&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;feat/S10P12E102-136&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/SSAFY/Desktop/S10P12E102/backend/Farmily/checkstyle/naver-checkstyle-rules.xml&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;org.infernus.idea.checkstyle.CheckStyleConfigurable&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
       <recent name="com.ssafy.farmily.config" />
@@ -220,7 +188,7 @@
       <updated>1705536261858</updated>
       <workItem from="1705536264909" duration="15181000" />
       <workItem from="1705640651887" duration="2449000" />
-      <workItem from="1705643470055" duration="59000" />
+      <workItem from="1705643470055" duration="998000" />
     </task>
     <servers />
   </component>
