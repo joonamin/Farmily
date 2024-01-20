@@ -1,9 +1,13 @@
 
 _
-java:S6813"BRemove this field injection and use constructor injection instead.(êæÄŞ8øöé†Ò1
+java:S6813"BRemove this field injection and use constructor injection instead.(êæÄŞ8¼å¼Ò1
 _
-java:S6813"BRemove this field injection and use constructor injection instead.(êæÄŞ8øöé†Ò1
+java:S6813"BRemove this field injection and use constructor injection instead.(êæÄŞ8¼å¼Ò1
+_
+java:S6813"BRemove this field injection and use constructor injection instead.(êæÄŞ8¼å¼Ò1
 U
-java:S1128"3Remove this unused import 'java.security.Provider'.(×„áãøÿÿÿÿ8üöé†Ò1
+java:S1128"3Remove this unused import 'java.security.Provider'.(×„áãøÿÿÿÿ8á¾Ö¼Ò1
+M
+java:S1128"0Remove this unused import 'java.util.ArrayList'.(÷‰îƒ8Ã•Ø¼Ò1
 g
-java:S1128"ERemove this unused import 'com.ssafy.farmily.entity.ChallengeRecord'.(ëºÙÁûÿÿÿÿ8üöé†Ò1
+java:S1128"ERemove this unused import 'com.ssafy.farmily.entity.ChallengeRecord'.(ëºÙÁûÿÿÿÿ8á¾Ö¼Ò1
