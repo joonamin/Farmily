@@ -9,11 +9,17 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.annotation.web.configurers.CorsConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HttpBasicConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserRequest;
+import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
+import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.security.web.SecurityFilterChain;
+
+import com.ssafy.farmily.CustomOidcMemberService;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		http.cors(CorsConfigurer::disable)
@@ -25,7 +31,18 @@ public class SecurityConfig {
 					.permitAll()
 					.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 			)
+			.oauth2Login(
+				oauth2 -> oauth2
+					.userInfoEndpoint(userInfo -> userInfo
+						.oidcUserService(this.oidcUserService()))
+
+			)
 			.httpBasic(HttpBasicConfigurer::disable);
 		return http.build();
 	}
+
+	private OAuth2UserService<OidcUserRequest, OidcUser> oidcUserService() {
+		return new CustomOidcMemberService();
+	}
+
 }
