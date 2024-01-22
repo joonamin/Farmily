@@ -10,13 +10,12 @@ import com.ssafy.farmily.entity.Record;
 import com.ssafy.farmily.exception.NoSuchContentException;
 import com.ssafy.farmily.repository.RecordRepository;
 
-@Service
-public class RecordServiceImpl implements RecordService {
-	RecordRepository recordRepository;
+import lombok.RequiredArgsConstructor;
 
-	public RecordServiceImpl(RecordRepository recordRepository) {
-		this.recordRepository = recordRepository;
-	}
+@Service
+@RequiredArgsConstructor
+public class RecordServiceImpl implements RecordService {
+	private final RecordRepository recordRepository;
 
 	@Override
 	@Transactional
