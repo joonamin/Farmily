@@ -1,7 +1,6 @@
 package com.ssafy.farmily.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,7 +21,7 @@ public class RecordController {
 
 	@GetMapping("/{requestId}")
 	private ResponseEntity<RecordResponseDto> get(@PathVariable Long requestId) {
-		RecordResponseDto dto = responseService.get(requestId);
+		RecordResponseDto dto = responseService.getById(requestId);
 
 		return ResponseEntity.ok(dto);
 	}

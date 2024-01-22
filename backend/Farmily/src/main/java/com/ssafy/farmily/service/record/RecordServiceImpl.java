@@ -15,7 +15,7 @@ public class RecordServiceImpl implements RecordService {
 	RecordRepository recordRepository;
 
 	@Override
-	public RecordResponseDto get(long recordId) {
+	public RecordResponseDto getById(long recordId) {
 		Record entity = recordRepository.findById(recordId)
 			.orElseThrow(NoSuchContentException::new);
 

@@ -4,7 +4,7 @@ import com.ssafy.farmily.dto.DailyRecordRequestDto;
 import com.ssafy.farmily.dto.RecordResponseDto;
 
 public interface RecordService {
-	RecordResponseDto get(long recordId);
+	RecordResponseDto getById(long recordId);
 
 	void createDaily(DailyRecordRequestDto dto);
 }
