@@ -19,9 +19,7 @@ public class RecordServiceImpl implements RecordService {
 		Record entity = recordRepository.findById(recordId)
 			.orElseThrow(NoSuchContentException::new);
 
-		RecordResponseDto dto = RecordResponseDto.from(entity);
-
-		return dto;
+		return RecordResponseDto.from(entity);
 	}
 
 	@Override
