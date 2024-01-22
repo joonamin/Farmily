@@ -16,7 +16,7 @@ import lombok.Getter;
 @Getter
 public class ChallengeRecord extends Record {
 	@Embedded
-	private DateRange range;
+	private DateRange dateRange;
 
 	@Column(columnDefinition = "BOOLEAN")
 	private Boolean isRewarded;
