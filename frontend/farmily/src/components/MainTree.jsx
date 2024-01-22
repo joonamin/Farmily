@@ -6,7 +6,7 @@ export default function MainTree() {
 
   return (
     <>
-      <img className="relative mb-16"
+      <img className="relative mb-24"
         src={maintree} alt="MainTree"
       />
     </>

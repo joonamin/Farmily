@@ -14,7 +14,7 @@ const category = [
 
 export default function SideBar() {
   return (
-    <aside className="w-1/3 h-full px-8 py-6 bg-slate-50 text-stone-900 md:w-60 rounded-r-md text-center font-['DungGeunMo']">
+    <aside className="w-1/3 h-full px-8 py-6 bg-slate-50 text-stone-900 md:w-60 rounded-r-md text-center">
       
       {/* 파밀리 로고 */}
       <Link to="/tree">
