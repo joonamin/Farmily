@@ -15,7 +15,6 @@ import lombok.Setter;
 @Builder
 public class DailyRecordRequestDto {
 	private Long sprintId;
-	private Long authorId;
 	private String title;
 	private String content;
 }
