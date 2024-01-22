@@ -30,5 +30,14 @@ public class RecordServiceImpl implements RecordService {
 		Sprint sprint = recordRepository.findById(dto.getSprintId())
 			.orElseThrow(() -> new)
 		 */
+
+		Record entity = Record.builder()
+			.sprint(null)	// TODO: sprint 연결, validation 및 적용
+			.author(null)	// TODO: UserPrincipal 연결, validation 및 적용
+			.title(dto.getTitle())
+			.content(dto.getContent())
+			.build();
+
+		recordRepository.save(entity);
 	}
 }
