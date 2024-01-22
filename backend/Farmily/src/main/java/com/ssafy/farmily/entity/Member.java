@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.w3c.dom.CDATASection;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -12,16 +13,22 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Member extends BaseEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(columnDefinition = "VARCHAR(16)")
+	@Column(columnDefinition = "VARCHAR(32)")
 	private String username;
 
 	@Column(columnDefinition = "VARCHAR(32)")
@@ -30,7 +37,7 @@ public class Member extends BaseEntity {
 	@Column(columnDefinition = "VARCHAR(16)")
 	private String nickname;
 
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "profilePicId")
 	private Image profilePic;
 

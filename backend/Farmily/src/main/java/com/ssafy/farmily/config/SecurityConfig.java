@@ -1,5 +1,6 @@
 package com.ssafy.farmily.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -10,15 +11,20 @@ import org.springframework.security.config.annotation.web.configurers.CorsConfig
 import org.springframework.security.config.annotation.web.configurers.HttpBasicConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserRequest;
+import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.security.web.SecurityFilterChain;
 
 import com.ssafy.farmily.CustomOidcMemberService;
+import com.ssafy.farmily.service.CustomMemberService;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+
+	@Autowired
+	private OidcUserService oidcUserService;
 
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -34,15 +40,11 @@ public class SecurityConfig {
 			.oauth2Login(
 				oauth2 -> oauth2
 					.userInfoEndpoint(userInfo -> userInfo
-						.oidcUserService(this.oidcUserService()))
+						.oidcUserService(oidcUserService))
 
 			)
 			.httpBasic(HttpBasicConfigurer::disable);
 		return http.build();
-	}
-
-	private OAuth2UserService<OidcUserRequest, OidcUser> oidcUserService() {
-		return new CustomOidcMemberService();
 	}
 
 }

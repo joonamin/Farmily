@@ -3,9 +3,13 @@ package com.ssafy.farmily.entity;
 import java.util.Collection;
 import java.util.List;
 
+import com.ssafy.farmily.entity.type.RecordType;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorColumn;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -41,4 +45,12 @@ public class Record extends BaseEntity {
 
 	@OneToMany(mappedBy = "record")
 	private List<Comment> comments;
+
+
+	@OneToMany(mappedBy = "record")
+	private List<ImageCard> imageCards;
+
+	@Column(columnDefinition = "VARCHAR(32)")
+	@Enumerated(EnumType.STRING)
+	private RecordType type;
 }
