@@ -15,7 +15,7 @@ import com.ssafy.farmily.dto.RecordResponseDto;
 import com.ssafy.farmily.service.record.RecordService;
 
 @RestController
-@RequestMapping(value = "/record", consumes = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping("/record")
 public class RecordController {
 	@Autowired
 	RecordService responseService;
@@ -27,12 +27,11 @@ public class RecordController {
 		return ResponseEntity.ok(dto);
 	}
 
-	@PostMapping(value = "/daily")
+	@PostMapping("/daily")
 	private ResponseEntity<Void> postDaily(
 		// @AuthenticationPrincipal UserDetail user,
 		@RequestBody DailyRecordRequestDto request
 	) {
-		System.out.println(request.getTitle() + " / " + request.getContent());
 		responseService.createDaily(request);
 
 		return ResponseEntity.ok().build();
