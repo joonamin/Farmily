@@ -27,12 +27,11 @@ public class RecordController {
 		return ResponseEntity.ok(dto);
 	}
 
-	@PostMapping(value = "/daily")
+	@PostMapping("/daily")
 	private ResponseEntity<Void> postDaily(
 		// @AuthenticationPrincipal UserDetail user,
 		@RequestBody DailyRecordRequestDto request
 	) {
-		System.out.println(request.getTitle() + " / " + request.getContent());
 		responseService.createDaily(request);
 
 		return ResponseEntity.ok().build();
