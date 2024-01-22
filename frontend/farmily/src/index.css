@@ -6,3 +6,9 @@
   font-family: 'DungGeunMo';
   src: url('./assets/fonts/DungGeunMo.ttf');
 }
+
+@layer utilities {
+  .w-full-side {
+    width: calc(100% - 15rem);
+  }
+}
