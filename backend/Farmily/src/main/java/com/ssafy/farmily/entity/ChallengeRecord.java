@@ -9,11 +9,19 @@ import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 @Entity
 @DiscriminatorValue("C")
+@RequiredArgsConstructor
 @Getter
+@Setter
+@SuperBuilder
+@AllArgsConstructor
 public class ChallengeRecord extends Record {
 	@Embedded
 	private DateRange dateRange;
