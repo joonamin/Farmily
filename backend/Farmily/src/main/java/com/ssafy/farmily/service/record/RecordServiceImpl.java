@@ -12,8 +12,11 @@ import com.ssafy.farmily.repository.RecordRepository;
 
 @Service
 public class RecordServiceImpl implements RecordService {
-	@Autowired
 	RecordRepository recordRepository;
+
+	public RecordServiceImpl(RecordRepository recordRepository) {
+		this.recordRepository = recordRepository;
+	}
 
 	@Override
 	@Transactional
