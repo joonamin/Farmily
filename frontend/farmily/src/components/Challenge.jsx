@@ -6,7 +6,7 @@ export default function Challenge() {
 
   return (
     <>
-      <img className="relative mb-16"
+      <img className="relative mb-16 ml-20"
         src={challenge} alt="challenge_flower"
       />
     </>
