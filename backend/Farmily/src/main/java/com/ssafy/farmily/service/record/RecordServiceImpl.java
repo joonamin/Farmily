@@ -1,9 +1,13 @@
 package com.ssafy.farmily.service.record;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.farmily.dto.ChallengeRecordPostRequestDto;
 import com.ssafy.farmily.dto.ChallengeRecordPutRequestDto;
@@ -11,12 +15,18 @@ import com.ssafy.farmily.dto.DailyRecordPostRequestDto;
 import com.ssafy.farmily.dto.DailyRecordPutRequestDto;
 import com.ssafy.farmily.dto.EventRecordPostRequestDto;
 import com.ssafy.farmily.dto.EventRecordPutRequestDto;
+import com.ssafy.farmily.dto.ImageCardRequestDto;
+import com.ssafy.farmily.dto.ImageDto;
 import com.ssafy.farmily.dto.RecordResponseDto;
 import com.ssafy.farmily.entity.ChallengeRecord;
+import com.ssafy.farmily.entity.Image;
+import com.ssafy.farmily.entity.ImageCard;
 import com.ssafy.farmily.entity.Record;
 import com.ssafy.farmily.entity.type.RecordType;
 import com.ssafy.farmily.exception.NoSuchContentException;
+import com.ssafy.farmily.repository.ImageCardRepository;
 import com.ssafy.farmily.repository.RecordRepository;
+import com.ssafy.farmily.service.file.FileService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -24,6 +34,9 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class RecordServiceImpl implements RecordService {
 	private final RecordRepository recordRepository;
+	private final ImageCardRepository imageCardRepository;
+
+	private final FileService fileService;
 
 	@Override
 	@Transactional
@@ -36,16 +49,16 @@ public class RecordServiceImpl implements RecordService {
 
 	@Override
 	public void createEventRecord(EventRecordPostRequestDto dto) {
-
-		// TODO: Multipart 이미지 업로드 및 테이블 저장 (FileService에 위임)
-
 		Record entity = Record.builder()
 			.type(RecordType.EVENT)
 			.sprint(null)	// TODO: sprint 연결 및 적용
 			.author(null)	// TODO: UserPrincipal 연결 및 적용
 			.title(dto.getTitle())
-			.imageCards(List.of())	// TODO: 업로드한 이미지 Entity 불러오기
 			.build();
+
+		List<ImageCard> imageCards = persistImageCards(entity, dto.getImageCards());
+
+		entity.setImageCards(imageCards);
 
 		recordRepository.save(entity);
 	}
@@ -56,10 +69,10 @@ public class RecordServiceImpl implements RecordService {
 			.orElseThrow(NoSuchContentException::new);
 
 		// TODO: 기존 파일 삭제
-		// TODO: 새로운 파일 업로드
+		List<ImageCard> imageCards = persistImageCards(entity, dto.getImageCards());
 
 		entity.setTitle(dto.getTitle());
-		entity.setImageCards(List.of());	// TODO: 이미지 적용하기
+		entity.setImageCards(imageCards);	// TODO: 이미지 적용하기
 
 		recordRepository.save(entity);
 	}
@@ -91,10 +104,37 @@ public class RecordServiceImpl implements RecordService {
 
 	@Override
 	public void createChallengeRecord(ChallengeRecordPostRequestDto dto) {
+
 	}
 
 	@Override
 	public void editChallengeRecord(ChallengeRecordPutRequestDto dto) {
 
+	}
+
+
+	private List<ImageCard> persistImageCards(Record record, Collection<ImageCardRequestDto> dtos) {
+		List<MultipartFile> multipartFiles = dtos.stream()
+			.map(ImageCardRequestDto::getImageFile)
+			.toList();
+
+		Image[] images = fileService.saveImages(multipartFiles).toArray(new Image[0]);
+
+		String[] descriptions = dtos.stream().map(ImageCardRequestDto::getDescription)
+			.toList().toArray(new String[0]);
+
+		List<ImageCard> imageCards = new ArrayList<>();
+		for (int i=0; i<images.length; i++) {
+			ImageCard imageCard = ImageCard.builder()
+				.image(images[i])
+				.description(descriptions[i])
+				.record(record)
+				.build();
+
+			imageCardRepository.save(imageCard);
+			imageCards.add(imageCard);
+		}
+
+		return imageCards;
 	}
 }
