@@ -33,13 +33,13 @@ const router = createBrowserRouter([
     path: '/family',
     element: <FamilyLayout />,
     children: [
-      { path: 'record', element: <RecordPage /> },
-      { path: 'memory', element: <MemoryPage /> },
-      { path: 'calendar', element: <CalendarPage /> },
-      { path: 'community', element: <CommunityPage /> },
-      { path: 'achievement', element: <AchievementPage /> },
-      { path: 'contact', element: <ContactPage /> },
-    ],
+      { path: 'record', element: <RecordPage />},
+      { path: 'memory', element: <MemoryPage />},
+      { path: 'calendar', element: <CalendarPage />},
+      { path: 'community', element: <CommunityPage />},
+      { path: 'achievement', element: <AchievementPage />},
+      { path: 'contact', element: <ContactPage />},
+    ]
   },
 ]);
 
