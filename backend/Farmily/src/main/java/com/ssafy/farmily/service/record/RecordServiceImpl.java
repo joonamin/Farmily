@@ -48,6 +48,7 @@ public class RecordServiceImpl implements RecordService {
 	}
 
 	@Override
+	@Transactional
 	public void createEventRecord(EventRecordPostRequestDto dto) {
 		Record entity = Record.builder()
 			.type(RecordType.EVENT)
@@ -64,6 +65,7 @@ public class RecordServiceImpl implements RecordService {
 	}
 
 	@Override
+	@Transactional
 	public void editEventRecord(EventRecordPutRequestDto dto) {
 		Record entity = recordRepository.findById(dto.getRecordId())
 			.orElseThrow(NoSuchContentException::new);
@@ -92,6 +94,7 @@ public class RecordServiceImpl implements RecordService {
 	}
 
 	@Override
+	@Transactional
 	public void editDailyRecord(DailyRecordPutRequestDto dto) {
 		Record entity = recordRepository.findById(dto.getRecordId())
 			.orElseThrow(NoSuchContentException::new);
@@ -103,11 +106,13 @@ public class RecordServiceImpl implements RecordService {
 	}
 
 	@Override
+	@Transactional
 	public void createChallengeRecord(ChallengeRecordPostRequestDto dto) {
 
 	}
 
 	@Override
+	@Transactional
 	public void editChallengeRecord(ChallengeRecordPutRequestDto dto) {
 
 	}
