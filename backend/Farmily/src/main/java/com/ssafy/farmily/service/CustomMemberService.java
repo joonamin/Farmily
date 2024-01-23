@@ -24,7 +24,7 @@ public class CustomMemberService implements MemberService {
 	@Override
 	public MemberInfoDto join(MemberRegisterDto memberRegisterDto) {
 		Image googleProfilePic = Image.builder().location(memberRegisterDto.getProfilePic().getLocation())
-			.originalFileName("google_profile_pic").build();
+			.originalFileName(memberRegisterDto.getProfilePic().getOriginalFileName()).build();
 		Member member = Member.builder()
 			.username(memberRegisterDto.getUsername())
 			.password(memberRegisterDto.getPassword())
