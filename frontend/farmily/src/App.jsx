@@ -37,7 +37,7 @@ const router = createBrowserRouter([
     children: [
       { path: 'record', element: <RecordPage />},
       { path: 'memory', element: <MemoryPage />},
-      { path: 'calenddar', element: <CalendarPage />},
+      { path: 'calendar', element: <CalendarPage />},
       { path: 'community', element: <CommunityPage />},
       { path: 'achievement', element: <AchievementPage />},
       { path: 'contact', element: <ContactPage />},
