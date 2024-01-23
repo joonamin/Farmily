@@ -1,10 +1,10 @@
 package com.ssafy.farmily.service.record;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.ssafy.farmily.dto.DailyRecordRequestDto;
+import com.ssafy.farmily.dto.DailyRecordPostRequestDto;
+import com.ssafy.farmily.dto.DailyRecordPutRequestDto;
 import com.ssafy.farmily.dto.RecordResponseDto;
 import com.ssafy.farmily.entity.Record;
 import com.ssafy.farmily.exception.NoSuchContentException;
@@ -28,7 +28,7 @@ public class RecordServiceImpl implements RecordService {
 
 	@Override
 	@Transactional
-	public void createDaily(DailyRecordRequestDto dto) {
+	public void createDaily(DailyRecordPostRequestDto dto) {
 		/*
 		Sprint sprint = recordRepository.findById(dto.getSprintId())
 			.orElseThrow(() -> new)
@@ -40,6 +40,17 @@ public class RecordServiceImpl implements RecordService {
 			.title(dto.getTitle())
 			.content(dto.getContent())
 			.build();
+
+		recordRepository.save(entity);
+	}
+
+	@Override
+	public void editDaily(DailyRecordPutRequestDto dto) {
+		Record entity = recordRepository.findById(dto.getRecordId())
+			.orElseThrow(NoSuchContentException::new);
+
+		entity.setTitle(dto.getTitle());
+		entity.setContent(dto.getContent());
 
 		recordRepository.save(entity);
 	}

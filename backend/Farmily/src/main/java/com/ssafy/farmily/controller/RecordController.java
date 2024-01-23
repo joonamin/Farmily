@@ -5,11 +5,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ssafy.farmily.dto.DailyRecordRequestDto;
+import com.ssafy.farmily.dto.DailyRecordPostRequestDto;
+import com.ssafy.farmily.dto.DailyRecordPutRequestDto;
 import com.ssafy.farmily.dto.RecordResponseDto;
 import com.ssafy.farmily.service.record.RecordService;
 
@@ -28,10 +30,20 @@ public class RecordController {
 
 	@PostMapping("/daily")
 	private ResponseEntity<Void> postDaily(
-		// @AuthenticationPrincipal UserDetail user,
-		@RequestBody DailyRecordRequestDto request
+		// @AuthenticationPrincipal UserDetails userDetails,
+		@RequestBody DailyRecordPostRequestDto request
 	) {
 		responseService.createDaily(request);
+
+		return ResponseEntity.ok().build();
+	}
+
+	@PutMapping("/daily")
+	private ResponseEntity<Void> putDaily(
+		// TODO: userdetails 추가
+		@RequestBody DailyRecordPutRequestDto request
+	) {
+		responseService.editDaily(request);
 
 		return ResponseEntity.ok().build();
 	}
