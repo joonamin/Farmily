@@ -1,10 +1,10 @@
-import { useState, useEffect } from 'react'
-
+import { useState, useEffect } from 'react';
+import MyCalendar from '../components/FullCalendar.jsx';
 
 export default function CalendarPage() {
   return (
-    <>
-      <h1>캘린더 페이지</h1>
-    </>
-  )
+    <div className="">
+      <MyCalendar />
+    </div>
+  );
 }
