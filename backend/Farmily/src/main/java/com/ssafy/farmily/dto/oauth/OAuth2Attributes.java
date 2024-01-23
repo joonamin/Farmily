@@ -49,18 +49,26 @@ public class OAuth2Attributes {
 	}
 
 	private static OAuth2Attributes ofGoogle(Map<String, Object> attributes) {
+		String username = UserNameGenerator.of(Provider.GOOGLE.name(), ((String)attributes.get("sub")).substring(0, 10));
+		String nickname = (String)attributes.getOrDefault("nickname", DEFAULT_NICKNAME);
+		String picture = (String)attributes.get("picture");
+
 		return OAuth2Attributes.builder()
-			.username(UserNameGenerator.of(Provider.GOOGLE.name(), ((String)attributes.get("sub")).substring(0, 10)))
-			.nickname((String)attributes.getOrDefault("nickname", DEFAULT_NICKNAME))
-			.profilePic((String)attributes.get("picture"))
+			.username(username)
+			.nickname(nickname)
+			.profilePic(picture)
 			.build();
 	}
 
 	private static OAuth2Attributes ofKakao(Map<String, Object> attributes) {
+		String username = UserNameGenerator.of(Provider.KAKAO.name(), ((String)attributes.get("sub")).substring(0, 10));
+		String nickname = (String)attributes.getOrDefault("nickname", DEFAULT_NICKNAME);
+		String picture = (String)attributes.getOrDefault("picture", DEFAULT_PROFILE_PIC);
+
 		return OAuth2Attributes.builder()
-			.username(UserNameGenerator.of(Provider.KAKAO.name(), ((String)attributes.get("sub")).substring(0, 10)))
-			.nickname((String)attributes.getOrDefault("nickname", DEFAULT_NICKNAME))
-			.profilePic((String)attributes.getOrDefault("picture", DEFAULT_PROFILE_PIC))
+			.username(username)
+			.nickname(nickname)
+			.profilePic(picture)
 			.build();
 	}
 
