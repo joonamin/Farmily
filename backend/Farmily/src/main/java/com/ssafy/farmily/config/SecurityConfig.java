@@ -35,7 +35,6 @@ public class SecurityConfig {
 				oauth2 -> oauth2
 					.userInfoEndpoint(userInfo -> userInfo
 						.oidcUserService(oidcUserService))
-
 			)
 			.httpBasic(HttpBasicConfigurer::disable);
 		return http.build();
