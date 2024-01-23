@@ -4,12 +4,12 @@ import logo from '../assets/images/Farmily.png';
 import { Link } from 'react-router-dom';
 
 const category = [
-  {name: '📑 기록하기', url: '/tree/record'},
-  {name: '🌳 추억보기', url: '/tree/memory'}, 
-  {name: '📅 일정보기', url: '/tree/calendar'},  
-  {name: '🖼 커뮤니티', url: '/tree/community'},  
-  {name: '🏆 업적보기', url: '/tree/achievement'},  
-  {name: '💬 소통하기', url: '/tree/contact'},
+  {name: '📑 기록하기', url: '/family/record'},
+  {name: '🌳 추억보기', url: '/family/memory'}, 
+  {name: '📅 일정보기', url: '/family/calendar'},  
+  {name: '🖼 커뮤니티', url: '/family/community'},  
+  {name: '🏆 업적보기', url: '/family/achievement'},  
+  {name: '💬 소통하기', url: '/family/contact'},
 ];
 
 export default function SideBar() {
