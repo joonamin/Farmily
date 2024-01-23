@@ -18,7 +18,6 @@ import com.ssafy.farmily.dto.FamilyMainDto;
 import com.ssafy.farmily.dto.PlacingItemRequestDto;
 import com.ssafy.farmily.service.family.FamilyService;
 
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -31,7 +30,6 @@ public class FamilyController {
 	private final FamilyService familyService;
 
 	// 그래서 준비했다, lombok!!!
-
 
 	// 요청 시 메인 인덱스에 DB에 저장된 가족정보를 가져옴
 	@SneakyThrows
@@ -46,9 +44,9 @@ public class FamilyController {
 	}
 
 	@GetMapping("/{familyId}/inventory")
-	public ResponseEntity<Message> inventory(@PathVariable Long familyId){
+	public ResponseEntity<Message> inventory(@PathVariable Long familyId, @RequestBody Long memberId) {
 		Message message = new Message();
-		List<FamilyItemDto> familyItemDtoList = familyService.getFamilyInventory(familyId);
+		List<FamilyItemDto> familyItemDtoList = familyService.getFamilyInventory(familyId, memberId);
 
 		message.setMessage("인벤토리 정보");
 		message.setData(familyItemDtoList);
@@ -56,9 +54,9 @@ public class FamilyController {
 	}
 
 	@GetMapping("/{familyId}/basket")
-	public ResponseEntity<Message> getFamilyBasketList(@PathVariable Long familyId){
+	public ResponseEntity<Message> getFamilyBasketList(@PathVariable Long familyId, @RequestBody Long memberId) {
 		Message message = new Message();
-		List<FamilyBasketDto> familyBasketDTOList = familyService.getFamilySprintList(familyId);
+		List<FamilyBasketDto> familyBasketDTOList = familyService.getFamilySprintList(familyId, memberId);
 		message.setMessage("바구니 목록");
 		message.setData(familyBasketDTOList);
 		return ResponseEntity.status(HttpStatus.OK).body(message);
@@ -79,11 +77,10 @@ public class FamilyController {
     ]
 }
 	 */
-	@Transactional
 	@PostMapping("/placement")
-	public ResponseEntity<Message> itemPlacement(@RequestBody PlacingItemRequestDto placementList){
+	public ResponseEntity<Message> itemPlacement(@RequestBody PlacingItemRequestDto placementList) {
 
-		log.info("placementList: {}",placementList);
+		log.info("placementList: {}", placementList);
 		Message message = new Message();
 		String result = familyService.placingItems(placementList);
 		message.setMessage("배치 저장 완료");

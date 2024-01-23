@@ -3,7 +3,6 @@ package com.ssafy.farmily.service.family;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -17,19 +16,25 @@ import com.ssafy.farmily.dtoFactory.GetFamily;
 import com.ssafy.farmily.entity.AccessoryPlacement;
 import com.ssafy.farmily.entity.Family;
 import com.ssafy.farmily.entity.FamilyItem;
+import com.ssafy.farmily.entity.FamilyMembership;
 import com.ssafy.farmily.entity.FruitPlacement;
 import com.ssafy.farmily.entity.Record;
 import com.ssafy.farmily.entity.Sprint;
 import com.ssafy.farmily.entity.Tree;
 import com.ssafy.farmily.entity.type.AccessoryType;
 import com.ssafy.farmily.exception.NotFoundFamilyId;
+import com.ssafy.farmily.exception.NotFoundRecordId;
+import com.ssafy.farmily.exception.NotFoundTreeId;
+import com.ssafy.farmily.exception.PermissionException;
 import com.ssafy.farmily.repository.FamilyItemRepository;
+import com.ssafy.farmily.repository.FamilyMembershipRepository;
 import com.ssafy.farmily.repository.FamilyRepository;
 import com.ssafy.farmily.repository.PlacementRepository;
 import com.ssafy.farmily.repository.RecordRepository;
 import com.ssafy.farmily.repository.SprintRepository;
 import com.ssafy.farmily.repository.TreeRepository;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -43,67 +48,66 @@ public class FamilyServiceImpl implements FamilyService {
 	private final SprintRepository sprintRepository;
 	private final PlacementRepository placementRepository;
 	private final TreeRepository treeRepository;
+	private final FamilyMembershipRepository familyMembershipRepository;
 
 	@Override
 	public FamilyMainDto setMainFamilyInfo(Long familyId) throws NotFoundFamilyId {
-		Optional<Family> temp = familyRepository.findById(familyId);
+		Family family = (Family)familyRepository.findById(familyId).orElseThrow(NotFoundFamilyId::new);
+		Tree tree = (Tree)treeRepository.findById(familyId).orElseThrow(NotFoundTreeId::new);
+		List<Long> temp = recordRepository.findCurrentChallenges(familyId);
+
 		FamilyMainDto familyMainDTO = null;
-		if (temp.isPresent()) {
-			Family family = temp.get();
-			familyMainDTO = FamilyMainDto.of(family);
-			new FamilyMainTreeDto();
-			Optional<Tree> temp3 = treeRepository.findById(familyId);
-			Tree tree = temp3.get();
-			FamilyMainTreeDto familyMainTreeDTO = GetFamily.treeToDTO(tree);
-			List<Long> temp2 = recordRepository.findCurrentChallenges(familyId);
-			familyMainDTO.setChallengesIds(temp2);
-			familyMainDTO.setTree(familyMainTreeDTO);
-		} else {
-			throw new NotFoundFamilyId();
-		}
+		familyMainDTO = FamilyMainDto.of(family);
+		FamilyMainTreeDto familyMainTreeDTO = GetFamily.treeToDTO(tree);
+		familyMainDTO.setChallengesIds(temp);
+		familyMainDTO.setTree(familyMainTreeDTO);
 		return familyMainDTO;
 	}
 
 	@Override
-	public List<FamilyItemDto> getFamilyInventory(Long familyId) throws NotFoundFamilyId {
-		Optional<Family> temp = familyRepository.findById(familyId);
-
+	public List<FamilyItemDto> getFamilyInventory(Long familyId, Long memberId) throws
+		NotFoundFamilyId,
+		PermissionException {
+		Family family = (Family)familyRepository.findById(familyId).orElseThrow(NotFoundFamilyId::new);
+		FamilyMembership authorization =
+			familyMembershipRepository.findByFamilyIdAndMemberId(familyId, memberId)
+				.orElseThrow(PermissionException::new);
 		// 받아올 때 추가가 많이 발생할 것 같아서 LinkedList
 		List<FamilyItemDto> familyItemDtoList = new LinkedList<>();
-		if (temp.isPresent()) {
-			List<FamilyItem> temp2 = familyItemRepository.findByFamilyId(familyId);
+		List<FamilyItem> temp = familyItemRepository.findByFamilyId(familyId);
 
-			for (FamilyItem item : temp2) {
-				FamilyItemDto familyItemDTO = new FamilyItemDto().of(item);
-				familyItemDtoList.add(familyItemDTO);
-			}
-		} else {
-			throw new NotFoundFamilyId();
+		for (FamilyItem item : temp) {
+			FamilyItemDto familyItemDTO = new FamilyItemDto().of(item);
+			familyItemDtoList.add(familyItemDTO);
 		}
 
 		return familyItemDtoList;
 	}
 
 	@Override
-	public List<FamilyBasketDto> getFamilySprintList(Long familyId) {
-		Optional<Family> temp = familyRepository.findById(familyId);
+	public List<FamilyBasketDto> getFamilySprintList(Long familyId, Long memberId) throws NotFoundFamilyId,PermissionException {
+		Family family = familyRepository.findById(familyId).orElseThrow(NotFoundFamilyId::new);
+		FamilyMembership authorization =
+			familyMembershipRepository.findByFamilyIdAndMemberId(familyId, memberId)
+				.orElseThrow(PermissionException::new);
 		List<FamilyBasketDto> familySprintList = new ArrayList<>();
-		if (temp.isPresent()) {
-			List<Sprint> temp2 = sprintRepository.findByFamilyIdAndIsHarvested(familyId,true);
-			for (Sprint sprint : temp2) {
-				FamilyBasketDto familyBasketDTO = new FamilyBasketDto().of(sprint);
-				familySprintList.add(familyBasketDTO);
-			}
-		} else {
-			throw new NotFoundFamilyId();
+		List<Sprint> temp = sprintRepository.findByFamilyIdAndIsHarvested(familyId, true);
+		for (Sprint sprint : temp) {
+			FamilyBasketDto familyBasketDTO = new FamilyBasketDto().of(sprint);
+			familySprintList.add(familyBasketDTO);
 		}
+
 		return familySprintList;
 	}
 
+	@Transactional
 	@Override
-	public String placingItems(PlacingItemRequestDto placingItemRequestDto) {
+	public String placingItems(PlacingItemRequestDto placingItemRequestDto) throws NotFoundTreeId, NotFoundRecordId {
 		Long treeId = placingItemRequestDto.getTreeId();
-		Tree tree = treeRepository.findById(treeId).get();
+		Tree tree = treeRepository.findById(treeId).orElseThrow(NotFoundTreeId::new);
+		FamilyMembership authorization =
+			familyMembershipRepository.findByFamilyIdAndMemberId(treeId, placingItemRequestDto.getMemberId())
+				.orElseThrow(PermissionException::new);
 		placementRepository.deleteAllByTreeId(treeId);
 		for (PlacementDto placementDto : placingItemRequestDto.getPlacementDtoList()) {
 				/*
@@ -118,7 +122,9 @@ public class FamilyServiceImpl implements FamilyService {
 					.build();
 				placementRepository.save(accessoryPlacement);
 			} else if (placementDto.getDtype().equals("F")) {
-				Record record = recordRepository.findById(placementDto.getRecordId()).get();
+				recordRepository.findById(placementDto.getRecordId()).orElseThrow(NotFoundRecordId::new);
+				Record record = (Record)recordRepository.findById(placementDto.getRecordId())
+					.orElseThrow(NotFoundRecordId::new);
 				FruitPlacement fruitPlacement = FruitPlacement.builder()
 					.position(placementDto.getPosition())
 					.tree(tree)

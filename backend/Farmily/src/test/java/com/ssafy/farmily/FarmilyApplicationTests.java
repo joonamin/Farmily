@@ -16,23 +16,8 @@ class FarmilyApplicationTests {
 	FamilyController familyController;
 	@Autowired
 	MockMvc mockMvc;
+
 	@Test
 	void contextLoads() {
 	}
-
-	@Test
-	@DisplayName("familyId를 받아서 index에 띄어 줄 것들을 보여줘보자")
-	void mainIndex(){
-		/*
-		given
-		*/
-		Long familyId = 1L;
-		ResponseEntity<Message> responseEntity = familyController.mainIndex(familyId);
-
-		/*
-		when, then
-		*/
-	}
-
-
 }

@@ -24,16 +24,16 @@ public class GetFamily {
 		return familyMainDTO;
 	}
 
-	public static FamilyMainTreeDto treeToDTO(Tree tree){
+	public static FamilyMainTreeDto treeToDTO(Tree tree) {
 		FamilyMainTreeDto familyMainTreeDTO = new FamilyMainTreeDto();
 
 		List<Placement> placementList = tree.getPlacements();
 		List<MainAccessoryFruitDto> accessoryPlacementList = new LinkedList<>();
 		List<MainRecordFruitDto> recordPlacementList = new LinkedList<>();
-		for(Placement placement : placementList){
-			if( placement instanceof AccessoryPlacement) {
+		for (Placement placement : placementList) {
+			if (placement instanceof AccessoryPlacement) {
 				accessoryPlacementList.add(MainAccessoryFruitDto.of((AccessoryPlacement)placement));
-			} else if(placement instanceof FruitPlacement){
+			} else if (placement instanceof FruitPlacement) {
 				recordPlacementList.add(MainRecordFruitDto.of((FruitPlacement)placement));
 
 			}
