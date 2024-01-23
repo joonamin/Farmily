@@ -13,15 +13,9 @@ public interface FileService {
 
 	Image saveImage(MultipartFile file);
 
-	default List<Image> saveImages(Collection<MultipartFile> files) {
-		return files.stream()
-			.map(this::saveImage)
-			.toList();
-	}
+	List<Image> saveImages(Collection<MultipartFile> files);
 
-	Image connectImage(URI uri);
+	Image connectImage(URI uri) throws URISyntaxException;
 
-	default Image connectImage(String uri) throws URISyntaxException {
-		return connectImage(new URI(uri));
-	}
+	Image connectImage(String uri) throws URISyntaxException;
 }
