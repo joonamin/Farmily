@@ -1,4 +1,6 @@
 spring:
+  profiles:
+    include: oauth2
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
     url: jdbc:mariadb://localhost:3306/farmily_test
