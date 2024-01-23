@@ -29,14 +29,15 @@ public class LocalFileService extends AbstractFileService {
 			if (!directory.isDirectory()) {
 				directory.mkdirs();
 			}
+			String originalFileName = file.getOriginalFilename();
 			String newFileName = UUID.randomUUID().toString();
-			String extension = StringUtils.getFilenameExtension(file.getName());
+			String extension = StringUtils.getFilenameExtension(originalFileName);
 			String newPath = path + File.separator + newFileName + "." + extension;
 
 			File newFile = new File(newPath);
 			file.transferTo(newFile);
 
-			return ImageDto.of(newPath, file.getOriginalFilename());
+			return ImageDto.of(newPath, originalFileName);
 		} catch (IOException ex) {
 			throw new RuntimeException(ex);
 		}
