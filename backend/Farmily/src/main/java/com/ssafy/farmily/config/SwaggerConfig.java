@@ -17,8 +17,8 @@ public class SwaggerConfig {
 	}
 	private Info apiInfo() {
 		return new Info()
-			.title("spring doc 테스트")
-			.description("spring doc을 이용한 swagger ui 테스트")
+			.title("파밀리 API")
+			.description("파밀리 API")
 			.version("1.0.0");
 	}
 }
