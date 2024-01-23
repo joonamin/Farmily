@@ -1,5 +1,7 @@
 package com.ssafy.farmily.dto;
 
+import com.ssafy.farmily.entity.type.DateRange;
+
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,14 +14,10 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-@Schema(description = "일상기록 수정 요청 DTO")
-public class DailyRecordPutRequestDto {
-	@Schema(description = "수정할 기록의 ID")
+@Schema(description = "챌린지기록 수정 요청 DTO")
+public class ChallengeRecordPutRequestDto {
 	private Long recordId;
-
-	@Schema(description = "수정된 제목")
 	private String title;
-
-	@Schema(description = "수정된 내용")
 	private String content;
+	private DateRange dateRange;
 }

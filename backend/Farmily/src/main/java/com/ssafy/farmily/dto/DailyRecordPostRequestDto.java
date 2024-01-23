@@ -12,7 +12,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-@Schema(description = "기록 작성 요청 DTO")
+@Schema(description = "일상기록 작성 요청 DTO")
 public class DailyRecordPostRequestDto {
 	@Schema(description = "기록이 속할 스프린트의 ID")
 	private Long sprintId;

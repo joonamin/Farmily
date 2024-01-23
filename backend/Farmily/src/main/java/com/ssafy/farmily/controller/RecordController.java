@@ -10,12 +10,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ssafy.farmily.dto.ChallengeRecordPostRequestDto;
+import com.ssafy.farmily.dto.ChallengeRecordPutRequestDto;
 import com.ssafy.farmily.dto.DailyRecordPostRequestDto;
 import com.ssafy.farmily.dto.DailyRecordPutRequestDto;
+import com.ssafy.farmily.dto.EventRecordPostRequestDto;
+import com.ssafy.farmily.dto.EventRecordPutRequestDto;
 import com.ssafy.farmily.dto.RecordResponseDto;
 import com.ssafy.farmily.service.record.RecordService;
 
-import io.lettuce.core.dynamic.annotation.Param;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -23,13 +26,16 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/record")
+@RequiredArgsConstructor
 @Tag(name = "Record", description = "기록 API")
 public class RecordController {
-	@Autowired
-	RecordService responseService;
+
+	private final RecordService recordService;
+
 
 	@GetMapping("/{requestId}")
 	@Operation(
@@ -46,9 +52,45 @@ public class RecordController {
 	private ResponseEntity<RecordResponseDto> get(
 		@Parameter(description = "요청할 기록 ID") @PathVariable Long requestId
 	) {
-		RecordResponseDto dto = responseService.getById(requestId);
+		RecordResponseDto dto = recordService.getById(requestId);
 
 		return ResponseEntity.ok(dto);
+	}
+
+
+	@PostMapping("/event")
+	@Operation(
+		summary = "이벤트 기록 작성",
+		description = "이벤트 기록을 작성합니다."
+	)
+	@ApiResponses({
+		@ApiResponse(responseCode = "200", description = "기록 작성 성공")
+	})
+	private ResponseEntity<Void> postEvent(
+		// TODO: userdetails 추가
+		@RequestBody EventRecordPostRequestDto request
+	) {
+		recordService.createEventRecord(request);
+
+		return ResponseEntity.ok().build();
+	}
+
+
+	@PutMapping("/event")
+	@Operation(
+		summary = "이벤트 기록 수성",
+		description = "이벤트 기록을 수성합니다."
+	)
+	@ApiResponses({
+		@ApiResponse(responseCode = "200", description = "기록 수정 성공")
+	})
+	private ResponseEntity<Void> putEvent(
+		// TODO: userdetails 추가
+		@RequestBody EventRecordPutRequestDto request
+	) {
+		recordService.editEventRecord(request);
+
+		return ResponseEntity.ok().build();
 	}
 
 
@@ -61,14 +103,15 @@ public class RecordController {
 		@ApiResponse(responseCode = "200", description = "기록 작성 성공")
 	})
 	private ResponseEntity<Void> postDaily(
-		// @AuthenticationPrincipal UserDetails userDetails,
+		// TODO: userdetails 추가
 		@RequestBody DailyRecordPostRequestDto request
 	) {
-		responseService.createDaily(request);
+		recordService.createDailyRecord(request);
 
 		return ResponseEntity.ok().build();
 	}
 
+	
 	@PutMapping("/daily")
 	@Operation(
 		summary = "일상 기록 수정",
@@ -81,7 +124,42 @@ public class RecordController {
 		// TODO: userdetails 추가
 		@RequestBody DailyRecordPutRequestDto request
 	) {
-		responseService.editDaily(request);
+		recordService.editDailyRecord(request);
+
+		return ResponseEntity.ok().build();
+	}
+
+	@PostMapping("/challenge")
+	@Operation(
+		summary = "챌린지 기록 작성",
+		description = "챌린지 기록을 작성합니다."
+	)
+	@ApiResponses({
+		@ApiResponse(responseCode = "200", description = "기록 작성 성공")
+	})
+	private ResponseEntity<Void> postChallenge(
+		// TODO: userdetails 추가
+		@RequestBody ChallengeRecordPostRequestDto request
+	) {
+		recordService.createChallengeRecord(request);
+
+		return ResponseEntity.ok().build();
+	}
+
+
+	@PutMapping("/challenge")
+	@Operation(
+		summary = "챌린지 기록 수정",
+		description = "챌린지 기록을 수정합니다."
+	)
+	@ApiResponses({
+		@ApiResponse(responseCode = "200", description = "기록 수정 성공")
+	})
+	private ResponseEntity<Void> putChallenge(
+		// TODO: userdetails 추가
+		@RequestBody ChallengeRecordPutRequestDto request
+	) {
+		recordService.editChallengeRecord(request);
 
 		return ResponseEntity.ok().build();
 	}
