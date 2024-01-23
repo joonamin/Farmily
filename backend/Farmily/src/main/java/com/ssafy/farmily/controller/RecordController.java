@@ -68,7 +68,7 @@ public class RecordController {
 	})
 	private ResponseEntity<Void> postEvent(
 		// TODO: userdetails 추가
-		@RequestBody EventRecordPostRequestDto request
+		EventRecordPostRequestDto request
 	) {
 		recordService.createEventRecord(request);
 
@@ -86,7 +86,7 @@ public class RecordController {
 	})
 	private ResponseEntity<Void> putEvent(
 		// TODO: userdetails 추가
-		@RequestBody EventRecordPutRequestDto request
+		EventRecordPutRequestDto request
 	) {
 		recordService.editEventRecord(request);
 
