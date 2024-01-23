@@ -6,6 +6,7 @@ import org.springframework.util.Assert;
 import com.ssafy.farmily.entity.Image;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,6 +15,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class ImageDto {
 	private String location;
 	private String originalFileName;
