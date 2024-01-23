@@ -108,13 +108,31 @@ public class RecordServiceImpl implements RecordService {
 	@Override
 	@Transactional
 	public void createChallengeRecord(ChallengeRecordPostRequestDto dto) {
+		ChallengeRecord entity = ChallengeRecord.builder()
+			.type(RecordType.CHALLENGE)
+			.sprint(null)
+			.author(null)
+			.title(dto.getTitle())
+			.content(dto.getContent())
+			.dateRange(dto.getDateRange())
+			.isRewarded(false)
+			.progresses(List.of())
+			.build();
 
+		recordRepository.save(entity);
 	}
 
 	@Override
 	@Transactional
 	public void editChallengeRecord(ChallengeRecordPutRequestDto dto) {
+		ChallengeRecord entity = (ChallengeRecord) recordRepository.findById(dto.getRecordId())
+			.orElseThrow(NoSuchContentException::new);
 
+		entity.setTitle(dto.getTitle());
+		entity.setContent(dto.getContent());
+		entity.setDateRange(dto.getDateRange());
+
+		recordRepository.save(entity);
 	}
 
 

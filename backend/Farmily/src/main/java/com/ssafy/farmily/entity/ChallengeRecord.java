@@ -22,6 +22,7 @@ import lombok.experimental.SuperBuilder;
 @Getter
 @Setter
 @AllArgsConstructor
+@SuperBuilder
 public class ChallengeRecord extends Record {
 	@Embedded
 	private DateRange dateRange;
