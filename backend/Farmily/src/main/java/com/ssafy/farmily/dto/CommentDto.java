@@ -18,7 +18,6 @@ import lombok.Setter;
 @Builder
 public class CommentDto {
 	private Long id;
-	private Record record;
 	private String content;
 	private MemberBasicDto author;
 
