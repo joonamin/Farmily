@@ -16,8 +16,7 @@ import com.ssafy.farmily.dto.FamilyMainDto;
 import com.ssafy.farmily.dto.FamilyMainTreeDto;
 import com.ssafy.farmily.dtoFactory.GetFamily;
 import com.ssafy.farmily.entity.Sprint;
-import com.ssafy.farmily.exception.NotFoundFamilyId;
-import com.ssafy.farmily.exception.PermissionException;
+import com.ssafy.farmily.exception.NoSuchContentException;
 import com.ssafy.farmily.repository.RecordRepository;
 import com.ssafy.farmily.repository.SprintRepository;
 import com.ssafy.farmily.repository.TreeRepository;
@@ -68,12 +67,11 @@ class FamilyServiceTest {
 
 	@Test
 	@DisplayName("메인에서 없는 familyId를 들고 왔을 때")
-	@Transactional
 	void 메인에러테스트() {
 		// given
 		Long familyId = 2L;
 
-		Assertions.assertThrows(NotFoundFamilyId.class, () -> {
+		Assertions.assertThrows(NoSuchContentException.class, () -> {
 			FamilyMainDto familyMainDto = familyService.setMainFamilyInfo(familyId);
 		});
 	}
@@ -83,9 +81,8 @@ class FamilyServiceTest {
 	void getFamilyInventory() {
 		// given
 		Long familyId = 1L;
-		Long memberId = 1L;
 		// when
-		List<FamilyItemDto> list = familyService.getFamilyInventory(familyId, memberId);
+		List<FamilyItemDto> list = familyService.getFamilyInventory(familyId);
 
 		Assertions.assertEquals(list.get(0).getId(), 1);
 		Assertions.assertEquals(list.get(0).getItemCode().toString(), "TREE_1");
@@ -96,23 +93,12 @@ class FamilyServiceTest {
 	@DisplayName("없는 familyId를 들고 inventory를 달라고 할 때")
 	void 없는가족가방() {
 		Long familyId = 2L;
-		Long memberId = 1L;
 
-		Assertions.assertThrows(NotFoundFamilyId.class, () -> {
-			List<FamilyItemDto> familyInventory = familyService.getFamilyInventory(familyId, memberId);
+		Assertions.assertThrows(NoSuchContentException.class, () -> {
+			List<FamilyItemDto> familyInventory = familyService.getFamilyInventory(familyId);
 		});
 	}
 
-	@Test
-	@DisplayName("본인 가족이 아닌데 inventory 달라고 할 때")
-	void 가족유저미스매치() {
-		Long familyId = 1L;
-		Long memberId = 2L;
-
-		Assertions.assertThrows(PermissionException.class, () -> {
-			List<FamilyItemDto> familyInventory = familyService.getFamilyInventory(familyId, memberId);
-		});
-	}
 
 	@Test
 	@DisplayName("바구니 들고오기")
@@ -137,9 +123,8 @@ class FamilyServiceTest {
 	@DisplayName("없는 familyId를 들고 inventory를 달라고 할 때")
 	void 없는가족바구니() {
 		Long familyId = 2L;
-		Long memberId = 1L;
-		Assertions.assertThrows(NotFoundFamilyId.class, () -> {
-			List<FamilyBasketDto> familyBasketDtoList = familyService.getFamilySprintList(familyId,memberId);
+		Assertions.assertThrows(NoSuchContentException.class, () -> {
+			List<FamilyBasketDto> familyBasketDtoList = familyService.getFamilySprintList(familyId);
 		});
 	}
 }

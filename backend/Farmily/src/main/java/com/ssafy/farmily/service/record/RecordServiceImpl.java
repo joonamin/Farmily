@@ -3,12 +3,12 @@ package com.ssafy.farmily.service.record;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.ssafy.farmily.dto.ChallengeRecordMarkRequestDto;
 import com.ssafy.farmily.dto.ChallengeRecordPostRequestDto;
 import com.ssafy.farmily.dto.ChallengeRecordPutRequestDto;
 import com.ssafy.farmily.dto.DailyRecordPostRequestDto;
@@ -16,8 +16,8 @@ import com.ssafy.farmily.dto.DailyRecordPutRequestDto;
 import com.ssafy.farmily.dto.EventRecordPostRequestDto;
 import com.ssafy.farmily.dto.EventRecordPutRequestDto;
 import com.ssafy.farmily.dto.ImageCardRequestDto;
-import com.ssafy.farmily.dto.ImageDto;
 import com.ssafy.farmily.dto.RecordResponseDto;
+import com.ssafy.farmily.entity.ChallengeProgress;
 import com.ssafy.farmily.entity.ChallengeRecord;
 import com.ssafy.farmily.entity.Image;
 import com.ssafy.farmily.entity.ImageCard;
@@ -120,6 +120,21 @@ public class RecordServiceImpl implements RecordService {
 			.build();
 
 		recordRepository.save(entity);
+	}
+
+	@Override
+	public void markChallengeRecord(ChallengeRecordMarkRequestDto dto) {
+		ChallengeRecord recordEntity = (ChallengeRecord) recordRepository.findById(dto.getChallengeId())
+				.orElseThrow(NoSuchContentException::new);
+
+		ChallengeProgress progressEntity = ChallengeProgress.builder()
+			.challenge(recordEntity)
+			.date(dto.getDate())
+			.build();
+
+		recordEntity.getProgresses().add(progressEntity);
+
+		recordRepository.save(recordEntity);
 	}
 
 	@Override
