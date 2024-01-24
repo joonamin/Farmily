@@ -4,7 +4,7 @@ import java.util.List;
 
 import net.minidev.json.annotate.JsonIgnore;
 
-import com.ssafy.farmily.entity.type.TreeType;
+import com.ssafy.farmily.type.TreeType;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

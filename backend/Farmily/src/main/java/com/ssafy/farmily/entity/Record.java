@@ -2,7 +2,7 @@ package com.ssafy.farmily.entity;
 
 import java.util.List;
 
-import com.ssafy.farmily.entity.type.RecordType;
+import com.ssafy.farmily.type.RecordType;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorColumn;

@@ -1,7 +1,7 @@
 package com.ssafy.farmily.entity;
 
-import com.ssafy.farmily.entity.type.Item;
-import com.ssafy.farmily.entity.type.ItemType;
+import com.ssafy.farmily.type.Item;
+import com.ssafy.farmily.type.ItemType;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

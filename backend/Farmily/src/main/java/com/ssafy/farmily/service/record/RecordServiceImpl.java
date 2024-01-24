@@ -22,7 +22,7 @@ import com.ssafy.farmily.entity.ChallengeRecord;
 import com.ssafy.farmily.entity.Image;
 import com.ssafy.farmily.entity.ImageCard;
 import com.ssafy.farmily.entity.Record;
-import com.ssafy.farmily.entity.type.RecordType;
+import com.ssafy.farmily.type.RecordType;
 import com.ssafy.farmily.exception.NoSuchContentException;
 import com.ssafy.farmily.repository.ImageCardRepository;
 import com.ssafy.farmily.repository.RecordRepository;

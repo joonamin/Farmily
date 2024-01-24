@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.beans.BeanUtils;
 
 import com.ssafy.farmily.entity.Record;
-import com.ssafy.farmily.entity.type.RecordType;
+import com.ssafy.farmily.type.RecordType;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;

@@ -12,7 +12,6 @@ import com.ssafy.farmily.dto.FamilyMainDto;
 import com.ssafy.farmily.dto.FamilyMainTreeDto;
 import com.ssafy.farmily.dto.PlacementDto;
 import com.ssafy.farmily.dto.PlacingItemRequestDto;
-import com.ssafy.farmily.dtoFactory.GetFamily;
 import com.ssafy.farmily.entity.AccessoryPlacement;
 import com.ssafy.farmily.entity.Family;
 import com.ssafy.farmily.entity.FamilyItem;
@@ -20,7 +19,6 @@ import com.ssafy.farmily.entity.FruitPlacement;
 import com.ssafy.farmily.entity.Record;
 import com.ssafy.farmily.entity.Sprint;
 import com.ssafy.farmily.entity.Tree;
-import com.ssafy.farmily.entity.type.AccessoryType;
 import com.ssafy.farmily.exception.NoSuchContentException;
 import com.ssafy.farmily.repository.FamilyItemRepository;
 import com.ssafy.farmily.repository.FamilyMembershipRepository;
@@ -29,6 +27,7 @@ import com.ssafy.farmily.repository.PlacementRepository;
 import com.ssafy.farmily.repository.RecordRepository;
 import com.ssafy.farmily.repository.SprintRepository;
 import com.ssafy.farmily.repository.TreeRepository;
+import com.ssafy.farmily.type.AccessoryType;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -55,7 +54,7 @@ public class FamilyServiceImpl implements FamilyService {
 
 		FamilyMainDto familyMainDTO = null;
 		familyMainDTO = FamilyMainDto.of(family);
-		FamilyMainTreeDto familyMainTreeDTO = GetFamily.treeToDTO(tree);
+		FamilyMainTreeDto familyMainTreeDTO = FamilyMainTreeDto.from(tree);
 		familyMainDTO.setChallengesIds(temp);
 		familyMainDTO.setTree(familyMainTreeDTO);
 		return familyMainDTO;

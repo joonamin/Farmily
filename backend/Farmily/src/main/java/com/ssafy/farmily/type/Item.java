@@ -1,4 +1,4 @@
-package com.ssafy.farmily.entity.type;
+package com.ssafy.farmily.type;
 
 import lombok.Getter;
 import lombok.NonNull;

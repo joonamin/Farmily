@@ -1,4 +1,4 @@
-package com.ssafy.farmily.service;
+package com.ssafy.farmily.service.member;
 
 import java.util.Optional;
 

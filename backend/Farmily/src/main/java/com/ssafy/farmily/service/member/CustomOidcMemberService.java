@@ -1,6 +1,5 @@
-package com.ssafy.farmily.service;
+package com.ssafy.farmily.service.member;
 
-import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 

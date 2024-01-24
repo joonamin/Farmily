@@ -1,8 +1,8 @@
 package com.ssafy.farmily.dto;
 
 import com.ssafy.farmily.entity.FamilyItem;
-import com.ssafy.farmily.entity.type.Item;
-import com.ssafy.farmily.entity.type.ItemType;
+import com.ssafy.farmily.type.Item;
+import com.ssafy.farmily.type.ItemType;
 
 import lombok.Data;
 import lombok.ToString;

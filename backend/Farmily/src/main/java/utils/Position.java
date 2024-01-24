@@ -1,4 +1,4 @@
-package com.ssafy.farmily.entity.type;
+package utils;
 
 import jakarta.persistence.Embeddable;
 import lombok.Getter;
