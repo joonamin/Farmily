@@ -16,7 +16,9 @@ spring:
     properties:
       hibernate:
         format_sql: true
+        dialect: com.ssafy.farmily.config.CustomMariaDbDialect
     show-sql: true
+
 
 server:
   servlet:
