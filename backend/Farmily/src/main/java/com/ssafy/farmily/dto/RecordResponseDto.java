@@ -8,6 +8,7 @@ import org.springframework.beans.BeanUtils;
 import com.ssafy.farmily.entity.Record;
 import com.ssafy.farmily.entity.type.RecordType;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,6 +20,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
+@Schema(description = "기록 응답 DTO")
 public class RecordResponseDto {
 	protected RecordType recordType;
 	protected Long id;

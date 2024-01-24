@@ -5,6 +5,7 @@ import org.springframework.util.Assert;
 
 import com.ssafy.farmily.entity.Image;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,6 +16,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Schema(description = "이미지 DTO")
 @Builder
 public class ImageDto {
 	private String location;
