@@ -22,7 +22,9 @@ public class OAuth2Attributes {
 	@AllArgsConstructor
 	public enum Provider {
 		GOOGLE("google", "GOOGLE_", OAuth2Attributes::ofGoogle),
-		KAKAO("kakao", "Kakao_", OAuth2Attributes::ofKakao);
+		KAKAO("kakao", "Kakao_", OAuth2Attributes::ofKakao),
+
+		FACEBOOK("facebook", "Facebook_", OAuth2Attributes::ofFacebook);
 
 		private final String name;
 		private final String prefix;
@@ -32,7 +34,8 @@ public class OAuth2Attributes {
 	static {
 		PROVIDER_MAP = Map.of(
 			"google", Provider.GOOGLE,
-			"kakao", Provider.KAKAO
+			"kakao", Provider.KAKAO,
+			"facebook", Provider.FACEBOOK
 		);
 	}
 
@@ -64,6 +67,18 @@ public class OAuth2Attributes {
 		String username = UserNameGenerator.of(Provider.KAKAO.name(), ((String)attributes.get("sub")).substring(0, 10));
 		String nickname = (String)attributes.getOrDefault("nickname", DEFAULT_NICKNAME);
 		String picture = (String)attributes.getOrDefault("picture", DEFAULT_PROFILE_PIC);
+
+		return OAuth2Attributes.builder()
+			.username(username)
+			.nickname(nickname)
+			.profilePic(picture)
+			.build();
+	}
+
+	private static OAuth2Attributes ofFacebook(Map<String, Object> attributes) {
+		String username = UserNameGenerator.of(Provider.FACEBOOK.name(), ((String)attributes.get("id")).substring(0, 10));
+		String nickname = (String)attributes.getOrDefault("nickname", DEFAULT_NICKNAME);
+		String picture = (String)attributes.getOrDefault("picture.data.url", DEFAULT_PROFILE_PIC);
 
 		return OAuth2Attributes.builder()
 			.username(username)

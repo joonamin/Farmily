@@ -11,6 +11,15 @@ spring:
             authorization-grant-type: authorization_code
             redirect-uri: http://localhost:8080/login/oauth2/code/kakao
             scope: profile_image, profile_nickname, openid
+
+          facebook:
+            client-id: ${facebook-client-id}
+            client-secret: ${facebook-client-secret}
+            scope:
+              - openid
+              - public_profile
+              - email
+
         provider:
           # id token에는 id claim이 포함되어있지 않다.
           # https://developers.kakao.com/docs/latest/ko/kakaologin/rest-api#request-token-response-id-token
@@ -19,5 +28,5 @@ spring:
             token-uri: https://kauth.kakao.com/oauth/token
             user-info-uri: https://kapi.kakao.com/v1/oidc/userinfo
             user-name-attribute: sub
-
             jwk-set-uri: https://kauth.kakao.com/.well-known/jwks.json
+
