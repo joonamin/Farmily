@@ -3,6 +3,7 @@ package com.ssafy.farmily.entity.type;
 import java.time.LocalDate;
 import java.time.Period;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
@@ -26,6 +27,7 @@ public class DateRange {
 	 * 시작일을 기산하지 않습니다. 즉, 시작일과 종료일이 같으면 0일을 반환합니다.
 	 * @return 시작일자와 종료일자 사이의 기간
 	 */
+	@Schema(hidden = true)
 	public Period getPeriod() {
 		return Period.between(startDate, endDate);
 	}

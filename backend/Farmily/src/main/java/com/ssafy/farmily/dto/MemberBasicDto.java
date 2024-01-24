@@ -4,6 +4,7 @@ import org.springframework.beans.BeanUtils;
 
 import com.ssafy.farmily.entity.Member;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,6 +16,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
+@Schema(description = "사용자 기본정보 DTO")
 public class MemberBasicDto {
 	private Long id;
 	private String nickname;

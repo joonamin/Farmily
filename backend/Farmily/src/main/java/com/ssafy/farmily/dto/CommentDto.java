@@ -5,6 +5,7 @@ import org.springframework.beans.BeanUtils;
 import com.ssafy.farmily.entity.Comment;
 import com.ssafy.farmily.entity.Record;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -16,9 +17,9 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
+@Schema(description = "댓글 DTO")
 public class CommentDto {
 	private Long id;
-	private Record record;
 	private String content;
 	private MemberBasicDto author;
 
