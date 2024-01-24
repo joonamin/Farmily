@@ -1,7 +1,7 @@
 package com.ssafy.farmily.dto;
 
 import com.ssafy.farmily.entity.FruitPlacement;
-import com.ssafy.farmily.entity.type.Position;
+import utils.Position;
 
 import lombok.Data;
 import lombok.ToString;

@@ -1,6 +1,6 @@
 package com.ssafy.farmily.dto;
 
-import com.ssafy.farmily.entity.type.DateRange;
+import utils.DateRange;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;

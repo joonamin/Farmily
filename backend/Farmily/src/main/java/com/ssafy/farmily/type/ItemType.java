@@ -1,4 +1,4 @@
-package com.ssafy.farmily.entity.type;
+package com.ssafy.farmily.type;
 
 public enum ItemType {
 	TREE_SKIN,

@@ -1,7 +1,7 @@
 package com.ssafy.farmily.dto;
 
 import com.ssafy.farmily.entity.Sprint;
-import com.ssafy.farmily.entity.type.DateRange;
+import utils.DateRange;
 
 import lombok.Data;
 import lombok.ToString;

@@ -1,11 +1,10 @@
-package com.ssafy.farmily.service;
+package com.ssafy.farmily.service.member;
 
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.ssafy.farmily.dto.ImageDto;
 import com.ssafy.farmily.dto.MemberInfoDto;
 import com.ssafy.farmily.dto.MemberRegisterDto;
 import com.ssafy.farmily.entity.Image;

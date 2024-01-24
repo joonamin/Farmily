@@ -1,6 +1,6 @@
 package com.ssafy.farmily.entity;
 
-import com.ssafy.farmily.entity.type.FamilyRole;
+import com.ssafy.farmily.type.FamilyRole;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

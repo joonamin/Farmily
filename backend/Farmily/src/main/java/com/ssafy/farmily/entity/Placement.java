@@ -1,6 +1,6 @@
 package com.ssafy.farmily.entity;
 
-import com.ssafy.farmily.entity.type.Position;
+import utils.Position;
 
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
