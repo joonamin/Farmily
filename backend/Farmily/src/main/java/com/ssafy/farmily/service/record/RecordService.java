@@ -1,5 +1,6 @@
 package com.ssafy.farmily.service.record;
 
+import com.ssafy.farmily.dto.ChallengeRecordCheckRequestDto;
 import com.ssafy.farmily.dto.ChallengeRecordPostRequestDto;
 import com.ssafy.farmily.dto.ChallengeRecordPutRequestDto;
 import com.ssafy.farmily.dto.DailyRecordPostRequestDto;
@@ -19,5 +20,6 @@ public interface RecordService {
 	void editDailyRecord(DailyRecordPutRequestDto dto);
 
 	void createChallengeRecord(ChallengeRecordPostRequestDto dto);
+	void checkChallengeRecord(ChallengeRecordCheckRequestDto dto);
 	void editChallengeRecord(ChallengeRecordPutRequestDto dto);
 }

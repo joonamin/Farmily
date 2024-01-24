@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ssafy.farmily.dto.ChallengeRecordCheckRequestDto;
 import com.ssafy.farmily.dto.ChallengeRecordPostRequestDto;
 import com.ssafy.farmily.dto.ChallengeRecordPutRequestDto;
 import com.ssafy.farmily.dto.DailyRecordPostRequestDto;
@@ -146,6 +147,22 @@ public class RecordController {
 		return ResponseEntity.ok().build();
 	}
 
+	@PostMapping("/challenge/check")
+	@Operation(
+		summary = "챌린지 기록 체크",
+		description = "챌린지 기록에 체크합니다."
+	)
+	@ApiResponses({
+		@ApiResponse(responseCode = "200", description = "체크 성공")
+	})
+	private ResponseEntity<Void> postChallengeCheck(
+		// TODO: userdetails 추가
+		@RequestBody ChallengeRecordCheckRequestDto request
+	) {
+		recordService.checkChallengeRecord(request);
+
+		return ResponseEntity.ok().build();
+	}
 
 	@PutMapping("/challenge")
 	@Operation(

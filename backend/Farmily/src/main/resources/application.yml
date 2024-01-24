@@ -6,15 +6,12 @@ spring:
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
     url: jdbc:mariadb://localhost:3306/farmily_test?useUnicode=true&characterEncoding=UTF-8
-    username: root
+    username: user
     password: 1234
-  mvc:
-    converters:
-      preferred-json-mapper: gson
 
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create-drop
     properties:
       hibernate:
         format_sql: true
