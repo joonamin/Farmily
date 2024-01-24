@@ -1,7 +1,6 @@
 package com.ssafy.farmily.dto;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
@@ -15,8 +14,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-@Schema(description = "챌린지기록 체크 요청 DTO")
-public class ChallengeRecordCheckRequestDto {
+@Schema(description = "챌린지기록 표시 요청 DTO")
+public class ChallengeRecordMarkRequestDto {
 	private Long challengeId;
 	private LocalDate date;
 }

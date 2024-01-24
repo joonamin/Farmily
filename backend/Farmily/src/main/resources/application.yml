@@ -6,7 +6,7 @@ spring:
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
     url: jdbc:mariadb://localhost:3306/farmily_test?useUnicode=true&characterEncoding=UTF-8
-    username: user
+    username: root
     password: 1234
 
   jpa:
