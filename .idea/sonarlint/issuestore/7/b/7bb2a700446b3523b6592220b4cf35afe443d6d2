@@ -1,0 +1,23 @@
+
+‚
+java:S11924"eDefine a constant instead of duplicating this literal "ì¡´ì¬í•˜ì§€ ì•ŠëŠ” ê°€ì¡±ì…ë‹ˆë‹¤." 3 times.(üó×±8æƒÌÓ1
+F
+java:S19054")Remove this unnecessary cast to "Family".(üó×±8‡„ÌÓ1
+I
+java:S19055"'Remove this unnecessary cast to "Tree".(Ô¬€úÿÿÿÿ8àüÌÓ1
+\
+java:S1854C":Remove this useless assignment to local variable "family".(’ß†ìûÿÿÿÿ8‰„ÌÓ1
+K
+java:S1905C")Remove this unnecessary cast to "Family".(’ß†ìûÿÿÿÿ8‰„ÌÓ1
+M
+java:S1481C"+Remove this unused "family" local variable.(’ß†ìûÿÿÿÿ8‰„ÌÓ1
+\
+java:S1854T":Remove this useless assignment to local variable "family".(ó±ÓÃûÿÿÿÿ8‹„ÌÓ1
+M
+java:S1481T"+Remove this unused "family" local variable.(ó±ÓÃûÿÿÿÿ8Œ„ÌÓ1
+L
+java:S2201t"/The return value of "orElseThrow" must be used.(÷ú±8„ÌÓ1
+W
+java:S6213u":Rename this variable to not match a restricted identifier.(¹óŞã8„ÌÓ1
+F
+java:S1905u")Remove this unnecessary cast to "Record".(¹óŞã8àØ„ÌÓ1

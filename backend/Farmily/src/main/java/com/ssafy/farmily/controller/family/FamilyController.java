@@ -24,7 +24,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
@@ -71,9 +70,9 @@ public class FamilyController {
 			content = @Content(schema = @Schema(implementation = FamilyItemDto.class))
 		)
 	})
-	public ResponseEntity<Message> getInventory(@PathVariable Long familyId, @RequestBody Long memberId) {
+	public ResponseEntity<Message> getInventory(@PathVariable Long familyId) {
 		Message message = new Message();
-		List<FamilyItemDto> familyItemDtoList = familyService.getFamilyInventory(familyId, memberId);
+		List<FamilyItemDto> familyItemDtoList = familyService.getFamilyInventory(familyId);
 
 		message.setMessage("인벤토리 정보");
 		message.setData(familyItemDtoList);
@@ -92,9 +91,9 @@ public class FamilyController {
 			content = @Content(schema = @Schema(implementation = FamilyBasketDto.class))
 		)
 	})
-	public ResponseEntity<Message> getFamilyBasketList(@PathVariable Long familyId, @RequestBody Long memberId) {
+	public ResponseEntity<Message> getFamilyBasketList(@PathVariable Long familyId) {
 		Message message = new Message();
-		List<FamilyBasketDto> familyBasketDTOList = familyService.getFamilySprintList(familyId, memberId);
+		List<FamilyBasketDto> familyBasketDTOList = familyService.getFamilySprintList(familyId);
 		message.setMessage("바구니 목록");
 		message.setData(familyBasketDTOList);
 		return ResponseEntity.status(HttpStatus.OK).body(message);
