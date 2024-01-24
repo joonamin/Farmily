@@ -4,6 +4,7 @@ export default {
   theme: {
     backgroundImage: {
       main: "url('./assets/images/background.png')",
+      mainCover: "url('./assets/images/backgroundcover.png')",
     },
   },
   plugins: [],
