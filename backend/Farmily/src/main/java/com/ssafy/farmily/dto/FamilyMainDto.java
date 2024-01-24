@@ -10,8 +10,7 @@ import lombok.ToString;
 
 @Data
 @ToString
-public class
-FamilyMainDto {
+public class FamilyMainDto {
 	Long id;
 	String name;
 	String motto;
