@@ -1,6 +1,10 @@
 security:
   oauth2:
     client:
+      registration:
+        kakao:
+          authorization-grant-type: authorization_code
+
       provider:
         kakao:
           authorization-uri: https://kauth.kakao.com/oauth/authorize
