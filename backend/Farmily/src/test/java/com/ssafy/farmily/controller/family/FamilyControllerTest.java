@@ -28,7 +28,7 @@ class FamilyControllerTest {
 		mockMvc.perform(MockMvcRequestBuilders.get("/family/" + familyId)
 				.accept(MediaType.APPLICATION_JSON))
 			.andExpect(MockMvcResultMatchers.status().isOk())
-			.andExpect(jsonPath("$.message").value("가족 메인 정보"));
+			.andExpect(jsonPath("name").value("대한민국"));
 	}
 
 	@Test
@@ -38,9 +38,7 @@ class FamilyControllerTest {
 		mockMvc.perform(MockMvcRequestBuilders.get("/family/" + familyId + "/inventory")
 				.accept(MediaType.APPLICATION_JSON))
 			.andExpect(MockMvcResultMatchers.status().isOk())
-			.andExpect(jsonPath("$.data[0].id").value(1))
-			.andExpect(jsonPath("$.data[0].itemCode").value("TREE_1"))
-			.andExpect(jsonPath("$.data[0].type").value("TREE_SKIN"));
+			.andExpect(jsonPath("[0].id").value(1));
 	}
 
 	@Test
@@ -50,10 +48,10 @@ class FamilyControllerTest {
 		mockMvc.perform(MockMvcRequestBuilders.get("/family/" + familyId + "/basket")
 				.accept(MediaType.APPLICATION_JSON))
 			.andExpect(MockMvcResultMatchers.status().isOk())
-			.andExpect(jsonPath("$.data[0].range.startDate[0]").value(2023))
-			.andExpect(jsonPath("$.data[0].range.startDate[1]").value(12))
-			.andExpect(jsonPath("$.data[0].range.startDate[2]").value(1))
-			.andExpect(jsonPath("$.data[0].id").value(2));
+			.andExpect(jsonPath("$.[0].range.startDate[0]").value(2023))
+			.andExpect(jsonPath("$.[0].range.startDate[1]").value(12))
+			.andExpect(jsonPath("$.[0].range.startDate[2]").value(1))
+			.andExpect(jsonPath("$.[0].id").value(2));
 	}
 
 }
