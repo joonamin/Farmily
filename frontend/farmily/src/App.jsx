@@ -12,6 +12,7 @@ import CalendarPage from './pages/CalendarPage.jsx';
 import CommunityPage from './pages/CommunityPage.jsx';
 import AchievementPage from './pages/AchievementPage.jsx';
 import ContactPage from './pages/ContactPage.jsx';
+import SettingPage from './pages/SettingPage.jsx';
 import IndexPage from './pages/IndexPage.jsx';
 import LoginPage from './pages/LoginPage.jsx';
 
@@ -39,6 +40,7 @@ const router = createBrowserRouter([
       { path: 'community', element: <CommunityPage />},
       { path: 'achievement', element: <AchievementPage />},
       { path: 'contact', element: <ContactPage />},
+      { path: 'setting', element: <SettingPage />},
     ]
   },
 ]);

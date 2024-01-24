@@ -14,7 +14,7 @@ const category = [
 
 export default function SideBar() {
   return (
-    <aside className="w-1/3 h-full px-8 py-6 bg-slate-50 text-stone-900 md:w-60 rounded-r-md text-center">
+    <aside className="w-1/3 h-full px-4 py-6 bg-slate-50 text-stone-900 md:w-60 rounded-r-md text-center">
       
       {/* 파밀리 로고 */}
       <Link to="/tree">
@@ -25,7 +25,10 @@ export default function SideBar() {
       <img src={chunsik} alt="family-profile" className="size-40 mx-auto" />
 
       {/* 가족이름 */}
-      <h2 className="mx-auto my-4 font-bold text-xl text-stone-900">춘식라이언 가족</h2>
+      <h2 className="mx-auto my-4 font-semibold text-xl text-stone-900">
+        춘식라이언 가족
+        <Link to="/family/setting" className="text-lg align-middle"> ⚙️</Link>
+      </h2>
       
       <div>
         {/* 카테고리 */}
