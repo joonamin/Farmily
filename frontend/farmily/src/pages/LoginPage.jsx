@@ -1,13 +1,13 @@
 import LoginButton from '../components/LoginButton.jsx'
-import naver from '../assets/images/naver.png'
+import meta from '../assets/images/meta.png'
 import kakao from '../assets/images/kakao.png'
 import google from '../assets/images/google.png'
 import farmily from '../assets/images/farmily.png'
 
 const sites = [
-  { 'name': '네이버', 'url': 'url', 'image': naver },
-  { 'name': '카카오', 'url': 'url', 'image': kakao },
-  { 'name': '구글', 'url': 'url', 'image': google },
+  { name: '카카오', url: 'kakao', image: kakao },
+  { name: '구글', url: 'google', image: google },
+  { name: '메타 ', url: 'facebook', image: meta },
 ]
 
 export default function LoginPage() {
