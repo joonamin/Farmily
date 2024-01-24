@@ -1,15 +1,16 @@
-import { useState, useEffect } from 'react'
-import LargeButton from '../components/LargeButton.jsx'
-import chat from '../assets/images/chat.png'
-import call from '../assets/images/call.png'
-
+import { useState, useEffect } from "react";
+import LargeButton from "../components/LargeButton.jsx";
+import chat from "../assets/images/chat.png";
+import call from "../assets/images/call.png";
+import VideoRoomComponent from "../components/contact/VideoRoomComponent.jsx";
 
 export default function ContactPage() {
   return (
-    <div className="bg-white h-full rounded-xl flex justify-around items-center">
-      {/* 채팅 / 회의 페이지 완성 후 url 경로 수정 필요 */}
-      <LargeButton url="/tree" image={chat} text="채팅하기" />
-      <LargeButton  url="/tree" image={call} text="회의하기"/>
+    <div className="flex items-center justify-around h-full bg-white rounded-xl">
+      <div className="relative w-4/5 h-4/5">
+        {" "}
+        <VideoRoomComponent style={{ width: "10%", height: "100%" }} />
+      </div>  
     </div>
-  )
+  );
 }
