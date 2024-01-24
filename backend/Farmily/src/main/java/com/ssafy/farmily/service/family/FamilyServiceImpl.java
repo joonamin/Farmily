@@ -48,7 +48,7 @@ public class FamilyServiceImpl implements FamilyService {
 
 	@Override
 	@Transactional
-	public FamilyMainDto setMainFamilyInfo(Long familyId) throws NoSuchContentException {
+	public FamilyMainDto setMainFamilyInfo(Long familyId) {
 		Family family = (Family)familyRepository.findById(familyId).orElseThrow(() -> new NoSuchContentException("존재하지 않는 가족입니다."));
 		Tree tree = (Tree)treeRepository.findById(familyId).orElseThrow(() -> new NoSuchContentException("존재하지 않는 나무입니다."));
 		List<Long> temp = recordRepository.findCurrentChallenges(familyId);
@@ -63,7 +63,7 @@ public class FamilyServiceImpl implements FamilyService {
 
 	@Override
 	@Transactional
-	public List<FamilyItemDto> getFamilyInventory(Long familyId) throws NoSuchContentException {
+	public List<FamilyItemDto> getFamilyInventory(Long familyId) {
 		Family family = (Family)familyRepository.findById(familyId)
 			.orElseThrow(() -> new NoSuchContentException("존재하지 않는 가족입니다."));
 		// 받아올 때 추가가 많이 발생할 것 같아서 LinkedList
@@ -80,7 +80,7 @@ public class FamilyServiceImpl implements FamilyService {
 
 	@Override
 	@Transactional
-	public List<FamilyBasketDto> getFamilySprintList(Long familyId) throws NoSuchContentException {
+	public List<FamilyBasketDto> getFamilySprintList(Long familyId) {
 		Family family = familyRepository.findById(familyId)
 			.orElseThrow(() -> new NoSuchContentException("존재하지 않는 가족입니다."));
 		List<FamilyBasketDto> familySprintList = new ArrayList<>();
@@ -95,7 +95,7 @@ public class FamilyServiceImpl implements FamilyService {
 
 	@Transactional
 	@Override
-	public String placingItems(PlacingItemRequestDto placingItemRequestDto) throws NoSuchContentException {
+	public void placingItems(PlacingItemRequestDto placingItemRequestDto) {
 		Long treeId = placingItemRequestDto.getTreeId();
 		Tree tree = treeRepository.findById(treeId).orElseThrow(() -> new NoSuchContentException("잘못 된 트리입니다."));
 		placementRepository.deleteAllByTreeId(treeId);
@@ -124,6 +124,5 @@ public class FamilyServiceImpl implements FamilyService {
 				placementRepository.save(fruitPlacement);
 			}
 		}
-		return "save success";
 	}
 }
