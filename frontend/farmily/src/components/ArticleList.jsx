@@ -3,26 +3,24 @@ import ArticleItem from './ArticleItem.jsx'
 // 테스트용 데이터 TESTITEMS , 데이터 받아오면 삭제
 
 const TESTITEMS = [
-  {'title': '제목', 'author': '작성자', 'date': '2024-01-20'},
-  {'title': '제목1', 'author': '작성자1', 'date': '2024-01-21'},
-  {'title': '제목2', 'author': '작성자2', 'date': '2024-01-22'},
-  {'title': '제목3', 'author': '작성자3', 'date': '2024-01-23'},
-  {'title': '제목4', 'author': '작성자4', 'date': '2024-01-24'},
-  {'title': '제목5', 'author': '작성자5', 'date': '2024-01-25'},
-  {'title': '제목5', 'author': '작성자5', 'date': '2024-01-25'},
-  {'title': '제목5', 'author': '작성자5', 'date': '2024-01-25'},
-  {'title': '제목5', 'author': '작성자5', 'date': '2024-01-25'},
-  {'title': '제목5', 'author': '작성자5', 'date': '2024-01-25'},
-  {'title': '제목5', 'author': '작성자5', 'date': '2024-01-25'},
-  {'title': '제목5', 'author': '작성자5', 'date': '2024-01-25'},
-  {'title': '제목5', 'author': '작성자5', 'date': '2024-01-25'},
-  {'title': '제목5', 'author': '작성자5', 'date': '2024-01-25'},
-  {'title': '제목5', 'author': '작성자5', 'date': '2024-01-25'},
-  {'title': '제목5', 'author': '작성자5', 'date': '2024-01-25'},
-  {'title': '제목5', 'author': '작성자5', 'date': '2024-01-25'},
+  {'title': '제목', 'author': {nickname: '작성자'}, 'date': '2024-01-20'},
+  {'title': '제목1', 'author': {nickname: '작성자'}, 'date': '2024-01-21'},
+  {'title': '제목2', 'author': {nickname: '작성자'}, 'date': '2024-01-22'},
+  {'title': '제목3', 'author': {nickname: '작성자'}, 'date': '2024-01-23'},
+  {'title': '제목4', 'author':  {nickname: '작성자'}, 'date': '2024-01-24'},
+  {'title': '제목5', 'author':  {nickname: '작성자'}, 'date': '2024-01-25'},
+  {'title': '제목5', 'author':  {nickname: '작성자'}, 'date': '2024-01-25'},
+  {'title': '제목5', 'author':  {nickname: '작성자'}, 'date': '2024-01-25'},
+  {'title': '제목5', 'author':  {nickname: '작성자'}, 'date': '2024-01-25'},
+  {'title': '제목5', 'author':  {nickname: '작성자'}, 'date': '2024-01-25'},
+  {'title': '제목5', 'author':  {nickname: '작성자'}, 'date': '2024-01-25'},
+  {'title': '제목5', 'author':  {nickname: '작성자'}, 'date': '2024-01-25'},
+  {'title': '제목5', 'author':  {nickname: '작성자'}, 'date': '2024-01-25'},
+  {'title': '제목5', 'author':  {nickname: '작성자'}, 'date': '2024-01-25'},
+  {'title': '제목5', 'author':  {nickname: '작성자'}, 'date': '2024-01-25'},
 ]
 
-export default function Article() {
+export default function ArticleList() {
   return (
     <div className="p-5 h-1/2 overflow-hidden">
       <table className="table-fixed w-full">
@@ -38,7 +36,7 @@ export default function Article() {
         {/* 페이징 필요 */}
         <tbody>
           {TESTITEMS.map((item, index) => (
-            <ArticleItem key={index} title={item.title} author={item.author} content={item.content} date={item.date} />
+            <ArticleItem key={index} title={item.title} nickname={item.author.nickname} content={item.content} date={item.date} />
             ))}
         </tbody>
       </table>
