@@ -2,6 +2,8 @@ package com.ssafy.farmily.entity;
 
 import java.util.List;
 
+import net.minidev.json.annotate.JsonIgnore;
+
 import com.ssafy.farmily.entity.type.DateRange;
 
 import jakarta.persistence.Column;
@@ -32,6 +34,7 @@ public class Sprint extends BaseEntity {
 
 	@ManyToOne
 	@JoinColumn(name = "familyId")
+	@JsonIgnore
 	private Family family;
 
 	@Embedded

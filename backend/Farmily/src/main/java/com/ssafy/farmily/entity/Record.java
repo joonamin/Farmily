@@ -1,6 +1,5 @@
 package com.ssafy.farmily.entity;
 
-import java.util.Collection;
 import java.util.List;
 
 import com.ssafy.farmily.entity.type.RecordType;
@@ -20,7 +19,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -56,7 +54,6 @@ public class Record extends BaseEntity {
 
 	@OneToMany(mappedBy = "record")
 	private List<Comment> comments;
-
 
 	@OneToMany(mappedBy = "record")
 	private List<ImageCard> imageCards;

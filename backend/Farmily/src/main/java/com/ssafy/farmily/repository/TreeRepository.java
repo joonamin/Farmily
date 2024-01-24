@@ -7,4 +7,5 @@ import com.ssafy.farmily.entity.Tree;
 
 @Repository
 public interface TreeRepository extends JpaRepository<Tree, Long> {
+
 }

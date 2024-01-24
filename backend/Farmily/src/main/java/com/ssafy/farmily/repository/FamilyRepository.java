@@ -7,4 +7,5 @@ import com.ssafy.farmily.entity.Family;
 
 @Repository
 public interface FamilyRepository extends JpaRepository<Family, Long> {
+
 }

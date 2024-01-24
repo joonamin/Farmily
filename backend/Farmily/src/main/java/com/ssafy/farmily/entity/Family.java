@@ -44,7 +44,6 @@ public class Family extends BaseEntity {
 	@Column
 	private Integer point;
 
-
 	@OneToMany(mappedBy = "family")
 	private List<FamilyItem> items;
 
