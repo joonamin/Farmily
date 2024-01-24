@@ -2,7 +2,6 @@ package com.ssafy.farmily.controller.family;
 
 import java.util.List;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ssafy.farmily.common.Message;
 import com.ssafy.farmily.dto.FamilyBasketDto;
 import com.ssafy.farmily.dto.FamilyItemDto;
 import com.ssafy.farmily.dto.FamilyMainDto;
@@ -24,7 +22,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
@@ -50,13 +47,10 @@ public class FamilyController {
 			content = @Content(schema = @Schema(implementation = FamilyMainDto.class))
 		)
 	})
-	public ResponseEntity<Message> mainIndex(@PathVariable Long familyId) {
-		Message message = new Message();
+	public ResponseEntity<FamilyMainDto> mainIndex(@PathVariable Long familyId) {
 		FamilyMainDto familyMainDTO = familyService.setMainFamilyInfo(familyId);
-		message.setMessage("가족 메인 정보");
-		message.setData(familyMainDTO);
 
-		return ResponseEntity.status(HttpStatus.OK).body(message);
+		return ResponseEntity.ok(familyMainDTO);
 	}
 
 	@GetMapping("/{familyId}/inventory")
@@ -71,13 +65,10 @@ public class FamilyController {
 			content = @Content(schema = @Schema(implementation = FamilyItemDto.class))
 		)
 	})
-	public ResponseEntity<Message> getInventory(@PathVariable Long familyId, @RequestBody Long memberId) {
-		Message message = new Message();
-		List<FamilyItemDto> familyItemDtoList = familyService.getFamilyInventory(familyId, memberId);
+	public ResponseEntity<List<FamilyItemDto>> getInventory(@PathVariable Long familyId) {
+		List<FamilyItemDto> familyItemDtoList = familyService.getFamilyInventory(familyId);
 
-		message.setMessage("인벤토리 정보");
-		message.setData(familyItemDtoList);
-		return ResponseEntity.status(HttpStatus.OK).body(message);
+		return ResponseEntity.ok(familyItemDtoList);
 	}
 
 	@GetMapping("/{familyId}/basket")
@@ -92,12 +83,10 @@ public class FamilyController {
 			content = @Content(schema = @Schema(implementation = FamilyBasketDto.class))
 		)
 	})
-	public ResponseEntity<Message> getFamilyBasketList(@PathVariable Long familyId, @RequestBody Long memberId) {
-		Message message = new Message();
-		List<FamilyBasketDto> familyBasketDTOList = familyService.getFamilySprintList(familyId, memberId);
-		message.setMessage("바구니 목록");
-		message.setData(familyBasketDTOList);
-		return ResponseEntity.status(HttpStatus.OK).body(message);
+	public ResponseEntity<List<FamilyBasketDto>> getFamilyBasketList(@PathVariable Long familyId) {
+		List<FamilyBasketDto> familyBasketDTOList = familyService.getFamilySprintList(familyId);
+
+		return ResponseEntity.ok(familyBasketDTOList);
 	}
 
 	/*
@@ -126,13 +115,9 @@ public class FamilyController {
 			description = "배열 저장 성공"
 		)
 	})
-	public ResponseEntity<Message> itemPlacement(@RequestBody PlacingItemRequestDto placementList) {
+	public ResponseEntity<Void> itemPlacement(@RequestBody PlacingItemRequestDto placementList) {
+		familyService.placingItems(placementList);
 
-		log.info("placementList: {}", placementList);
-		Message message = new Message();
-		String result = familyService.placingItems(placementList);
-		message.setMessage("배치 저장 완료");
-		message.setData(result);
-		return ResponseEntity.status(HttpStatus.OK).body(message);
+		return ResponseEntity.ok().build();
 	}
 }

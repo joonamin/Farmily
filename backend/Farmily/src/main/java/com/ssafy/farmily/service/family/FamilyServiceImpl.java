@@ -16,16 +16,12 @@ import com.ssafy.farmily.dtoFactory.GetFamily;
 import com.ssafy.farmily.entity.AccessoryPlacement;
 import com.ssafy.farmily.entity.Family;
 import com.ssafy.farmily.entity.FamilyItem;
-import com.ssafy.farmily.entity.FamilyMembership;
 import com.ssafy.farmily.entity.FruitPlacement;
 import com.ssafy.farmily.entity.Record;
 import com.ssafy.farmily.entity.Sprint;
 import com.ssafy.farmily.entity.Tree;
 import com.ssafy.farmily.entity.type.AccessoryType;
-import com.ssafy.farmily.exception.NotFoundFamilyId;
-import com.ssafy.farmily.exception.NotFoundRecordId;
-import com.ssafy.farmily.exception.NotFoundTreeId;
-import com.ssafy.farmily.exception.PermissionException;
+import com.ssafy.farmily.exception.NoSuchContentException;
 import com.ssafy.farmily.repository.FamilyItemRepository;
 import com.ssafy.farmily.repository.FamilyMembershipRepository;
 import com.ssafy.farmily.repository.FamilyRepository;
@@ -51,9 +47,10 @@ public class FamilyServiceImpl implements FamilyService {
 	private final FamilyMembershipRepository familyMembershipRepository;
 
 	@Override
-	public FamilyMainDto setMainFamilyInfo(Long familyId) throws NotFoundFamilyId {
-		Family family = (Family)familyRepository.findById(familyId).orElseThrow(NotFoundFamilyId::new);
-		Tree tree = (Tree)treeRepository.findById(familyId).orElseThrow(NotFoundTreeId::new);
+	@Transactional
+	public FamilyMainDto setMainFamilyInfo(Long familyId) {
+		Family family = (Family)familyRepository.findById(familyId).orElseThrow(() -> new NoSuchContentException("존재하지 않는 가족입니다."));
+		Tree tree = (Tree)treeRepository.findById(familyId).orElseThrow(() -> new NoSuchContentException("존재하지 않는 나무입니다."));
 		List<Long> temp = recordRepository.findCurrentChallenges(familyId);
 
 		FamilyMainDto familyMainDTO = null;
@@ -65,13 +62,10 @@ public class FamilyServiceImpl implements FamilyService {
 	}
 
 	@Override
-	public List<FamilyItemDto> getFamilyInventory(Long familyId, Long memberId) throws
-		NotFoundFamilyId,
-		PermissionException {
-		Family family = (Family)familyRepository.findById(familyId).orElseThrow(NotFoundFamilyId::new);
-		FamilyMembership authorization =
-			familyMembershipRepository.findByFamilyIdAndMemberId(familyId, memberId)
-				.orElseThrow(PermissionException::new);
+	@Transactional
+	public List<FamilyItemDto> getFamilyInventory(Long familyId) {
+		Family family = (Family)familyRepository.findById(familyId)
+			.orElseThrow(() -> new NoSuchContentException("존재하지 않는 가족입니다."));
 		// 받아올 때 추가가 많이 발생할 것 같아서 LinkedList
 		List<FamilyItemDto> familyItemDtoList = new LinkedList<>();
 		List<FamilyItem> temp = familyItemRepository.findByFamilyId(familyId);
@@ -85,11 +79,10 @@ public class FamilyServiceImpl implements FamilyService {
 	}
 
 	@Override
-	public List<FamilyBasketDto> getFamilySprintList(Long familyId, Long memberId) throws NotFoundFamilyId,PermissionException {
-		Family family = familyRepository.findById(familyId).orElseThrow(NotFoundFamilyId::new);
-		FamilyMembership authorization =
-			familyMembershipRepository.findByFamilyIdAndMemberId(familyId, memberId)
-				.orElseThrow(PermissionException::new);
+	@Transactional
+	public List<FamilyBasketDto> getFamilySprintList(Long familyId) {
+		Family family = familyRepository.findById(familyId)
+			.orElseThrow(() -> new NoSuchContentException("존재하지 않는 가족입니다."));
 		List<FamilyBasketDto> familySprintList = new ArrayList<>();
 		List<Sprint> temp = sprintRepository.findByFamilyIdAndIsHarvested(familyId, true);
 		for (Sprint sprint : temp) {
@@ -102,12 +95,9 @@ public class FamilyServiceImpl implements FamilyService {
 
 	@Transactional
 	@Override
-	public String placingItems(PlacingItemRequestDto placingItemRequestDto) throws NotFoundTreeId, NotFoundRecordId {
+	public void placingItems(PlacingItemRequestDto placingItemRequestDto) {
 		Long treeId = placingItemRequestDto.getTreeId();
-		Tree tree = treeRepository.findById(treeId).orElseThrow(NotFoundTreeId::new);
-		FamilyMembership authorization =
-			familyMembershipRepository.findByFamilyIdAndMemberId(treeId, placingItemRequestDto.getMemberId())
-				.orElseThrow(PermissionException::new);
+		Tree tree = treeRepository.findById(treeId).orElseThrow(() -> new NoSuchContentException("잘못 된 트리입니다."));
 		placementRepository.deleteAllByTreeId(treeId);
 		for (PlacementDto placementDto : placingItemRequestDto.getPlacementDtoList()) {
 				/*
@@ -122,9 +112,10 @@ public class FamilyServiceImpl implements FamilyService {
 					.build();
 				placementRepository.save(accessoryPlacement);
 			} else if (placementDto.getDtype().equals("F")) {
-				recordRepository.findById(placementDto.getRecordId()).orElseThrow(NotFoundRecordId::new);
+				recordRepository.findById(placementDto.getRecordId())
+					.orElseThrow(() -> new NoSuchContentException("존재하지 않는 글입니다."));
 				Record record = (Record)recordRepository.findById(placementDto.getRecordId())
-					.orElseThrow(NotFoundRecordId::new);
+					.orElseThrow(() -> new NoSuchContentException("존재하지 않는 글입니다."));
 				FruitPlacement fruitPlacement = FruitPlacement.builder()
 					.position(placementDto.getPosition())
 					.tree(tree)
@@ -133,6 +124,5 @@ public class FamilyServiceImpl implements FamilyService {
 				placementRepository.save(fruitPlacement);
 			}
 		}
-		return "save success";
 	}
 }
