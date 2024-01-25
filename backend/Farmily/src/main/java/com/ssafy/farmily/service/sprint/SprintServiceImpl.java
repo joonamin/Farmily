@@ -32,7 +32,11 @@ public class SprintServiceImpl implements SprintService {
 	@Transactional
 	public void harvest(Long sprintId) {
 		Sprint sprint = getEntityById(sprintId);
+
 		sprint.setIsHarvested(true);
+
+		sprint.getFamily().getTree().getPlacements().clear();
+
 		sprintRepository.save(sprint);
 	}
 
