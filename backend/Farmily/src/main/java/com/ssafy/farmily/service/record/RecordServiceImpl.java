@@ -63,7 +63,7 @@ public class RecordServiceImpl implements RecordService {
 
 		Record entity = Record.builder()
 			.type(RecordType.EVENT)
-			.sprint(sprint)	// TODO: sprint 연결 및 적용
+			.sprint(sprint)
 			.author(null)	// TODO: UserPrincipal 연결 및 적용
 			.title(dto.getTitle())
 			.build();
@@ -97,7 +97,7 @@ public class RecordServiceImpl implements RecordService {
 
 		Record entity = Record.builder()
 			.type(RecordType.DAILY)
-			.sprint(sprint)	// TODO: sprint 연결 및 적용
+			.sprint(sprint)
 			.author(null)	// TODO: UserPrincipal 연결 및 적용
 			.title(dto.getTitle())
 			.content(dto.getContent())
