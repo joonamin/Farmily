@@ -14,6 +14,7 @@ import ChallengeCreatePage from './pages/ChallengeCreatePage.jsx';
 import MemoryPage from './pages/MemoryPage.jsx';
 import CalendarPage from './pages/CalendarPage.jsx';
 import CommunityPage from './pages/CommunityPage.jsx';
+import CommunityWritePage from './pages/CommunityWritePage.jsx';
 import AchievementPage from './pages/AchievementPage.jsx';
 import ContactPage from './pages/ContactPage.jsx';
 import SettingPage from './pages/SettingPage.jsx';
@@ -46,6 +47,7 @@ const router = createBrowserRouter([
       { path: 'memory', element: <MemoryPage /> },
       { path: 'calendar', element: <CalendarPage /> },
       { path: 'community', element: <CommunityPage /> },
+      { path: 'community/write', element: <CommunityWritePage />},
       { path: 'achievement', element: <AchievementPage /> },
       { path: 'contact', element: <ContactPage /> },
       { path: 'setting', element: <SettingPage /> },
