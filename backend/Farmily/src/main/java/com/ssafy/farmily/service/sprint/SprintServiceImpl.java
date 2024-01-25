@@ -21,8 +21,8 @@ public class SprintServiceImpl implements SprintService {
 	private final RecordRepository recordRepository;
 
 	@Override
-	public Sprint getSprint(Long id) {
-		return sprintRepository.findById(id)
+	public Sprint getEntityById(Long sprintId) {
+		return sprintRepository.findById(sprintId)
 			.orElseThrow(() -> new NoSuchContentException("스프린트가 없습니다."));
 	}
 
@@ -33,7 +33,7 @@ public class SprintServiceImpl implements SprintService {
 
 	@Override
 	public List<RecordResponseDto> getRecords(Long sprintId) {
-		Sprint sprint = getSprint(sprintId);
+		Sprint sprint = getEntityById(sprintId);
 
 		List<Record> entities = recordRepository.findAllBySprint(sprint);
 

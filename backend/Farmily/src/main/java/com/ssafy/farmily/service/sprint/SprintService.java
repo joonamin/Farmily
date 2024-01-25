@@ -6,7 +6,7 @@ import com.ssafy.farmily.dto.RecordResponseDto;
 import com.ssafy.farmily.entity.Sprint;
 
 public interface SprintService {
-	Sprint getSprint(Long id);
+	Sprint getEntityById(Long sprintId);
 
 	void harvest(Long sprintId);
 

@@ -40,9 +40,15 @@ public class RecordServiceImpl implements RecordService {
 
 	@Override
 	@Transactional
-	public RecordResponseDto getById(long recordId) {
-		Record entity = recordRepository.findById(recordId)
-			.orElseThrow(NoSuchContentException::new);
+	public Record getEntityById(long recordId) {
+		return recordRepository.findById(recordId)
+			.orElseThrow(() -> new NoSuchContentException("기록이 없습니다."));
+	}
+
+	@Override
+	@Transactional
+	public RecordResponseDto getDtoById(long recordId) {
+		Record entity = getEntityById(recordId);
 
 		return RecordResponseDto.from(entity);
 	}
@@ -96,8 +102,7 @@ public class RecordServiceImpl implements RecordService {
 	@Override
 	@Transactional
 	public void editDailyRecord(DailyRecordPutRequestDto dto) {
-		Record entity = recordRepository.findById(dto.getRecordId())
-			.orElseThrow(NoSuchContentException::new);
+		Record entity = getEntityById(dto.getRecordId());
 
 		entity.setTitle(dto.getTitle());
 		entity.setContent(dto.getContent());
@@ -124,8 +129,7 @@ public class RecordServiceImpl implements RecordService {
 
 	@Override
 	public void markChallengeRecord(ChallengeRecordMarkRequestDto dto) {
-		ChallengeRecord recordEntity = (ChallengeRecord) recordRepository.findById(dto.getChallengeId())
-				.orElseThrow(NoSuchContentException::new);
+		ChallengeRecord recordEntity = (ChallengeRecord) getEntityById(dto.getChallengeId());
 
 		ChallengeProgress progressEntity = ChallengeProgress.builder()
 			.challenge(recordEntity)
@@ -140,8 +144,7 @@ public class RecordServiceImpl implements RecordService {
 	@Override
 	@Transactional
 	public void editChallengeRecord(ChallengeRecordPutRequestDto dto) {
-		ChallengeRecord entity = (ChallengeRecord) recordRepository.findById(dto.getRecordId())
-			.orElseThrow(NoSuchContentException::new);
+		ChallengeRecord entity = (ChallengeRecord) getEntityById(dto.getRecordId());
 
 		entity.setTitle(dto.getTitle());
 		entity.setContent(dto.getContent());
