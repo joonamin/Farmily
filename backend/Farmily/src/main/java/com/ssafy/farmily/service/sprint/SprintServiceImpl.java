@@ -28,7 +28,9 @@ public class SprintServiceImpl implements SprintService {
 
 	@Override
 	public void harvest(Long sprintId) {
-
+		Sprint sprint = getEntityById(sprintId);
+		sprint.setIsHarvested(true);
+		sprintRepository.save(sprint);
 	}
 
 	@Override
