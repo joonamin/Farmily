@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ssafy.farmily.dto.RecordResponseDto;
+import com.ssafy.farmily.dto.RecordBriefResponseDto;
 import com.ssafy.farmily.service.sprint.SprintService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -48,8 +48,8 @@ public class SprintController {
 	@ApiResponses({
 		@ApiResponse(responseCode = "200", description = "조회 성공")
 	})
-	private ResponseEntity<List<RecordResponseDto>> postRecord(@PathVariable Long sprintId) {
-		List<RecordResponseDto> dtos = sprintService.getRecords(sprintId);
+	private ResponseEntity<List<RecordBriefResponseDto>> postRecord(@PathVariable Long sprintId) {
+		List<RecordBriefResponseDto> dtos = sprintService.getRecords(sprintId);
 
 		return ResponseEntity.ok(dtos);
 	}

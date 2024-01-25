@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.ssafy.farmily.dto.RecordResponseDto;
+import com.ssafy.farmily.dto.RecordBriefResponseDto;
 import com.ssafy.farmily.entity.Record;
 import com.ssafy.farmily.entity.Sprint;
 import com.ssafy.farmily.exception.NoSuchContentException;
@@ -42,12 +42,12 @@ public class SprintServiceImpl implements SprintService {
 
 	@Override
 	@Transactional
-	public List<RecordResponseDto> getRecords(Long sprintId) {
+	public List<RecordBriefResponseDto> getRecords(Long sprintId) {
 		Sprint sprint = getEntityById(sprintId);
 
 		List<Record> entities = recordRepository.findAllBySprint(sprint);
 
-		List<RecordResponseDto> dtos = entities.stream().map(RecordResponseDto::from).toList();
+		List<RecordBriefResponseDto> dtos = entities.stream().map(RecordBriefResponseDto::from).toList();
 
 		return dtos;
 	}

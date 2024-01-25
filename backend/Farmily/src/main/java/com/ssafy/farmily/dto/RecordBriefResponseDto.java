@@ -21,26 +21,19 @@ import lombok.Setter;
 @Setter
 @Builder
 @Schema(description = "기록 응답 DTO")
-public class RecordResponseDto {
+public class RecordBriefResponseDto {
 	protected RecordType type;
 	protected Long id;
 	protected String title;
 	protected MemberBasicDto author;
-	protected List<CommentDto> comments;
 	protected LocalDateTime createdAt;
-	protected LocalDateTime lastEditedAt;
 
-	public static RecordResponseDto from(Record entity) {
-		RecordResponseDto dto = new RecordResponseDto();
+	public static RecordBriefResponseDto from(Record entity) {
+		RecordBriefResponseDto dto = new RecordBriefResponseDto();
 		BeanUtils.copyProperties(entity, dto);
 
 		MemberBasicDto authorDto = MemberBasicDto.from(entity.getAuthor());
 		dto.setAuthor(authorDto);
-
-		List<CommentDto> commentDtos = entity.getComments().stream()
-			.map(CommentDto::from)
-			.toList();
-		dto.setComments(commentDtos);
 
 		return dto;
 	}
