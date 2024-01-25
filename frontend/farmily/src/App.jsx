@@ -20,6 +20,8 @@ import ContactPage from './pages/ContactPage.jsx';
 import SettingPage from './pages/SettingPage.jsx';
 import IndexPage from './pages/IndexPage.jsx';
 import LoginPage from './pages/LoginPage.jsx';
+import CommunityDetailPage from './pages/CommunityDetailPage.jsx';
+
 
 const router = createBrowserRouter([
   {
@@ -48,6 +50,7 @@ const router = createBrowserRouter([
       { path: 'calendar', element: <CalendarPage /> },
       { path: 'community', element: <CommunityPage /> },
       { path: 'community/write', element: <CommunityWritePage />},
+      { path: 'community/:communityId', element: <CommunityDetailPage />},
       { path: 'achievement', element: <AchievementPage /> },
       { path: 'contact', element: <ContactPage /> },
       { path: 'setting', element: <SettingPage /> },
