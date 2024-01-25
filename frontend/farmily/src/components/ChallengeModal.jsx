@@ -107,6 +107,7 @@ export default function ChallengeModal({ isOpen, onClose }) {
       className={`fixed inset-0 flex items-center justify-center bg-gray-600 bg-opacity-50 overflow-y-auto h-auto w-full ${
         isOpen ? "block" : "hidden"
       }`}
+      style={{ zIndex: isOpen ? 9999 : -1 }} // z-index 스타일 추가
     >
       <div
         className="relative max-w-2xl mx-auto my-20 bg-white rounded-md shadow-lg"
