@@ -52,12 +52,14 @@ public class FamilyServiceImpl implements FamilyService {
 		Family family = (Family)familyRepository.findById(familyId).orElseThrow(() -> new NoSuchContentException("존재하지 않는 가족입니다."));
 		Tree tree = (Tree)treeRepository.findById(familyId).orElseThrow(() -> new NoSuchContentException("존재하지 않는 나무입니다."));
 		List<Long> temp = recordRepository.findCurrentChallenges(familyId);
+		Long sprintId = sprintRepository.findByFamilyIdAndIsHarvested(familyId, false);
 
 		FamilyMainDto familyMainDTO = null;
 		familyMainDTO = FamilyMainDto.of(family);
 		FamilyMainTreeDto familyMainTreeDTO = FamilyMainTreeDto.from(tree);
 		familyMainDTO.setChallengesIds(temp);
 		familyMainDTO.setTree(familyMainTreeDTO);
+		familyMainDTO.setSprintId(sprintId);
 		return familyMainDTO;
 	}
 

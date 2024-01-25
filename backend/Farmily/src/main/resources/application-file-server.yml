@@ -1,3 +1,0 @@
-file-server:
-  local:
-    path: /home/ubuntu/farmily-test/files
