@@ -1,7 +1,6 @@
 package com.ssafy.farmily.dto;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 import org.springframework.beans.BeanUtils;
 
@@ -25,14 +24,14 @@ public class RecordBriefResponseDto {
 	protected RecordType type;
 	protected Long id;
 	protected String title;
-	protected MemberBasicDto author;
+	protected MemberInfoDto author;
 	protected LocalDateTime createdAt;
 
 	public static RecordBriefResponseDto from(Record entity) {
 		RecordBriefResponseDto dto = new RecordBriefResponseDto();
 		BeanUtils.copyProperties(entity, dto);
 
-		MemberBasicDto authorDto = MemberBasicDto.from(entity.getAuthor());
+		MemberInfoDto authorDto = MemberInfoDto.from(entity.getAuthor());
 		dto.setAuthor(authorDto);
 
 		return dto;

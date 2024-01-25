@@ -25,7 +25,7 @@ public class RecordResponseDto {
 	protected RecordType type;
 	protected Long id;
 	protected String title;
-	protected MemberBasicDto author;
+	protected MemberInfoDto author;
 	protected List<CommentDto> comments;
 	protected LocalDateTime createdAt;
 	protected LocalDateTime lastEditedAt;
@@ -34,7 +34,7 @@ public class RecordResponseDto {
 		RecordResponseDto dto = new RecordResponseDto();
 		BeanUtils.copyProperties(entity, dto);
 
-		MemberBasicDto authorDto = MemberBasicDto.from(entity.getAuthor());
+		MemberInfoDto authorDto = MemberInfoDto.from(entity.getAuthor());
 		dto.setAuthor(authorDto);
 
 		List<CommentDto> commentDtos = entity.getComments().stream()
