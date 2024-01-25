@@ -17,7 +17,7 @@ class MyCalendar extends Component {
       startDate: null,
       endDate: null,
       allDay: true,
-      selectedColor: 'red', // 선택된 색상 추가 및 초기화
+      selectedColor: '#F87171', // 선택된 색상 추가 및 초기화
       events: [
         {
           title: '이벤트 2',
@@ -44,6 +44,8 @@ class MyCalendar extends Component {
           color: '#60A5FA',
         },
       ],
+      isValidationError: false,
+      validationErrorMessage: '',
     };
   }
 
@@ -62,7 +64,6 @@ class MyCalendar extends Component {
       endDate: date.dateStr,
       allDay: true,
     });
-    console.log(date.dateStr);
   };
 
   handleModalClose = () => {
@@ -70,6 +71,8 @@ class MyCalendar extends Component {
       isModalOpen: false,
       selectedDate: null,
       newEventTitle: '',
+      isValidationError: false,
+      validationErrorMessage: '',
     });
   };
 
@@ -86,6 +89,22 @@ class MyCalendar extends Component {
   };
 
   handleAddEvent = () => {
+    // 일정 내용이 비어 있는지 확인
+    if (this.state.newEventTitle.trim() === '') {
+      // 경고 상태 업데이트
+      this.setState({
+        isValidationError: true,
+        validationErrorMessage: '일정 내용을 입력하세요.',
+      });
+      return; // 일정 추가 막기
+    }
+
+    // 경고 상태 초기화
+    this.setState({
+      isValidationError: false,
+      validationErrorMessage: '',
+    });
+
     const newEvent = {
       title: this.state.newEventTitle,
       start: new Date(this.state.startDate),
@@ -96,6 +115,7 @@ class MyCalendar extends Component {
 
     this.setState((prevState) => ({
       events: [...prevState.events, newEvent],
+      selectedColor: '#F87171',
     }));
 
     this.handleModalClose();
@@ -164,6 +184,12 @@ class MyCalendar extends Component {
                           value={this.state.newEventTitle}
                           className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-blue-300"
                         />
+                        {/* 일정 내용이 비어 있을 때 빨간색 글씨로 표시 */}
+                        {this.state.isValidationError && (
+                          <p className="mt-1 text-sm text-red-500">
+                            {this.state.validationErrorMessage}
+                          </p>
+                        )}
                       </div>
                       <div className="mt-2">
                         <label

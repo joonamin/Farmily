@@ -7,9 +7,14 @@ import IndexLayout from './pages/Index.jsx';
 
 import MainPage from './pages/MainPage.jsx';
 import RecordPage from './pages/RecordPage.jsx';
+import RecordCreatePage from './pages/RecordCreatePage.jsx';
+import EventCreatePage from './pages/EventCreatePage.jsx';
+import DailyCreatePage from './pages/DailyCreatePage.jsx';
+import ChallengeCreatePage from './pages/ChallengeCreatePage.jsx';
 import MemoryPage from './pages/MemoryPage.jsx';
 import CalendarPage from './pages/CalendarPage.jsx';
 import CommunityPage from './pages/CommunityPage.jsx';
+import CommunityWritePage from './pages/CommunityWritePage.jsx';
 import AchievementPage from './pages/AchievementPage.jsx';
 import ContactPage from './pages/ContactPage.jsx';
 import SettingPage from './pages/SettingPage.jsx';
@@ -34,14 +39,19 @@ const router = createBrowserRouter([
     path: '/family',
     element: <FamilyLayout />,
     children: [
-      { path: 'record', element: <RecordPage />},
-      { path: 'memory', element: <MemoryPage />},
-      { path: 'calendar', element: <CalendarPage />},
-      { path: 'community', element: <CommunityPage />},
-      { path: 'achievement', element: <AchievementPage />},
-      { path: 'contact', element: <ContactPage />},
-      { path: 'setting', element: <SettingPage />},
-    ]
+      { path: 'record', element: <RecordPage /> },
+      { path: 'record/create', element: <RecordCreatePage /> },
+      { path: 'record/create/event', element: <EventCreatePage /> },
+      { path: 'record/create/daily', element: <DailyCreatePage /> },
+      { path: 'record/create/challenge', element: <ChallengeCreatePage /> },
+      { path: 'memory', element: <MemoryPage /> },
+      { path: 'calendar', element: <CalendarPage /> },
+      { path: 'community', element: <CommunityPage /> },
+      { path: 'community/write', element: <CommunityWritePage />},
+      { path: 'achievement', element: <AchievementPage /> },
+      { path: 'contact', element: <ContactPage /> },
+      { path: 'setting', element: <SettingPage /> },
+    ],
   },
 ]);
 

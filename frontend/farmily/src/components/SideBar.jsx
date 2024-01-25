@@ -1,4 +1,5 @@
 import chunsik from '../assets/images/chunsik.jpg';
+import logout from '../assets/images/logout.png';
 import SideButton from './SideButton.jsx';
 import logo from '../assets/images/Farmily.png';
 import { Link } from 'react-router-dom';
@@ -13,12 +14,15 @@ const category = [
 ];
 
 export default function SideBar() {
+  function clickLogout() {
+  // 로그아웃 요청 보내기
+  }
   return (
     <aside className="w-1/3 h-full px-4 py-6 bg-slate-50 text-stone-900 md:w-60 rounded-r-md text-center">
       
       {/* 파밀리 로고 */}
       <Link to="/tree">
-        <img src={logo} alt="logo" className=" size-32 mx-auto mb-4" />
+        <img src={logo} alt="logo" className="size-32 mx-auto mb-4" />
       </Link>
       
       {/* 가족 프로필 사진 */}
@@ -30,7 +34,7 @@ export default function SideBar() {
         <Link to="/family/setting" className="text-lg align-middle"> ⚙️</Link>
       </h2>
       
-      <div>
+      <div className="mb-6">
         {/* 카테고리 */}
         {/* url 정의 후 수정 필요 */}
         <ul>
@@ -39,9 +43,9 @@ export default function SideBar() {
             ))}
         </ul>
       </div>
-      <ul>
-
-      </ul>
+      <button onClick={clickLogout}>
+        <img className="mx-auto" src={logout} alt="" />
+      </button>
     </aside>
   )
 }
