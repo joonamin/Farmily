@@ -16,6 +16,7 @@ import com.ssafy.farmily.entity.AccessoryPlacement;
 import com.ssafy.farmily.entity.Family;
 import com.ssafy.farmily.entity.FamilyItem;
 import com.ssafy.farmily.entity.FruitPlacement;
+import com.ssafy.farmily.entity.Placement;
 import com.ssafy.farmily.entity.Record;
 import com.ssafy.farmily.entity.Sprint;
 import com.ssafy.farmily.entity.Tree;
@@ -83,7 +84,7 @@ public class FamilyServiceImpl implements FamilyService {
 		Family family = familyRepository.findById(familyId)
 			.orElseThrow(() -> new NoSuchContentException("존재하지 않는 가족입니다."));
 		List<FamilyBasketDto> familySprintList = new ArrayList<>();
-		List<Sprint> temp = sprintRepository.findByFamilyIdAndIsHarvested(familyId, true);
+		List<Sprint> temp = sprintRepository.findAllByFamilyIdAndIsHarvested(familyId, true);
 		for (Sprint sprint : temp) {
 			FamilyBasketDto familyBasketDTO = new FamilyBasketDto().of(sprint);
 			familySprintList.add(familyBasketDTO);
@@ -103,16 +104,19 @@ public class FamilyServiceImpl implements FamilyService {
 				해당 아이템이 인벤토리에 존재하는 지 확인하는 로직이 필요할 거 같은데
 				아직 placement에 accessory에 대한 고유 Id가 없어서 구현 불가
 				 */
+
 			if (placementDto.getDtype().equals("A")) {
 				AccessoryPlacement accessoryPlacement = AccessoryPlacement.builder()
 					.position(placementDto.getPosition())
 					.tree(tree)
 					.type(AccessoryType.HIDDEN_FRUIT)
 					.build();
+
+				List<Placement> temp = tree.getPlacements();
+				temp.add(accessoryPlacement);
+				tree.setPlacements(temp);
 				placementRepository.save(accessoryPlacement);
 			} else if (placementDto.getDtype().equals("F")) {
-				recordRepository.findById(placementDto.getRecordId())
-					.orElseThrow(() -> new NoSuchContentException("존재하지 않는 글입니다."));
 				Record record = (Record)recordRepository.findById(placementDto.getRecordId())
 					.orElseThrow(() -> new NoSuchContentException("존재하지 않는 글입니다."));
 				FruitPlacement fruitPlacement = FruitPlacement.builder()
@@ -120,6 +124,9 @@ public class FamilyServiceImpl implements FamilyService {
 					.tree(tree)
 					.record(record)
 					.build();
+				List<Placement> temp = tree.getPlacements();
+				temp.add(fruitPlacement);
+				tree.setPlacements(temp);
 				placementRepository.save(fruitPlacement);
 			}
 		}
