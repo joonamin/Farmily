@@ -11,6 +11,9 @@ import RecordCreatePage from './pages/RecordCreatePage.jsx';
 import EventCreatePage from './pages/EventCreatePage.jsx';
 import DailyCreatePage from './pages/DailyCreatePage.jsx';
 import ChallengeCreatePage from './pages/ChallengeCreatePage.jsx';
+import EventDetailPage from './pages/EventDetailPage.jsx';
+import DailyDetailPage from './pages/DailyDetailPage.jsx';
+import ChallengeDetailPage from './pages/ChallengeDetailPage.jsx';
 import MemoryPage from './pages/MemoryPage.jsx';
 import CalendarPage from './pages/CalendarPage.jsx';
 import CommunityPage from './pages/CommunityPage.jsx';
@@ -43,6 +46,12 @@ const router = createBrowserRouter([
       { path: 'record/create/event', element: <EventCreatePage /> },
       { path: 'record/create/daily', element: <DailyCreatePage /> },
       { path: 'record/create/challenge', element: <ChallengeCreatePage /> },
+      { path: 'record/event/:evnetId', element: <EventDetailPage /> },
+      { path: 'record/daily/:dailyId', element: <DailyDetailPage /> },
+      {
+        path: 'record/challenge/:challengeId',
+        element: <ChallengeDetailPage />,
+      },
       { path: 'memory', element: <MemoryPage /> },
       { path: 'calendar', element: <CalendarPage /> },
       { path: 'community', element: <CommunityPage /> },
