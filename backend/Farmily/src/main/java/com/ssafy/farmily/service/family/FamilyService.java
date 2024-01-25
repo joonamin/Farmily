@@ -41,4 +41,6 @@ public interface FamilyService {
 	 * @throws NoSuchContentException
 	 */
 	public void placingItems(PlacingItemRequestDto placingItemRequestDto);
+
+	public void deletePlacement(Long treeId);
 }

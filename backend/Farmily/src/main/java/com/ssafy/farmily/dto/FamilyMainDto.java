@@ -3,7 +3,6 @@ package com.ssafy.farmily.dto;
 import java.util.List;
 
 import com.ssafy.farmily.entity.Family;
-import com.ssafy.farmily.entity.Sprint;
 import com.ssafy.farmily.entity.Tree;
 
 import lombok.Data;

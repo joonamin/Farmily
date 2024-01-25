@@ -3,7 +3,6 @@ package com.ssafy.farmily.dto;
 import org.springframework.beans.BeanUtils;
 
 import com.ssafy.farmily.entity.CommunityPost;
-import com.ssafy.farmily.entity.Sprint;
 
 public class CommunityPostDto {
 	Long id;
@@ -13,9 +12,9 @@ public class CommunityPostDto {
 	Long sprintId;
 	ImageDto image;
 
-	public CommunityPostDto from(CommunityPost post){
+	public CommunityPostDto from(CommunityPost post) {
 		CommunityPostDto communityPostDto = new CommunityPostDto();
-		BeanUtils.copyProperties(post,communityPostDto);
+		BeanUtils.copyProperties(post, communityPostDto);
 		return communityPostDto;
 	}
 }

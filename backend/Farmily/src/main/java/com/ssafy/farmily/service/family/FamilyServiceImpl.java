@@ -49,8 +49,10 @@ public class FamilyServiceImpl implements FamilyService {
 	@Override
 	@Transactional
 	public FamilyMainDto setMainFamilyInfo(Long familyId) {
-		Family family = (Family)familyRepository.findById(familyId).orElseThrow(() -> new NoSuchContentException("존재하지 않는 가족입니다."));
-		Tree tree = (Tree)treeRepository.findById(familyId).orElseThrow(() -> new NoSuchContentException("존재하지 않는 나무입니다."));
+		Family family = (Family)familyRepository.findById(familyId)
+			.orElseThrow(() -> new NoSuchContentException("존재하지 않는 가족입니다."));
+		Tree tree = (Tree)treeRepository.findById(familyId)
+			.orElseThrow(() -> new NoSuchContentException("존재하지 않는 나무입니다."));
 		List<Long> temp = recordRepository.findCurrentChallenges(familyId);
 		Long sprintId = sprintRepository.findByFamilyIdAndIsHarvested(familyId, false);
 
@@ -100,7 +102,7 @@ public class FamilyServiceImpl implements FamilyService {
 	public void placingItems(PlacingItemRequestDto placingItemRequestDto) {
 		Long treeId = placingItemRequestDto.getTreeId();
 		Tree tree = treeRepository.findById(treeId).orElseThrow(() -> new NoSuchContentException("잘못 된 트리입니다."));
-		placementRepository.deleteAllByTreeId(treeId);
+		deletePlacement(treeId);
 		for (PlacementDto placementDto : placingItemRequestDto.getPlacementDtoList()) {
 				/*
 				해당 아이템이 인벤토리에 존재하는 지 확인하는 로직이 필요할 거 같은데
@@ -132,5 +134,10 @@ public class FamilyServiceImpl implements FamilyService {
 				placementRepository.save(fruitPlacement);
 			}
 		}
+	}
+
+	@Override
+	public void deletePlacement(Long treeId) {
+		placementRepository.deleteAllByTreeId(treeId);
 	}
 }
