@@ -53,15 +53,15 @@ export default function EventCreatePage() {
                 alt={`Selected ${index + 1}`}
                 className="object-contain w-48 h-48 mb-2 rounded"
               />
-              <input
+              <textarea
                 type="text"
                 placeholder="간단한 설명을 입력하세요"
                 value={image.description}
                 onChange={(e) =>
                   handleImageDescriptionChange(index, e.target.value)
                 }
-                className="border border-stone-500 rounded p-2 w-48 absolute bottom-0 left-0 bg-white h-1/3 overflow-hidden whitespace-normal"
-              />
+                className="border border-stone-500 rounded p-2 w-48 absolute bottom-0 left-0 bg-white h-1/3 overflow-hidden whitespace-normal resize-none"
+              ></textarea>
             </div>
           ))}
         </div>
