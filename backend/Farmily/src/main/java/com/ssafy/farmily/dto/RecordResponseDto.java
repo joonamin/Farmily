@@ -33,6 +33,7 @@ public class RecordResponseDto {
 	public static RecordResponseDto from(Record entity) {
 		RecordResponseDto dto = new RecordResponseDto();
 		BeanUtils.copyProperties(entity, dto);
+		dto.setRecordType(entity.getType());	// TODO: 필드명 일치
 
 		MemberBasicDto authorDto = MemberBasicDto.from(entity.getAuthor());
 		dto.setAuthor(authorDto);
