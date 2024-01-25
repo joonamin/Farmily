@@ -3,7 +3,6 @@ package com.ssafy.farmily.dto;
 import org.springframework.beans.BeanUtils;
 
 import com.ssafy.farmily.entity.Comment;
-import com.ssafy.farmily.entity.Record;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
@@ -21,7 +20,7 @@ import lombok.Setter;
 public class CommentDto {
 	private Long id;
 	private String content;
-	private MemberBasicDto author;
+	private MemberInfoDto author;
 
 	public static CommentDto from(Comment entity) {
 		CommentDto dto = new CommentDto();
