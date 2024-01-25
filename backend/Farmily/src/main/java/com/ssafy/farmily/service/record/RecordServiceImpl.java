@@ -22,6 +22,8 @@ import com.ssafy.farmily.entity.ChallengeRecord;
 import com.ssafy.farmily.entity.Image;
 import com.ssafy.farmily.entity.ImageCard;
 import com.ssafy.farmily.entity.Record;
+import com.ssafy.farmily.entity.Sprint;
+import com.ssafy.farmily.service.sprint.SprintService;
 import com.ssafy.farmily.type.RecordType;
 import com.ssafy.farmily.exception.NoSuchContentException;
 import com.ssafy.farmily.repository.ImageCardRepository;
@@ -37,6 +39,7 @@ public class RecordServiceImpl implements RecordService {
 	private final ImageCardRepository imageCardRepository;
 
 	private final FileService fileService;
+	private final SprintService sprintService;
 
 	@Override
 	@Transactional
@@ -56,9 +59,11 @@ public class RecordServiceImpl implements RecordService {
 	@Override
 	@Transactional
 	public void createEventRecord(EventRecordPostRequestDto dto) {
+		Sprint sprint = sprintService.getEntityById(dto.getSprintId());
+
 		Record entity = Record.builder()
 			.type(RecordType.EVENT)
-			.sprint(null)	// TODO: sprint 연결 및 적용
+			.sprint(sprint)	// TODO: sprint 연결 및 적용
 			.author(null)	// TODO: UserPrincipal 연결 및 적용
 			.title(dto.getTitle())
 			.build();
@@ -88,9 +93,11 @@ public class RecordServiceImpl implements RecordService {
 	@Override
 	@Transactional
 	public void createDailyRecord(DailyRecordPostRequestDto dto) {
+		Sprint sprint = sprintService.getEntityById(dto.getSprintId());
+
 		Record entity = Record.builder()
 			.type(RecordType.DAILY)
-			.sprint(null)	// TODO: sprint 연결 및 적용
+			.sprint(sprint)	// TODO: sprint 연결 및 적용
 			.author(null)	// TODO: UserPrincipal 연결 및 적용
 			.title(dto.getTitle())
 			.content(dto.getContent())
@@ -113,9 +120,11 @@ public class RecordServiceImpl implements RecordService {
 	@Override
 	@Transactional
 	public void createChallengeRecord(ChallengeRecordPostRequestDto dto) {
+		Sprint sprint = sprintService.getEntityById(dto.getSprintId());
+
 		ChallengeRecord entity = ChallengeRecord.builder()
 			.type(RecordType.CHALLENGE)
-			.sprint(null)
+			.sprint(sprint)
 			.author(null)
 			.title(dto.getTitle())
 			.content(dto.getContent())
