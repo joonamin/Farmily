@@ -1,19 +1,22 @@
-spring:
-  profiles:
-    include:
-    - oauth2
-    group:
-      local:
-        - db-local
-        - file-server-local
-        - oauth2-local
-      dev:
-        - db-dev
-        - file-server-dev
-        - oauth2-dev
 server:
   servlet:
     encoding:
       charset: "UTF-8"
       enabled: true
       force: true
+
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          kakao:
+            authorization-grant-type: authorization_code
+
+        provider:
+          kakao:
+            authorization-uri: https://kauth.kakao.com/oauth/authorize
+            token-uri: https://kauth.kakao.com/oauth/token
+            user-info-uri: https://kapi.kakao.com/v1/oidc/userinfo
+            user-name-attribute: sub
+            jwk-set-uri: https://kauth.kakao.com/.well-known/jwks.json
