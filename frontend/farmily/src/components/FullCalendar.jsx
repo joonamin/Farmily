@@ -1,3 +1,5 @@
+// MyCalendar.js
+
 import React, { Component } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -12,20 +14,34 @@ class MyCalendar extends Component {
       isModalOpen: false,
       selectedDate: null,
       newEventTitle: '',
-      startDate: null, // 변경: startDate 추가
-      endDate: null, // 변경: endDate 추가
-      allDay: true, // 변경: allDay를 true로 초기화
+      startDate: null,
+      endDate: null,
+      allDay: true,
+      selectedColor: 'red', // 선택된 색상 추가 및 초기화
       events: [
-        { title: '이벤트 1', date: '2024-01-23', allDay: true },
-        { title: '이벤트 2', start: '2024-01-24', end: '2024-01-31' },
-        { title: '이벤트 3', start: '2024-01-25', end: '2024-01-27' },
-        { title: '이벤트 3', start: '2024-01-25', end: '2024-01-27' },
-        { title: '이벤트 3', start: '2024-01-25', end: '2024-01-27' },
+        {
+          title: '이벤트 2',
+          start: '2024-01-24',
+          end: '2024-01-31',
+          color: '#60A5FA',
+        },
         {
           title: '이벤트 3',
-          start: '2024-01-25T11:00:00',
-          end: '2024-01-25T11:30:00',
-          color: 'red',
+          start: '2024-01-25',
+          end: '2024-01-27',
+          color: '#60A5FA',
+        },
+        {
+          title: '이벤트 3',
+          start: '2024-01-25',
+          end: '2024-01-27',
+          color: '#60A5FA',
+        },
+        {
+          title: '이벤트 3',
+          start: '2024-01-25',
+          end: '2024-01-27',
+          color: '#60A5FA',
         },
       ],
     };
@@ -63,12 +79,19 @@ class MyCalendar extends Component {
     });
   };
 
+  handleColorChange = (color) => {
+    this.setState({
+      selectedColor: color,
+    });
+  };
+
   handleAddEvent = () => {
     const newEvent = {
       title: this.state.newEventTitle,
       start: new Date(this.state.startDate),
       end: new Date(this.state.endDate + 'T24:00:00'),
       allDay: this.state.allDay,
+      color: this.state.selectedColor, // 선택된 색상 추가
     };
 
     this.setState((prevState) => ({
@@ -98,7 +121,7 @@ class MyCalendar extends Component {
           selectable="true"
           dayCellContent={this.customDayCellContent}
           dateClick={this.handleDateClick}
-          dayMaxEventRows={3}
+          dayMaxEventRows={2}
         />
 
         {this.state.isModalOpen && (
@@ -153,10 +176,10 @@ class MyCalendar extends Component {
                           type="date"
                           id="calendar_start_date"
                           name="calendar_start_date"
-                          value={this.state.startDate} // 변경: 시작 날짜 표시
+                          value={this.state.startDate}
                           onChange={(e) =>
                             this.setState({ startDate: e.target.value })
-                          } // 추가: 시작 날짜 업데이트
+                          }
                           className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-blue-300"
                         />
                       </div>
@@ -171,28 +194,34 @@ class MyCalendar extends Component {
                           type="date"
                           id="calendar_end_date"
                           name="calendar_end_date"
-                          value={this.state.endDate} // 변경: 종료 날짜 표시
+                          value={this.state.endDate}
                           onChange={(e) =>
                             this.setState({ endDate: e.target.value })
-                          } // 추가: 종료 날짜 업데이트
+                          }
                           className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-blue-300"
                         />
+                      </div>
+                      <div className="mt-2">
                         <label
-                          htmlFor="all_day"
-                          className="block text-sm font-medium text-gray-700 mt-2"
+                          htmlFor="calendar_color"
+                          className="block text-sm font-medium text-gray-700"
                         >
-                          종일
+                          일정 색상
                         </label>
-                        <input
-                          type="checkbox"
-                          id="all_day"
-                          name="all_day"
-                          checked={this.state.allDay}
-                          onChange={(e) => {
-                            this.setState({ allDay: e.target.checked }); // 변경: allDay로 상태 업데이트
-                          }}
-                          className="mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-blue-300"
-                        />
+                        <div className="flex mt-1">
+                          <div
+                            onClick={() => this.handleColorChange('#F87171')}
+                            className={`w-6 h-6 rounded-full bg-red-400 cursor-pointer mr-2`}
+                          ></div>
+                          <div
+                            onClick={() => this.handleColorChange('#60A5FA')}
+                            className={`w-6 h-6 rounded-full bg-blue-400 cursor-pointer mr-2`}
+                          ></div>
+                          <div
+                            onClick={() => this.handleColorChange('#4ADE80')}
+                            className={`w-6 h-6 rounded-full bg-green-400 cursor-pointer`}
+                          ></div>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -201,7 +230,8 @@ class MyCalendar extends Component {
                   <button
                     onClick={this.handleAddEvent}
                     type="button"
-                    className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring focus:border-blue-300 sm:ml-3 sm:w-auto sm:text-sm"
+                    className={`w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 text-base font-medium text-white focus:outline-none focus:ring sm:ml-3 sm:w-auto sm:text-sm`}
+                    style={{ backgroundColor: this.state.selectedColor }}
                   >
                     추가
                   </button>
