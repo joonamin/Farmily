@@ -137,6 +137,7 @@ public class RecordServiceImpl implements RecordService {
 	}
 
 	@Override
+	@Transactional
 	public void markChallengeRecord(ChallengeRecordMarkRequestDto dto) {
 		ChallengeRecord recordEntity = (ChallengeRecord) getEntityById(dto.getChallengeId());
 

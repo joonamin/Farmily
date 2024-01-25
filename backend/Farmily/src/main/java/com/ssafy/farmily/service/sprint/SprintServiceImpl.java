@@ -3,6 +3,7 @@ package com.ssafy.farmily.service.sprint;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ssafy.farmily.dto.RecordResponseDto;
 import com.ssafy.farmily.entity.Record;
@@ -21,12 +22,14 @@ public class SprintServiceImpl implements SprintService {
 	private final RecordRepository recordRepository;
 
 	@Override
+	@Transactional
 	public Sprint getEntityById(Long sprintId) {
 		return sprintRepository.findById(sprintId)
 			.orElseThrow(() -> new NoSuchContentException("스프린트가 없습니다."));
 	}
 
 	@Override
+	@Transactional
 	public void harvest(Long sprintId) {
 		Sprint sprint = getEntityById(sprintId);
 		sprint.setIsHarvested(true);
@@ -34,6 +37,7 @@ public class SprintServiceImpl implements SprintService {
 	}
 
 	@Override
+	@Transactional
 	public List<RecordResponseDto> getRecords(Long sprintId) {
 		Sprint sprint = getEntityById(sprintId);
 
