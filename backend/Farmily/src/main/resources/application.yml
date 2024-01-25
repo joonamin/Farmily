@@ -20,3 +20,5 @@ spring:
             user-info-uri: https://kapi.kakao.com/v1/oidc/userinfo
             user-name-attribute: sub
             jwk-set-uri: https://kauth.kakao.com/.well-known/jwks.json
+          facebook:
+            jwk-set-uri: https://www.facebook.com/.well-known/oauth/openid/jwks/
