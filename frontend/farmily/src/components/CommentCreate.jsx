@@ -3,17 +3,19 @@ import { useState, useEffect } from 'react';
 export default function CommentCreate() {
   return (
     <div>
-      <form className="border border-stone-800 p-2">
-        <input
+      <form className="border border-stone-800 p-2 flex items-center">
+        <textarea
           type="text"
           placeholder="댓글을 입력하세요."
-          className="border-b-2 w-full py-1"
-        />
+          className="border-b-2 flex-grow py-1 resize-none border-2 border-stone-700 p-2"
+        ></textarea>
         <button
           type="submit"
-          className="bg-blue-500 text-white py-1 px-4 mt-2 rounded"
+          className="bg-stone-300 text-black py-0.5 px-2 ml-2 rounded whitespace-pre-line"
         >
-          댓글 작성
+          댓글
+          <br />
+          작성
         </button>
       </form>
     </div>
