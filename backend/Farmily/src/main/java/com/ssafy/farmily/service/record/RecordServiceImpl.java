@@ -11,10 +11,12 @@ import org.springframework.web.multipart.MultipartFile;
 import com.ssafy.farmily.dto.ChallengeRecordMarkRequestDto;
 import com.ssafy.farmily.dto.ChallengeRecordPostRequestDto;
 import com.ssafy.farmily.dto.ChallengeRecordPutRequestDto;
+import com.ssafy.farmily.dto.ChallengeRecordResponseDto;
 import com.ssafy.farmily.dto.DailyRecordPostRequestDto;
 import com.ssafy.farmily.dto.DailyRecordPutRequestDto;
 import com.ssafy.farmily.dto.EventRecordPostRequestDto;
 import com.ssafy.farmily.dto.EventRecordPutRequestDto;
+import com.ssafy.farmily.dto.EventRecordResponseDto;
 import com.ssafy.farmily.dto.ImageCardRequestDto;
 import com.ssafy.farmily.dto.RecordResponseDto;
 import com.ssafy.farmily.entity.ChallengeProgress;
@@ -54,6 +56,20 @@ public class RecordServiceImpl implements RecordService {
 		Record entity = getEntityById(recordId);
 
 		return RecordResponseDto.from(entity);
+	}
+
+	@Override
+	public EventRecordResponseDto getEventDtoById(long recordId) {
+		Record entity = getEntityById(recordId);
+
+		return EventRecordResponseDto.from(entity);
+	}
+
+	@Override
+	public ChallengeRecordResponseDto getChallengeDtoById(long recordId) {
+		ChallengeRecord entity = (ChallengeRecord) getEntityById(recordId);
+
+		return ChallengeRecordResponseDto.from(entity);
 	}
 
 	@Override

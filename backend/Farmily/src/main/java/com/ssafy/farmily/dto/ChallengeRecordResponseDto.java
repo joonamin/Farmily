@@ -1,16 +1,15 @@
 package com.ssafy.farmily.dto;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.BeanUtils;
 
-import com.ssafy.farmily.entity.Record;
-import com.ssafy.farmily.type.RecordType;
+import com.ssafy.farmily.entity.ChallengeProgress;
+import com.ssafy.farmily.entity.ChallengeRecord;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -21,19 +20,13 @@ import lombok.experimental.SuperBuilder;
 @Getter
 @Setter
 @SuperBuilder
-@Schema(description = "기록 응답 DTO")
-public class RecordResponseDto {
-	protected RecordType type;
-	protected Long id;
-	protected String title;
-	protected String content;
-	protected MemberInfoDto author;
-	protected List<CommentDto> comments;
-	protected LocalDateTime createdAt;
-	protected LocalDateTime lastEditedAt;
+@Schema(description = "챌린지기록 응답 DTO")
+public class ChallengeRecordResponseDto extends RecordResponseDto {
+	protected List<LocalDate> progresses;
 
-	public static RecordResponseDto from(Record entity) {
-		RecordResponseDto dto = new RecordResponseDto();
+	public static ChallengeRecordResponseDto from(ChallengeRecord entity) {
+		ChallengeRecordResponseDto dto = new ChallengeRecordResponseDto();
+
 		BeanUtils.copyProperties(entity, dto);
 
 		MemberInfoDto authorDto = MemberInfoDto.from(entity.getAuthor());
@@ -43,6 +36,12 @@ public class RecordResponseDto {
 			.map(CommentDto::from)
 			.toList();
 		dto.setComments(commentDtos);
+
+		List<LocalDate> progressDtos = entity.getProgresses().stream()
+			.map(ChallengeProgress::getDate)
+			.toList();
+
+		dto.setProgresses(progressDtos);
 
 		return dto;
 	}

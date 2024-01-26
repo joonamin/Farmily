@@ -1,5 +1,7 @@
 package com.ssafy.farmily.dto;
 
+import java.util.Objects;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.util.Assert;
 
@@ -24,7 +26,8 @@ public class ImageDto {
 
 
 	public static ImageDto from(Image image) {
-		Assert.notNull(image, "이미지는 null값이 될 수 없습니다.");
+		if (Objects.isNull(image)) return null;
+
 		ImageDto imageDto = new ImageDto();
 		BeanUtils.copyProperties(image, imageDto);
 		return imageDto;
