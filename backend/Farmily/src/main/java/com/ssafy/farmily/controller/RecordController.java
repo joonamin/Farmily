@@ -68,6 +68,7 @@ public class RecordController {
 			content = @Content(schema = @Schema(implementation = RecordResponseDto.class))
 		)
 	})
+	@Deprecated
 	private ResponseEntity<RecordResponseDto> getEvent(
 		@Parameter(description = "요청할 기록 ID") @PathVariable Long requestId
 	) {
@@ -85,6 +86,7 @@ public class RecordController {
 	@ApiResponses({
 		@ApiResponse(responseCode = "200", description = "기록 작성 성공")
 	})
+	@Deprecated
 	private ResponseEntity<Void> postEvent(
 		// TODO: userdetails 추가
 		EventRecordPostRequestDto request
@@ -125,6 +127,7 @@ public class RecordController {
 			content = @Content(schema = @Schema(implementation = RecordResponseDto.class))
 		)
 	})
+	@Deprecated
 	private ResponseEntity<RecordResponseDto> getDaily(
 		@Parameter(description = "요청할 기록 ID") @PathVariable Long requestId
 	) {
