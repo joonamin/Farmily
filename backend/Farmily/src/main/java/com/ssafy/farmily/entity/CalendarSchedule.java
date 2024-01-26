@@ -3,6 +3,7 @@ package com.ssafy.farmily.entity;
 import java.time.LocalDate;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -16,6 +17,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import utils.DateRange;
 
 @Entity
 @RequiredArgsConstructor
@@ -32,9 +34,12 @@ public class CalendarSchedule extends BaseEntity {
 	@JoinColumn(name = "familyId")
 	private Family family;
 
-	@Column
-	@Temporal(TemporalType.DATE)
-	private LocalDate date;
+	@Embedded
+	private DateRange dateRange;
+
+	@Column(columnDefinition = "CHAR(6)")
+	private String color;
+
 
 	@Column(columnDefinition = "VARCHAR(16)")
 	private String memo;
