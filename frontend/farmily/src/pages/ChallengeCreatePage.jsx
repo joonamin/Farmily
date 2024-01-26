@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 
 import CreateDetail from '../components/CreateDetail.jsx';
+import SmallButton from '../components/SmallButton.jsx';
 
 export default function ChallengeCreatePage() {
   return (
@@ -22,6 +23,9 @@ export default function ChallengeCreatePage() {
           id="endDate"
           className="border border-stone-700 rounded"
         />
+      </div>
+      <div>
+        <SmallButton text="글쓰기" url="/family/record" />
       </div>
     </>
   );
