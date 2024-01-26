@@ -36,7 +36,6 @@ public class RecordController {
 
 	private final RecordService recordService;
 
-
 	@GetMapping("/{requestId}")
 	@Operation(
 		summary = "기록 조회",
@@ -52,7 +51,28 @@ public class RecordController {
 	private ResponseEntity<RecordResponseDto> get(
 		@Parameter(description = "요청할 기록 ID") @PathVariable Long requestId
 	) {
-		RecordResponseDto dto = recordService.getDtoById(requestId);
+		RecordResponseDto dto = recordService.getEventDtoById(requestId);
+
+		return ResponseEntity.ok(dto);
+	}
+
+	@GetMapping("/{requestId}/event")
+	@Operation(
+		summary = "이벤트 기록 조회",
+		description = "특정 이벤트 기록의 모든 내용을 조회합니다."
+	)
+	@ApiResponses({
+		@ApiResponse(
+			responseCode = "200",
+			description = "기록 조회 성공",
+			content = @Content(schema = @Schema(implementation = RecordResponseDto.class))
+		)
+	})
+	@Deprecated
+	private ResponseEntity<RecordResponseDto> getEvent(
+		@Parameter(description = "요청할 기록 ID") @PathVariable Long requestId
+	) {
+		RecordResponseDto dto = recordService.getEventDtoById(requestId);
 
 		return ResponseEntity.ok(dto);
 	}
@@ -66,6 +86,7 @@ public class RecordController {
 	@ApiResponses({
 		@ApiResponse(responseCode = "200", description = "기록 작성 성공")
 	})
+	@Deprecated
 	private ResponseEntity<Void> postEvent(
 		// TODO: userdetails 추가
 		EventRecordPostRequestDto request
@@ -78,7 +99,7 @@ public class RecordController {
 
 	@PutMapping("/event")
 	@Operation(
-		summary = "이벤트 기록 수성",
+		summary = "이벤트 기록 수정",
 		description = "이벤트 기록을 수성합니다."
 	)
 	@ApiResponses({
@@ -91,6 +112,28 @@ public class RecordController {
 		recordService.editEventRecord(request);
 
 		return ResponseEntity.ok().build();
+	}
+
+
+	@GetMapping("/{requestId}/daily")
+	@Operation(
+		summary = "일상 기록 조회",
+		description = "특정 일상 기록의 모든 내용을 조회합니다."
+	)
+	@ApiResponses({
+		@ApiResponse(
+			responseCode = "200",
+			description = "기록 조회 성공",
+			content = @Content(schema = @Schema(implementation = RecordResponseDto.class))
+		)
+	})
+	@Deprecated
+	private ResponseEntity<RecordResponseDto> getDaily(
+		@Parameter(description = "요청할 기록 ID") @PathVariable Long requestId
+	) {
+		RecordResponseDto dto = recordService.getDtoById(requestId);
+
+		return ResponseEntity.ok(dto);
 	}
 
 
@@ -129,6 +172,28 @@ public class RecordController {
 		return ResponseEntity.ok().build();
 	}
 
+
+	@GetMapping("/{requestId}/challenge")
+	@Operation(
+		summary = "챌린지 기록 조회",
+		description = "특정 챌린지 기록의 모든 내용을 조회합니다."
+	)
+	@ApiResponses({
+		@ApiResponse(
+			responseCode = "200",
+			description = "기록 조회 성공",
+			content = @Content(schema = @Schema(implementation = RecordResponseDto.class))
+		)
+	})
+	private ResponseEntity<RecordResponseDto> getChallenge(
+		@Parameter(description = "요청할 기록 ID") @PathVariable Long requestId
+	) {
+		RecordResponseDto dto = recordService.getChallengeDtoById(requestId);
+
+		return ResponseEntity.ok(dto);
+	}
+	
+	
 	@PostMapping("/challenge")
 	@Operation(
 		summary = "챌린지 기록 작성",
