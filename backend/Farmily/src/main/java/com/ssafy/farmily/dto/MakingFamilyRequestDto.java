@@ -10,7 +10,6 @@ import lombok.ToString;
 public class MakingFamilyRequestDto {
 	private String name;
 	private String motto;
-	private String invitationCode;
 	private Member member;
 
 	public MakingFamilyRequestDto(String name, String motto, Member member) {

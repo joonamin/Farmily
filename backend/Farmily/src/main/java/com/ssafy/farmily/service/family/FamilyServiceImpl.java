@@ -65,14 +65,17 @@ public class FamilyServiceImpl implements FamilyService {
 		Tree tree = (Tree)treeRepository.findById(familyId)
 			.orElseThrow(() -> new NoSuchContentException("존재하지 않는 나무입니다."));
 		List<Long> challenges = recordRepository.findCurrentChallenges(familyId);
-		Sprint sprint = sprintRepository.findByFamilyIdAndIsHarvested(familyId, false).get();
+		Optional<Sprint> temp = sprintRepository.findByFamilyIdAndIsHarvested(familyId, false);
 
 		FamilyMainDto familyMainDTO = null;
 		familyMainDTO = FamilyMainDto.of(family);
 		FamilyMainTreeDto familyMainTreeDTO = FamilyMainTreeDto.from(tree);
 		familyMainDTO.setChallengesIds(challenges);
 		familyMainDTO.setTree(familyMainTreeDTO);
-		if(sprint != null) familyMainDTO.setSprintId(sprint.getId());
+		if(temp.isPresent()) {
+			Sprint sprint = temp.get();
+			familyMainDTO.setSprintId(sprint.getId());
+		}
 		return familyMainDTO;
 	}
 
@@ -193,6 +196,7 @@ public class FamilyServiceImpl implements FamilyService {
 		if(hasPastSprint.isPresent()) {
 			Sprint pastSprint = hasPastSprint.get();
 			pastSprint.setIsHarvested(true);
+			sprintRepository.save(pastSprint);
 		}
 
 		LocalDate startDate = LocalDate.now();

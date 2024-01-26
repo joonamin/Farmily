@@ -24,7 +24,6 @@ public class CommunityPostDto {
 		communityPostDto.author = post.getAuthor().getNickname();
 		communityPostDto.title = post.getTitle();
 		communityPostDto.content = post.getContent();
-		communityPostDto.sprintId = post.getSprint().getId();
 		communityPostDto.image = null;
 
 		return communityPostDto;
