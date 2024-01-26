@@ -63,13 +63,6 @@ public class RecordServiceImpl implements RecordService {
 	}
 
 	@Override
-	public EventRecordResponseDto getEventDtoById(long recordId) {
-		Record entity = getEntityById(recordId);
-
-		return EventRecordResponseDto.from(entity);
-	}
-
-	@Override
 	@Transactional
 	public void createEventRecord(EventRecordPostRequestDto dto) {
 		Sprint sprint = sprintService.getEntityById(dto.getSprintId());
