@@ -13,12 +13,18 @@ import org.springframework.test.context.ActiveProfiles;
 import com.ssafy.farmily.dto.FamilyMainDto;
 import com.ssafy.farmily.dto.FamilyMainTreeDto;
 import com.ssafy.farmily.dto.MakingFamilyRequestDto;
+import com.ssafy.farmily.entity.Family;
+import com.ssafy.farmily.entity.FamilyItem;
 import com.ssafy.farmily.entity.Member;
+import com.ssafy.farmily.repository.FamilyItemRepository;
+import com.ssafy.farmily.repository.FamilyRepository;
 import com.ssafy.farmily.repository.MemberRepository;
 import com.ssafy.farmily.repository.SprintRepository;
 import com.ssafy.farmily.repository.TreeRepository;
 import com.ssafy.farmily.service.file.FileService;
 import com.ssafy.farmily.service.record.RecordService;
+import com.ssafy.farmily.type.Item;
+import com.ssafy.farmily.type.ItemType;
 
 import jakarta.transaction.Transactional;
 
@@ -27,7 +33,10 @@ import jakarta.transaction.Transactional;
 class FamilyServiceTest {
 	@Autowired
 	FamilyService familyService;
-
+	@Autowired
+	FamilyRepository familyRepository;
+	@Autowired
+	FamilyItemRepository familyItemRepository;
 	@Autowired
 	RecordService recordService;
 	@Autowired
@@ -104,11 +113,18 @@ class FamilyServiceTest {
 	@Test
 	@Transactional
 	void getFamilyInventory_가족인벤토리가져오기() {
+		// given
 		Member member = memberRepository.findById(1L).get();
 		MakingFamilyRequestDto makingFamilyRequestDto = new MakingFamilyRequestDto("대한민국", "삶의 모토", member);
 		familyService.makeFamily(makingFamilyRequestDto);
 		familyService.swapSprint(1L);
+		Family family = familyRepository.findById(1L).get();
+		//
+		// FamilyItem familyItem = FamilyItem.builder()
+		// 	.family(family).code(Item.TREE_1).type(ItemType.TREE_SKIN);
 
+		// when
+		familyService.getFamilyInventory(1L);
 	}
 	// @Test
 	// @DisplayName("메인에서 없는 familyId를 들고 왔을 때")
