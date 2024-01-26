@@ -1,6 +1,7 @@
 package com.ssafy.farmily.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -11,5 +12,7 @@ import com.ssafy.farmily.entity.Sprint;
 public interface SprintRepository extends JpaRepository<Sprint, Long> {
 	List<Sprint> findAllByFamilyIdAndIsHarvested(Long familyId, Boolean isHarvested);
 
-	Long findByFamilyIdAndIsHarvested(Long familyId, Boolean isHarvested);
+	Optional<Sprint> findByFamilyIdAndIsHarvested(Long familyId, Boolean isHarvested);
+
+	Sprint findByFamilyId(Long familyId);
 }
