@@ -5,10 +5,13 @@ import org.springframework.data.domain.Slice;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ssafy.farmily.dto.CommunityPostDetailDto;
 import com.ssafy.farmily.dto.CommunityPostDto;
+import com.ssafy.farmily.dto.InsertCommunityPostRequestDto;
 import com.ssafy.farmily.dto.PageResponseDto;
 import com.ssafy.farmily.service.community.CommunityService;
 
@@ -25,11 +28,17 @@ public class CommunityController {
 		return ResponseEntity.ok(communityPostDtoList);
 	}
 
-	// @GetMapping("/{communityPostId}")
-	// public CommunityPostDto detailPost(@PathVariable Long communityPostId) {
-	//
-	// }
+	@GetMapping("/{communityPostId}")
+	public ResponseEntity<CommunityPostDetailDto> detailPost(@PathVariable Long communityPostId) {
+		CommunityPostDetailDto communityPostDetailDto = communityService.getPostDetail(communityPostId);
+		return ResponseEntity.ok(communityPostDetailDto);
+	}
 
+	@PostMapping("/insert")
+	public ResponseEntity<String> isnertPost(InsertCommunityPostRequestDto insertPostRequestDto){
+		String result = communityService.insertCommunityPost(insertPostRequestDto);
+		return ResponseEntity.ok(result);
+	}
 	/*
 	수정 코드
 	@PutMapping
