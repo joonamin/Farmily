@@ -193,6 +193,7 @@ public class FamilyServiceImpl implements FamilyService {
 		if(hasPastSprint.isPresent()) {
 			Sprint pastSprint = hasPastSprint.get();
 			pastSprint.setIsHarvested(true);
+			sprintRepository.save(pastSprint);
 		}
 
 		LocalDate startDate = LocalDate.now();
