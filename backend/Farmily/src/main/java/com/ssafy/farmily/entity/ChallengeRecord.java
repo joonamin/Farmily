@@ -2,6 +2,7 @@ package com.ssafy.farmily.entity;
 
 import java.util.List;
 
+import lombok.RequiredArgsConstructor;
 import utils.DateRange;
 
 import jakarta.persistence.Column;
@@ -18,6 +19,7 @@ import lombok.experimental.SuperBuilder;
 @DiscriminatorValue("C")
 @Getter
 @Setter
+@RequiredArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
 public class ChallengeRecord extends Record {

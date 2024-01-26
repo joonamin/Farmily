@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.ssafy.farmily.entity.ChallengeRecord;
 import com.ssafy.farmily.entity.Record;
+import com.ssafy.farmily.entity.Sprint;
 
 @Repository
 public interface RecordRepository extends JpaRepository<Record, Long> {
@@ -24,4 +25,6 @@ public interface RecordRepository extends JpaRepository<Record, Long> {
 		WHERE curdate() BETWEEN c.start_date AND c.end_date
 		AND c.family_id = :familyId""", nativeQuery = true)
 	List<Long> findCurrentChallenges(Long familyId);
+
+	List<Record> findAllBySprint(Sprint sprint);
 }

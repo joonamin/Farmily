@@ -52,7 +52,7 @@ public class RecordController {
 	private ResponseEntity<RecordResponseDto> get(
 		@Parameter(description = "요청할 기록 ID") @PathVariable Long requestId
 	) {
-		RecordResponseDto dto = recordService.getById(requestId);
+		RecordResponseDto dto = recordService.getDtoById(requestId);
 
 		return ResponseEntity.ok(dto);
 	}
