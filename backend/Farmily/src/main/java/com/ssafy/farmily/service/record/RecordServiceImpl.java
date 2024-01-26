@@ -55,7 +55,11 @@ public class RecordServiceImpl implements RecordService {
 	public RecordResponseDto getDtoById(long recordId) {
 		Record entity = getEntityById(recordId);
 
-		return RecordResponseDto.from(entity);
+		return switch (entity.getType()) {
+			case DAILY -> RecordResponseDto.from(entity);
+			case EVENT -> EventRecordResponseDto.from(entity);
+			case CHALLENGE -> ChallengeRecordResponseDto.from((ChallengeRecord) entity);
+		};
 	}
 
 	@Override

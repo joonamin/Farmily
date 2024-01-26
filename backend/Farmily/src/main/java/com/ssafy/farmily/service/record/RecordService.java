@@ -15,9 +15,7 @@ import com.ssafy.farmily.entity.Record;
 public interface RecordService {
 	Record getEntityById(long recordId);
 	RecordResponseDto getDtoById(long recordId);
-
 	EventRecordResponseDto getEventDtoById(long recordId);
-
 	ChallengeRecordResponseDto getChallengeDtoById(long recordId);
 
 	void createEventRecord(EventRecordPostRequestDto dto);

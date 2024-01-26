@@ -36,6 +36,26 @@ public class RecordController {
 
 	private final RecordService recordService;
 
+	@GetMapping("/{requestId}")
+	@Operation(
+		summary = "기록 조회",
+		description = "특정 기록의 모든 내용을 조회합니다."
+	)
+	@ApiResponses({
+		@ApiResponse(
+			responseCode = "200",
+			description = "기록 조회 성공",
+			content = @Content(schema = @Schema(implementation = RecordResponseDto.class))
+		)
+	})
+	private ResponseEntity<RecordResponseDto> get(
+		@Parameter(description = "요청할 기록 ID") @PathVariable Long requestId
+	) {
+		RecordResponseDto dto = recordService.getEventDtoById(requestId);
+
+		return ResponseEntity.ok(dto);
+	}
+
 	@GetMapping("/{requestId}/event")
 	@Operation(
 		summary = "이벤트 기록 조회",
