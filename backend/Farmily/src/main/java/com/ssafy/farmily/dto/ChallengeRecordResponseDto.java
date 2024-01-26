@@ -14,6 +14,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
+import utils.DateRange;
 
 @RequiredArgsConstructor
 @AllArgsConstructor
@@ -22,6 +23,8 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @Schema(description = "챌린지기록 응답 DTO")
 public class ChallengeRecordResponseDto extends RecordResponseDto {
+	protected DateRange dateRange;
+	protected Boolean isRewarded;
 	protected List<LocalDate> progresses;
 
 	public static ChallengeRecordResponseDto from(ChallengeRecord entity) {
