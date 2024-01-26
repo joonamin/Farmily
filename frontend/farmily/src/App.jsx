@@ -24,7 +24,6 @@ import SettingPage from './pages/SettingPage.jsx';
 import IndexPage from './pages/IndexPage.jsx';
 import LoginPage from './pages/LoginPage.jsx';
 import CommunityDetailPage from './pages/CommunityDetailPage.jsx';
-import EventDetailPage from './pages/EventDetailPage.jsx';
 
 const router = createBrowserRouter([
   {
@@ -58,8 +57,8 @@ const router = createBrowserRouter([
       { path: 'memory', element: <MemoryPage /> },
       { path: 'calendar', element: <CalendarPage /> },
       { path: 'community', element: <CommunityPage /> },
-      { path: 'community/write', element: <CommunityWritePage />},
-      { path: 'community/:communityId', element: <CommunityDetailPage />},
+      { path: 'community/write', element: <CommunityWritePage /> },
+      { path: 'community/:communityId', element: <CommunityDetailPage /> },
       { path: 'achievement', element: <AchievementPage /> },
       { path: 'contact', element: <ContactPage /> },
       { path: 'setting', element: <SettingPage /> },
