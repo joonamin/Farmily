@@ -26,7 +26,8 @@ import com.ssafy.farmily.entity.ChallengeRecord;
 import com.ssafy.farmily.entity.Image;
 import com.ssafy.farmily.entity.ImageCard;
 import com.ssafy.farmily.entity.Record;
-
+import com.ssafy.farmily.entity.Sprint;
+import com.ssafy.farmily.service.sprint.SprintService;
 import com.ssafy.farmily.type.RecordType;
 
 import com.ssafy.farmily.exception.NoSuchContentException;
@@ -43,12 +44,19 @@ public class RecordServiceImpl implements RecordService {
 	private final ImageCardRepository imageCardRepository;
 
 	private final FileService fileService;
+	private final SprintService sprintService;
 
 	@Override
 	@Transactional
-	public RecordResponseDto getById(long recordId) {
-		Record entity = recordRepository.findById(recordId)
-			.orElseThrow(NoSuchContentException::new);
+	public Record getEntityById(long recordId) {
+		return recordRepository.findById(recordId)
+			.orElseThrow(() -> new NoSuchContentException("기록이 없습니다."));
+	}
+
+	@Override
+	@Transactional
+	public RecordResponseDto getDtoById(long recordId) {
+		Record entity = getEntityById(recordId);
 
 		return RecordResponseDto.from(entity);
 	}
@@ -56,9 +64,11 @@ public class RecordServiceImpl implements RecordService {
 	@Override
 	@Transactional
 	public void createEventRecord(EventRecordPostRequestDto dto) {
+		Sprint sprint = sprintService.getEntityById(dto.getSprintId());
+
 		Record entity = Record.builder()
 			.type(RecordType.EVENT)
-			.sprint(null)	// TODO: sprint 연결 및 적용
+			.sprint(sprint)
 			.author(null)	// TODO: UserPrincipal 연결 및 적용
 			.title(dto.getTitle())
 			.build();
@@ -88,9 +98,11 @@ public class RecordServiceImpl implements RecordService {
 	@Override
 	@Transactional
 	public void createDailyRecord(DailyRecordPostRequestDto dto) {
+		Sprint sprint = sprintService.getEntityById(dto.getSprintId());
+
 		Record entity = Record.builder()
 			.type(RecordType.DAILY)
-			.sprint(null)	// TODO: sprint 연결 및 적용
+			.sprint(sprint)
 			.author(null)	// TODO: UserPrincipal 연결 및 적용
 			.title(dto.getTitle())
 			.content(dto.getContent())
@@ -102,8 +114,7 @@ public class RecordServiceImpl implements RecordService {
 	@Override
 	@Transactional
 	public void editDailyRecord(DailyRecordPutRequestDto dto) {
-		Record entity = recordRepository.findById(dto.getRecordId())
-			.orElseThrow(NoSuchContentException::new);
+		Record entity = getEntityById(dto.getRecordId());
 
 		entity.setTitle(dto.getTitle());
 		entity.setContent(dto.getContent());
@@ -114,9 +125,11 @@ public class RecordServiceImpl implements RecordService {
 	@Override
 	@Transactional
 	public void createChallengeRecord(ChallengeRecordPostRequestDto dto) {
+		Sprint sprint = sprintService.getEntityById(dto.getSprintId());
+
 		ChallengeRecord entity = ChallengeRecord.builder()
 			.type(RecordType.CHALLENGE)
-			.sprint(null)
+			.sprint(sprint)
 			.author(null)
 			.title(dto.getTitle())
 			.content(dto.getContent())
@@ -129,9 +142,9 @@ public class RecordServiceImpl implements RecordService {
 	}
 
 	@Override
+	@Transactional
 	public void markChallengeRecord(ChallengeRecordMarkRequestDto dto) {
-		ChallengeRecord recordEntity = (ChallengeRecord) recordRepository.findById(dto.getChallengeId())
-				.orElseThrow(NoSuchContentException::new);
+		ChallengeRecord recordEntity = (ChallengeRecord) getEntityById(dto.getChallengeId());
 
 		ChallengeProgress progressEntity = ChallengeProgress.builder()
 			.challenge(recordEntity)
@@ -146,8 +159,7 @@ public class RecordServiceImpl implements RecordService {
 	@Override
 	@Transactional
 	public void editChallengeRecord(ChallengeRecordPutRequestDto dto) {
-		ChallengeRecord entity = (ChallengeRecord) recordRepository.findById(dto.getRecordId())
-			.orElseThrow(NoSuchContentException::new);
+		ChallengeRecord entity = (ChallengeRecord) getEntityById(dto.getRecordId());
 
 		entity.setTitle(dto.getTitle());
 		entity.setContent(dto.getContent());

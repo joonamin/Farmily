@@ -9,9 +9,11 @@ import com.ssafy.farmily.dto.DailyRecordPutRequestDto;
 import com.ssafy.farmily.dto.EventRecordPostRequestDto;
 import com.ssafy.farmily.dto.EventRecordPutRequestDto;
 import com.ssafy.farmily.dto.RecordResponseDto;
+import com.ssafy.farmily.entity.Record;
 
 public interface RecordService {
-	RecordResponseDto getById(long recordId);
+	Record getEntityById(long recordId);
+	RecordResponseDto getDtoById(long recordId);
 
 	void createEventRecord(EventRecordPostRequestDto dto);
 
