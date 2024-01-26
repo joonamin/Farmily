@@ -21,7 +21,7 @@ import SettingPage from './pages/SettingPage.jsx';
 import IndexPage from './pages/IndexPage.jsx';
 import LoginPage from './pages/LoginPage.jsx';
 import CommunityDetailPage from './pages/CommunityDetailPage.jsx';
-
+import EventDetailPage from './pages/EventDetailPage.jsx';
 
 const router = createBrowserRouter([
   {
@@ -46,6 +46,7 @@ const router = createBrowserRouter([
       { path: 'record/create/event', element: <EventCreatePage /> },
       { path: 'record/create/daily', element: <DailyCreatePage /> },
       { path: 'record/create/challenge', element: <ChallengeCreatePage /> },
+      { path: 'record/event/:eventId', element: <EventDetailPage /> },
       { path: 'memory', element: <MemoryPage /> },
       { path: 'calendar', element: <CalendarPage /> },
       { path: 'community', element: <CommunityPage /> },
