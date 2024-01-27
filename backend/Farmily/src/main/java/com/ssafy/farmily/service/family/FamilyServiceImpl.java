@@ -64,14 +64,14 @@ public class FamilyServiceImpl implements FamilyService {
 			.orElseThrow(() -> new NoSuchContentException("존재하지 않는 가족입니다."));
 		Tree tree = (Tree)treeRepository.findById(familyId)
 			.orElseThrow(() -> new NoSuchContentException("존재하지 않는 나무입니다."));
+		List<Placement> placementList = placementRepository.findAllByTreeId(tree.getId());
+		tree.setPlacements(placementList);
+		family.setTree(tree);
 		List<Long> challenges = recordRepository.findCurrentChallenges(familyId);
 		Optional<Sprint> temp = sprintRepository.findByFamilyIdAndIsHarvested(familyId, false);
 
-		FamilyMainDto familyMainDTO = null;
-		familyMainDTO = FamilyMainDto.of(family);
-		FamilyMainTreeDto familyMainTreeDTO = FamilyMainTreeDto.from(tree);
+		FamilyMainDto familyMainDTO = FamilyMainDto.of(family);
 		familyMainDTO.setChallengesIds(challenges);
-		familyMainDTO.setTree(familyMainTreeDTO);
 		if(temp.isPresent()) {
 			Sprint sprint = temp.get();
 			familyMainDTO.setSprintId(sprint.getId());
@@ -87,12 +87,10 @@ public class FamilyServiceImpl implements FamilyService {
 		// 받아올 때 추가가 많이 발생할 것 같아서 LinkedList
 		List<FamilyItemDto> familyItemDtoList = new LinkedList<>();
 		List<FamilyItem> temp = familyItemRepository.findByFamilyId(familyId);
-
 		for (FamilyItem item : temp) {
 			FamilyItemDto familyItemDTO = new FamilyItemDto().of(item);
 			familyItemDtoList.add(familyItemDTO);
 		}
-
 		return familyItemDtoList;
 	}
 
@@ -130,9 +128,6 @@ public class FamilyServiceImpl implements FamilyService {
 					.type(AccessoryType.HIDDEN_FRUIT)
 					.build();
 
-				List<Placement> temp = tree.getPlacements();
-				temp.add(accessoryPlacement);
-				tree.setPlacements(temp);
 				placementRepository.save(accessoryPlacement);
 			} else if (placementDto.getDtype().equals("F")) {
 				Record record = (Record)recordRepository.findById(placementDto.getRecordId())
@@ -142,9 +137,6 @@ public class FamilyServiceImpl implements FamilyService {
 					.tree(tree)
 					.record(record)
 					.build();
-				List<Placement> temp = tree.getPlacements();
-				temp.add(fruitPlacement);
-				tree.setPlacements(temp);
 				placementRepository.save(fruitPlacement);
 			}
 		}
@@ -153,7 +145,7 @@ public class FamilyServiceImpl implements FamilyService {
 	@Override
 	@Transactional
 	public void deletePlacement(Long treeId) {
-		placementRepository.deleteAllByTreeId(treeId);
+		placementRepository.deleteByTreeId(treeId);
 	}
 
 	@Override
@@ -166,6 +158,7 @@ public class FamilyServiceImpl implements FamilyService {
 			.motto(makingFamilyRequestDto.getMotto())
 			.invitationCode(invitationCode)
 			.sprints(new LinkedList<>())
+			.items(new LinkedList<>())
 			.build();
 
 		Tree tree = Tree.builder().family(family).placements(new LinkedList<>()).build();
@@ -195,6 +188,9 @@ public class FamilyServiceImpl implements FamilyService {
 		Optional<Sprint> hasPastSprint = sprintRepository.findByFamilyIdAndIsHarvested(familyId,false);
 		if(hasPastSprint.isPresent()) {
 			Sprint pastSprint = hasPastSprint.get();
+			if(LocalDate.now().isBefore(pastSprint.getDateRange().getEndDate())){
+				throw new NoSuchContentException("수확 기간을 만족하지 못했습니다.");
+			}
 			pastSprint.setIsHarvested(true);
 			sprintRepository.save(pastSprint);
 		}
