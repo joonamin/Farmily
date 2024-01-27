@@ -1,4 +1,4 @@
-package utils;
+package com.ssafy.farmily.utils;
 
 import jakarta.persistence.Embeddable;
 import lombok.Getter;
