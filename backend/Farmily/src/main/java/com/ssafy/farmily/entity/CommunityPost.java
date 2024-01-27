@@ -7,6 +7,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -34,7 +35,7 @@ public class CommunityPost extends BaseEntity {
 	@Column(columnDefinition = "TEXT")
 	private String content;
 
-	@ManyToOne
-	@JoinColumn(name = "sprintId")
-	private Sprint sprint;
+	@OneToOne
+	@JoinColumn(name = "treeImageId")
+	private Sprint treeImage;
 }
