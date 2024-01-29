@@ -23,6 +23,8 @@ import jakarta.validation.Constraint;
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = InRectangleValidator.class)
 public @interface InRectangle {
+	String message() default "";
+
 	int minRow();
 	int minCol();
 	int maxRow();

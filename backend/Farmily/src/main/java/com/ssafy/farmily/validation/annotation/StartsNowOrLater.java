@@ -21,5 +21,6 @@ import jakarta.validation.Constraint;
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = StartsNowOrLaterValidator.class)
 public @interface StartsNowOrLater {
+	String message() default "기간의 시작 일자는 현재 일자 이후여야 합니다.";
 
 }

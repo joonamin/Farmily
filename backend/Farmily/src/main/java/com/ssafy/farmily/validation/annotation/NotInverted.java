@@ -21,4 +21,5 @@ import jakarta.validation.Constraint;
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = StartsNowOrLaterValidator.class)
 public @interface NotInverted {
+	String message() default "기간의 시작 일자는 종료 일자 이전이여야 합니다.";
 }
