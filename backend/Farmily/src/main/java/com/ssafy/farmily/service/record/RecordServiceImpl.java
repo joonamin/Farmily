@@ -26,12 +26,12 @@ import com.ssafy.farmily.entity.Image;
 import com.ssafy.farmily.entity.ImageCard;
 import com.ssafy.farmily.entity.Record;
 import com.ssafy.farmily.entity.Sprint;
-import com.ssafy.farmily.service.sprint.SprintService;
-import com.ssafy.farmily.type.RecordType;
 import com.ssafy.farmily.exception.NoSuchContentException;
 import com.ssafy.farmily.repository.ImageCardRepository;
 import com.ssafy.farmily.repository.RecordRepository;
 import com.ssafy.farmily.service.file.FileService;
+import com.ssafy.farmily.service.sprint.SprintService;
+import com.ssafy.farmily.type.RecordType;
 
 import lombok.RequiredArgsConstructor;
 
@@ -61,20 +61,6 @@ public class RecordServiceImpl implements RecordService {
 			case EVENT -> EventRecordResponseDto.from(entity);
 			case CHALLENGE -> ChallengeRecordResponseDto.from((ChallengeRecord) entity);
 		};
-	}
-
-	@Override
-	public EventRecordResponseDto getEventDtoById(long recordId) {
-		Record entity = getEntityById(recordId);
-
-		return EventRecordResponseDto.from(entity);
-	}
-
-	@Override
-	public ChallengeRecordResponseDto getChallengeDtoById(long recordId) {
-		ChallengeRecord entity = (ChallengeRecord) getEntityById(recordId);
-
-		return ChallengeRecordResponseDto.from(entity);
 	}
 
 	@Override

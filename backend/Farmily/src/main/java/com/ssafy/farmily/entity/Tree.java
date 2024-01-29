@@ -2,8 +2,6 @@ package com.ssafy.farmily.entity;
 
 import java.util.List;
 
-import net.minidev.json.annotate.JsonIgnore;
-
 import com.ssafy.farmily.type.TreeType;
 
 import jakarta.persistence.Column;
@@ -34,7 +32,6 @@ public class Tree extends BaseEntity {
 	@OneToOne
 	@JoinColumn(name = "id")
 	@MapsId
-	@JsonIgnore
 	private Family family;
 
 	@Column(columnDefinition = "VARCHAR(32)")

@@ -1,13 +1,12 @@
 package com.ssafy.farmily.dto;
 
+import com.ssafy.farmily.utils.DateRange;
 import com.ssafy.farmily.validation.annotation.NotInverted;
 import com.ssafy.farmily.validation.annotation.StartsNowOrLater;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import utils.DateRange;
-
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

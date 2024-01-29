@@ -2,7 +2,7 @@ package com.ssafy.farmily.dto;
 
 import com.ssafy.farmily.entity.AccessoryPlacement;
 import com.ssafy.farmily.type.AccessoryType;
-import utils.Position;
+import com.ssafy.farmily.utils.Position;
 
 import lombok.Data;
 import lombok.ToString;

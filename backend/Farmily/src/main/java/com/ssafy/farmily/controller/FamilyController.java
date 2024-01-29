@@ -3,6 +3,7 @@ package com.ssafy.farmily.controller;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ssafy.farmily.dto.FamilyBasketDto;
 import com.ssafy.farmily.dto.FamilyItemDto;
 import com.ssafy.farmily.dto.FamilyMainDto;
+import com.ssafy.farmily.dto.MakingFamilyRequestDto;
 import com.ssafy.farmily.dto.PlacingItemRequestDto;
 import com.ssafy.farmily.service.family.FamilyService;
 
@@ -121,6 +123,38 @@ public class FamilyController {
 	) {
 		familyService.placingItems(placementList);
 
+		return ResponseEntity.ok().build();
+	}
+
+	@PostMapping("/insertFamily")
+	@Operation(
+		summary = "가족 생성",
+		description = "가족 이름과 가훈, 멤버 정보를 받아 가족을 생성합니다. 생성한 사람은 가장으로 설정됩니다."
+	)
+	@ApiResponses({
+		@ApiResponse(
+			responseCode = "200",
+			description = "가족 생성 성공"
+		)
+	})
+	public ResponseEntity<Void> createFamily(@RequestBody MakingFamilyRequestDto makingFamilyRequestDto){
+		familyService.makeFamily(makingFamilyRequestDto);
+		return ResponseEntity.ok().build();
+	}
+
+	@PostMapping("/refreshSprint")
+	@Operation(
+		summary = "스프린트 수확 및 새로고침",
+		description = "스프린트를 수확하고 수확 시점을 startDate로 스프린트를 새고로침합니다."
+	)
+	@ApiResponses({
+		@ApiResponse(
+			responseCode = "200",
+			description = "스프린트 새로고침 성공"
+		)
+	})
+	public ResponseEntity<Void> refreshSprint(@RequestBody Long familyId){
+		familyService.swapSprint(familyId);
 		return ResponseEntity.ok().build();
 	}
 }

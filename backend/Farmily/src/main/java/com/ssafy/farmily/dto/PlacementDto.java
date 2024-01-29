@@ -1,10 +1,8 @@
 package com.ssafy.farmily.dto;
 
 import com.ssafy.farmily.type.AccessoryType;
+import com.ssafy.farmily.utils.Position;
 import com.ssafy.farmily.validation.annotation.InRectangle;
-
-import jakarta.validation.constraints.NotNull;
-import utils.Position;
 
 import lombok.Data;
 import lombok.ToString;

@@ -1,11 +1,14 @@
 package com.ssafy.farmily.service.family;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import com.ssafy.farmily.dto.FamilyBasketDto;
 import com.ssafy.farmily.dto.FamilyItemDto;
 import com.ssafy.farmily.dto.FamilyMainDto;
+import com.ssafy.farmily.dto.MakingFamilyRequestDto;
 import com.ssafy.farmily.dto.PlacingItemRequestDto;
+import com.ssafy.farmily.entity.Member;
 import com.ssafy.farmily.exception.NoSuchContentException;
 
 public interface FamilyService {
@@ -41,4 +44,9 @@ public interface FamilyService {
 	 * @throws NoSuchContentException
 	 */
 	public void placingItems(PlacingItemRequestDto placingItemRequestDto);
+
+	public void deletePlacement(Long treeId);
+
+	public void makeFamily(MakingFamilyRequestDto makingFamilyRequestDto);
+	public void swapSprint(Long familyId);
 }
