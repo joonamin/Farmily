@@ -1,5 +1,6 @@
 package com.ssafy.farmily.dto;
 
+import com.ssafy.farmily.validation.annotation.NotInverted;
 import com.ssafy.farmily.validation.annotation.StartsNowOrLater;
 
 import jakarta.validation.constraints.NotBlank;
@@ -29,6 +30,7 @@ public class ChallengeRecordPostRequestDto {
 	@NotBlank
 	private String content;
 
+	@NotInverted
 	@StartsNowOrLater
 	private DateRange dateRange;
 }
