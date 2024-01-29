@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
-import ArticleDetail from '../components/ArticleDetail';
-import Comment from '../components/Comment';
+import ArticleDetail from '../components/common/ArticleDetail';
+import Comment from '../components/common/Comment';
 
 export default function DailyDetailPage() {
   return (

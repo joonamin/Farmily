@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import ChallengeModal from "./ChallengeModal";
-import challenge from "../assets/images/challenge_flower.png";
+import React, { useState } from 'react';
+import ChallengeModal from './ChallengeModal';
+import challenge from '../../assets/images/challenge_flower.png';
 
 export default function Challenge() {
   const [isModalOpened, setIsModalOpened] = useState(false);

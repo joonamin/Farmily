@@ -1,5 +1,5 @@
 import chunsik from '../assets/images/chunsik.jpg';
-import EventCard from '../components/EventCard.jsx';
+import EventCard from '../components/common/EventCard.jsx';
 
 const TESTITEM = {
   id: 13,

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-import RecordCreateButton from '../components/RecordCreateButton.jsx';
+import RecordCreateButton from '../components/button/RecordCreateButton.jsx';
 
 import ChallengeIcon from '../assets/images/ChallengeIcon.png';
 import DailyIcon from '../assets/images/DailyIcon.png';

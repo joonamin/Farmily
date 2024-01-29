@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useRef } from "react";
-import challenge from "../assets/images/challenge_modal.png";
+import React, { useState, useEffect, useRef } from 'react';
+import challenge from '../../assets/images/challenge_modal.png';
 
 // 요일을 반환하는 함수
 function getDayOfWeek(date) {
-  const days = ["일", "월", "화", "수", "목", "금", "토"];
+  const days = ['일', '월', '화', '수', '목', '금', '토'];
   return days[date.getDay()];
 }
 
@@ -54,9 +54,9 @@ export default function ChallengeModal({ isOpen, onClose }) {
       }
     }
 
-    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutside);
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [onClose]);
 
@@ -64,7 +64,7 @@ export default function ChallengeModal({ isOpen, onClose }) {
     <div className="flex flex-col items-center justify-center px-4 py-2 border-b">
       <h1 className="text-xl font-bold">Title</h1>
       <span>
-        {weekDates[0]?.toLocaleDateString()} ~{" "}
+        {weekDates[0]?.toLocaleDateString()} ~{' '}
         {weekDates[6]?.toLocaleDateString()}
       </span>
     </div>
@@ -105,7 +105,7 @@ export default function ChallengeModal({ isOpen, onClose }) {
   return (
     <div
       className={`fixed inset-0 flex items-center justify-center bg-gray-600 bg-opacity-50 overflow-y-auto h-auto w-full ${
-        isOpen ? "block" : "hidden"
+        isOpen ? 'block' : 'hidden'
       }`}
       style={{ zIndex: isOpen ? 9999 : -1 }} // z-index 스타일 추가
     >
