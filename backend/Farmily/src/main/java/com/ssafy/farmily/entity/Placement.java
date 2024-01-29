@@ -1,7 +1,5 @@
 package com.ssafy.farmily.entity;
 
-import utils.Position;
-
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -16,6 +14,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
+import utils.Position;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)

@@ -1,4 +1,4 @@
-package com.ssafy.farmily.controller.family;
+package com.ssafy.farmily.controller;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
