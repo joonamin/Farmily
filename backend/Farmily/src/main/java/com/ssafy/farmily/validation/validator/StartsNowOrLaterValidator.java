@@ -18,7 +18,7 @@ public class StartsNowOrLaterValidator
 	}
 
 	public static boolean check(DateRange dateRange) {
-		if (!NotInvertedValidator.check(dateRange))
+		if (!NotIncludesNullValidator.check(dateRange))
 			return false;
 
 		LocalDate now = LocalDate.now();
