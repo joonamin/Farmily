@@ -1,5 +1,6 @@
 package com.ssafy.farmily.service.record;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -163,7 +164,7 @@ public class RecordServiceImpl implements RecordService {
 
 		ChallengeProgress progressEntity = ChallengeProgress.builder()
 			.challenge(recordEntity)
-			.date(dto.getDate())
+			.date(LocalDate.now())
 			.build();
 
 		recordEntity.getProgresses().add(progressEntity);
@@ -178,7 +179,6 @@ public class RecordServiceImpl implements RecordService {
 
 		entity.setTitle(dto.getTitle());
 		entity.setContent(dto.getContent());
-		entity.setDateRange(dto.getDateRange());
 
 		recordRepository.save(entity);
 	}
