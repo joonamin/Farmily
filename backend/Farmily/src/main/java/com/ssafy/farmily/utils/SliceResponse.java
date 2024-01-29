@@ -1,4 +1,4 @@
-package utils;
+package com.ssafy.farmily.utils;
 
 import java.util.List;
 import java.util.function.Function;

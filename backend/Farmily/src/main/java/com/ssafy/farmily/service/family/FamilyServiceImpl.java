@@ -1,22 +1,18 @@
 package com.ssafy.farmily.service.family;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
 import org.apache.commons.lang3.RandomStringUtils;
-import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 
 import com.ssafy.farmily.dto.FamilyBasketDto;
 import com.ssafy.farmily.dto.FamilyItemDto;
 import com.ssafy.farmily.dto.FamilyMainDto;
-import com.ssafy.farmily.dto.FamilyMainTreeDto;
 import com.ssafy.farmily.dto.MakingFamilyRequestDto;
 import com.ssafy.farmily.dto.PlacementDto;
 import com.ssafy.farmily.dto.PlacingItemRequestDto;
@@ -45,7 +41,7 @@ import com.ssafy.farmily.type.FamilyRole;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import utils.DateRange;
+import com.ssafy.farmily.utils.DateRange;
 
 @Service
 @RequiredArgsConstructor

@@ -1,6 +1,6 @@
 package com.ssafy.farmily.dto;
 
-import utils.DateRange;
+import com.ssafy.farmily.utils.DateRange;
 
 
 

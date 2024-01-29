@@ -4,7 +4,7 @@ import com.ssafy.farmily.entity.Family;
 
 import lombok.Data;
 import lombok.ToString;
-import utils.DateRange;
+import com.ssafy.farmily.utils.DateRange;
 
 @Data
 @ToString

@@ -1,8 +1,5 @@
 package com.ssafy.farmily.service.community;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
@@ -15,7 +12,7 @@ import com.ssafy.farmily.entity.CommunityPost;
 import com.ssafy.farmily.repository.CommunityPostRepository;
 
 import lombok.RequiredArgsConstructor;
-import utils.SliceResponse;
+import com.ssafy.farmily.utils.SliceResponse;
 
 @Service
 @RequiredArgsConstructor

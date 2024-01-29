@@ -7,19 +7,17 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.Slice;
 import org.springframework.test.context.ActiveProfiles;
 
 import com.ssafy.farmily.dto.CommunityPostDetailDto;
 import com.ssafy.farmily.dto.CommunityPostDto;
 import com.ssafy.farmily.dto.InsertCommunityPostRequestDto;
-import com.ssafy.farmily.entity.CommunityPost;
 import com.ssafy.farmily.entity.Member;
 import com.ssafy.farmily.repository.CommunityPostRepository;
 import com.ssafy.farmily.repository.FamilyRepository;
 import com.ssafy.farmily.repository.MemberRepository;
 
-import utils.SliceResponse;
+import com.ssafy.farmily.utils.SliceResponse;
 
 @SpringBootTest
 @ActiveProfiles("local")

@@ -1,15 +1,10 @@
 package com.ssafy.farmily.service.community;
 
-import java.util.List;
-
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Slice;
-
 import com.ssafy.farmily.dto.CommunityPostDetailDto;
 import com.ssafy.farmily.dto.CommunityPostDto;
 import com.ssafy.farmily.dto.InsertCommunityPostRequestDto;
 
-import utils.SliceResponse;
+import com.ssafy.farmily.utils.SliceResponse;
 
 public interface CommunityService {
 	SliceResponse<CommunityPostDto> getCommunityPostList(int size, int pageNum, Long lastSeenId);
