@@ -31,7 +31,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 		// 인증이 성공했으므로 jwt를 발급
 		OidcUser oidcUser = (OidcUser) authentication.getPrincipal();
 		OidcUserInfo userInfo = oidcUser.getUserInfo();
-		userInfo.getClaims().forEach((k, v) -> log.info("[userInfo Claims] k: {}, v: {}", k, v));
+		userInfo.getClaims().forEach((k, v) -> log.trace("[userInfo Claims] k: {}, v: {}", k, v));
 
 		// client cookie에 jwt를 저장한다.
 		// (xss 방지, cookie httpOnly 설정)
