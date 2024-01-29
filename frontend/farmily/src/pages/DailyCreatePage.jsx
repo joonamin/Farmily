@@ -5,6 +5,7 @@ import SmallButton from '../components/button/SmallButton.jsx';
 import axios from '../api/axios.jsx';
 
 export default function DailyCreatePage() {
+  const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -20,6 +21,14 @@ export default function DailyCreatePage() {
 
   const handleClick = () => {
     // 로그인 후 유저 정보 같이 보내기
+    if (!formData.title) {
+      setErrorMessage('제목을 입력해 주세요.');
+      return;
+    }
+    if (!formData.content) {
+      setErrorMessage('내용을 입력해 주세요.');
+      return;
+    }
     axios
       .post('/record/daily', formData)
       .then((response) => {
@@ -44,6 +53,7 @@ export default function DailyCreatePage() {
         <span onClick={handleClick}>
           <SmallButton text="글쓰기" />
         </span>
+        <p className="text-red-400">{errorMessage}</p>
       </div>
     </>
   );

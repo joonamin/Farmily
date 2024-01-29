@@ -9,11 +9,11 @@ export default function CreateDetail({ title, content, onInputChange }) {
           name="title"
           value={title}
           onChange={onInputChange}
-          placeholder="제목"
+          placeholder="제목을 입력하세요."
           className="border-4 border-black rounded-lg p-2 mb-4 w-full"
         />
         <textarea
-          placeholder="내용"
+          placeholder="내용을 입력하세요."
           name="content"
           value={content}
           onChange={onInputChange}

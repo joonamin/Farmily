@@ -5,6 +5,7 @@ import SmallButton from '../components/button/SmallButton.jsx';
 import axios from '../api/axios.jsx';
 
 export default function ChallengeCreatePage() {
+  const [errorMessage, setErrorMessage] = useState('');
   const today = new Date().toISOString().split('T')[0];
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -34,6 +35,18 @@ export default function ChallengeCreatePage() {
   };
 
   const handleClick = () => {
+    if (!formData.title) {
+      setErrorMessage('제목을 입력해 주세요.');
+      return;
+    }
+    if (!formData.content) {
+      setErrorMessage('내용을 입력해 주세요.');
+      return;
+    }
+    if (!formData.dateRange.startDate || !formData.dateRange.endDate) {
+      setErrorMessage('챌린지 기간을 입력해 주세요.');
+      return;
+    }
     // 로그인 후 유저 정보 같이 보내기
     axios
       .post('/record/challenge', formData)
@@ -55,7 +68,7 @@ export default function ChallengeCreatePage() {
           onInputChange={handleChange}
         />
       </div>
-      <div className="h-1/3">
+      <div className="h-1/4">
         <label htmlFor="startDate">시작 날짜 : </label>
         <input
           type="date"
@@ -77,10 +90,11 @@ export default function ChallengeCreatePage() {
           min={formData.dateRange.startDate}
         />
       </div>
-      <div className="h-1/6">
+      <div className="h-1/4">
         <span onClick={handleClick}>
-          <SmallButton text="글쓰기" url="/family/record" />
+          <SmallButton text="글쓰기" />
         </span>
+        <p className="text-red-400">{errorMessage}</p>
       </div>
     </>
   );
