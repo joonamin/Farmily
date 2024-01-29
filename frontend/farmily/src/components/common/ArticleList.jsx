@@ -1,7 +1,6 @@
 import { useState } from 'react';
 
 import ArticleItem from './ArticleItem.jsx';
-import SmallButton from '../button/SmallButton.jsx';
 
 // 테스트용 데이터 TESTITEMS , 데이터 받아오면 삭제
 
@@ -96,7 +95,7 @@ const TESTITEMS = [
 ];
 
 export default function ArticleList() {
-  const itemsPerPage = 7;
+  const itemsPerPage = 8;
   const [currentPage, setCurrentPage] = useState(1);
 
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -106,7 +105,7 @@ export default function ArticleList() {
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
-    <div className="p-5 h-3/5 overflow-hidden relative">
+    <div className="px-5 h-2/5 relative">
       <table className="table-fixed w-full">
         <thead className="border-b-4 border-gray-500">
           <tr className="w-full">
@@ -133,7 +132,7 @@ export default function ArticleList() {
       </table>
 
       {/* 페이징 컴포넌트 */}
-      <div className="flex justify-center mt-6 absolute left-1/2 transform -translate-x-1/2">
+      <div className="flex justify-center mt-6 absolute left-1/2 transform -translate-x-1/2 -bottom-10">
         {[...Array(Math.ceil(TESTITEMS.length / itemsPerPage)).keys()].map(
           (number) => (
             <button
@@ -147,9 +146,6 @@ export default function ArticleList() {
             </button>
           )
         )}
-      </div>
-      <div className="flex justify-end absolute right-0">
-        <SmallButton text="글쓰기" url="create" />
       </div>
     </div>
   );
