@@ -14,16 +14,12 @@ import org.springframework.data.repository.query.Param;
 import com.ssafy.farmily.entity.CommunityPost;
 
 public interface CommunityPostRepository extends JpaRepository<CommunityPost, Long> {
-	@Query(value = """
-	SELECT * FROM community_post
-	ORDER BY id DESC
-	LIMIT :pageSize""", nativeQuery = true)
-	List<CommunityPost> locaSliceFirstList(@Param("pageSize") int pageSize);
 	// SELECT * FROM community_post WHERE id > 마지막 조회 id ORDER BY id DESC LIMIT 페이지사이즈;
 	@Query(value = """
 	SELECT * FROM community_post
-	WHERE id < :lastSeenId
+	WHERE id < ifnull(:lastSeenId,2147483647)
 	ORDER BY id DESC
 	LIMIT :pageSize""", nativeQuery = true)
 	List<CommunityPost> loadSliceList(@Param("lastSeenId") Long lastSeenId,@Param("pageSize") int pageSize);
+	Slice<CommunityPost> findSliceBy(Pageable pageable);
 }

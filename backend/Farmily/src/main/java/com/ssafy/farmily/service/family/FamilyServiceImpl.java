@@ -9,6 +9,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +30,7 @@ import com.ssafy.farmily.entity.Placement;
 import com.ssafy.farmily.entity.Record;
 import com.ssafy.farmily.entity.Sprint;
 import com.ssafy.farmily.entity.Tree;
+import com.ssafy.farmily.exception.BusinessException;
 import com.ssafy.farmily.exception.NoSuchContentException;
 import com.ssafy.farmily.repository.FamilyItemRepository;
 import com.ssafy.farmily.repository.FamilyMembershipRepository;
@@ -88,7 +90,7 @@ public class FamilyServiceImpl implements FamilyService {
 		List<FamilyItemDto> familyItemDtoList = new LinkedList<>();
 		List<FamilyItem> temp = familyItemRepository.findByFamilyId(familyId);
 		for (FamilyItem item : temp) {
-			FamilyItemDto familyItemDTO = new FamilyItemDto().of(item);
+			FamilyItemDto familyItemDTO = FamilyItemDto.of(item);
 			familyItemDtoList.add(familyItemDTO);
 		}
 		return familyItemDtoList;
@@ -151,14 +153,14 @@ public class FamilyServiceImpl implements FamilyService {
 	@Override
 	@Transactional
 	public void makeFamily(MakingFamilyRequestDto makingFamilyRequestDto) {
-		String invitationCode = "123456789";
+		String invitationCode = RandomStringUtils.randomAlphanumeric(32);
 
 		Family family = Family.builder()
 			.name(makingFamilyRequestDto.getName())
 			.motto(makingFamilyRequestDto.getMotto())
 			.invitationCode(invitationCode)
-			.sprints(new LinkedList<>())
-			.items(new LinkedList<>())
+			.sprints(List.of())
+			.items(List.of())
 			.build();
 
 		Tree tree = Tree.builder().family(family).placements(new LinkedList<>()).build();
@@ -175,9 +177,9 @@ public class FamilyServiceImpl implements FamilyService {
 			.role(FamilyRole.LEADER)
 			.build();
 
-		List<FamilyMembership> addFamilyMembershipOfMember = member.getFamilyMemberships();
-		addFamilyMembershipOfMember.add(familyMembership);
-		member.setFamilyMemberships(addFamilyMembershipOfMember);
+		List<FamilyMembership> memberships = member.getFamilyMemberships();
+		memberships.add(familyMembership);
+		member.setFamilyMemberships(memberships);
 
 		familyMembershipRepository.save(familyMembership);
 	}
@@ -185,16 +187,16 @@ public class FamilyServiceImpl implements FamilyService {
 	@Override
 	@Transactional
 	public void swapSprint(Long familyId){
-		Optional<Sprint> hasPastSprint = sprintRepository.findByFamilyIdAndIsHarvested(familyId,false);
-		if(hasPastSprint.isPresent()) {
-			Sprint pastSprint = hasPastSprint.get();
+		Optional<Sprint> unHarvestedSprint = sprintRepository.findByFamilyIdAndIsHarvested(familyId,false);
+		if(unHarvestedSprint.isPresent()) {
+			Sprint pastSprint = unHarvestedSprint.get();
 			if(LocalDate.now().isBefore(pastSprint.getDateRange().getEndDate())){
-				throw new NoSuchContentException("수확 기간을 만족하지 못했습니다.");
+				throw new BusinessException("수확 기간을 만족하지 못했습니다.");
 			}
 			pastSprint.setIsHarvested(true);
 			sprintRepository.save(pastSprint);
 		}
-
+		// 여기 부터
 		LocalDate startDate = LocalDate.now();
 		YearMonth yearMonth = YearMonth.from(startDate);
 		LocalDate endDate = yearMonth.atEndOfMonth();
@@ -210,6 +212,7 @@ public class FamilyServiceImpl implements FamilyService {
 			.build();
 
 		sprintRepository.save(sprint);
+		// 여기 까지 >>> sprintService.create(family);
 	}
 
 	// Todo : 가족 생성, 스프린트 삭제 후 생성 (수확 후 다시 키우기),

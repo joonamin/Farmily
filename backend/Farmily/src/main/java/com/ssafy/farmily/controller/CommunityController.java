@@ -1,5 +1,7 @@
 package com.ssafy.farmily.controller;
 
+import java.util.Optional;
+
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -23,6 +25,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import utils.SliceResponse;
 
 @RestController
 @RequestMapping("/community")
@@ -40,19 +43,19 @@ public class CommunityController {
 			description = "커뮤니티 목록 불러오기 성공"
 		)
 	})
-	public ResponseEntity<Slice<CommunityPostDto>> communityIndex(HttpServletRequest request) {
+	public ResponseEntity<SliceResponse<CommunityPostDto>> communityIndex(
+		@RequestParam(value = "reqPageNum",required = false) Optional<Integer> reqPageNum,
+		@RequestParam(value = "reqLastSeenId",required = false) Optional<Long> reqlastSeenId) {
 		int pageNum = 0;
-		String reqPageNum = request.getParameter("reqPageNum");
-		if(reqPageNum != null){
-			pageNum = Integer.parseInt(reqPageNum);
+		if(reqPageNum.isPresent()){
+			pageNum = reqPageNum.get();
 		}
-		Long lastSeenId = 0L;
-		String reqLastSeenId = request.getParameter("lastSeenId");
-		if(reqLastSeenId != null){
-			lastSeenId = Long.parseLong(reqLastSeenId);
+		Long lastSeenId = null;
+		if(reqlastSeenId.isPresent()){
+			lastSeenId = reqlastSeenId.get();
 		}
 
-		Slice<CommunityPostDto> communityPostDtoList = communityService.getCommunityPostList(3,pageNum,lastSeenId);
+		SliceResponse<CommunityPostDto> communityPostDtoList = communityService.getCommunityPostList(3,pageNum,lastSeenId);
 		return ResponseEntity.ok(communityPostDtoList);
 	}
 
@@ -67,7 +70,7 @@ public class CommunityController {
 			description = "post get success"
 		)
 	})
-	public ResponseEntity<CommunityPostDetailDto> detailPost(@PathVariable Long communityPostId) {
+	public ResponseEntity<CommunityPostDetailDto> detailPost(@PathVariable("communityPostId") Long communityPostId) {
 		CommunityPostDetailDto communityPostDetailDto = communityService.getPostDetail(communityPostId);
 		return ResponseEntity.ok(communityPostDetailDto);
 	}
