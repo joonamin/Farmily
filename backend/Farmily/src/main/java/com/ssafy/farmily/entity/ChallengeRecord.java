@@ -3,7 +3,8 @@ package com.ssafy.farmily.entity;
 import java.util.List;
 
 import lombok.RequiredArgsConstructor;
-import utils.DateRange;
+import com.ssafy.farmily.utils.DateRange;
+
 
 
 import jakarta.persistence.Column;
@@ -12,7 +13,6 @@ import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;

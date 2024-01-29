@@ -11,7 +11,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.core.parameters.P;
 import org.springframework.test.context.ActiveProfiles;
 
 import com.ssafy.farmily.dto.FamilyBasketDto;
@@ -40,8 +39,8 @@ import com.ssafy.farmily.type.ItemType;
 import com.ssafy.farmily.type.RecordType;
 
 import jakarta.transaction.Transactional;
-import utils.DateRange;
-import utils.Position;
+import com.ssafy.farmily.utils.DateRange;
+import com.ssafy.farmily.utils.Position;
 
 @SpringBootTest
 @ActiveProfiles("local")
