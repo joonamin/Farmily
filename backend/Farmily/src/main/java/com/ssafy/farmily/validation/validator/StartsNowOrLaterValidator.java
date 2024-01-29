@@ -8,6 +8,11 @@ import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import utils.DateRange;
 
+/**
+ * {@code {@link DateRange}}의 시작 일자가 현재 이후인지 검사합니다.
+ * 
+ * @author 구본웅
+ */
 public class StartsNowOrLaterValidator
 	implements ConstraintValidator<StartsNowOrLater, DateRange>
 {
