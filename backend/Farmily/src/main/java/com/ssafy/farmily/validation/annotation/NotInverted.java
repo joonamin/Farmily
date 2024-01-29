@@ -1,5 +1,6 @@
 package com.ssafy.farmily.validation.annotation;
 
+import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -11,10 +12,11 @@ import jakarta.validation.Constraint;
 import utils.DateRange;
 
 /**
- * {@code {@link DateRange }}의 시작 일자가 현재 이후인지 검사합니다.
+ * {@link DateRange}의 종료 일자가 시작 일자보다 과거가 아닌지 검사합니다.
  *
  * @author 구본웅
  */
+@Documented
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = StartsNowOrLaterValidator.class)
