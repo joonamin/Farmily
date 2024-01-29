@@ -3,7 +3,7 @@ package com.ssafy.farmily.entity;
 import java.util.List;
 
 import lombok.RequiredArgsConstructor;
-import utils.DateRange;
+import com.ssafy.farmily.utils.DateRange;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorValue;

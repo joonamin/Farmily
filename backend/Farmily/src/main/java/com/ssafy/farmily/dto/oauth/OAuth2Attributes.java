@@ -7,7 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import utils.UserNameGenerator;
+import com.ssafy.farmily.utils.UserNameGenerator;
 
 /**
  * 해당 클래스는 OAuth2Provider로부터 받은 claims을 파싱하여
