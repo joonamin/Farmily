@@ -37,5 +37,5 @@ public class CommunityPost extends BaseEntity {
 
 	@OneToOne
 	@JoinColumn(name = "treeImageId")
-	private Sprint treeImage;
+	private Image treeImage;
 }

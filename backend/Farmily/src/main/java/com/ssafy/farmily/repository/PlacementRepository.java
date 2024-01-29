@@ -9,7 +9,8 @@ import com.ssafy.farmily.entity.Placement;
 @Repository
 public interface PlacementRepository extends JpaRepository<Placement, Long> {
 
-	List<Placement> findByTreeId(Long treeId);
+	List<Placement> findAllByTreeId(Long treeId);
 
 	void deleteAllByTreeId(Long treeId);
+	void deleteByTreeId(Long treeId);
 }

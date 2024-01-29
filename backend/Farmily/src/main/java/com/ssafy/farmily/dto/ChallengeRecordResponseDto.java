@@ -7,6 +7,7 @@ import org.springframework.beans.BeanUtils;
 
 import com.ssafy.farmily.entity.ChallengeProgress;
 import com.ssafy.farmily.entity.ChallengeRecord;
+import com.ssafy.farmily.utils.DateRange;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
