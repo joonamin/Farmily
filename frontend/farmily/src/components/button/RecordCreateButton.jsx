@@ -10,9 +10,17 @@ export default function RecordCreateButton(props) {
   };
 
   return (
-    <div onClick={onClickHandler}>
-      <img src={props.img} alt="" />
-      <p>{props.title}</p>
+    <div
+      onClick={onClickHandler}
+      className="flex justify-around items-center h-1/4 m-5 rounded-md border-black"
+    >
+      <div className="w-1/2">
+        <img src={props.img} alt="" className="m-auto" />
+      </div>
+      <div className="text-left w-1/2">
+        <p className="text-2xl">{props.title}</p>
+        <p>{props.content}</p>
+      </div>
     </div>
   );
 }
