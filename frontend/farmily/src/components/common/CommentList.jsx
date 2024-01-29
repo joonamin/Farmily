@@ -19,12 +19,7 @@ export default function CommentList() {
   return (
     <>
       {DUMMY_COMMENT.map((comment) => (
-        <CommentItem
-          key={comment.id}
-          id={comment.id}
-          content={comment.content}
-          author={comment.author.nickname}
-        />
+        <CommentItem key={comment.id} {...comment} />
       ))}
     </>
   );
