@@ -1,10 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import axios from '../api/axios.jsx';
 
 import SmallButton from '../components/button/SmallButton.jsx';
-
-const BASE_URL = 'http://i10e102.p.ssafy.io:8080/';
 
 export default function EventCreatePage() {
   const [title, setTitle] = useState('');
@@ -18,6 +16,7 @@ export default function EventCreatePage() {
     const files = event.target.files;
     if (files) {
       const newImages = Array.from(files).map((file) => ({
+        file: file,
         url: URL.createObjectURL(file),
         description: '',
       }));
@@ -57,7 +56,6 @@ export default function EventCreatePage() {
     const formData = new FormData();
     formData.append('sprintId', 1);
     formData.append('title', title);
-    formData.append('content', '내용');
 
     images.forEach((image, index) => {
       formData.append(`imageCards[${index}].imageFile`, image.file);
@@ -66,13 +64,26 @@ export default function EventCreatePage() {
         imageDescriptions[index]
       );
     });
+    for (const key of formData.keys()) {
+      console.log(key);
+    }
+    // FormData의 value 확인
+    // @ts-ignore
+    for (const value of formData.values()) {
+      console.log(value);
+    }
     console.log(formData);
-    axios({
-      method: 'post',
-      url: BASE_URL + 'record/event',
-      data: formData,
-      headers: { 'Content-Type': 'multipart/form-data' },
-    })
+
+    axios
+      .post('/record/event', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      })
+      //   axios({
+      //     method: 'post',
+      //     url: BASE_URL + 'record/event',
+      //     data: formData,
+      //     headers: { 'Content-Type': 'multipart/form-data' },
+      //   })
       .then((response) => {
         // 성공적으로 처리된 경우
         console.log(response.data);
@@ -81,6 +92,7 @@ export default function EventCreatePage() {
       })
       .catch((error) => {
         // 오류가 발생한 경우
+        console.log(formData);
         console.error('Error creating event:', error);
       });
   };
