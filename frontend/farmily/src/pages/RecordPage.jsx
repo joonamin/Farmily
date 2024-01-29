@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import ArticleList from '../components/ArticleList.jsx';
-import ImageList from '../components/ImageList.jsx';
+import ArticleList from '../components/common/ArticleList.jsx';
+import ImageList from '../components/common/ImageList.jsx';
 
 export default function RecordPage() {
   return (
