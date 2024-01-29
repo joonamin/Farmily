@@ -26,6 +26,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -89,7 +90,7 @@ public class RecordController {
 	@Deprecated
 	private ResponseEntity<Void> postEvent(
 		// TODO: userdetails 추가
-		EventRecordPostRequestDto request
+		@Valid EventRecordPostRequestDto request
 	) {
 		recordService.createEventRecord(request);
 
@@ -107,7 +108,7 @@ public class RecordController {
 	})
 	private ResponseEntity<Void> putEvent(
 		// TODO: userdetails 추가
-		EventRecordPutRequestDto request
+		@Valid EventRecordPutRequestDto request
 	) {
 		recordService.editEventRecord(request);
 
@@ -147,7 +148,7 @@ public class RecordController {
 	})
 	private ResponseEntity<Void> postDaily(
 		// TODO: userdetails 추가
-		@RequestBody DailyRecordPostRequestDto request
+		@Valid @RequestBody DailyRecordPostRequestDto request
 	) {
 		recordService.createDailyRecord(request);
 
@@ -165,7 +166,7 @@ public class RecordController {
 	})
 	private ResponseEntity<Void> putDaily(
 		// TODO: userdetails 추가
-		@RequestBody DailyRecordPutRequestDto request
+		@Valid @RequestBody DailyRecordPutRequestDto request
 	) {
 		recordService.editDailyRecord(request);
 
@@ -204,7 +205,7 @@ public class RecordController {
 	})
 	private ResponseEntity<Void> postChallenge(
 		// TODO: userdetails 추가
-		@RequestBody ChallengeRecordPostRequestDto request
+		@Valid @RequestBody ChallengeRecordPostRequestDto request
 	) {
 		recordService.createChallengeRecord(request);
 
@@ -221,7 +222,7 @@ public class RecordController {
 	})
 	private ResponseEntity<Void> postChallengeMark(
 		// TODO: userdetails 추가
-		@RequestBody ChallengeRecordMarkRequestDto request
+		@Valid @RequestBody ChallengeRecordMarkRequestDto request
 	) {
 		recordService.markChallengeRecord(request);
 
@@ -238,7 +239,7 @@ public class RecordController {
 	})
 	private ResponseEntity<Void> putChallenge(
 		// TODO: userdetails 추가
-		@RequestBody ChallengeRecordPutRequestDto request
+		@Valid @RequestBody ChallengeRecordPutRequestDto request
 	) {
 		recordService.editChallengeRecord(request);
 

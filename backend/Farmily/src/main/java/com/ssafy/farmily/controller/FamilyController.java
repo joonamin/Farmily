@@ -21,6 +21,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -115,7 +116,9 @@ public class FamilyController {
 			description = "배열 저장 성공"
 		)
 	})
-	public ResponseEntity<Void> itemPlacement(@RequestBody PlacingItemRequestDto placementList) {
+	public ResponseEntity<Void> itemPlacement(
+		@Valid @RequestBody PlacingItemRequestDto placementList
+	) {
 		familyService.placingItems(placementList);
 
 		return ResponseEntity.ok().build();
