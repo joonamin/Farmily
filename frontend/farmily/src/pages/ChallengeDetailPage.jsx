@@ -9,7 +9,7 @@ const endDate = new Date('2024-02-15');
 
 export default function ChallengeDetailPage() {
   return (
-    <div className="overflow-y-auto max-h-full">
+    <div className="overflow-y-auto max-h-full p-10">
       <ArticleDetail title="제목" content="엄청긴 내용" />
       <div>
         <span className="mr-24">
