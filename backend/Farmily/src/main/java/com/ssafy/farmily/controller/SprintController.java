@@ -3,8 +3,8 @@ package com.ssafy.farmily.controller;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,7 +26,7 @@ public class SprintController {
 	private final SprintService sprintService;
 
 
-	@PostMapping("/{sprintId}/harvest")
+	@GetMapping("/{sprintId}/harvest")
 	@Operation(
 		summary = "스프린트 수확하기",
 		description = "특정 스프린트의 열매를 수확합니다."
@@ -40,7 +40,7 @@ public class SprintController {
 		return ResponseEntity.ok().build();
 	}
 
-	@PostMapping("/{sprintId}/record")
+	@GetMapping("/{sprintId}/record")
 	@Operation(
 		summary = "스프린트 전체 기록 보기",
 		description = "특정 스프린트에 속한 모든 기록을 조회합니다."
