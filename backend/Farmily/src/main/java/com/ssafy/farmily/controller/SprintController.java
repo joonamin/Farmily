@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,7 +27,7 @@ public class SprintController {
 	private final SprintService sprintService;
 
 
-	@GetMapping("/{sprintId}/harvest")
+	@PostMapping("/{sprintId}/harvest")
 	@Operation(
 		summary = "스프린트 수확하기",
 		description = "특정 스프린트의 열매를 수확합니다."
