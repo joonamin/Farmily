@@ -1,9 +1,8 @@
 import { useState, useEffect } from 'react';
 
-import MainTree from '../components/MainTree.jsx'
-import Challenge from '../components/Challenge.jsx'
-import Board from '../components/Board.jsx'
-
+import MainTree from '../components/tree/MainTree.jsx';
+import Challenge from '../components/tree/Challenge.jsx';
+import Board from '../components/tree/Board.jsx';
 
 export default function MainPage() {
   return (
@@ -12,5 +11,5 @@ export default function MainPage() {
       <MainTree />
       <Board />
     </>
-  )
+  );
 }

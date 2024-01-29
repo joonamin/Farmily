@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.farmily.dto.ChallengeRecordMarkRequestDto;
+
+
 import com.ssafy.farmily.dto.ChallengeRecordPostRequestDto;
 import com.ssafy.farmily.dto.ChallengeRecordPutRequestDto;
 import com.ssafy.farmily.dto.DailyRecordPostRequestDto;
@@ -51,32 +53,10 @@ public class RecordController {
 	private ResponseEntity<RecordResponseDto> get(
 		@Parameter(description = "요청할 기록 ID") @PathVariable Long requestId
 	) {
-		RecordResponseDto dto = recordService.getEventDtoById(requestId);
+		RecordResponseDto dto = recordService.getDtoById(requestId);
 
 		return ResponseEntity.ok(dto);
 	}
-
-	@GetMapping("/{requestId}/event")
-	@Operation(
-		summary = "이벤트 기록 조회",
-		description = "특정 이벤트 기록의 모든 내용을 조회합니다."
-	)
-	@ApiResponses({
-		@ApiResponse(
-			responseCode = "200",
-			description = "기록 조회 성공",
-			content = @Content(schema = @Schema(implementation = RecordResponseDto.class))
-		)
-	})
-	@Deprecated
-	private ResponseEntity<RecordResponseDto> getEvent(
-		@Parameter(description = "요청할 기록 ID") @PathVariable Long requestId
-	) {
-		RecordResponseDto dto = recordService.getEventDtoById(requestId);
-
-		return ResponseEntity.ok(dto);
-	}
-
 
 	@PostMapping("/event")
 	@Operation(
@@ -86,7 +66,6 @@ public class RecordController {
 	@ApiResponses({
 		@ApiResponse(responseCode = "200", description = "기록 작성 성공")
 	})
-	@Deprecated
 	private ResponseEntity<Void> postEvent(
 		// TODO: userdetails 추가
 		EventRecordPostRequestDto request
@@ -113,29 +92,6 @@ public class RecordController {
 
 		return ResponseEntity.ok().build();
 	}
-
-
-	@GetMapping("/{requestId}/daily")
-	@Operation(
-		summary = "일상 기록 조회",
-		description = "특정 일상 기록의 모든 내용을 조회합니다."
-	)
-	@ApiResponses({
-		@ApiResponse(
-			responseCode = "200",
-			description = "기록 조회 성공",
-			content = @Content(schema = @Schema(implementation = RecordResponseDto.class))
-		)
-	})
-	@Deprecated
-	private ResponseEntity<RecordResponseDto> getDaily(
-		@Parameter(description = "요청할 기록 ID") @PathVariable Long requestId
-	) {
-		RecordResponseDto dto = recordService.getDtoById(requestId);
-
-		return ResponseEntity.ok(dto);
-	}
-
 
 	@PostMapping("/daily")
 	@Operation(
@@ -171,28 +127,6 @@ public class RecordController {
 
 		return ResponseEntity.ok().build();
 	}
-
-
-	@GetMapping("/{requestId}/challenge")
-	@Operation(
-		summary = "챌린지 기록 조회",
-		description = "특정 챌린지 기록의 모든 내용을 조회합니다."
-	)
-	@ApiResponses({
-		@ApiResponse(
-			responseCode = "200",
-			description = "기록 조회 성공",
-			content = @Content(schema = @Schema(implementation = RecordResponseDto.class))
-		)
-	})
-	private ResponseEntity<RecordResponseDto> getChallenge(
-		@Parameter(description = "요청할 기록 ID") @PathVariable Long requestId
-	) {
-		RecordResponseDto dto = recordService.getChallengeDtoById(requestId);
-
-		return ResponseEntity.ok(dto);
-	}
-	
 	
 	@PostMapping("/challenge")
 	@Operation(
