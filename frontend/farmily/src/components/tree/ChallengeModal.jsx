@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import challenge from '../../assets/images/challenge_modal.png';
+import SmallButton from '../button/SmallButton.jsx';
 
 // 요일을 반환하는 함수
 function getDayOfWeek(date) {
@@ -70,9 +71,27 @@ export default function ChallengeModal({ isOpen, onClose }) {
     </div>
   );
 
+  const pixelButtonStyle = {
+    display: 'inline-block',
+    width: '30px',
+    height: '30px',
+    backgroundColor: '#000',
+    color: '#fff', // 글자 색상 추가
+    fontFamily: "'Pixel', sans-serif",
+    fontSize: '15px',
+    border: 'none',
+    cursor: 'pointer',
+    imageRendering: 'pixelated',
+  };
+
   const weekDisplay = (
     <div className="flex items-center justify-between px-4 py-2">
-      <button onClick={moveToPreviousWeek}>&lt;</button>
+      <button
+        onClick={moveToPreviousWeek}
+        style={{ ...pixelButtonStyle, marginTop: '30px', marginRight: '5px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+      >
+        &lt;
+      </button>
       <div className="flex justify-around flex-grow">
         {weekDates.map((date, index) => (
           <div key={index} className="text-center">
@@ -82,23 +101,39 @@ export default function ChallengeModal({ isOpen, onClose }) {
               )})`}
             </div>
             <div
-              className="w-20 h-20 mt-2 border cursor-pointer"
+              className="w-20 h-20 mt-2 border cursor-pointer flex items-center justify-center text-center" // 세로 가운데 정렬을 위해 flex 사용
               onClick={() => handleImageClick(date)}
             >
               {images[date] ? (
                 <img
                   src={images[date]}
                   alt="Selected"
-                  className="w-full h-full"
+                  className="max-w-full max-h-full mx-auto" // 이미지를 가로, 세로 중앙으로 정렬
                 />
               ) : (
-                <div className="flex items-center justify-center w-full h-full"></div>
+                <div className="w-full h-full"></div>
               )}
             </div>
           </div>
         ))}
       </div>
-      <button onClick={moveToNextWeek}>&gt;</button>
+      <button
+        onClick={moveToNextWeek}
+        style={{ ...pixelButtonStyle, marginTop: '30px', marginLeft: '5px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+      >
+        &gt;
+      </button>
+    </div>
+  );
+  
+  const bottomButtons = (
+    <div className="flex justify-end mt-0">
+      <div>
+        <SmallButton text="포기하기" url="" />
+      </div>
+      <div className="mr-10">
+        <SmallButton text="열매받기" url="" />
+      </div>
     </div>
   );
 
@@ -107,7 +142,7 @@ export default function ChallengeModal({ isOpen, onClose }) {
       className={`fixed inset-0 flex items-center justify-center bg-gray-600 bg-opacity-50 overflow-y-auto h-auto w-full ${
         isOpen ? 'block' : 'hidden'
       }`}
-      style={{ zIndex: isOpen ? 9999 : -1 }} // z-index 스타일 추가
+      style={{ zIndex: isOpen ? 9999 : -1 }}
     >
       <div
         className="relative max-w-2xl mx-auto my-20 bg-white rounded-md shadow-lg"
@@ -115,6 +150,7 @@ export default function ChallengeModal({ isOpen, onClose }) {
       >
         {titleBar}
         {weekDisplay}
+        {bottomButtons}
         <button onClick={onClose} className="absolute top-2 right-2">
           &times;
         </button>
