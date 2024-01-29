@@ -1,6 +1,6 @@
 package com.ssafy.farmily.entity;
 
-import java.time.LocalDate;
+import com.ssafy.farmily.utils.DateRange;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
@@ -10,14 +10,11 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import utils.DateRange;
 
 @Entity
 @RequiredArgsConstructor

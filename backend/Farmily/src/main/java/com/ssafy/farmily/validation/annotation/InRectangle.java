@@ -6,10 +6,10 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import com.ssafy.farmily.utils.Position;
 import com.ssafy.farmily.validation.validator.InRectangleValidator;
 
 import jakarta.validation.Constraint;
-import utils.Position;
 
 /**
  * {@link Position} 좌표가 직사각형 범위 내에 있는지 검사합니다.

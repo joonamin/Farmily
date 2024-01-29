@@ -2,11 +2,11 @@ package com.ssafy.farmily.validation.validator;
 
 import java.time.LocalDate;
 
+import com.ssafy.farmily.utils.DateRange;
 import com.ssafy.farmily.validation.annotation.StartsNowOrLater;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
-import utils.DateRange;
 
 
 public class StartsNowOrLaterValidator

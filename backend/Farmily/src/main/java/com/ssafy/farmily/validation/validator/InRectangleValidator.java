@@ -1,12 +1,10 @@
 package com.ssafy.farmily.validation.validator;
 
+import com.ssafy.farmily.utils.Position;
 import com.ssafy.farmily.validation.annotation.InRectangle;
-import com.ssafy.farmily.validation.annotation.NotInverted;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
-import utils.DateRange;
-import utils.Position;
 
 public class InRectangleValidator
 	implements ConstraintValidator<InRectangle, Position>
