@@ -1,14 +1,13 @@
 package com.ssafy.farmily.validation.validator;
 
 import com.ssafy.farmily.utils.DateRange;
-import com.ssafy.farmily.validation.annotation.NotInverted;
+import com.ssafy.farmily.validation.annotation.NotIncludesNull;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
-
-public class NotInvertedValidator
-	implements ConstraintValidator<NotInverted, DateRange>
+public class NotIncludesNullValidator
+	implements ConstraintValidator<NotIncludesNull, DateRange>
 {
 	@Override
 	public boolean isValid(DateRange dateRange, ConstraintValidatorContext constraintValidatorContext) {
@@ -16,8 +15,12 @@ public class NotInvertedValidator
 	}
 
 	public static boolean check(DateRange dateRange) {
-		if (!NotIncludesNullValidator.check(dateRange))
+		if (dateRange == null)
 			return false;
-		return !dateRange.getPeriod().isNegative();
+		if (dateRange.getStartDate() == null)
+			return false;
+		if (dateRange.getEndDate() == null)
+			return false;
+		return true;
 	}
 }

@@ -10,9 +10,10 @@ import com.ssafy.farmily.utils.DateRange;
 import com.ssafy.farmily.validation.validator.StartsNowOrLaterValidator;
 
 import jakarta.validation.Constraint;
+import jakarta.validation.Payload;
 
 /**
- * {@link DateRange}의 시작 일자가 현재 이후인지 검사합니다.
+ * {@link DateRange}가 {@link NotInverted}이고, 시작 일자가 현재 이후인지 검사합니다.
  *
  * @author 구본웅
  */
@@ -22,5 +23,7 @@ import jakarta.validation.Constraint;
 @Constraint(validatedBy = StartsNowOrLaterValidator.class)
 public @interface StartsNowOrLater {
 	String message() default "기간의 시작 일자는 현재 일자 이후여야 합니다.";
+	Class<?>[] groups() default {};
+	Class<? extends Payload>[] payload() default {};
 
 }

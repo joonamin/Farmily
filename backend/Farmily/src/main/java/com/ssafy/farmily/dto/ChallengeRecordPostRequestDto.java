@@ -29,8 +29,6 @@ public class ChallengeRecordPostRequestDto {
 	@NotBlank
 	private String content;
 
-	@NotNull
-	@NotInverted
 	@StartsNowOrLater
 	private DateRange dateRange;
 }

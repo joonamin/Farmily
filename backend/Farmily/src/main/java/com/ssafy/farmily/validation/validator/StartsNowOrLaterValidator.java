@@ -14,6 +14,13 @@ public class StartsNowOrLaterValidator
 {
 	@Override
 	public boolean isValid(DateRange dateRange, ConstraintValidatorContext constraintValidatorContext) {
+		return check(dateRange);
+	}
+
+	public static boolean check(DateRange dateRange) {
+		if (!NotInvertedValidator.check(dateRange))
+			return false;
+
 		LocalDate now = LocalDate.now();
 		return !dateRange.getStartDate().isBefore(now);
 	}
