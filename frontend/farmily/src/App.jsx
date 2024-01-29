@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
-import MainLayout from './pages/Main.jsx';
-import FamilyLayout from './pages/Family.jsx';
-import IndexLayout from './pages/Index.jsx';
+import MainLayout from './pages/layout/Main.jsx';
+import FamilyLayout from './pages/layout/Family.jsx';
+import IndexLayout from './pages/layout/Index.jsx';
 
 import MainPage from './pages/MainPage.jsx';
 import RecordPage from './pages/RecordPage.jsx';

@@ -1,8 +1,8 @@
 import { useNavigate } from 'react-router-dom';
 
-import DailyFruit from '../assets/images/dailyFruit.png';
-import EventFruit from '../assets/images/EventFruit.png';
-import ChallengeFruit from '../assets/images/ChallengeFruit.png';
+import DailyFruit from '../../assets/images/dailyFruit.png';
+import EventFruit from '../../assets/images/EventFruit.png';
+import ChallengeFruit from '../../assets/images/ChallengeFruit.png';
 import { useState } from 'react';
 
 export default function ArticleItem(article) {

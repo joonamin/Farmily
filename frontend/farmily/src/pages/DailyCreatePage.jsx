@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import CreateDetail from '../components/CreateDetail';
-import SmallButton from '../components/SmallButton.jsx';
+import CreateDetail from '../components/common/CreateDetail.jsx';
+import SmallButton from '../components/button/SmallButton.jsx';
 
 export default function DailyCreatePage() {
   return (

@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 
-import Comment from '../components/Comment.jsx';
-import ChallengeCalendar from '../components/ChallengeCalendar.jsx';
-import ArticleDetail from '../components/ArticleDetail.jsx';
+import Comment from '../components/common/Comment.jsx';
+import ChallengeCalendar from '../components/common/ChallengeCalendar.jsx';
+import ArticleDetail from '../components/common/ArticleDetail.jsx';
 
 const startDate = new Date('2024-02-07');
 const endDate = new Date('2024-02-15');

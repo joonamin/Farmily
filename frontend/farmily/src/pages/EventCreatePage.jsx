@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-import SmallButton from '../components/SmallButton.jsx';
+import SmallButton from '../components/button/SmallButton.jsx';
 
 const BASE_URL = 'http://i10e102.p.ssafy.io:8080/';
 

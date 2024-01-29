@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 import ArticleItem from './ArticleItem.jsx';
-import SmallButton from '../components/SmallButton.jsx';
+import SmallButton from '../button/SmallButton.jsx';
 
 // 테스트용 데이터 TESTITEMS , 데이터 받아오면 삭제
 
