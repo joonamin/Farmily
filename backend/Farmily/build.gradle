@@ -51,6 +51,7 @@ dependencies {
     // https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-starter-webmvc-api
     testImplementation 'org.springdoc:springdoc-openapi-starter-webmvc-api:2.3.0'
     testImplementation "org.mockito:mockito-core:3.3.3"
+    implementation 'io.openvidu:openvidu-java-client:2.29.0'
 }
 
 tasks.named('test') {
