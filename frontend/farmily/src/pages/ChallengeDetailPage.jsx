@@ -1,14 +1,16 @@
 import { useState, useEffect } from 'react';
-
+import { useParams } from 'react-router-dom';
 import Comment from '../components/common/Comment.jsx';
 import ChallengeCalendar from '../components/common/ChallengeCalendar.jsx';
 import ArticleDetail from '../components/common/ArticleDetail.jsx';
 import axios from '../api/axios.jsx';
 
 export default function ChallengeDetailPage() {
+  const { recordId } = useParams();
+  const URL = `/record/${recordId}`;
+
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
-
   const [record, setRecord] = useState({
     title: '',
     content: '',
@@ -16,11 +18,11 @@ export default function ChallengeDetailPage() {
     author: { nickname: '' },
     dateRange: { startDate: '', endDate: '' },
   });
+
   useEffect(() => {
     axios
-      .get('/record/17')
+      .get(URL)
       .then((response) => {
-        console.log(response.data);
         setRecord(response.data);
         setStartDate(new Date(response.data.dateRange.startDate.slice(0, 10)));
         setEndDate(new Date(response.data.dateRange.endDate.slice(0, 10)));
