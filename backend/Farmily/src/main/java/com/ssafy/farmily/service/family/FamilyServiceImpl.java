@@ -61,7 +61,6 @@ public class FamilyServiceImpl implements FamilyService {
 	private final TreeRepository treeRepository;
 	private final FamilyMembershipRepository familyMembershipRepository;
 	private final MemberRepository memberRepository;
-	private final ImageRepository imageRepository;
 	private final FileService fileService;
 
 	@Override

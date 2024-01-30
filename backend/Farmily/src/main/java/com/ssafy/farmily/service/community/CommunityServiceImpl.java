@@ -9,11 +9,13 @@ import com.ssafy.farmily.dto.CommunityPostDetailDto;
 import com.ssafy.farmily.dto.CommunityPostDto;
 import com.ssafy.farmily.dto.InsertCommunityPostRequestDto;
 import com.ssafy.farmily.entity.CommunityPost;
+import com.ssafy.farmily.entity.Image;
 import com.ssafy.farmily.repository.CommunityPostRepository;
 
 import lombok.RequiredArgsConstructor;
 
 import com.ssafy.farmily.repository.MemberRepository;
+import com.ssafy.farmily.service.file.FileService;
 import com.ssafy.farmily.utils.SliceResponse;
 
 @Service
@@ -21,6 +23,7 @@ import com.ssafy.farmily.utils.SliceResponse;
 public class CommunityServiceImpl implements CommunityService {
 	private final CommunityPostRepository communityPostRepository;
 	private final MemberRepository memberRepository;
+	private final FileService fileService;
 	// 현재 상황 :
 	// 4의 size로 4개를 불러와서 다음 content가 있으면 hasNext를 true로 하고 (4,3,2,1)
 	// 마지막 한 놈을 짤라서 3개를 출력 (4,3,2)
@@ -39,6 +42,11 @@ public class CommunityServiceImpl implements CommunityService {
 
 	@Override
 	public String insertCommunityPost(InsertCommunityPostRequestDto requestDto) {
+		Image treeSnapshot = null;
+		if(requestDto.getTreeSnapshot() != null){
+			treeSnapshot = fileService.saveImage(requestDto.getTreeSnapshot());
+		}
+
 		CommunityPost communityPostDtoToToEntity =
 			CommunityPost.builder()
 				.title(requestDto.getTitle())
@@ -46,7 +54,7 @@ public class CommunityServiceImpl implements CommunityService {
 				// TODO : Community 게시글 글쓴이를 얻어오는 로직 필요 >> Oauth를 통해 Member정보를 얻어와야 될 듯
 				// memberRepository.findByUsername(Oauth.username)
 				.author(memberRepository.findByUsername(requestDto.getAuthor()).get())
-				.treeImage(requestDto.getTreeSnapshot()).build();
+				.treeImage(treeSnapshot).build();
 
 		communityPostRepository.save(communityPostDtoToToEntity);
 
