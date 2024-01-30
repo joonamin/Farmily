@@ -91,8 +91,8 @@ class FamilyServiceTest {
 	@Transactional
 	void 가족생성() throws Exception {
 		Member member = memberRepository.findById(1L).get();
-		MakingFamilyRequestDto makingFamilyRequestDto = new MakingFamilyRequestDto("대한민국", "삶의 모토", member.getId());
-		familyService.makeFamily(makingFamilyRequestDto);
+		MakingFamilyRequestDto makingFamilyRequestDto = new MakingFamilyRequestDto("대한민국", "삶의 모토",null);
+		familyService.makeFamily(makingFamilyRequestDto,member.getUsername());
 		// id, name, motto, tree, challengeIds, sprintId
 		FamilyMainDto familyMainDto = familyService.setMainFamilyInfo(1L);
 		FamilyMainTreeDto tree = FamilyMainTreeDto.from(treeRepository.findById(1L).get());
@@ -108,8 +108,8 @@ class FamilyServiceTest {
 	void swapSprint_스프린트제거후생성() {
 		// given
 		Member member = memberRepository.findById(1L).get();
-		MakingFamilyRequestDto makingFamilyRequestDto = new MakingFamilyRequestDto("대한민국", "삶의 모토", member.getId());
-		familyService.makeFamily(makingFamilyRequestDto);
+		MakingFamilyRequestDto makingFamilyRequestDto = new MakingFamilyRequestDto("대한민국", "삶의 모토",null);
+		familyService.makeFamily(makingFamilyRequestDto, member.getUsername());
 		// when
 		familyService.swapSprint(1L);
 		// then
@@ -123,8 +123,8 @@ class FamilyServiceTest {
 	void setMainFamilyInfo_가족메인정보가져오기() {
 		// given
 		Member member = memberRepository.findById(1L).get();
-		MakingFamilyRequestDto makingFamilyRequestDto = new MakingFamilyRequestDto("대한민국", "삶의 모토", member.getId());
-		familyService.makeFamily(makingFamilyRequestDto);
+		MakingFamilyRequestDto makingFamilyRequestDto = new MakingFamilyRequestDto("대한민국", "삶의 모토",null);
+		familyService.makeFamily(makingFamilyRequestDto, member.getUsername());
 		familyService.swapSprint(1L);
 		// when
 		FamilyMainDto familyMainDto = familyService.setMainFamilyInfo(1L);
@@ -138,8 +138,8 @@ class FamilyServiceTest {
 	void getFamilyInventory_가족인벤토리가져오기() {
 		// given
 		Member member = memberRepository.findById(1L).get();
-		MakingFamilyRequestDto makingFamilyRequestDto = new MakingFamilyRequestDto("대한민국", "삶의 모토", member.getId());
-		familyService.makeFamily(makingFamilyRequestDto);
+		MakingFamilyRequestDto makingFamilyRequestDto = new MakingFamilyRequestDto("대한민국", "삶의 모토",null);
+		familyService.makeFamily(makingFamilyRequestDto, member.getUsername());
 		familyService.swapSprint(1L);
 		Family family = familyRepository.findById(1L).get();
 		FamilyItem familyItem1 = FamilyItem.builder()
@@ -160,8 +160,8 @@ class FamilyServiceTest {
 	@Transactional
 	void getFamilySprintList_바구니리스트받기(){
 		Member member = memberRepository.findById(1L).get();
-		MakingFamilyRequestDto makingFamilyRequestDto = new MakingFamilyRequestDto("대한민국", "삶의 모토", member.getId());
-		familyService.makeFamily(makingFamilyRequestDto);
+		MakingFamilyRequestDto makingFamilyRequestDto = new MakingFamilyRequestDto("대한민국", "삶의 모토",null);
+		familyService.makeFamily(makingFamilyRequestDto, member.getUsername());
 		Family family = familyRepository.findById(1L).get();
 		DateRange dateRange = new DateRange();
 		dateRange.setStartDate(LocalDate.parse("2023-12-01"));
@@ -180,8 +180,8 @@ class FamilyServiceTest {
 	@Transactional
 	void placingItems_아이템배열대로배치하기(){
 		Member member = memberRepository.findById(1L).get();
-		MakingFamilyRequestDto makingFamilyRequestDto = new MakingFamilyRequestDto("대한민국", "삶의 모토", member.getId());
-		familyService.makeFamily(makingFamilyRequestDto);
+		MakingFamilyRequestDto makingFamilyRequestDto = new MakingFamilyRequestDto("대한민국", "삶의 모토",null);
+		familyService.makeFamily(makingFamilyRequestDto, member.getUsername());
 		Family family = familyRepository.findById(1L).get();
 		familyService.swapSprint(1L);
 		Sprint sprint = sprintRepository.findById(1L).get();
@@ -214,8 +214,8 @@ class FamilyServiceTest {
 	void loadFamilyMemberList_가족멤버리스트불러오기(){
 		Member member1 = memberRepository.findById(1L).get();
 		Member member2 = memberRepository.findById(2L).get();
-		MakingFamilyRequestDto requestDto = new MakingFamilyRequestDto("대한민국","16강 가즈아", member1.getId());
-		familyService.makeFamily(requestDto);
+		MakingFamilyRequestDto requestDto = new MakingFamilyRequestDto("대한민국","16강 가즈아",null);
+		familyService.makeFamily(requestDto, member1.getUsername());
 		String invitationCode = familyRepository.findById(1L).get().getInvitationCode();
 		familyService.insertFamilyMemberShip(invitationCode,member2.getUsername());
 		List<FamilyMemberResponseDto> list= familyService.loadFamilyMemberList(1L,member1.getUsername());
@@ -232,8 +232,8 @@ class FamilyServiceTest {
 	void mendateHeadTest_가장위임(){
 		Member member1 = memberRepository.findById(1L).get();
 		Member member2 = memberRepository.findById(2L).get();
-		MakingFamilyRequestDto requestDto = new MakingFamilyRequestDto("대한민국","16강 가즈아", member1.getId());
-		familyService.makeFamily(requestDto);
+		MakingFamilyRequestDto requestDto = new MakingFamilyRequestDto("대한민국","16강 가즈아",null);
+		familyService.makeFamily(requestDto , member1.getUsername());
 		String invitationCode = familyRepository.findById(1L).get().getInvitationCode();
 		familyService.insertFamilyMemberShip(invitationCode,member2.getUsername());
 

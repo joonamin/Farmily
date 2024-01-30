@@ -23,6 +23,7 @@ import com.ssafy.farmily.entity.Family;
 import com.ssafy.farmily.entity.FamilyItem;
 import com.ssafy.farmily.entity.FamilyMembership;
 import com.ssafy.farmily.entity.FruitPlacement;
+import com.ssafy.farmily.entity.Image;
 import com.ssafy.farmily.entity.Member;
 import com.ssafy.farmily.entity.Placement;
 import com.ssafy.farmily.entity.Record;
@@ -33,6 +34,7 @@ import com.ssafy.farmily.exception.NoSuchContentException;
 import com.ssafy.farmily.repository.FamilyItemRepository;
 import com.ssafy.farmily.repository.FamilyMembershipRepository;
 import com.ssafy.farmily.repository.FamilyRepository;
+import com.ssafy.farmily.repository.ImageRepository;
 import com.ssafy.farmily.repository.MemberRepository;
 import com.ssafy.farmily.repository.PlacementRepository;
 import com.ssafy.farmily.repository.RecordRepository;
@@ -58,6 +60,7 @@ public class FamilyServiceImpl implements FamilyService {
 	private final TreeRepository treeRepository;
 	private final FamilyMembershipRepository familyMembershipRepository;
 	private final MemberRepository memberRepository;
+	private final ImageRepository imageRepository;
 
 	@Override
 	@Transactional
@@ -152,25 +155,26 @@ public class FamilyServiceImpl implements FamilyService {
 
 	@Override
 	@Transactional
-	public void makeFamily(MakingFamilyRequestDto makingFamilyRequestDto) {
+	public void makeFamily(MakingFamilyRequestDto makingFamilyRequestDto,String username) {
+		Member member = memberRepository.findByUsername(username).get();
+		Image profileImage = makingFamilyRequestDto.getImage();
 		String invitationCode = UUID.randomUUID().toString();
 
 		Family family = Family.builder()
 			.name(makingFamilyRequestDto.getName())
 			.motto(makingFamilyRequestDto.getMotto())
 			.invitationCode(invitationCode)
+			.image(makingFamilyRequestDto.getImage())
 			.sprints(List.of())
 			.items(List.of())
 			.build();
 
 		Tree tree = Tree.builder().family(family).placements(List.of()).build();
 		family.setTree(tree);
-
+		imageRepository.save(profileImage);
 		familyRepository.save(family);
 		treeRepository.save(tree);
 
-		Long memberId = makingFamilyRequestDto.getMemberId();
-		Member member = memberRepository.findById(memberId).orElseThrow(() -> new RuntimeException("유효하지 않은 유저"));
 		FamilyMembership familyMembership = FamilyMembership.builder()
 			.family(family)
 			.member(member)

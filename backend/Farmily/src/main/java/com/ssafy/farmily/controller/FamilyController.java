@@ -141,8 +141,8 @@ public class FamilyController {
 			description = "가족 생성 성공"
 		)
 	})
-	public ResponseEntity<Void> createFamily(@RequestBody MakingFamilyRequestDto makingFamilyRequestDto){
-		familyService.makeFamily(makingFamilyRequestDto);
+	public ResponseEntity<Void> createFamily(@RequestBody MakingFamilyRequestDto makingFamilyRequestDto, @AuthenticationPrincipal String username){
+		familyService.makeFamily(makingFamilyRequestDto,username);
 		return ResponseEntity.ok().build();
 	}
 

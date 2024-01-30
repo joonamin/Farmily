@@ -49,7 +49,7 @@ public interface FamilyService {
 
 	public void deletePlacement(Long treeId);
 
-	public void makeFamily(MakingFamilyRequestDto makingFamilyRequestDto);
+	public void makeFamily(MakingFamilyRequestDto makingFamilyRequestDto, String username);
 	public void swapSprint(Long familyId);
 
 	public void insertFamilyMemberShip(String inviteCode,String username);
