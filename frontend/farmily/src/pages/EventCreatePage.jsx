@@ -111,7 +111,7 @@ export default function EventCreatePage() {
           value={title}
           onChange={handleTitleChange}
         />
-        <div className="text-red-500">{titleError}</div>
+
         <label className="block mb-4">
           이미지 선택
           <input
@@ -149,6 +149,7 @@ export default function EventCreatePage() {
       <div onClick={handleCreateEvent}>
         <SmallButton text="글쓰기" />
       </div>
+      <p className="text-red-400">{titleError}</p>
     </div>
   );
 }

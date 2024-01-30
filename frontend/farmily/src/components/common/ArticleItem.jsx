@@ -8,7 +8,7 @@ import { useState } from 'react';
 export default function ArticleItem(article) {
   const [fruitImg, setFruitImg] = useState();
 
-  const URL = `${article.type}/${article.id}`;
+  const URL = `/family/record/${article.type}/${article.id}`;
   const navigate = useNavigate();
 
   const onClickHandler = () => {

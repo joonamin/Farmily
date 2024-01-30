@@ -2,6 +2,8 @@ package com.ssafy.farmily.entity;
 
 import com.ssafy.farmily.utils.DateRange;
 
+import com.ssafy.farmily.utils.DateRange;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;

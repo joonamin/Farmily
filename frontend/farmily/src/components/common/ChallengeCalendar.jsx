@@ -107,42 +107,42 @@ export default function ChallengeCalendar({ startDate, endDate }) {
     </div>
   );
 
-  const confirmationModal = (
-    <div
-      className={`fixed inset-0 flex items-center justify-center bg-gray-600 bg-opacity-50 overflow-y-auto h-auto w-full ${
-        showConfirmationModal ? 'block' : 'hidden'
-      }`}
-      style={{ zIndex: showConfirmationModal ? 9999 : -1 }}
-    >
-      <div
-        className="relative max-w-md mx-auto bg-white rounded-md shadow-lg p-4"
-        ref={modalRef}
-      >
-        <p>정말 취소하시겠습니까?</p>
-        <div className="mt-4 flex justify-center">
-          <button
-            onClick={handleCancelDelete}
-            className="mr-2 bg-gray-300 px-4 py-2 rounded-md"
-          >
-            취소
-          </button>
-          <button
-            onClick={handleConfirmDelete}
-            className="bg-red-500 px-4 py-2 rounded-md text-white"
-          >
-            확인
-          </button>
-        </div>
-      </div>
-    </div>
-  );
+  // const confirmationModal = (
+  //   <div
+  //     className={`fixed inset-0 flex items-center justify-center bg-gray-600 bg-opacity-50 overflow-y-auto h-auto w-full ${
+  //       showConfirmationModal ? 'block' : 'hidden'
+  //     }`}
+  //     style={{ zIndex: showConfirmationModal ? 9999 : -1 }}
+  //   >
+  //     <div
+  //       className="relative max-w-md mx-auto bg-white rounded-md shadow-lg p-4"
+  //       ref={modalRef}
+  //     >
+  //       <p>정말 취소하시겠습니까?</p>
+  //       <div className="mt-4 flex justify-center">
+  //         <button
+  //           onClick={handleCancelDelete}
+  //           className="mr-2 bg-gray-300 px-4 py-2 rounded-md"
+  //         >
+  //           취소
+  //         </button>
+  //         <button
+  //           onClick={handleConfirmDelete}
+  //           className="bg-red-500 px-4 py-2 rounded-md text-white"
+  //         >
+  //           확인
+  //         </button>
+  //       </div>
+  //     </div>
+  //   </div>
+  // );
 
   return (
     <div className="flex items-center justify-center h-1/2 w-full">
       <div className="relative max-w-2xl mx-auto bg-white rounded-md shadow-lg">
         {titleBar}
         {weekDisplay}
-        {confirmationModal}
+        {/* {confirmationModal} */}
       </div>
     </div>
   );
