@@ -1,7 +1,5 @@
 package com.ssafy.farmily.type;
 
-import java.util.Set;
-
 import lombok.Getter;
 
 @Getter
