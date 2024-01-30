@@ -12,7 +12,6 @@ import io.openvidu.java.client.OpenVidu;
 import io.openvidu.java.client.OpenViduException;
 import io.openvidu.java.client.Session;
 import io.openvidu.java.client.SessionProperties;
-import lombok.SneakyThrows;
 
 @Service
 public class OpenViduWebRtcService implements WebRtcService {
@@ -35,12 +34,16 @@ public class OpenViduWebRtcService implements WebRtcService {
 		}
 	}
 
-	public String createConnection(String sessionId, ConnectionProperties connectionProperties) {
-		Session session = openVidu.getActiveSession(sessionId);
-		if (session == null)
-			throw new NoSuchContentException("해당 세션을 찾을 수 없습니다.");
+	public String createConnection(String sessionId, ConnectionProperties properties) {
+		try {
+			Session session = openVidu.getActiveSession(sessionId);
+			if (session == null)
+				throw new NoSuchContentException("해당 세션을 찾을 수 없습니다.");
 
-		Connection connection = session.getConnection(sessionId);
-		return connection.getToken();
+			Connection connection = session.createConnection(properties);
+			return connection.getToken();
+		} catch (OpenViduException ex) {
+			throw new RuntimeException(ex);
+		}
 	}
 }

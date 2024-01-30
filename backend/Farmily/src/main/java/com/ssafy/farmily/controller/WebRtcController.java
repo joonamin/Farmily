@@ -40,8 +40,8 @@ public class WebRtcController {
 	{
 		ConnectionProperties properties = ConnectionProperties.fromJson(params).build();
 
-		String token = webRtcService.createConnection(sessionId, properties);
+		String urlWithToken = webRtcService.createConnection(sessionId, properties);
 
-		return ResponseEntity.ok(token);
+		return ResponseEntity.ok(urlWithToken);
 	}
 }
