@@ -3,6 +3,7 @@ package com.ssafy.farmily.controller;
 import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,6 +20,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
+
 import com.ssafy.farmily.utils.SliceResponse;
 
 @RestController
@@ -26,6 +28,7 @@ import com.ssafy.farmily.utils.SliceResponse;
 @RequiredArgsConstructor
 public class CommunityController {
 	private final CommunityService communityService;
+
 	@GetMapping("")
 	@Operation(
 		summary = "커뮤니티 목록 불러오기",
@@ -38,18 +41,11 @@ public class CommunityController {
 		)
 	})
 	public ResponseEntity<SliceResponse<CommunityPostDto>> communityIndex(
-		@RequestParam(value = "reqPageNum",required = false) Optional<Integer> reqPageNum,
-		@RequestParam(value = "reqLastSeenId",required = false) Optional<Long> reqLastSeenId) {
-		int pageNum = 0;
-		if(reqPageNum.isPresent()){
-			pageNum = reqPageNum.get();
-		}
-		Long lastSeenId = null;
-		if(reqLastSeenId.isPresent()){
-			lastSeenId = reqLastSeenId.get();
-		}
-
-		SliceResponse<CommunityPostDto> communityPostDtoList = communityService.getCommunityPostList(3,pageNum,lastSeenId);
+		@RequestParam(value = "reqPageNum", required = false, defaultValue = "0") Integer reqPageNum,
+		@RequestParam(value = "reqLastSeenId", required = false) Long reqLastSeenId
+	) {
+		SliceResponse<CommunityPostDto> communityPostDtoList =
+			communityService.getCommunityPostList(3, reqPageNum, reqLastSeenId);
 		return ResponseEntity.ok(communityPostDtoList);
 	}
 
@@ -80,8 +76,11 @@ public class CommunityController {
 			description = "post insert success"
 		)
 	})
-	public ResponseEntity<String> insertPost(InsertCommunityPostRequestDto insertPostRequestDto){
-		String result = communityService.insertCommunityPost(insertPostRequestDto);
+	public ResponseEntity<String> insertPost(
+		InsertCommunityPostRequestDto insertPostRequestDto,
+		@AuthenticationPrincipal String username
+	) {
+		String result = communityService.insertCommunityPost(insertPostRequestDto, username);
 		return ResponseEntity.ok(result);
 	}
 

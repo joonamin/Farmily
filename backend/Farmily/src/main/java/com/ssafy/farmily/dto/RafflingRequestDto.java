@@ -6,7 +6,5 @@ import lombok.ToString;
 @Data
 @ToString
 public class RafflingRequestDto {
-	private Long id;
-	private Integer point;
-
+	private Long familyId;
 }

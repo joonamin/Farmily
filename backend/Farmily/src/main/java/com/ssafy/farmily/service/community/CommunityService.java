@@ -8,7 +8,7 @@ import com.ssafy.farmily.utils.SliceResponse;
 
 public interface CommunityService {
 	SliceResponse<CommunityPostDto> getCommunityPostList(int size, int pageNum, Long lastSeenId);
-	String insertCommunityPost(InsertCommunityPostRequestDto requestDto);
+	String insertCommunityPost(InsertCommunityPostRequestDto requestDto, String username);
 
 	CommunityPostDetailDto getPostDetail(Long postId);
 }

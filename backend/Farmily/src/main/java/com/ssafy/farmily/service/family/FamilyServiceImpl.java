@@ -268,7 +268,7 @@ public class FamilyServiceImpl implements FamilyService {
 	// }
 	@Override
 	public List<FamilyMemberResponseDto> loadFamilyMemberList(Long familyId,String username){
-		Member me = memberRepository.findByUsername(username).orElseThrow(()->new NoSuchContentException("유효하지 않은 멤버입니다."));
+		Member me = memberRepository.findByUsername(username).get();
 		List<FamilyMemberResponseDto> familyMembers = memberRepository.findAllByFamilyId(familyId);
 		return checkIsMe(familyMembers,me.getId());
 	}
@@ -276,11 +276,7 @@ public class FamilyServiceImpl implements FamilyService {
 	protected List<FamilyMemberResponseDto> checkIsMe(List<FamilyMemberResponseDto> familyMembers, Long me){
 		List<FamilyMemberResponseDto> result = new ArrayList<>();
 		for(FamilyMemberResponseDto dto : familyMembers){
-			if(dto.getMemberId() == me){
-				dto.setMe(true);
-			} else {
-				dto.setMe(false);
-			}
+			dto.setMe(dto.getMemberId() == me);
 			result.add(dto);
 		}
 		return result;
@@ -288,7 +284,7 @@ public class FamilyServiceImpl implements FamilyService {
 
 	@Override
 	public void mandateHead(Long familyId, Long trusteeId, String delegatorName){
-		Member delegator = memberRepository.findByUsername(delegatorName).orElseThrow(()->new NoSuchContentException("유효하지 않은 멤버입니다."));
+		Member delegator = memberRepository.findByUsername(delegatorName).get();
 		Long delegatorId = delegator.getId();
 		FamilyMembership delegatorMemberShip = familyMembershipRepository.findByFamilyIdAndMemberId(familyId,delegatorId).get();
 		if(!delegatorMemberShip.getRole().equals(FamilyRole.LEADER)){

@@ -48,7 +48,7 @@ public class CommunityServiceTest {
 		Member member = memberRepository.findById(1L).get();
 		InsertCommunityPostRequestDto dto = new InsertCommunityPostRequestDto();
 		dto.setTitle("제목입니다"); dto.setContent("내용입니다"); dto.setAuthor(member.getUsername());
-		communityService.insertCommunityPost(dto);
+		communityService.insertCommunityPost(dto, member.getUsername());
 
 		// when
 		CommunityPostDetailDto getPost = communityService.getPostDetail(1L);
@@ -63,7 +63,7 @@ public class CommunityServiceTest {
 		for(int i = 0; i < 6; i++){
 			InsertCommunityPostRequestDto dto = new InsertCommunityPostRequestDto();
 			dto.setTitle("제목입니다" + i); dto.setContent("내용입니다" + i); dto.setAuthor(member.getUsername());
-			communityService.insertCommunityPost(dto);
+			communityService.insertCommunityPost(dto, member.getUsername());
 		}
 
 		// when
