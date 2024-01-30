@@ -32,7 +32,8 @@ export default function DailyCreatePage() {
     axios
       .post("/record/daily", formData)
       .then((response) => {
-        navigate("/family/record");
+        // 보낼 때 현재 sprintId 받아서 보내기
+        navigate('/family/record/1');
       })
       .catch((error) => {
         console.log(error);

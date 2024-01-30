@@ -1,27 +1,34 @@
 import { useState, useEffect } from 'react';
-
+import { useParams } from 'react-router-dom';
 import ArticleDetail from '../components/common/ArticleDetail';
 import Comment from '../components/common/Comment';
 import axios from '../api/axios.jsx';
 
 export default function DailyDetailPage() {
+  const { recordId } = useParams();
+  const URL = `/record/${recordId}`;
+
   const [record, setRecord] = useState({
-    title: '제목',
-    content: '내용',
+    title: '',
+    content: '',
+    createdAt: '',
+    author: { nickname: '' },
   });
-  axios
-    .get('/record/1')
-    .then((response) => {
-      console.log(response.data);
-      setRecord(response.data);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+
+  useEffect(() => {
+    axios
+      .get(URL)
+      .then((response) => {
+        setRecord(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
 
   return (
     <div className="overflow-y-auto max-h-full p-10">
-      <ArticleDetail title={record.title} content={record.content} />
+      <ArticleDetail {...record} />
       <Comment />
     </div>
   );

@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 
 import mainTree from '../assets/images/mainTree.png';
 import board from '../assets/images/mainboard.png';
@@ -14,14 +15,14 @@ export default function IndexPage() {
     <>
       <div className="w-2/6 mb-60 pl-36">
         <p className="text-3xl font-bold mb-4">{welcomeMessage}</p>
-        <p className=" text-2xl text-">{introTitle_1}</p>
+        <p className="text-2xl">{introTitle_1}</p>
         <p className="text-2xl">{introTitle_2}</p>
         <br />
         <p className="">{introContent_1}</p>
         <p className="">{introContent_2}</p>
         <br />
         <Link to="login">
-          <button className=" bg-gray-700 text-white text-xl px-6 py-4 rounded-xl">
+          <button className="bg-gray-700 text-white text-xl px-6 py-4 rounded-xl">
             로그인
           </button>
         </Link>
