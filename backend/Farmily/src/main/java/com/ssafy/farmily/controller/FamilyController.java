@@ -162,10 +162,19 @@ public class FamilyController {
 		return ResponseEntity.ok().build();
 	}
 
+	@Operation(
+		summary = "가족 참가",
+		description = "가족 초대코드를 입력하여 가족 참가"
+	)
+	@ApiResponses({
+		@ApiResponse(
+			responseCode = "200",
+			description = "가족 참가 성공"
+		)
+	})
 	@PostMapping("/join")
 	@PreAuthorize("hasRole('ROLE_USER')")
-	public ResponseEntity<Void> joinFamily(@RequestBody JoinRequestDto joinRequestDto, @AuthenticationPrincipal String username){
-		String invitationCode = joinRequestDto.getInvitationCode();
+	public ResponseEntity<Void> joinFamily(@RequestBody String invitationCode, @AuthenticationPrincipal String username){
 		familyService.insertFamilyMemberShip(invitationCode, username);
 		return ResponseEntity.ok().build();
 	}
@@ -185,6 +194,16 @@ public class FamilyController {
 	// 	return ResponseEntity<rafflingItemId>.isOK().build();
 	// }
 
+	@Operation(
+		summary = "가족 구성원 리스트 가져오기",
+		description = "가족 구성원들의 정보를 받아옴"
+	)
+	@ApiResponses({
+		@ApiResponse(
+			responseCode = "200",
+			description = "리스트 가져오기 성공"
+		)
+	})
 	@GetMapping("/{familyId}/familyMembers")
 	@PreAuthorize("hasRole('ROLE_USER')")
 	public ResponseEntity<List<FamilyMemberResponseDto>> loadFamilyMemberList(
@@ -193,6 +212,17 @@ public class FamilyController {
 		List<FamilyMemberResponseDto> familyMemberList = familyService.loadFamilyMemberList(familyId,username);
 		return ResponseEntity.ok(familyMemberList);
 	}
+
+	@Operation(
+		summary = "가장 위임",
+		description = "가족ID와 위임 받을 사람의 ID 가장을 위임합니다."
+	)
+	@ApiResponses({
+		@ApiResponse(
+			responseCode = "200",
+			description = "가장 위임 성공"
+		)
+	})
 	@PutMapping("/{familyId}/mandate/{memberId}")
 	@PreAuthorize("hasRole('ROLE_USER')")
 	public ResponseEntity<Void> mandateHead(
