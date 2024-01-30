@@ -13,8 +13,6 @@ import org.springframework.web.multipart.MultipartFile;
 import com.ssafy.farmily.dto.ImageDto;
 import com.ssafy.farmily.repository.ImageRepository;
 
-import lombok.SneakyThrows;
-
 @Service
 public class LocalFileService extends AbstractFileService {
 
@@ -26,20 +24,24 @@ public class LocalFileService extends AbstractFileService {
 	}
 
 	@Override
-	@SneakyThrows
 	public ImageDto uploadImage(MultipartFile file) {
-		File directory = new File(path);
-		if (!directory.isDirectory()) {
-			directory.mkdirs();
+		try {
+			File directory = new File(path);
+			if (!directory.isDirectory()) {
+				directory.mkdirs();
+			}
+			String originalFileName = file.getOriginalFilename();
+			String newFileName = UUID.randomUUID().toString();
+			String extension = StringUtils.getFilenameExtension(originalFileName);
+			String newPath = path + File.separator + newFileName + "." + extension;
+
+			File newFile = new File(newPath);
+			file.transferTo(newFile);
+
+			return ImageDto.of(newPath, originalFileName);
+		} catch (IOException ex) {
+			throw new RuntimeException(ex);
 		}
-		String originalFileName = file.getOriginalFilename();
-		String newFileName = UUID.randomUUID().toString();
-		String extension = StringUtils.getFilenameExtension(originalFileName);
-		String newPath = path + File.separator + newFileName + "." + extension;
 
-		File newFile = new File(newPath);
-		file.transferTo(newFile);
-
-		return ImageDto.of(newPath, originalFileName);
 	}
 }
