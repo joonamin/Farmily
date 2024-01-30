@@ -36,15 +36,11 @@ public class OpenViduWebRtcService implements WebRtcService {
 	}
 
 	public String createConnection(String sessionId, ConnectionProperties connectionProperties) {
-		try {
-			Session session = openVidu.getActiveSession(sessionId);
-			if (session == null)
-				throw new NoSuchContentException("해당 세션을 찾을 수 없습니다.");
+		Session session = openVidu.getActiveSession(sessionId);
+		if (session == null)
+			throw new NoSuchContentException("해당 세션을 찾을 수 없습니다.");
 
-			Connection connection = session.getConnection(sessionId);
-			return connection.getToken();
-		} catch (OpenViduException ex) {
-			throw new RuntimeException(ex);
-		}
+		Connection connection = session.getConnection(sessionId);
+		return connection.getToken();
 	}
 }
