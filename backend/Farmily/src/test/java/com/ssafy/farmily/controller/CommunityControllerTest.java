@@ -47,7 +47,7 @@ public class CommunityControllerTest {
 		memberRepository.save(member);
 		for(int i = 1; i <= 6; i++){
 		InsertCommunityPostRequestDto dto = new InsertCommunityPostRequestDto();
-		dto.setTitle("제목입니다" + i); dto.setContent("내용입니다" + i); dto.setAuthor(member);
+		dto.setTitle("제목입니다" + i); dto.setContent("내용입니다" + i); dto.setAuthor(member.getUsername());
 		communityService.insertCommunityPost(dto);
 		}
 	}

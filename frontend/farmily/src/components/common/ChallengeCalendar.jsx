@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import challenge from '../assets/images/challenge_modal.png';
+import challenge from '../../assets/images/challenge_modal.png';
 
 function getDayOfWeek(date) {
   const days = ['일', '월', '화', '수', '목', '금', '토'];

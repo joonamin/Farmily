@@ -3,19 +3,26 @@ package com.ssafy.farmily.controller;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.farmily.dto.FamilyBasketDto;
 import com.ssafy.farmily.dto.FamilyItemDto;
 import com.ssafy.farmily.dto.FamilyMainDto;
+import com.ssafy.farmily.dto.FamilyMemberResponseDto;
+import com.ssafy.farmily.dto.JoinRequestDto;
 import com.ssafy.farmily.dto.MakingFamilyRequestDto;
 import com.ssafy.farmily.dto.PlacingItemRequestDto;
+import com.ssafy.farmily.dto.RafflingRequestDto;
 import com.ssafy.farmily.service.family.FamilyService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -49,7 +56,7 @@ public class FamilyController {
 			content = @Content(schema = @Schema(implementation = FamilyMainDto.class))
 		)
 	})
-	public ResponseEntity<FamilyMainDto> mainIndex(@PathVariable Long familyId) {
+	public ResponseEntity<FamilyMainDto> mainIndex(@PathVariable(value = "familyId") Long familyId) {
 		FamilyMainDto familyMainDTO = familyService.setMainFamilyInfo(familyId);
 
 		return ResponseEntity.ok(familyMainDTO);
@@ -67,7 +74,7 @@ public class FamilyController {
 			content = @Content(schema = @Schema(implementation = FamilyItemDto.class))
 		)
 	})
-	public ResponseEntity<List<FamilyItemDto>> getInventory(@PathVariable Long familyId) {
+	public ResponseEntity<List<FamilyItemDto>> getInventory(@PathVariable(value = "familyId") Long familyId) {
 		List<FamilyItemDto> familyItemDtoList = familyService.getFamilyInventory(familyId);
 
 		return ResponseEntity.ok(familyItemDtoList);
@@ -85,7 +92,7 @@ public class FamilyController {
 			content = @Content(schema = @Schema(implementation = FamilyBasketDto.class))
 		)
 	})
-	public ResponseEntity<List<FamilyBasketDto>> getFamilyBasketList(@PathVariable Long familyId) {
+	public ResponseEntity<List<FamilyBasketDto>> getFamilyBasketList(@PathVariable(value = "familyId") Long familyId) {
 		List<FamilyBasketDto> familyBasketDTOList = familyService.getFamilySprintList(familyId);
 
 		return ResponseEntity.ok(familyBasketDTOList);
@@ -152,6 +159,47 @@ public class FamilyController {
 	})
 	public ResponseEntity<Void> refreshSprint(@RequestBody Long familyId){
 		familyService.swapSprint(familyId);
+		return ResponseEntity.ok().build();
+	}
+
+	@PostMapping("/join")
+	@PreAuthorize("hasRole('ROLE_USER')")
+	public ResponseEntity<Void> joinFamily(@RequestBody JoinRequestDto joinRequestDto, @AuthenticationPrincipal String username){
+		String invitationCode = joinRequestDto.getInvitationCode();
+		familyService.insertFamilyMemberShip(invitationCode, username);
+		return ResponseEntity.ok().build();
+	}
+
+	// invitationCode를 가져오는 것
+	@GetMapping("/{familyId}/getInvitationCode")
+	@PreAuthorize("hasRole('ROLE_USER')")
+	public ResponseEntity<String> getInvitationCode(@PathVariable(value = "familyId") Long familyId){
+		String code = familyService.getInvitationCode(familyId);
+		return ResponseEntity.ok(code);
+	}
+
+	// @PostMapping("/{familyId}/raffling")
+	// @PreAuthorize("hasRole('ROLE_USER')")
+	// public ResponseEntity<Long> raffleItem(@PathVariable Long famliyId){
+	// 	Long rafflingItemId = familyService.
+	// 	return ResponseEntity<rafflingItemId>.isOK().build();
+	// }
+
+	@GetMapping("/{familyId}/familyMembers")
+	@PreAuthorize("hasRole('ROLE_USER')")
+	public ResponseEntity<List<FamilyMemberResponseDto>> loadFamilyMemberList(
+		@PathVariable Long familyId,
+		@AuthenticationPrincipal String username){
+		List<FamilyMemberResponseDto> familyMemberList = familyService.loadFamilyMemberList(familyId,username);
+		return ResponseEntity.ok(familyMemberList);
+	}
+	@PutMapping("/{familyId}/mandate/{memberId}")
+	@PreAuthorize("hasRole('ROLE_USER')")
+	public ResponseEntity<Void> mandateHead(
+		@PathVariable(value = "familyId") Long familyId,
+		@PathVariable(value = "memberId") Long memberId,
+		@AuthenticationPrincipal String username){
+		familyService.mandateHead(familyId,memberId,username);
 		return ResponseEntity.ok().build();
 	}
 }

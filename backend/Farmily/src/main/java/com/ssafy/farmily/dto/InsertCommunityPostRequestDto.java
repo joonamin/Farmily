@@ -12,6 +12,6 @@ import lombok.ToString;
 public class InsertCommunityPostRequestDto {
 	String title;
 	String content;
-	Member author;
+	String author;
 	Image treeSnapshot;
 }

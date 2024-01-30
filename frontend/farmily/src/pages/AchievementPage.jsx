@@ -1,6 +1,5 @@
-import { useState, useEffect } from 'react'
-import AchievementList from '../components/AchievementList.jsx'
-
+import { useState, useEffect } from 'react';
+import AchievementList from '../components/common/AchievementList.jsx';
 
 // 테스트 data // 데이터 받아오면 삭제
 const TESTITEMS = [
@@ -19,22 +18,20 @@ const TESTITEMS = [
   { content: '도전과제 1012개 하기', percent: 50, reward: false },
   { content: '도전과제 140개 하기', percent: 40, reward: false },
   { content: '도전과제 130개 하기', percent: 30, reward: false },
-
-]
-
+];
 
 export default function AchievementPage() {
   const beforeTasks = filteredByPercent(0, 0);
   const ongoingTasks = filteredByPercent(1, 99);
   const finishedTasks = filteredByPercent(100, 100);
-  
+
   return (
     <>
-      <AchievementList title='시작 전 업적' tasks={beforeTasks} />
-      <AchievementList title='진행 중 업적' tasks={ongoingTasks} />
-      <AchievementList title='완료 업적' tasks={finishedTasks} />
+      <AchievementList title="시작 전 업적" tasks={beforeTasks} />
+      <AchievementList title="진행 중 업적" tasks={ongoingTasks} />
+      <AchievementList title="완료 업적" tasks={finishedTasks} />
     </>
-  )
+  );
 }
 
 const filteredByPercent = (minPercent, maxPercent) => {

@@ -89,6 +89,19 @@ class MyCalendar extends Component {
   };
 
   handleAddEvent = () => {
+    // 시작 날짜가 끝나는 날짜보다 빠른지 검사
+    const startDate = new Date(this.state.startDate);
+    const endDate = new Date(this.state.endDate + 'T24:00:00');
+
+    if (startDate > endDate) {
+      // 날짜가 올바르지 않을 때 경고 상태 업데이트
+      this.setState({
+        isValidationError: true,
+        validationErrorMessage: '종료 날짜가 시작 날짜보다 빠릅니다.',
+      });
+      return; // 일정 추가 막기
+    }
+
     // 일정 내용이 비어 있는지 확인
     if (this.state.newEventTitle.trim() === '') {
       // 경고 상태 업데이트
@@ -169,6 +182,12 @@ class MyCalendar extends Component {
                       >
                         일정 추가
                       </h3>
+                      {/* 일정 내용이 비어 있을 때 빨간색 글씨로 표시 */}
+                      {this.state.isValidationError && (
+                        <p className="mt-1 text-sm text-red-500">
+                          {this.state.validationErrorMessage}
+                        </p>
+                      )}
                       <div className="mt-2">
                         <label
                           htmlFor="calendar_content"
@@ -184,12 +203,6 @@ class MyCalendar extends Component {
                           value={this.state.newEventTitle}
                           className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-blue-300"
                         />
-                        {/* 일정 내용이 비어 있을 때 빨간색 글씨로 표시 */}
-                        {this.state.isValidationError && (
-                          <p className="mt-1 text-sm text-red-500">
-                            {this.state.validationErrorMessage}
-                          </p>
-                        )}
                       </div>
                       <div className="mt-2">
                         <label

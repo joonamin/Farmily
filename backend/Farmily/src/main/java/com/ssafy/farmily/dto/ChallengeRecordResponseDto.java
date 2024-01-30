@@ -7,6 +7,7 @@ import org.springframework.beans.BeanUtils;
 
 import com.ssafy.farmily.entity.ChallengeProgress;
 import com.ssafy.farmily.entity.ChallengeRecord;
+import com.ssafy.farmily.utils.DateRange;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
@@ -22,6 +23,8 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @Schema(description = "챌린지기록 응답 DTO")
 public class ChallengeRecordResponseDto extends RecordResponseDto {
+	protected DateRange dateRange;
+	protected Boolean isRewarded;
 	protected List<LocalDate> progresses;
 
 	public static ChallengeRecordResponseDto from(ChallengeRecord entity) {

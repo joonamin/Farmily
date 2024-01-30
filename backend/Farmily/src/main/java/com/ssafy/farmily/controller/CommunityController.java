@@ -39,14 +39,14 @@ public class CommunityController {
 	})
 	public ResponseEntity<SliceResponse<CommunityPostDto>> communityIndex(
 		@RequestParam(value = "reqPageNum",required = false) Optional<Integer> reqPageNum,
-		@RequestParam(value = "reqLastSeenId",required = false) Optional<Long> reqlastSeenId) {
+		@RequestParam(value = "reqLastSeenId",required = false) Optional<Long> reqLastSeenId) {
 		int pageNum = 0;
 		if(reqPageNum.isPresent()){
 			pageNum = reqPageNum.get();
 		}
 		Long lastSeenId = null;
-		if(reqlastSeenId.isPresent()){
-			lastSeenId = reqlastSeenId.get();
+		if(reqLastSeenId.isPresent()){
+			lastSeenId = reqLastSeenId.get();
 		}
 
 		SliceResponse<CommunityPostDto> communityPostDtoList = communityService.getCommunityPostList(3,pageNum,lastSeenId);

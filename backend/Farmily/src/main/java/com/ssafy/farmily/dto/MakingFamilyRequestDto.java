@@ -10,11 +10,11 @@ import lombok.ToString;
 public class MakingFamilyRequestDto {
 	private String name;
 	private String motto;
-	private Member member;
+	private Long memberId;
 
-	public MakingFamilyRequestDto(String name, String motto, Member member) {
+	public MakingFamilyRequestDto(String name, String motto, Long memberId) {
 		this.name = name;
 		this.motto = motto;
-		this.member = member;
+		this.memberId = memberId;
 	}
 }

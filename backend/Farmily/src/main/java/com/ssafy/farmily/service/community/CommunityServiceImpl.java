@@ -12,13 +12,15 @@ import com.ssafy.farmily.entity.CommunityPost;
 import com.ssafy.farmily.repository.CommunityPostRepository;
 
 import lombok.RequiredArgsConstructor;
+
+import com.ssafy.farmily.repository.MemberRepository;
 import com.ssafy.farmily.utils.SliceResponse;
 
 @Service
 @RequiredArgsConstructor
 public class CommunityServiceImpl implements CommunityService {
 	private final CommunityPostRepository communityPostRepository;
-
+	private final MemberRepository memberRepository;
 	// 현재 상황 :
 	// 4의 size로 4개를 불러와서 다음 content가 있으면 hasNext를 true로 하고 (4,3,2,1)
 	// 마지막 한 놈을 짤라서 3개를 출력 (4,3,2)
@@ -41,7 +43,9 @@ public class CommunityServiceImpl implements CommunityService {
 			CommunityPost.builder()
 				.title(requestDto.getTitle())
 				.content(requestDto.getContent())
-				.author(requestDto.getAuthor())
+				// TODO : Community 게시글 글쓴이를 얻어오는 로직 필요 >> Oauth를 통해 Member정보를 얻어와야 될 듯
+				// memberRepository.findByUsername(Oauth.username)
+				.author(memberRepository.findByUsername(requestDto.getAuthor()).get())
 				.treeImage(requestDto.getTreeSnapshot()).build();
 
 		communityPostRepository.save(communityPostDtoToToEntity);

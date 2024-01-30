@@ -47,7 +47,7 @@ public class CommunityServiceTest {
 		// given
 		Member member = memberRepository.findById(1L).get();
 		InsertCommunityPostRequestDto dto = new InsertCommunityPostRequestDto();
-		dto.setTitle("제목입니다"); dto.setContent("내용입니다"); dto.setAuthor(member);
+		dto.setTitle("제목입니다"); dto.setContent("내용입니다"); dto.setAuthor(member.getUsername());
 		communityService.insertCommunityPost(dto);
 
 		// when
@@ -62,16 +62,15 @@ public class CommunityServiceTest {
 		Member member = memberRepository.findById(1L).get();
 		for(int i = 0; i < 6; i++){
 			InsertCommunityPostRequestDto dto = new InsertCommunityPostRequestDto();
-			dto.setTitle("제목입니다" + i); dto.setContent("내용입니다" + i); dto.setAuthor(member);
+			dto.setTitle("제목입니다" + i); dto.setContent("내용입니다" + i); dto.setAuthor(member.getUsername());
 			communityService.insertCommunityPost(dto);
 		}
 
 		// when
-		SliceResponse<CommunityPostDto> list = communityService.getCommunityPostList(3,1,4L);
-		System.out.println("@@@@@@@@@@@@@@ " + communityPostRepository.count());
+		SliceResponse<CommunityPostDto> list = communityService.getCommunityPostList(3,0,null);
 		// then
-		Assertions.assertFalse(list.isHasNext());
-		Assertions.assertEquals(list.getPageNum(),1);
-		Assertions.assertEquals(list.getContents().get(0).getId(),3L);
+		Assertions.assertTrue(list.isHasNext());
+		Assertions.assertEquals(list.getPageNum(),0);
+		Assertions.assertEquals(list.getContents().get(0).getId(),6L);
 	}
 }

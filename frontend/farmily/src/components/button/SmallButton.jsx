@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
 
 // SmallButton 사용 시 url, text로 버튼 정보 담기
 export default function SmallButton(btn) {
@@ -8,5 +8,5 @@ export default function SmallButton(btn) {
         {btn.text}
       </button>
     </Link>
-  )
+  );
 }

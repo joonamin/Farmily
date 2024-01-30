@@ -1,8 +1,8 @@
 import { useNavigate } from 'react-router-dom';
 
-import DailyFruit from '../assets/images/dailyFruit.png';
-import EventFruit from '../assets/images/EventFruit.png';
-import ChallengeFruit from '../assets/images/ChallengeFruit.png';
+import DailyFruit from '../../assets/images/dailyFruit.png';
+import EventFruit from '../../assets/images/EventFruit.png';
+import ChallengeFruit from '../../assets/images/ChallengeFruit.png';
 import { useState } from 'react';
 
 export default function ArticleItem(article) {
@@ -24,6 +24,7 @@ export default function ArticleItem(article) {
     setFruitImg('🍇');
   }
 
+  const formattedDate = new Date(article.date).toLocaleDateString();
   return (
     // 게시글 디테일 페이지 만든 후 Link 달아주기
     <>
@@ -33,8 +34,8 @@ export default function ArticleItem(article) {
       >
         <td>{fruitImg}</td>
         <td className="truncate">{article.title}</td>
-        <td>{article.nickname}</td>
-        <td>{article.date}</td>
+        <td className="truncate">{article.nickname}</td>
+        <td>{formattedDate}</td> {/* 년월일만 표시 */}
       </tr>
     </>
   );

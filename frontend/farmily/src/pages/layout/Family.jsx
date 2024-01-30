@@ -1,7 +1,7 @@
 import { Outlet } from 'react-router-dom';
-import SideBar from '../components/SideBar.jsx';
+import SideBar from '../../components/SideBar.jsx';
 
-import BackButton from '../components/BackButton.jsx';
+import BackButton from '../../components/button/BackButton.jsx';
 export default function MainLayout() {
   return (
     <main className="absolute flex items-end justify-between h-screen w-screen bg-mainCover bg-cover bg-bottom mx-0 font-['DungGeunMo']">
