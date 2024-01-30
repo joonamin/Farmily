@@ -1,104 +1,105 @@
-import React, { useState } from "react";
-import SmallButton from "../button/SmallButton";
+  import React, { useState } from "react";
+  import SmallButton from "../button/SmallButton";
+  import Draw from "./Draw";
+  import Collection from "./Collection";
+  import Fruits from "./Fruits";
 
-const BoardModal = ({ isOpen, closeModal }) => {
-  const [selectedTab, setSelectedTab] = useState("segment1");
+  const BoardModal = ({ isOpen, closeModal }) => {
+    const [selectedTab, setSelectedTab] = useState("segment1");
 
-  const handleOutsideClick = (e) => {
-    if (e.target.id === "my-modal") {
-      closeModal();
-    }
-  };
+    const handleOutsideClick = (e) => {
+      if (e.target.id === "my-modal") {
+        closeModal();
+      }
+    };
 
-  const handleTabClick = (tab) => {
-    setSelectedTab(tab);
-  };
+    const handleTabClick = (tab) => {
+      setSelectedTab(tab);
+    };
 
-  return (
-    <div
-      className="fixed inset-0 w-full h-full overflow-y-auto bg-gray-600 bg-opacity-50"
-      id="my-modal"
-      onClick={handleOutsideClick}
-    >
-      <div className="relative p-5 mx-auto bg-white border rounded-md shadow-lg top-20 w-96">
-        <div className="bg-gray-200 rounded-lg" style={{ padding: "2px" }}>
-          <div className="relative flex items-center">
-            {/* Tab dividers */}
-            <div className="absolute w-full">
-              <div className="flex justify-between w-1/3 m-auto">
-                <div
-                  className="w-px h-3 transition-opacity duration-100 ease-in-out bg-gray-400 rounded-full opacity-0"
-                  style={{ opacity: selectedTab === "segment3" ? 1 : 0 }}
-                ></div>
-                <div
-                  className="w-px h-3 transition-opacity duration-100 ease-in-out bg-gray-400 rounded-full opacity-0"
-                  style={{ opacity: selectedTab === "segment1" ? 1 : 0 }}
-                ></div>
+    return (
+      <>
+        {isOpen && (
+          <div
+            className="fixed inset-0 flex items-center justify-center z-50"
+            id="my-modal"
+            onClick={handleOutsideClick}
+          >
+            <div className="relative p-5 mx-auto bg-white border rounded-md shadow-lg top-20 w-96">
+              <div className="bg-gray-200 rounded-lg" style={{ padding: "2px" }}>
+                <div className="relative flex items-center">
+                  {/* Tab dividers */}
+                  <div className="absolute w-full">
+                    <div className="flex justify-between w-1/3 m-auto">
+                      {["segment1", "segment2", "segment3"].map((segment) => (
+                        <div
+                          key={segment}
+                          className="w-px h-3 transition-opacity duration-100 ease-in-out bg-gray-400 rounded-full"
+                          style={{
+                            opacity: selectedTab === segment ? 1 : 0.4, // 선택된 탭은 투명도 1, 나머지 탭은 투명도 0.5
+                          }}
+                        ></div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* White sliding tab block */}
+                  <div
+                    className={`absolute left-0 inset-y-0 w-1/3 flex bg-white transition-all ease-in-out duration-200 transform rounded-md shadow`}
+                    style={{
+                      transform: `translateX(${
+                        selectedTab === "segment1"
+                          ? "0"
+                          : selectedTab === "segment2"
+                          ? "100%"
+                          : "200%"
+                      })`,
+                    }}
+                  ></div>
+
+                  {/* Clickable buttons */}
+                  {["segment1", "segment2", "segment3"].map((segment) => (
+                    <div
+                      key={segment}
+                      className={`relative flex-1 flex text-sm font-semibold capitalize items-center justify-center cursor-pointer m-px p-px ${
+                        selectedTab === segment ? "bg-gray-200" : ""
+                      }`}
+                      onClick={() => handleTabClick(segment)}
+                      style={{
+                        opacity: selectedTab === segment ? 1 : 0.5, // 선택된 탭은 투명도 1, 나머지 탭은 투명도 0.5
+                      }}
+                    >
+                      {segment === "segment1" ? "열매" : segment === "segment2" ? "도감" : "뽑기"}
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Content based on selected tab */}
+              {selectedTab === "segment1" && (
+                <div>
+                  <Fruits />
+                </div>
+              )}
+              {selectedTab === "segment2" && (
+                <div>
+                  <Collection />
+                </div>
+              )}
+              {selectedTab === "segment3" && (
+                <div>
+                  <Draw />
+                </div>
+              )}
+
+              <div className="flex justify-end mt-5">
+                <span onClick={closeModal}><SmallButton text="닫기" /></span>
               </div>
             </div>
-
-            {/* White sliding tab block */}
-            <div
-              className={`absolute left-0 inset-y-0 w-1/3 flex bg-white transition-all ease-in-out duration-200 transform rounded-md shadow ${
-                selectedTab === "segment1"
-                  ? "translate-x-0"
-                  : selectedTab === "segment2"
-                  ? "translate-x-full"
-                  : "translate-x-fullx2"
-              }`}
-            ></div>
-
-            {/* Clickable buttons */}
-            <div
-              className={`relative flex-1 flex text-sm font-semibold capitalize items-center justify-center cursor-pointer m-px p-px ${
-                selectedTab === "segment1" ? "bg-gray-200" : ""
-              }`}
-              onClick={() => handleTabClick("segment1")}
-            >
-              열매
-            </div>
-            <div
-              className={`relative flex-1 flex text-sm font-semibold capitalize items-center justify-center cursor-pointer m-px p-px ${
-                selectedTab === "segment2" ? "bg-gray-200" : ""
-              }`}
-              onClick={() => handleTabClick("segment2")}
-            >
-              도감
-            </div>
-            <div
-              className={`relative flex-1 flex text-sm font-semibold capitalize items-center justify-center cursor-pointer m-px p-px ${
-                selectedTab === "segment3" ? "bg-gray-200" : ""
-              }`}
-              onClick={() => handleTabClick("segment3")}
-            >
-              뽑기
-            </div>
-          </div>
-        </div>
-
-        {/* Content based on selected tab */}
-        {selectedTab === "segment1" && (
-          <div>
-            <p>내용1</p>
           </div>
         )}
-        {selectedTab === "segment2" && (
-          <div>
-            <p>내용2</p>
-          </div>
-        )}
-        {selectedTab === "segment3" && (
-          <div>
-            <p>내용3</p>
-          </div>
-        )}
+      </>
+    );
+  };
 
-        <div className="flex justify-end">
-          <SmallButton onClick={closeModal} text="닫기"></SmallButton>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-export default BoardModal;
+  export default BoardModal;

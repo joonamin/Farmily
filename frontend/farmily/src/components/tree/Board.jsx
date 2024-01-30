@@ -1,3 +1,4 @@
+// Board.js
 import React, { useState } from "react";
 import BoardModal from "./BoardModal";
 import mainboard from "../../assets/images/mainboard.png";
@@ -23,9 +24,7 @@ export default function Board() {
         />
       </div>
 
-      {isModalOpen && (
-        <BoardModal isOpen={isModalOpen} closeModal={closeModal} />
-      )}
+      <BoardModal isOpen={isModalOpen} closeModal={closeModal} />
     </>
   );
 }
