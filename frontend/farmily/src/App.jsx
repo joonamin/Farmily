@@ -26,6 +26,7 @@ import LoginPage from './pages/LoginPage.jsx';
 import CommunityDetailPage from './pages/CommunityDetailPage.jsx';
 import TreeCreatePage from './pages/TreeCreatePage.jsx';
 import EnterPage from './pages/EnterPage.jsx';
+import FamilyCreatePage from './pages/FamilyCreatePage.jsx';
 
 const router = createBrowserRouter([
   {
@@ -34,8 +35,9 @@ const router = createBrowserRouter([
     children: [
       { path: '/', element: <IndexPage /> },
       { path: '/login', element: <LoginPage /> },
-      { path: 'createTree', element: <TreeCreatePage /> },
-      { path: 'createTree/enter', element: <EnterPage /> },
+      { path: 'createtree', element: <TreeCreatePage /> },
+      { path: 'createtree/enter', element: <EnterPage /> },
+      { path: 'createtree/family', element: <FamilyCreatePage /> },
     ],
   },
   {
