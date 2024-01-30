@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import challenge from '../../assets/images/challenge_modal.png';
+import axios from '../../api/axios.jsx';
 
 function getDayOfWeek(date) {
   const days = ['일', '월', '화', '수', '목', '금', '토'];
@@ -47,6 +48,17 @@ export default function ChallengeCalendar({ startDate, endDate }) {
       setShowConfirmationModal(true);
     } else {
       setImages({ ...images, [date]: challenge });
+      const day = date.toISOString().slice(0, 10);
+      axios
+        .post('/record/challenge/mark', {
+          // 보낼 때 challengeId 받아오기
+          challengeId: 17,
+          date: day,
+        })
+        .then((response) => {})
+        .catch((error) => {
+          console.log(error);
+        });
     }
   };
 
