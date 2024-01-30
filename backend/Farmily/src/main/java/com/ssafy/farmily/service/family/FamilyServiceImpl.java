@@ -40,6 +40,7 @@ import com.ssafy.farmily.repository.PlacementRepository;
 import com.ssafy.farmily.repository.RecordRepository;
 import com.ssafy.farmily.repository.SprintRepository;
 import com.ssafy.farmily.repository.TreeRepository;
+import com.ssafy.farmily.service.file.FileService;
 import com.ssafy.farmily.type.AccessoryType;
 import com.ssafy.farmily.type.FamilyRole;
 import com.ssafy.farmily.utils.DateRange;
@@ -61,6 +62,7 @@ public class FamilyServiceImpl implements FamilyService {
 	private final FamilyMembershipRepository familyMembershipRepository;
 	private final MemberRepository memberRepository;
 	private final ImageRepository imageRepository;
+	private final FileService fileService;
 
 	@Override
 	@Transactional
@@ -157,21 +159,24 @@ public class FamilyServiceImpl implements FamilyService {
 	@Transactional
 	public void makeFamily(MakingFamilyRequestDto makingFamilyRequestDto,String username) {
 		Member member = memberRepository.findByUsername(username).get();
-		Image profileImage = makingFamilyRequestDto.getImage();
+		Image profileImage = null;
+		if(makingFamilyRequestDto.getImage() != null){
+			profileImage = fileService.saveImage(makingFamilyRequestDto.getImage());
+		}
 		String invitationCode = UUID.randomUUID().toString();
 
 		Family family = Family.builder()
 			.name(makingFamilyRequestDto.getName())
 			.motto(makingFamilyRequestDto.getMotto())
 			.invitationCode(invitationCode)
-			.image(makingFamilyRequestDto.getImage())
+			.image(profileImage)
 			.sprints(List.of())
 			.items(List.of())
 			.build();
 
 		Tree tree = Tree.builder().family(family).placements(List.of()).build();
 		family.setTree(tree);
-		imageRepository.save(profileImage);
+
 		familyRepository.save(family);
 		treeRepository.save(tree);
 

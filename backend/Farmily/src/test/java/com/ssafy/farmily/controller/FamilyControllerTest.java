@@ -88,7 +88,7 @@ class FamilyControllerTest {
 	@Transactional
 	void makeFamilyTest() throws Exception {
 		Member member = memberRepository.findById(1L).get();
-		String content = objectMapper.writeValueAsString(new MakingFamilyRequestDto("대한민국","16강진출기원"));
+		String content = objectMapper.writeValueAsString(new MakingFamilyRequestDto("대한민국","16강진출기원", null));
 		mockMvc.perform(post("/insertFamily")
 			.content(content)
 			.contentType(MediaType.APPLICATION_JSON)
