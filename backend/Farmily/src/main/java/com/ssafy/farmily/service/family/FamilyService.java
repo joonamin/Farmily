@@ -58,7 +58,7 @@ public interface FamilyService {
 
 	public List<FamilyMemberResponseDto> loadFamilyMemberList(Long familyId,String username);
 
-	public void mandateLeader(Long familyId, Long newLeaderId, String pastLeaderName);
+	public void changeLeader(Long familyId, Long newLeaderId, String pastLeaderName);
 
 	//TODO public void raffleItem(Long familyId);
 }

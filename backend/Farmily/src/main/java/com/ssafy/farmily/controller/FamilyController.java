@@ -200,7 +200,7 @@ public class FamilyController {
 		@PathVariable(value = "familyId") Long familyId,
 		@PathVariable(value = "memberId") Long memberId,
 		@AuthenticationPrincipal String username){
-		familyService.mandateLeader(familyId,memberId,username);
+		familyService.changeLeader(familyId,memberId,username);
 		return ResponseEntity.ok().build();
 	}
 
