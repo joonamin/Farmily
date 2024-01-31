@@ -27,6 +27,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 	public JwtAuthenticationFilter(Environment env) {
 		String secret = env.getProperty("jwt.secret");
+		log.warn("secret: " + secret);
 		this.secretKey = Keys.hmacShaKeyFor(secret.getBytes());
 	}
 

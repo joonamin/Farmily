@@ -2,7 +2,6 @@ import axios from 'axios';
 
 // 토큰 값 설정
 const token = '';
-
 const accessToken = `Bearer ${token}`;
 
 const instance = axios.create({

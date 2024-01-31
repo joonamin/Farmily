@@ -2,6 +2,7 @@ package com.ssafy.farmily.utils;
 
 import java.io.IOException;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.core.oidc.OidcUserInfo;
@@ -23,7 +24,7 @@ import lombok.extern.log4j.Log4j2;
 public class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
 	private final JwtFactory jwtFactory;
-	private final String REDIRECT_URL = "http://localhost:5173";
+	@Value("${spring.security.farmily.redirect-uri}") private String REDIRECT_URL;
 
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
