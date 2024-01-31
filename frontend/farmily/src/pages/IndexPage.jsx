@@ -27,9 +27,11 @@ export default function IndexPage() {
           </button>
         </Link>
       </div>
-      <img className="w-3/6 mb-28" src={mainTree} alt="" />
+      <div className="w-5/12">
+        <img className="mb-28" src={mainTree} alt="" />
+      </div>
       <div className="w-1/6 mr-32 mb-28 relative">
-        <p className="text-white text-4xl absolute top-14 left-8">시작하기</p>
+        <p className="text-white text-4xl absolute top-16 left-12">시작하기</p>
         <img src={board} alt="" />
       </div>
     </>

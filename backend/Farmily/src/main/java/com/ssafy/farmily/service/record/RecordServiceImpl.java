@@ -1,16 +1,15 @@
 package com.ssafy.farmily.service.record;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.farmily.dto.ChallengeRecordMarkRequestDto;
-
 import com.ssafy.farmily.dto.ChallengeRecordPostRequestDto;
 import com.ssafy.farmily.dto.ChallengeRecordPutRequestDto;
 import com.ssafy.farmily.dto.ChallengeRecordResponseDto;
@@ -22,20 +21,17 @@ import com.ssafy.farmily.dto.EventRecordResponseDto;
 import com.ssafy.farmily.dto.ImageCardRequestDto;
 import com.ssafy.farmily.dto.RecordResponseDto;
 import com.ssafy.farmily.entity.ChallengeProgress;
-
-
 import com.ssafy.farmily.entity.ChallengeRecord;
 import com.ssafy.farmily.entity.Image;
 import com.ssafy.farmily.entity.ImageCard;
 import com.ssafy.farmily.entity.Record;
 import com.ssafy.farmily.entity.Sprint;
-import com.ssafy.farmily.service.sprint.SprintService;
-import com.ssafy.farmily.type.RecordType;
-
 import com.ssafy.farmily.exception.NoSuchContentException;
 import com.ssafy.farmily.repository.ImageCardRepository;
 import com.ssafy.farmily.repository.RecordRepository;
 import com.ssafy.farmily.service.file.FileService;
+import com.ssafy.farmily.service.sprint.SprintService;
+import com.ssafy.farmily.type.RecordType;
 
 import lombok.RequiredArgsConstructor;
 
@@ -154,7 +150,7 @@ public class RecordServiceImpl implements RecordService {
 
 		ChallengeProgress progressEntity = ChallengeProgress.builder()
 			.challenge(recordEntity)
-			.date(dto.getDate())
+			.date(LocalDate.now())
 			.build();
 
 		recordEntity.getProgresses().add(progressEntity);
@@ -169,7 +165,6 @@ public class RecordServiceImpl implements RecordService {
 
 		entity.setTitle(dto.getTitle());
 		entity.setContent(dto.getContent());
-		entity.setDateRange(dto.getDateRange());
 
 		recordRepository.save(entity);
 	}
