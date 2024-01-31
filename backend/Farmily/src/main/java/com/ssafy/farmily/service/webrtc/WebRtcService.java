@@ -4,6 +4,9 @@ import io.openvidu.java.client.ConnectionProperties;
 import io.openvidu.java.client.SessionProperties;
 
 public interface WebRtcService {
-	String initializeSession(SessionProperties sessionProperties);
-	String createConnection(String sessionId, ConnectionProperties connectionProperties);
+	String enterConference(String username, Long familyId);
+
+	String createConference(Long familyId);
+
+	String joinConference(String username, Long familyId);
 }

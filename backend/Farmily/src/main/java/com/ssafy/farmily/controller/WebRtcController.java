@@ -3,9 +3,12 @@ package com.ssafy.farmily.controller;
 import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.farmily.service.webrtc.WebRtcService;
@@ -17,45 +20,21 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 
 @RestController
+@RequestMapping("/webrtc")
 @RequiredArgsConstructor
+@Tag(name = "WebRTC", description = "화상회의 API")
 public class WebRtcController {
 
 	private final WebRtcService webRtcService;
 
-	@PostMapping("/api/sessions")
+	@PostMapping("/{familyId}")
 	@Operation(
-		summary = "WebRTC 세션 초기화",
-		description = "WebRTC 세션을 초기화합니다."
-	)
-	@ApiResponses({
-		@ApiResponse(
-			responseCode = "200",
-			description = "세션 초기화 성공",
-			content = @Content(
-				schema = @Schema(
-					implementation = String.class,
-					description = "생성된 세션 ID"
-				)
-			)
-		)
-	})
-	public ResponseEntity<String> initializeSession(
-		@RequestBody(required = false) Map<String, Object> params
-	) {
-		SessionProperties properties = SessionProperties.fromJson(params).build();
-
-		String sessionId = webRtcService.initializeSession(properties);
-
-		return ResponseEntity.ok(sessionId);
-	}
-
-	@PostMapping("/api/sessions/{sessionId}/connections")
-	@Operation(
-		summary = "WebRTC 세션 연결",
-		description = "WebRTC 세션에 연결합니다."
+		summary = "가족회의 연결",
+		description = "가족회의 세션을 얻습니다. 가족회의가 없었다면 새로 만듭니다."
 	)
 	@ApiResponses({
 		@ApiResponse(
@@ -69,14 +48,12 @@ public class WebRtcController {
 			)
 		)
 	})
-	public ResponseEntity<String> createConnection(
-		@PathVariable String sessionId,
-		@RequestBody(required = false) Map<String, Object> params
+	public ResponseEntity<String> post(
+		@AuthenticationPrincipal String username,
+		@PathVariable Long familyId
 	) {
-		ConnectionProperties properties = ConnectionProperties.fromJson(params).build();
-
-		String urlWithToken = webRtcService.createConnection(sessionId, properties);
-
+		String urlWithToken = webRtcService.enterConference(username, familyId);
 		return ResponseEntity.ok(urlWithToken);
 	}
+
 }
