@@ -21,6 +21,7 @@ import com.ssafy.farmily.dto.FamilyMemberResponseDto;
 import com.ssafy.farmily.dto.JoinRequestDto;
 import com.ssafy.farmily.dto.MakingFamilyRequestDto;
 import com.ssafy.farmily.dto.PlacingItemRequestDto;
+import com.ssafy.farmily.dto.RefreshSprintRequestDto;
 import com.ssafy.farmily.service.family.FamilyService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -138,8 +139,8 @@ public class FamilyController {
 			description = "스프린트 새로고침 성공"
 		)
 	})
-	public ResponseEntity<Void> refreshSprint(@RequestBody Long familyId){
-		familyService.swapSprint(familyId);
+	public ResponseEntity<Void> refreshSprint(@RequestBody RefreshSprintRequestDto requestDto){
+		familyService.swapSprint(requestDto);
 		return ResponseEntity.ok().build();
 	}
 

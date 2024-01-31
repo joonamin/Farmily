@@ -20,6 +20,7 @@ import com.ssafy.farmily.dto.JoinRequestDto;
 import com.ssafy.farmily.dto.MakingFamilyRequestDto;
 import com.ssafy.farmily.dto.PlacementDto;
 import com.ssafy.farmily.dto.PlacingItemRequestDto;
+import com.ssafy.farmily.dto.RefreshSprintRequestDto;
 import com.ssafy.farmily.entity.AccessoryPlacement;
 import com.ssafy.farmily.entity.Family;
 import com.ssafy.farmily.entity.FamilyItem;
@@ -192,7 +193,8 @@ public class FamilyServiceImpl implements FamilyService {
 
 	@Override
 	@Transactional
-	public void swapSprint(Long familyId) {
+	public void swapSprint(RefreshSprintRequestDto requestDto) {
+		Long familyId = requestDto.getFamilyId();
 		Optional<Sprint> unHarvestedSprint = sprintRepository.findByFamilyIdAndIsHarvested(familyId, false);
 		if (unHarvestedSprint.isPresent()) {
 			Sprint pastSprint = unHarvestedSprint.get();
