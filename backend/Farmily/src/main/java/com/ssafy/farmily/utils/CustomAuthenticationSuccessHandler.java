@@ -23,7 +23,7 @@ import lombok.extern.log4j.Log4j2;
 public class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
 	private final JwtFactory jwtFactory;
-	private final String REDIRECT_URL = "http://localhost:5173";
+	private final String REDIRECT_URL = "http://localhost:8080";
 
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,

@@ -13,10 +13,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ssafy.farmily.dto.ChangeLeaderRequestDto;
 import com.ssafy.farmily.dto.FamilyBasketDto;
 import com.ssafy.farmily.dto.FamilyItemDto;
 import com.ssafy.farmily.dto.FamilyMainDto;
 import com.ssafy.farmily.dto.FamilyMemberResponseDto;
+import com.ssafy.farmily.dto.JoinRequestDto;
 import com.ssafy.farmily.dto.MakingFamilyRequestDto;
 import com.ssafy.farmily.dto.PlacingItemRequestDto;
 import com.ssafy.farmily.service.family.FamilyService;
@@ -153,8 +155,8 @@ public class FamilyController {
 	})
 	@PostMapping("/join")
 	@PreAuthorize("hasRole('ROLE_USER')")
-	public ResponseEntity<Void> joinFamily(@RequestBody String invitationCode, @AuthenticationPrincipal String username){
-		familyService.insertFamilyMemberShip(invitationCode, username);
+	public ResponseEntity<Void> joinFamily(@RequestBody JoinRequestDto requestDto, @AuthenticationPrincipal String username){
+		familyService.insertFamilyMemberShip(requestDto, username);
 		return ResponseEntity.ok().build();
 	}
 
@@ -194,13 +196,13 @@ public class FamilyController {
 			description = "가장 위임 성공"
 		)
 	})
-	@PutMapping("/{familyId}/mandate/{memberId}")
+	@PutMapping("/{familyId}/mandate")
 	@PreAuthorize("hasRole('ROLE_USER')")
-	public ResponseEntity<Void> mandateHead(
+	public ResponseEntity<Void> changeLeader(
 		@PathVariable(value = "familyId") Long familyId,
-		@PathVariable(value = "memberId") Long memberId,
+		@RequestBody ChangeLeaderRequestDto requestDto,
 		@AuthenticationPrincipal String username){
-		familyService.changeLeader(familyId,memberId,username);
+		familyService.changeLeader(familyId,requestDto,username);
 		return ResponseEntity.ok().build();
 	}
 

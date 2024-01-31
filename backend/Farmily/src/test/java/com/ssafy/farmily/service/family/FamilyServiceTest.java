@@ -13,11 +13,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
+import com.ssafy.farmily.dto.ChangeLeaderRequestDto;
 import com.ssafy.farmily.dto.FamilyBasketDto;
 import com.ssafy.farmily.dto.FamilyItemDto;
 import com.ssafy.farmily.dto.FamilyMainDto;
 import com.ssafy.farmily.dto.FamilyMainTreeDto;
 import com.ssafy.farmily.dto.FamilyMemberResponseDto;
+import com.ssafy.farmily.dto.JoinRequestDto;
 import com.ssafy.farmily.dto.MakingFamilyRequestDto;
 import com.ssafy.farmily.dto.PlacementDto;
 import com.ssafy.farmily.dto.PlacingItemRequestDto;
@@ -217,7 +219,9 @@ class FamilyServiceTest {
 		MakingFamilyRequestDto requestDto = new MakingFamilyRequestDto("대한민국","16강 가즈아",null);
 		familyService.makeFamily(requestDto, member1.getUsername());
 		String invitationCode = familyRepository.findById(1L).get().getInvitationCode();
-		familyService.insertFamilyMemberShip(invitationCode,member2.getUsername());
+		JoinRequestDto joinRequestDto = new JoinRequestDto();
+		joinRequestDto.setInvitationCode(invitationCode);
+		familyService.insertFamilyMemberShip(joinRequestDto,member2.getUsername());
 		List<FamilyMemberResponseDto> list= familyService.loadFamilyMemberList(1L,member1.getUsername());
 		Assertions.assertEquals(list.get(0).getRole(),FamilyRole.LEADER);
 		Assertions.assertEquals(list.get(0).getNickname(),"A");
@@ -235,9 +239,12 @@ class FamilyServiceTest {
 		MakingFamilyRequestDto requestDto = new MakingFamilyRequestDto("대한민국","16강 가즈아",null);
 		familyService.makeFamily(requestDto , member1.getUsername());
 		String invitationCode = familyRepository.findById(1L).get().getInvitationCode();
-		familyService.insertFamilyMemberShip(invitationCode,member2.getUsername());
-
-		familyService.mandateHead(1L,2L, "user");
+		JoinRequestDto joinRequestDto = new JoinRequestDto();
+		joinRequestDto.setInvitationCode(invitationCode);
+		familyService.insertFamilyMemberShip(joinRequestDto,member2.getUsername());
+		ChangeLeaderRequestDto changeLeaderRequestDto = new ChangeLeaderRequestDto();
+		changeLeaderRequestDto.setNewLeaderMemberId(2L);
+		familyService.changeLeader(1L,changeLeaderRequestDto,"user");
 
 		List<FamilyMemberResponseDto> list = familyService.loadFamilyMemberList(1L,member1.getUsername());
 

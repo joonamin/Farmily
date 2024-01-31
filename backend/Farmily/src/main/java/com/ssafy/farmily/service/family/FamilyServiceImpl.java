@@ -11,10 +11,12 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
+import com.ssafy.farmily.dto.ChangeLeaderRequestDto;
 import com.ssafy.farmily.dto.FamilyBasketDto;
 import com.ssafy.farmily.dto.FamilyItemDto;
 import com.ssafy.farmily.dto.FamilyMainDto;
 import com.ssafy.farmily.dto.FamilyMemberResponseDto;
+import com.ssafy.farmily.dto.JoinRequestDto;
 import com.ssafy.farmily.dto.MakingFamilyRequestDto;
 import com.ssafy.farmily.dto.PlacementDto;
 import com.ssafy.farmily.dto.PlacingItemRequestDto;
@@ -218,7 +220,8 @@ public class FamilyServiceImpl implements FamilyService {
 	}
 
 	@Override
-	public void insertFamilyMemberShip(String inviteCode, String username) throws NoSuchContentException {
+	public void insertFamilyMemberShip(JoinRequestDto requestDto, String username) throws NoSuchContentException {
+		String inviteCode = requestDto.getInvitationCode();
 		Family family = familyRepository.findByInvitationCode(inviteCode)
 			.orElseThrow(() -> new NoSuchContentException("존재 하지 않는 초대코드입니다."));
 		Member member = memberRepository.findByUsername(username).get();
@@ -281,7 +284,8 @@ public class FamilyServiceImpl implements FamilyService {
 	}
 
 	@Override
-	public void changeLeader(Long familyId, Long newLeaderId, String pastLeaderName) throws BusinessException{
+	public void changeLeader(Long familyId, ChangeLeaderRequestDto requestDto, String pastLeaderName) throws BusinessException{
+		Long newLeaderId = requestDto.getNewLeaderMemberId();
 		Member pastLeader = memberRepository.findByUsername(pastLeaderName).get();
 		Long pastLeaderId = pastLeader.getId();
 		FamilyMembership pastLeaderMemberShip = getPastLeaderMembership(familyId, pastLeaderId);
