@@ -46,4 +46,20 @@ public class OpenViduWebRtcService implements WebRtcService {
 			throw new RuntimeException(ex);
 		}
 	}
+
+	@Override
+	public String enterConference(String username, Long familyId) {
+
+		return null; // TODO
+	}
+
+	@Override
+	public String createConference(Long familyId) {
+		return null; // TODO
+	}
+
+	@Override
+	public String joinConference(String username, Long familyId) {
+		return null; // TODO
+	}
 }
