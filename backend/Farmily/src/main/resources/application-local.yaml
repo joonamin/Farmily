@@ -1,0 +1,69 @@
+spring:
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://localhost:3306/farmily_test?useUnicode=true&characterEncoding=UTF-8
+    username: root
+    password: 1234
+
+  jpa:
+    hibernate:
+      ddl-auto: update # create-drop, create로 바꿔도 됨
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: com.ssafy.farmily.config.CustomMariaDbDialect
+    show-sql: true
+---
+file-server:
+  local:
+    path: C:\Farmily\Test
+---
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 678879707927-emi2amhg2q7n5ngplpbtvif9r4l5lh0d.apps.googleusercontent.com
+            client-secret: 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
+          kakao:
+            client-id: 3577be51ad74062922250c5b9b15f3b0
+            redirect-uri: http://localhost:8080/login/oauth2/code/kakao
+            scope:
+              - profile_image
+              - profile_nickname
+              - openid
+          facebook:
+            client-id: 1829622250799572
+            client-secret: dd359e7b3d0494dbcf8f8d4a605ed5a2
+            scope:
+              - openid
+              - public_profile
+              - email
+
+logging:
+  level:
+    org:
+      springframework:
+        security: trace
+        web: trace
+      hibernate: ERROR
+      apache: ERROR
+      commons: ERROR
+      jackson: ERROR
+      slf4j: ERROR
+      log4j: ERROR
+      log4j2: ERROR
+      logback: ERROR
+      farmily: DEBUG
+      http: DEBUG
+---
+jwt:
+  # HMAC256 방식의 암호화를 사용
+  # 256bit 이상의 키를 요구..
+  secret: secretKeysecretKeysecretKeysecretKeysecretKeysecretKeysecretKeysecretKeysecretKeysecretKey
+  redirect-uri: http://localhost:8080/oauth2/redirect
+---
+openvidu:
+  url: https://i10e102.p.ssafy.io:4443/
+  secret: MY_SECRET
