@@ -16,4 +16,9 @@ public class GlobalExceptionHandler {
 	public ResponseEntity<Void> handleException(MethodArgumentNotValidException exception) {
 		return ResponseEntity.badRequest().build();
 	}
+
+	@ExceptionHandler(BusinessException.class)
+	public ResponseEntity<Void> handleException(BusinessException exception) {
+		return ResponseEntity.badRequest().build();
+	}
 }
