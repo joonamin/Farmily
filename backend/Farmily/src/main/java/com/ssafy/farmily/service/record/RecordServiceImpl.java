@@ -24,12 +24,15 @@ import com.ssafy.farmily.entity.ChallengeProgress;
 import com.ssafy.farmily.entity.ChallengeRecord;
 import com.ssafy.farmily.entity.Image;
 import com.ssafy.farmily.entity.ImageCard;
+import com.ssafy.farmily.entity.Member;
 import com.ssafy.farmily.entity.Record;
 import com.ssafy.farmily.entity.Sprint;
 import com.ssafy.farmily.exception.NoSuchContentException;
 import com.ssafy.farmily.repository.ImageCardRepository;
 import com.ssafy.farmily.repository.RecordRepository;
+import com.ssafy.farmily.service.family.FamilyService;
 import com.ssafy.farmily.service.file.FileService;
+import com.ssafy.farmily.service.member.MemberService;
 import com.ssafy.farmily.service.sprint.SprintService;
 import com.ssafy.farmily.type.RecordType;
 
@@ -43,6 +46,8 @@ public class RecordServiceImpl implements RecordService {
 
 	private final FileService fileService;
 	private final SprintService sprintService;
+	private final MemberService memberService;
+	private final FamilyService familyService;
 
 	@Override
 	@Transactional
@@ -65,13 +70,14 @@ public class RecordServiceImpl implements RecordService {
 
 	@Override
 	@Transactional
-	public void createEventRecord(EventRecordPostRequestDto dto) {
+	public void createEventRecord(String username, EventRecordPostRequestDto dto) {
+		Member member = memberService.getEntity(username);
 		Sprint sprint = sprintService.getEntityById(dto.getSprintId());
 
 		Record entity = Record.builder()
 			.type(RecordType.EVENT)
 			.sprint(sprint)
-			.author(null)	// TODO: UserPrincipal 연결 및 적용
+			.author(member)
 			.title(dto.getTitle())
 			.build();
 
@@ -84,28 +90,31 @@ public class RecordServiceImpl implements RecordService {
 
 	@Override
 	@Transactional
-	public void editEventRecord(EventRecordPutRequestDto dto) {
+	public void editEventRecord(String username, EventRecordPutRequestDto dto) {
 		Record entity = recordRepository.findById(dto.getRecordId())
 			.orElseThrow(NoSuchContentException::new);
+
+		memberService.assertAuthorship(entity.getAuthor(), username);
 
 		// TODO: 기존 파일 삭제
 		List<ImageCard> imageCards = persistImageCards(entity, dto.getImageCards());
 
 		entity.setTitle(dto.getTitle());
-		entity.setImageCards(imageCards);	// TODO: 이미지 적용하기
+		entity.setImageCards(imageCards);
 
 		recordRepository.save(entity);
 	}
 
 	@Override
 	@Transactional
-	public void createDailyRecord(DailyRecordPostRequestDto dto) {
+	public void createDailyRecord(String username, DailyRecordPostRequestDto dto) {
+		Member member = memberService.getEntity(username);
 		Sprint sprint = sprintService.getEntityById(dto.getSprintId());
 
 		Record entity = Record.builder()
 			.type(RecordType.DAILY)
 			.sprint(sprint)
-			.author(null)	// TODO: UserPrincipal 연결 및 적용
+			.author(member)
 			.title(dto.getTitle())
 			.content(dto.getContent())
 			.build();
@@ -115,8 +124,10 @@ public class RecordServiceImpl implements RecordService {
 
 	@Override
 	@Transactional
-	public void editDailyRecord(DailyRecordPutRequestDto dto) {
+	public void editDailyRecord(String username, DailyRecordPutRequestDto dto) {
 		Record entity = getEntityById(dto.getRecordId());
+
+		memberService.assertAuthorship(entity.getAuthor(), username);
 
 		entity.setTitle(dto.getTitle());
 		entity.setContent(dto.getContent());
@@ -126,13 +137,14 @@ public class RecordServiceImpl implements RecordService {
 
 	@Override
 	@Transactional
-	public void createChallengeRecord(ChallengeRecordPostRequestDto dto) {
+	public void createChallengeRecord(String username, ChallengeRecordPostRequestDto dto) {
+		Member member = memberService.getEntity(username);
 		Sprint sprint = sprintService.getEntityById(dto.getSprintId());
 
 		ChallengeRecord entity = ChallengeRecord.builder()
 			.type(RecordType.CHALLENGE)
 			.sprint(sprint)
-			.author(null)
+			.author(member)
 			.title(dto.getTitle())
 			.content(dto.getContent())
 			.dateRange(dto.getDateRange())
@@ -145,8 +157,12 @@ public class RecordServiceImpl implements RecordService {
 
 	@Override
 	@Transactional
-	public void markChallengeRecord(ChallengeRecordMarkRequestDto dto) {
+	public void markChallengeRecord(String username, ChallengeRecordMarkRequestDto dto) {
+		Member member = memberService.getEntity(username);
 		ChallengeRecord recordEntity = (ChallengeRecord) getEntityById(dto.getChallengeId());
+
+		Long familyId = recordEntity.getSprint().getFamily().getId();
+		familyService.assertMembership(familyId, username);
 
 		ChallengeProgress progressEntity = ChallengeProgress.builder()
 			.challenge(recordEntity)
@@ -160,8 +176,10 @@ public class RecordServiceImpl implements RecordService {
 
 	@Override
 	@Transactional
-	public void editChallengeRecord(ChallengeRecordPutRequestDto dto) {
+	public void editChallengeRecord(String username, ChallengeRecordPutRequestDto dto) {
 		ChallengeRecord entity = (ChallengeRecord) getEntityById(dto.getRecordId());
+
+		memberService.assertAuthorship(entity.getAuthor(), username);
 
 		entity.setTitle(dto.getTitle());
 		entity.setContent(dto.getContent());

@@ -30,6 +30,7 @@ import com.ssafy.farmily.entity.Record;
 import com.ssafy.farmily.entity.Sprint;
 import com.ssafy.farmily.entity.Tree;
 import com.ssafy.farmily.exception.BusinessException;
+import com.ssafy.farmily.exception.ForbiddenException;
 import com.ssafy.farmily.exception.NoSuchContentException;
 import com.ssafy.farmily.repository.FamilyItemRepository;
 import com.ssafy.farmily.repository.FamilyMembershipRepository;
@@ -112,6 +113,15 @@ public class FamilyServiceImpl implements FamilyService {
 		}
 
 		return familySprintList;
+	}
+
+	@Override
+	@Transactional
+	public void assertMembership(Long familyId, String username) {
+		boolean result = familyMembershipRepository.existsByFamilyIdAndMemberUsername(familyId, username);
+		if (!result) {
+			throw new ForbiddenException("사용자는 해당 가족에 속해있지 않습니다.");
+		}
 	}
 
 	@Transactional
