@@ -1,17 +1,13 @@
 package com.ssafy.farmily.service.member;
 
 import java.security.Key;
+import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Optional;
 
-import javax.crypto.SecretKey;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 
 import com.ssafy.farmily.dto.LogoutRequestDto;
 import com.ssafy.farmily.dto.MemberInfoDto;
@@ -61,7 +57,7 @@ public class CustomMemberService implements MemberService {
 	@Override
 	public Member getEntity(String username) {
 		return memberRepository.findByUsername(username)
-			.orElseThrow(() -> new RuntimeException("인증이 성공했지만 Member를 찾을 수 없습니다."));
+			.orElseThrow(() -> new NoSuchElementException("인증이 성공했지만 Member를 찾을 수 없습니다."));
 	}
 
 	@Override

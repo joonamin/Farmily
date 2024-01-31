@@ -11,11 +11,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.farmily.dto.ChangeLeaderRequestDto;
 import com.ssafy.farmily.dto.FamilyBasketDto;
 import com.ssafy.farmily.dto.FamilyItemDto;
+import com.ssafy.farmily.dto.FamilyListDto;
 import com.ssafy.farmily.dto.FamilyMainDto;
 import com.ssafy.farmily.dto.FamilyMemberResponseDto;
 import com.ssafy.farmily.dto.JoinRequestDto;
@@ -189,6 +191,24 @@ public class FamilyController {
 	) {
 		List<FamilyMemberResponseDto> familyMemberList = familyService.loadFamilyMemberList(familyId,username);
 		return ResponseEntity.ok(familyMemberList);
+	}
+
+	@Operation(
+		summary = "가족 정보 가져오기",
+		description = "username에 해당하는 유저의 가족 리스트 정보를 가져옴"
+	)
+	@ApiResponses({
+		@ApiResponse(
+			responseCode = "200",
+			description = "리스트 가져오기 성공"
+		)
+	})
+	@GetMapping("/family")
+	public ResponseEntity<FamilyListDto> getFamilyList(
+		@RequestParam @AuthenticationPrincipal String username
+	) {
+		FamilyListDto familyListDto = familyService.getFamilyList(username);
+		return ResponseEntity.ok(familyListDto);
 	}
 
 	@Operation(

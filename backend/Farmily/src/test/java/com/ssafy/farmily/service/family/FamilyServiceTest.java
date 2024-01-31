@@ -4,9 +4,11 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -28,6 +30,7 @@ import com.ssafy.farmily.entity.FamilyItem;
 import com.ssafy.farmily.entity.Member;
 import com.ssafy.farmily.entity.Record;
 import com.ssafy.farmily.entity.Sprint;
+import com.ssafy.farmily.exception.NoSuchContentException;
 import com.ssafy.farmily.repository.FamilyItemRepository;
 import com.ssafy.farmily.repository.FamilyMembershipRepository;
 import com.ssafy.farmily.repository.FamilyRepository;
@@ -260,4 +263,28 @@ class FamilyServiceTest {
 		Assertions.assertEquals(list.get(0).getRole(),FamilyRole.MEMBER);
 		Assertions.assertEquals(list.get(1).getRole(),FamilyRole.LEADER);
 	}
+
+	@Nested
+	class getFamilyList는 {
+		@Nested
+		class valid_input_에_대해 {
+			String username = "valid_user";
+			@Test
+			void it_returns_family_list() {
+				// 실제 해당 사용자를 insert 하고, 해당 사용자의 가족을 가져오는 것을 테스트
+			}
+		@Nested
+		class invalid_input_에_대해 {
+			String username = "NOT_FOUND_USER";
+			@Test
+			void it_returns_family_list() {
+				// NoSuchElements exception을 던진다.
+				// org.assertj.core.api.Assertions.assertThatThrow(familyService.getFamilyList(username)).;
+				org.assertj.core.api.Assertions.assertThatThrownBy(() -> familyService.getFamilyList(username))
+					.isInstanceOf(NoSuchElementException.class);
+			}
+		}
+	}
+
+
 }

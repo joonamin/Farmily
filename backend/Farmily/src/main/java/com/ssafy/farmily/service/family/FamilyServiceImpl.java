@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import com.ssafy.farmily.dto.ChangeLeaderRequestDto;
 import com.ssafy.farmily.dto.FamilyBasketDto;
 import com.ssafy.farmily.dto.FamilyItemDto;
+import com.ssafy.farmily.dto.FamilyListDto;
 import com.ssafy.farmily.dto.FamilyMainDto;
 import com.ssafy.farmily.dto.FamilyMemberResponseDto;
 import com.ssafy.farmily.dto.JoinRequestDto;
@@ -325,4 +326,16 @@ public class FamilyServiceImpl implements FamilyService {
 		return pastLeaderMemberShip;
 	}
 
+	@Override
+	public FamilyListDto getFamilyList(String username) {
+		Optional<Member> memberOptional = Optional.ofNullable(memberService.getEntity(username));
+		Member member = memberOptional.orElseThrow(() -> new NoSuchContentException("존재하지 않는 사용자입니다."));
+
+		List<FamilyMembership> familyMemberships = member.getFamilyMemberships();
+		List<FamilyListDto.FamilyInfo> familyInfoList = new ArrayList<>();
+		familyMemberships.forEach(fm -> {
+			familyInfoList.add(new FamilyListDto.FamilyInfo(fm.getFamily().getId(), fm.getFamily().getName()));
+		});
+		return new FamilyListDto(familyInfoList);
+	}
 }
