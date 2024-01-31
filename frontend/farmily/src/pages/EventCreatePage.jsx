@@ -88,7 +88,9 @@ export default function EventCreatePage() {
         // 성공적으로 처리된 경우
         console.log(response.data);
         // 이후 작업 수행 (예: 페이지 이동 등)
-        navigate('/family/record');
+
+        // 보낼 때 현재 sprintId 받아서 보내기
+        navigate('/family/record/1');
       })
       .catch((error) => {
         // 오류가 발생한 경우
