@@ -43,4 +43,9 @@ public class CustomMemberService implements MemberService {
 			return Optional.empty();
 		}
 	}
+
+	public Member getEntity(String username) {
+		return memberRepository.findByUsername(username)
+			.orElseThrow(() -> new RuntimeException("인증이 성공했지만 Member를 찾을 수 없습니다."));
+	}
 }
