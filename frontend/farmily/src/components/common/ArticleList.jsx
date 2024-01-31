@@ -26,7 +26,7 @@ export default function ArticleList() {
       });
   }, []);
 
-  const itemsPerPage = 8;
+  const itemsPerPage = 7;
   const [currentPage, setCurrentPage] = useState(1);
 
   const indexOfLastItem = currentPage * itemsPerPage;
