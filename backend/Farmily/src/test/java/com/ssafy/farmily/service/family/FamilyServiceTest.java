@@ -237,7 +237,7 @@ class FamilyServiceTest {
 		String invitationCode = familyRepository.findById(1L).get().getInvitationCode();
 		familyService.insertFamilyMemberShip(invitationCode,member2.getUsername());
 
-		familyService.mandateHead(1L,2L, "user");
+		familyService.mandateLeader(1L,2L, "user");
 
 		List<FamilyMemberResponseDto> list = familyService.loadFamilyMemberList(1L,member1.getUsername());
 

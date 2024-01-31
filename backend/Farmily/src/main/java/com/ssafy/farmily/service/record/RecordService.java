@@ -17,16 +17,16 @@ public interface RecordService {
 	Record getEntityById(long recordId);
 	RecordResponseDto getDtoById(long recordId);
 
-	void createEventRecord(EventRecordPostRequestDto dto);
+	void createEventRecord(String username, EventRecordPostRequestDto dto);
 
-	void editEventRecord(EventRecordPutRequestDto dto);
+	void editEventRecord(String username, EventRecordPutRequestDto dto);
 
-	void createDailyRecord(DailyRecordPostRequestDto dto);
-	void editDailyRecord(DailyRecordPutRequestDto dto);
+	void createDailyRecord(String username, DailyRecordPostRequestDto dto);
+	void editDailyRecord(String username, DailyRecordPutRequestDto dto);
 
-	void createChallengeRecord(ChallengeRecordPostRequestDto dto);
+	void createChallengeRecord(String username, ChallengeRecordPostRequestDto dto);
 
-	void markChallengeRecord(ChallengeRecordMarkRequestDto dto);
+	void markChallengeRecord(String username, ChallengeRecordMarkRequestDto dto);
 
-	void editChallengeRecord(ChallengeRecordPutRequestDto dto);
+	void editChallengeRecord(String username, ChallengeRecordPutRequestDto dto);
 }
