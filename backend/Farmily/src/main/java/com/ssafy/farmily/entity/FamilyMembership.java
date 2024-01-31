@@ -4,6 +4,7 @@ import com.ssafy.farmily.type.FamilyRole;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -36,6 +37,6 @@ public class FamilyMembership extends BaseEntity {
 	private Family family;
 
 	@Column(columnDefinition = "VARCHAR(32)")
-	@Enumerated
+	@Enumerated(EnumType.STRING)
 	private FamilyRole role;
 }
