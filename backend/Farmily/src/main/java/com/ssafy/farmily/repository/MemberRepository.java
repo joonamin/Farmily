@@ -24,5 +24,5 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 		"join member b on a.member.id = b.id " +
 		"where a.family.id = :familyId"
 		)
-	List<FamilyMemberResponseDto> findAllByFamilyId(@Param("familyId") Long familyId);
+	List<FamilyMemberResponseDto> findAllByFamilyId(Long familyId);
 }

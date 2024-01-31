@@ -86,7 +86,8 @@ public class CommunityController {
 
 
 	/*
-	삭제 코드
-	@DeleteMapping
+	TODO
+	 삭제 코드
+	 @DeleteMapping
 	 */
 }

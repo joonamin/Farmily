@@ -56,9 +56,9 @@ public interface FamilyService {
 
 	public String getInvitationCode(Long familyId);
 
-	// public void raffleItem(Long familyId);
-
 	public List<FamilyMemberResponseDto> loadFamilyMemberList(Long familyId,String username);
 
-	public void mandateHead(Long familyId, Long trusteeId, String username);
+	public void mandateLeader(Long familyId, Long newLeaderId, String pastLeaderName);
+
+	//TODO public void raffleItem(Long familyId);
 }

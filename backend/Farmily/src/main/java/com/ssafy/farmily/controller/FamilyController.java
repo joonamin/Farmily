@@ -39,11 +39,6 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class FamilyController {
 	private final FamilyService familyService;
-
-	// 그래서 준비했다, lombok!!!
-
-	// 요청 시 메인 인덱스에 DB에 저장된 가족정보를 가져옴
-
 	@GetMapping("/{familyId}")
 	@Operation(
 		summary = "가족 메인 정보 조회",
@@ -98,21 +93,6 @@ public class FamilyController {
 		return ResponseEntity.ok(familyBasketDTOList);
 	}
 
-	/*
-	{
-    "treeId":,
-    "placementDtoList":[
-        {
-        "dtype":"",
-        "position":{
-            "row":,
-            "col":
-        },
-        "recordId":
-        }
-    ]
-}
-	 */
 	@PostMapping("/placement")
 	@Operation(
 		summary = "아이템 배치",
@@ -179,20 +159,12 @@ public class FamilyController {
 		return ResponseEntity.ok().build();
 	}
 
-	// invitationCode를 가져오는 것
 	@GetMapping("/{familyId}/getInvitationCode")
 	@PreAuthorize("hasRole('ROLE_USER')")
 	public ResponseEntity<String> getInvitationCode(@PathVariable(value = "familyId") Long familyId){
 		String code = familyService.getInvitationCode(familyId);
 		return ResponseEntity.ok(code);
 	}
-
-	// @PostMapping("/{familyId}/raffling")
-	// @PreAuthorize("hasRole('ROLE_USER')")
-	// public ResponseEntity<Long> raffleItem(@PathVariable Long famliyId){
-	// 	Long rafflingItemId = familyService.
-	// 	return ResponseEntity<rafflingItemId>.isOK().build();
-	// }
 
 	@Operation(
 		summary = "가족 구성원 리스트 가져오기",
@@ -229,7 +201,19 @@ public class FamilyController {
 		@PathVariable(value = "familyId") Long familyId,
 		@PathVariable(value = "memberId") Long memberId,
 		@AuthenticationPrincipal String username){
-		familyService.mandateHead(familyId,memberId,username);
+		familyService.mandateLeader(familyId,memberId,username);
 		return ResponseEntity.ok().build();
 	}
+
+	/*
+	TODO
+	 아이템을 어떻게 지정할 지 정리하고 뽑기 기능 추가 예정
+	@PostMapping("/{familyId}/raffling")
+	@PreAuthorize("hasRole('ROLE_USER')")
+	public ResponseEntity<Long> raffleItem(@PathVariable Long famliyId){
+		Long rafflingItemId = familyService.
+		return ResponseEntity<rafflingItemId>.isOK().build();
+	}
+
+	 */
 }

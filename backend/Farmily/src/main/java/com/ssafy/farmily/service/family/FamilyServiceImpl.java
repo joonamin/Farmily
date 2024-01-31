@@ -90,7 +90,6 @@ public class FamilyServiceImpl implements FamilyService {
 	public List<FamilyItemDto> getFamilyInventory(Long familyId) {
 		Family family = (Family)familyRepository.findById(familyId)
 			.orElseThrow(() -> new NoSuchContentException("존재하지 않는 가족입니다."));
-		// 받아올 때 추가가 많이 발생할 것 같아서 LinkedList
 		List<FamilyItemDto> familyItemDtoList = new LinkedList<>();
 		List<FamilyItem> temp = familyItemRepository.findByFamilyId(familyId);
 		for (FamilyItem item : temp) {
@@ -123,8 +122,9 @@ public class FamilyServiceImpl implements FamilyService {
 		deletePlacement(treeId);
 		for (PlacementDto placementDto : placingItemRequestDto.getPlacementDtoList()) {
 				/*
-				해당 아이템이 인벤토리에 존재하는 지 확인하는 로직이 필요할 거 같은데
-				아직 placement에 accessory에 대한 고유 Id가 없어서 구현 불가
+				TODO
+				 해당 아이템이 인벤토리에 존재하는 지 확인하는 로직이 필요할 거 같은데
+				 아직 placement에 accessory에 대한 고유 Id가 없어서 구현 불가
 				 */
 
 			if (placementDto.getDtype().equals("A")) {
@@ -151,7 +151,7 @@ public class FamilyServiceImpl implements FamilyService {
 	@Override
 	@Transactional
 	public void deletePlacement(Long treeId) {
-		placementRepository.deleteByTreeId(treeId);
+		placementRepository.deleteAllByTreeId(treeId);
 	}
 
 	@Override
@@ -200,7 +200,6 @@ public class FamilyServiceImpl implements FamilyService {
 			pastSprint.setIsHarvested(true);
 			sprintRepository.save(pastSprint);
 		}
-		// 여기 부터
 		LocalDate startDate = LocalDate.now();
 		YearMonth yearMonth = YearMonth.from(startDate);
 		LocalDate endDate = yearMonth.atEndOfMonth();
@@ -216,7 +215,6 @@ public class FamilyServiceImpl implements FamilyService {
 			.build();
 
 		sprintRepository.save(sprint);
-		// 여기 까지 >>> sprintService.create(family);
 	}
 
 	@Override
@@ -283,20 +281,20 @@ public class FamilyServiceImpl implements FamilyService {
 	}
 
 	@Override
-	public void mandateHead(Long familyId, Long trusteeId, String delegatorName){
-		Member delegator = memberRepository.findByUsername(delegatorName).get();
-		Long delegatorId = delegator.getId();
-		FamilyMembership delegatorMemberShip = familyMembershipRepository.findByFamilyIdAndMemberId(familyId,delegatorId).get();
-		if(!delegatorMemberShip.getRole().equals(FamilyRole.LEADER)){
+	public void mandateLeader(Long familyId, Long newLeaderId, String pastLeaderName){
+		Member pastLeader = memberRepository.findByUsername(pastLeaderName).get();
+		Long pastLeaderId = pastLeader.getId();
+		FamilyMembership pastLeaderMemberShip = familyMembershipRepository.findByFamilyIdAndMemberId(familyId,pastLeaderId).get();
+		if(!pastLeaderMemberShip.getRole().equals(FamilyRole.LEADER)){
 			throw new BusinessException("가장이 아닙니다.");
 		}
-		FamilyMembership trusteeMemberShip = familyMembershipRepository.findByFamilyIdAndMemberId(familyId,trusteeId).get();
+		FamilyMembership newLeaderMemberShip = familyMembershipRepository.findByFamilyIdAndMemberId(familyId,newLeaderId).get();
 
-		trusteeMemberShip.setRole(FamilyRole.LEADER);
-		delegatorMemberShip.setRole(FamilyRole.MEMBER);
+		newLeaderMemberShip.setRole(FamilyRole.LEADER);
+		pastLeaderMemberShip.setRole(FamilyRole.MEMBER);
 
-		familyMembershipRepository.save(trusteeMemberShip);
-		familyMembershipRepository.save(delegatorMemberShip);
+		familyMembershipRepository.save(newLeaderMemberShip);
+		familyMembershipRepository.save(pastLeaderMemberShip);
 	}
 
 
