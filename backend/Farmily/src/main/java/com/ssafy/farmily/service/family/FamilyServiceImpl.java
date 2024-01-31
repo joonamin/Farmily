@@ -6,12 +6,15 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
+import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
 import com.ssafy.farmily.dto.FamilyBasketDto;
 import com.ssafy.farmily.dto.FamilyItemDto;
 import com.ssafy.farmily.dto.FamilyMainDto;
+import com.ssafy.farmily.dto.FamilyMemberResponseDto;
 import com.ssafy.farmily.dto.MakingFamilyRequestDto;
 import com.ssafy.farmily.dto.PlacementDto;
 import com.ssafy.farmily.dto.PlacingItemRequestDto;
@@ -20,19 +23,24 @@ import com.ssafy.farmily.entity.Family;
 import com.ssafy.farmily.entity.FamilyItem;
 import com.ssafy.farmily.entity.FamilyMembership;
 import com.ssafy.farmily.entity.FruitPlacement;
+import com.ssafy.farmily.entity.Image;
 import com.ssafy.farmily.entity.Member;
 import com.ssafy.farmily.entity.Placement;
 import com.ssafy.farmily.entity.Record;
 import com.ssafy.farmily.entity.Sprint;
 import com.ssafy.farmily.entity.Tree;
+import com.ssafy.farmily.exception.BusinessException;
 import com.ssafy.farmily.exception.NoSuchContentException;
 import com.ssafy.farmily.repository.FamilyItemRepository;
 import com.ssafy.farmily.repository.FamilyMembershipRepository;
 import com.ssafy.farmily.repository.FamilyRepository;
+import com.ssafy.farmily.repository.ImageRepository;
+import com.ssafy.farmily.repository.MemberRepository;
 import com.ssafy.farmily.repository.PlacementRepository;
 import com.ssafy.farmily.repository.RecordRepository;
 import com.ssafy.farmily.repository.SprintRepository;
 import com.ssafy.farmily.repository.TreeRepository;
+import com.ssafy.farmily.service.file.FileService;
 import com.ssafy.farmily.type.AccessoryType;
 import com.ssafy.farmily.type.FamilyRole;
 import com.ssafy.farmily.utils.DateRange;
@@ -52,6 +60,8 @@ public class FamilyServiceImpl implements FamilyService {
 	private final PlacementRepository placementRepository;
 	private final TreeRepository treeRepository;
 	private final FamilyMembershipRepository familyMembershipRepository;
+	private final MemberRepository memberRepository;
+	private final FileService fileService;
 
 	@Override
 	@Transactional
@@ -68,7 +78,7 @@ public class FamilyServiceImpl implements FamilyService {
 
 		FamilyMainDto familyMainDTO = FamilyMainDto.of(family);
 		familyMainDTO.setChallengesIds(challenges);
-		if(temp.isPresent()) {
+		if (temp.isPresent()) {
 			Sprint sprint = temp.get();
 			familyMainDTO.setSprintId(sprint.getId());
 		}
@@ -80,11 +90,10 @@ public class FamilyServiceImpl implements FamilyService {
 	public List<FamilyItemDto> getFamilyInventory(Long familyId) {
 		Family family = (Family)familyRepository.findById(familyId)
 			.orElseThrow(() -> new NoSuchContentException("존재하지 않는 가족입니다."));
-		// 받아올 때 추가가 많이 발생할 것 같아서 LinkedList
 		List<FamilyItemDto> familyItemDtoList = new LinkedList<>();
 		List<FamilyItem> temp = familyItemRepository.findByFamilyId(familyId);
 		for (FamilyItem item : temp) {
-			FamilyItemDto familyItemDTO = new FamilyItemDto().of(item);
+			FamilyItemDto familyItemDTO = FamilyItemDto.of(item);
 			familyItemDtoList.add(familyItemDTO);
 		}
 		return familyItemDtoList;
@@ -113,8 +122,9 @@ public class FamilyServiceImpl implements FamilyService {
 		deletePlacement(treeId);
 		for (PlacementDto placementDto : placingItemRequestDto.getPlacementDtoList()) {
 				/*
-				해당 아이템이 인벤토리에 존재하는 지 확인하는 로직이 필요할 거 같은데
-				아직 placement에 accessory에 대한 고유 Id가 없어서 구현 불가
+				TODO
+				 해당 아이템이 인벤토리에 존재하는 지 확인하는 로직이 필요할 거 같은데
+				 아직 placement에 accessory에 대한 고유 Id가 없어서 구현 불가
 				 */
 
 			if (placementDto.getDtype().equals("A")) {
@@ -141,29 +151,33 @@ public class FamilyServiceImpl implements FamilyService {
 	@Override
 	@Transactional
 	public void deletePlacement(Long treeId) {
-		placementRepository.deleteByTreeId(treeId);
+		placementRepository.deleteAllByTreeId(treeId);
 	}
 
 	@Override
 	@Transactional
-	public void makeFamily(MakingFamilyRequestDto makingFamilyRequestDto) {
-		String invitationCode = "123456789";
+	public void makeFamily(MakingFamilyRequestDto makingFamilyRequestDto,String username) {
+		Member member = memberRepository.findByUsername(username).get();
+		Image profileImage = null;
+		if(makingFamilyRequestDto.getImage() != null){
+			profileImage = fileService.saveImage(makingFamilyRequestDto.getImage());
+		}
+		String invitationCode = UUID.randomUUID().toString();
 
 		Family family = Family.builder()
 			.name(makingFamilyRequestDto.getName())
 			.motto(makingFamilyRequestDto.getMotto())
 			.invitationCode(invitationCode)
-			.sprints(new LinkedList<>())
-			.items(new LinkedList<>())
+			.image(profileImage)
+			.sprints(List.of())
+			.items(List.of())
 			.build();
 
-		Tree tree = Tree.builder().family(family).placements(new LinkedList<>()).build();
+		Tree tree = Tree.builder().family(family).placements(List.of()).build();
 		family.setTree(tree);
 
 		familyRepository.save(family);
 		treeRepository.save(tree);
-
-		Member member = makingFamilyRequestDto.getMember();
 
 		FamilyMembership familyMembership = FamilyMembership.builder()
 			.family(family)
@@ -171,26 +185,21 @@ public class FamilyServiceImpl implements FamilyService {
 			.role(FamilyRole.LEADER)
 			.build();
 
-		List<FamilyMembership> addFamilyMembershipOfMember = member.getFamilyMemberships();
-		addFamilyMembershipOfMember.add(familyMembership);
-		member.setFamilyMemberships(addFamilyMembershipOfMember);
-
 		familyMembershipRepository.save(familyMembership);
 	}
 
 	@Override
 	@Transactional
-	public void swapSprint(Long familyId){
-		Optional<Sprint> hasPastSprint = sprintRepository.findByFamilyIdAndIsHarvested(familyId,false);
-		if(hasPastSprint.isPresent()) {
-			Sprint pastSprint = hasPastSprint.get();
-			if(LocalDate.now().isBefore(pastSprint.getDateRange().getEndDate())){
-				throw new NoSuchContentException("수확 기간을 만족하지 못했습니다.");
+	public void swapSprint(Long familyId) {
+		Optional<Sprint> unHarvestedSprint = sprintRepository.findByFamilyIdAndIsHarvested(familyId, false);
+		if (unHarvestedSprint.isPresent()) {
+			Sprint pastSprint = unHarvestedSprint.get();
+			if (LocalDate.now().isBefore(pastSprint.getDateRange().getEndDate())) {
+				throw new BusinessException("수확 기간을 만족하지 못했습니다.");
 			}
 			pastSprint.setIsHarvested(true);
 			sprintRepository.save(pastSprint);
 		}
-
 		LocalDate startDate = LocalDate.now();
 		YearMonth yearMonth = YearMonth.from(startDate);
 		LocalDate endDate = yearMonth.atEndOfMonth();
@@ -208,5 +217,85 @@ public class FamilyServiceImpl implements FamilyService {
 		sprintRepository.save(sprint);
 	}
 
-	// Todo : 가족 생성, 스프린트 삭제 후 생성 (수확 후 다시 키우기),
+	@Override
+	public void insertFamilyMemberShip(String inviteCode, String username) {
+		Family family = familyRepository.findByInvitationCode(inviteCode)
+			.orElseThrow(() -> new NoSuchContentException("존재 하지 않는 초대코드입니다."));
+		Member member = memberRepository.findByUsername(username).get();
+		FamilyMembership familyMembership = FamilyMembership.builder()
+			.member(member)
+			.family(family)
+			.role(FamilyRole.MEMBER)
+			.build();
+
+		familyMembershipRepository.save(familyMembership);
+	}
+
+	@Override
+	public String getInvitationCode(Long familyId) {
+		Family family = familyRepository.findById(familyId)
+			.orElseThrow(() -> new NoSuchContentException("유효하지 않은 가족입니다."));
+		return family.getInvitationCode();
+	}
+
+	// @Override
+	// public Long raffleItem(Long familyId) {
+	// 	Family family = familyRepository.findById(familyId)
+	// 		.orElseThrow(() -> new NoSuchContentException("유효하지 않은 가족입니다."));
+	//
+	// 	int familyPoint = family.getPoint();
+	// 	if (familyPoint >= 150) {
+	// 		familyPoint -= 150;
+	// 		boolean duplication = true;
+	//
+	// 		// TODO 아이템 DB or ENUM 어떻게 저장할 지 얘기해보고 모든 아이템 개수 가져오는 로직 만들어야 될 것 같아요
+	// 		int NumOfAllItem = 10;
+	// 		while (duplication) {
+	// 			int rafflingItemId = (int) Math.random() * NumOfAllItem + 1;
+	// 			// rafflingItemId를 통해 아이템 가져오고
+	//
+	// 			// duplication이 발생하지 않으면
+	// 			if() {    // getFamilyInventory not contain item(rafflingItemId)
+	// 				familyItemRepository.save(item);
+	// 				duplication = false;
+	// 			}
+	// 		}
+	// 	}
+	//
+	// 	return item.getid;
+	// }
+	@Override
+	public List<FamilyMemberResponseDto> loadFamilyMemberList(Long familyId,String username){
+		Member me = memberRepository.findByUsername(username).get();
+		List<FamilyMemberResponseDto> familyMembers = memberRepository.findAllByFamilyId(familyId);
+		return checkIsMe(familyMembers,me.getId());
+	}
+
+	protected List<FamilyMemberResponseDto> checkIsMe(List<FamilyMemberResponseDto> familyMembers, Long me){
+		List<FamilyMemberResponseDto> result = new ArrayList<>();
+		for(FamilyMemberResponseDto dto : familyMembers){
+			dto.setMe(dto.getMemberId() == me);
+			result.add(dto);
+		}
+		return result;
+	}
+
+	@Override
+	public void mandateLeader(Long familyId, Long newLeaderId, String pastLeaderName){
+		Member pastLeader = memberRepository.findByUsername(pastLeaderName).get();
+		Long pastLeaderId = pastLeader.getId();
+		FamilyMembership pastLeaderMemberShip = familyMembershipRepository.findByFamilyIdAndMemberId(familyId,pastLeaderId).get();
+		if(!pastLeaderMemberShip.getRole().equals(FamilyRole.LEADER)){
+			throw new BusinessException("가장이 아닙니다.");
+		}
+		FamilyMembership newLeaderMemberShip = familyMembershipRepository.findByFamilyIdAndMemberId(familyId,newLeaderId).get();
+
+		newLeaderMemberShip.setRole(FamilyRole.LEADER);
+		pastLeaderMemberShip.setRole(FamilyRole.MEMBER);
+
+		familyMembershipRepository.save(newLeaderMemberShip);
+		familyMembershipRepository.save(pastLeaderMemberShip);
+	}
+
+
 }

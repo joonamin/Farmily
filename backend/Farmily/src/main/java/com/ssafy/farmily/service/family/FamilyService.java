@@ -6,8 +6,10 @@ import java.util.List;
 import com.ssafy.farmily.dto.FamilyBasketDto;
 import com.ssafy.farmily.dto.FamilyItemDto;
 import com.ssafy.farmily.dto.FamilyMainDto;
+import com.ssafy.farmily.dto.FamilyMemberResponseDto;
 import com.ssafy.farmily.dto.MakingFamilyRequestDto;
 import com.ssafy.farmily.dto.PlacingItemRequestDto;
+import com.ssafy.farmily.dto.RafflingRequestDto;
 import com.ssafy.farmily.entity.Member;
 import com.ssafy.farmily.exception.NoSuchContentException;
 
@@ -47,6 +49,16 @@ public interface FamilyService {
 
 	public void deletePlacement(Long treeId);
 
-	public void makeFamily(MakingFamilyRequestDto makingFamilyRequestDto);
+	public void makeFamily(MakingFamilyRequestDto makingFamilyRequestDto, String username);
 	public void swapSprint(Long familyId);
+
+	public void insertFamilyMemberShip(String inviteCode,String username);
+
+	public String getInvitationCode(Long familyId);
+
+	public List<FamilyMemberResponseDto> loadFamilyMemberList(Long familyId,String username);
+
+	public void mandateLeader(Long familyId, Long newLeaderId, String pastLeaderName);
+
+	//TODO public void raffleItem(Long familyId);
 }

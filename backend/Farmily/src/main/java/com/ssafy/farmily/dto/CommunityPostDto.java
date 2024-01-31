@@ -18,7 +18,7 @@ public class CommunityPostDto {
 	Long sprintId;
 	ImageDto image;
 
-	public CommunityPostDto from(CommunityPost post) {
+	public static CommunityPostDto from(CommunityPost post) {
 		CommunityPostDto communityPostDto = new CommunityPostDto();
 		communityPostDto.id = post.getId();
 		communityPostDto.author = post.getAuthor().getNickname();
