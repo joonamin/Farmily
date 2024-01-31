@@ -53,7 +53,6 @@ public class WebRtcController {
 		@PathVariable Long familyId
 	) {
 		String urlWithToken = webRtcService.enterConference(username, familyId);
-
 		return ResponseEntity.ok(urlWithToken);
 	}
 
