@@ -8,7 +8,7 @@ import { useState } from 'react';
 export default function ArticleItem(article) {
   const [fruitImg, setFruitImg] = useState();
 
-  const URL = `/family/record/${article.type}/${article.id}`;
+  const URL = `/family/record/${article.type.toLowerCase()}/${article.id}`;
   const navigate = useNavigate();
 
   const onClickHandler = () => {
@@ -16,15 +16,15 @@ export default function ArticleItem(article) {
   };
 
   // article.type에 따라서 적절한 이미지 설정
-  if (article.type === 'daily') {
+  if (article.type === 'DAILY') {
     setFruitImg('🍌');
-  } else if (article.type === 'event') {
+  } else if (article.type === 'EVENT') {
     setFruitImg('🍎');
-  } else if (article.type === 'challenge') {
+  } else if (article.type === 'CHALLENGE') {
     setFruitImg('🍇');
   }
 
-  const formattedDate = new Date(article.date).toLocaleDateString();
+  const formattedDate = new Date(article.createdAt).toLocaleDateString();
   return (
     // 게시글 디테일 페이지 만든 후 Link 달아주기
     <>
