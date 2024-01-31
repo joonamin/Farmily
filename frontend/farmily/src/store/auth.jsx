@@ -34,7 +34,8 @@ const authSlice = createSlice({
       // ] = `Bearer ${state.value.accessToken}`;
       document.cookie =
         'accessToken' + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-      'refreshToken' + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+      document.cookie =
+        'refreshToken' + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
     },
   },
 });

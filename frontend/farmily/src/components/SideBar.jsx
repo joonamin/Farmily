@@ -4,7 +4,7 @@ import SideButton from './SideButton.jsx';
 import logo from '../assets/images/Farmily.png';
 import { Link } from 'react-router-dom';
 
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { logOut } from '../store/auth.jsx';
 import { useNavigate } from 'react-router-dom';
 
@@ -23,6 +23,8 @@ export default function SideBar() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const family = useSelector((state) => state.family.value);
+
   function clickLogout() {
     // 로그아웃 요청 보내기
     dispatch(logOut());
@@ -40,7 +42,7 @@ export default function SideBar() {
 
       {/* 가족이름 */}
       <h2 className="mx-auto my-4 font-semibold text-xl text-stone-900">
-        춘식라이언 가족
+        {family.name}
         <Link to="/family/setting" className="text-lg align-middle">
           {' '}
           ⚙️
