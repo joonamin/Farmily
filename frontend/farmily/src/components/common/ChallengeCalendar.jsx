@@ -7,7 +7,7 @@ function getDayOfWeek(date) {
   return days[date.getDay()];
 }
 
-export default function ChallengeCalendar({ startDate, endDate }) {
+export default function ChallengeCalendar({ startDate, endDate, recordId }) {
   const [currentWeekIndex, setCurrentWeekIndex] = useState(0);
   const [weekDates, setWeekDates] = useState([]);
   const [images, setImages] = useState({});
@@ -51,8 +51,7 @@ export default function ChallengeCalendar({ startDate, endDate }) {
       const day = date.toISOString().slice(0, 10);
       axios
         .post('/record/challenge/mark', {
-          // 보낼 때 challengeId 받아오기
-          challengeId: 17,
+          challengeId: recordId,
           date: day,
         })
         .then((response) => {})

@@ -42,7 +42,11 @@ export default function ChallengeDetailPage() {
         <span>종료 기간 : {record.dateRange.endDate.slice(0, 10)}</span>
       </div>
       <div>{startDate.toLocaleDateString()}</div>
-      <ChallengeCalendar startDate={startDate} endDate={endDate} />
+      <ChallengeCalendar
+        startDate={startDate}
+        endDate={endDate}
+        recordId={recordId}
+      />
       <Comment />
     </div>
   );
