@@ -2,6 +2,7 @@ package com.ssafy.farmily.entity;
 
 import java.util.List;
 
+import lombok.RequiredArgsConstructor;
 import com.ssafy.farmily.utils.DateRange;
 
 import jakarta.persistence.Column;

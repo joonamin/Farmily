@@ -12,7 +12,5 @@ public class PlacingItemRequestDto {
 	@NotNull
 	private Long treeId;
 
-
 	private List<PlacementDto> placementDtoList;
-
 }

@@ -12,5 +12,4 @@ public interface PlacementRepository extends JpaRepository<Placement, Long> {
 	List<Placement> findAllByTreeId(Long treeId);
 
 	void deleteAllByTreeId(Long treeId);
-	void deleteByTreeId(Long treeId);
 }

@@ -17,15 +17,18 @@ import com.ssafy.farmily.dto.FamilyBasketDto;
 import com.ssafy.farmily.dto.FamilyItemDto;
 import com.ssafy.farmily.dto.FamilyMainDto;
 import com.ssafy.farmily.dto.FamilyMainTreeDto;
+import com.ssafy.farmily.dto.FamilyMemberResponseDto;
 import com.ssafy.farmily.dto.MakingFamilyRequestDto;
 import com.ssafy.farmily.dto.PlacementDto;
 import com.ssafy.farmily.dto.PlacingItemRequestDto;
 import com.ssafy.farmily.entity.Family;
 import com.ssafy.farmily.entity.FamilyItem;
+import com.ssafy.farmily.entity.FamilyMembership;
 import com.ssafy.farmily.entity.Member;
 import com.ssafy.farmily.entity.Record;
 import com.ssafy.farmily.entity.Sprint;
 import com.ssafy.farmily.repository.FamilyItemRepository;
+import com.ssafy.farmily.repository.FamilyMembershipRepository;
 import com.ssafy.farmily.repository.FamilyRepository;
 import com.ssafy.farmily.repository.MemberRepository;
 import com.ssafy.farmily.repository.RecordRepository;
@@ -34,6 +37,7 @@ import com.ssafy.farmily.repository.TreeRepository;
 import com.ssafy.farmily.service.file.FileService;
 import com.ssafy.farmily.service.record.RecordService;
 import com.ssafy.farmily.type.AccessoryType;
+import com.ssafy.farmily.type.FamilyRole;
 import com.ssafy.farmily.type.Item;
 import com.ssafy.farmily.type.ItemType;
 import com.ssafy.farmily.type.RecordType;
@@ -63,16 +67,23 @@ class FamilyServiceTest {
 	TreeRepository treeRepository;
 	@Autowired
 	FileService fileService;
+	@Autowired
+	FamilyMembershipRepository familyMembershipRepository;
 
 	@BeforeEach
 	public void beforeEach() {
-		Member member = Member.builder()
-			.nickname("salah")
-			.username("KAKAO_156156")
-			.password("12345678")
-			.familyMemberships(new LinkedList<>())
+		Member member1 = Member.builder()
+			.username("user")
+			.nickname("A")
+			.familyMemberships(List.of())
 			.build();
-		memberRepository.save(member);
+		Member member2 = Member.builder()
+			.username("member2")
+			.nickname("B")
+			.familyMemberships(List.of())
+			.build();
+		memberRepository.save(member1);
+		memberRepository.save(member2);
 
 	}
 
@@ -80,8 +91,8 @@ class FamilyServiceTest {
 	@Transactional
 	void 가족생성() throws Exception {
 		Member member = memberRepository.findById(1L).get();
-		MakingFamilyRequestDto makingFamilyRequestDto = new MakingFamilyRequestDto("대한민국", "삶의 모토", member);
-		familyService.makeFamily(makingFamilyRequestDto);
+		MakingFamilyRequestDto makingFamilyRequestDto = new MakingFamilyRequestDto("대한민국", "삶의 모토",null);
+		familyService.makeFamily(makingFamilyRequestDto,member.getUsername());
 		// id, name, motto, tree, challengeIds, sprintId
 		FamilyMainDto familyMainDto = familyService.setMainFamilyInfo(1L);
 		FamilyMainTreeDto tree = FamilyMainTreeDto.from(treeRepository.findById(1L).get());
@@ -97,8 +108,8 @@ class FamilyServiceTest {
 	void swapSprint_스프린트제거후생성() {
 		// given
 		Member member = memberRepository.findById(1L).get();
-		MakingFamilyRequestDto makingFamilyRequestDto = new MakingFamilyRequestDto("대한민국", "삶의 모토", member);
-		familyService.makeFamily(makingFamilyRequestDto);
+		MakingFamilyRequestDto makingFamilyRequestDto = new MakingFamilyRequestDto("대한민국", "삶의 모토",null);
+		familyService.makeFamily(makingFamilyRequestDto, member.getUsername());
 		// when
 		familyService.swapSprint(1L);
 		// then
@@ -112,8 +123,8 @@ class FamilyServiceTest {
 	void setMainFamilyInfo_가족메인정보가져오기() {
 		// given
 		Member member = memberRepository.findById(1L).get();
-		MakingFamilyRequestDto makingFamilyRequestDto = new MakingFamilyRequestDto("대한민국", "삶의 모토", member);
-		familyService.makeFamily(makingFamilyRequestDto);
+		MakingFamilyRequestDto makingFamilyRequestDto = new MakingFamilyRequestDto("대한민국", "삶의 모토",null);
+		familyService.makeFamily(makingFamilyRequestDto, member.getUsername());
 		familyService.swapSprint(1L);
 		// when
 		FamilyMainDto familyMainDto = familyService.setMainFamilyInfo(1L);
@@ -127,8 +138,8 @@ class FamilyServiceTest {
 	void getFamilyInventory_가족인벤토리가져오기() {
 		// given
 		Member member = memberRepository.findById(1L).get();
-		MakingFamilyRequestDto makingFamilyRequestDto = new MakingFamilyRequestDto("대한민국", "삶의 모토", member);
-		familyService.makeFamily(makingFamilyRequestDto);
+		MakingFamilyRequestDto makingFamilyRequestDto = new MakingFamilyRequestDto("대한민국", "삶의 모토",null);
+		familyService.makeFamily(makingFamilyRequestDto, member.getUsername());
 		familyService.swapSprint(1L);
 		Family family = familyRepository.findById(1L).get();
 		FamilyItem familyItem1 = FamilyItem.builder()
@@ -149,8 +160,8 @@ class FamilyServiceTest {
 	@Transactional
 	void getFamilySprintList_바구니리스트받기(){
 		Member member = memberRepository.findById(1L).get();
-		MakingFamilyRequestDto makingFamilyRequestDto = new MakingFamilyRequestDto("대한민국", "삶의 모토", member);
-		familyService.makeFamily(makingFamilyRequestDto);
+		MakingFamilyRequestDto makingFamilyRequestDto = new MakingFamilyRequestDto("대한민국", "삶의 모토",null);
+		familyService.makeFamily(makingFamilyRequestDto, member.getUsername());
 		Family family = familyRepository.findById(1L).get();
 		DateRange dateRange = new DateRange();
 		dateRange.setStartDate(LocalDate.parse("2023-12-01"));
@@ -169,8 +180,8 @@ class FamilyServiceTest {
 	@Transactional
 	void placingItems_아이템배열대로배치하기(){
 		Member member = memberRepository.findById(1L).get();
-		MakingFamilyRequestDto makingFamilyRequestDto = new MakingFamilyRequestDto("대한민국", "삶의 모토", member);
-		familyService.makeFamily(makingFamilyRequestDto);
+		MakingFamilyRequestDto makingFamilyRequestDto = new MakingFamilyRequestDto("대한민국", "삶의 모토",null);
+		familyService.makeFamily(makingFamilyRequestDto, member.getUsername());
 		Family family = familyRepository.findById(1L).get();
 		familyService.swapSprint(1L);
 		Sprint sprint = sprintRepository.findById(1L).get();
@@ -197,70 +208,40 @@ class FamilyServiceTest {
 		Assertions.assertEquals(familyMainDto.getTree().getMainRecordFruitDtoList().get(0).getRow(),1);
 		Assertions.assertEquals(familyMainDto.getTree().getMainAccessoryFruitDtoList().get(0).getRow(),2);
 	}
-	// @Test
-	// @DisplayName("메인에서 없는 familyId를 들고 왔을 때")
-	// @Transactional
-	// void 메인에러테스트() {
-	// 	// given
-	// 	Long familyId = 2L;
-	//
-	// 	Assertions.assertThrows(NoSuchContentException.class, () -> {
-	// 		FamilyMainDto familyMainDto = familyService.setMainFamilyInfo(familyId);
-	// 	});
-	// }
-	//
-	// @Test
-	// @DisplayName("inventory 주세요")
-	// @Transactional
-	// void getFamilyInventory() {
-	// 	// given
-	// 	Long familyId = 1L;
-	// 	// when
-	// 	List<FamilyItemDto> list = familyService.getFamilyInventory(familyId);
-	//
-	// 	Assertions.assertEquals(list.get(0).getId(), 1);
-	// 	Assertions.assertEquals(list.get(0).getItemCode().toString(), "TREE_1");
-	// 	Assertions.assertEquals(list.get(0).getType().toString(), "TREE_SKIN");
-	// }
-	//
-	// @Test
-	// @DisplayName("없는 familyId를 들고 inventory를 달라고 할 때")
-	// @Transactional
-	// void 없는가족가방() {
-	// 	Long familyId = 2L;
-	//
-	// 	Assertions.assertThrows(NoSuchContentException.class, () -> {
-	// 		List<FamilyItemDto> familyInventory = familyService.getFamilyInventory(familyId);
-	// 	});
-	// }
 
-	// @Test
-	// @DisplayName("바구니 들고오기")
-	// @Transactional
-	// void getBasketList() {
-	// 	// given
-	// 	Long familyId = 1L;
-	//
-	// 	// when
-	// 	List<FamilyBasketDto> familySprintList = new ArrayList<>();
-	// 	List<Sprint> temp2 = sprintRepository.findAllByFamilyIdAndIsHarvested(familyId, true);
-	// 	for (Sprint sprint : temp2) {
-	// 		FamilyBasketDto familyBasketDTO = new FamilyBasketDto().of(sprint);
-	// 		familySprintList.add(familyBasketDTO);
-	// 	}
-	//
-	// 	Assertions.assertEquals(familySprintList.get(0).getRange().getStartDate().toString(), "2023-12-01");
-	// 	Assertions.assertEquals(familySprintList.get(0).getRange().getEndDate().toString(), "2023-12-31");
-	//
-	// }
-	//
-	// @Test
-	// @DisplayName("없는 familyId를 들고 basket을 달라고 할 때")
-	// @Transactional
-	// void 없는가족바구니() {
-	// 	Long familyId = 2L;
-	// 	Assertions.assertThrows(NoSuchContentException.class, () -> {
-	// 		List<FamilyBasketDto> familyBasketDtoList = familyService.getFamilySprintList(familyId);
-	// 	});
-	// }
+	@Test
+	@Transactional
+	void loadFamilyMemberList_가족멤버리스트불러오기(){
+		Member member1 = memberRepository.findById(1L).get();
+		Member member2 = memberRepository.findById(2L).get();
+		MakingFamilyRequestDto requestDto = new MakingFamilyRequestDto("대한민국","16강 가즈아",null);
+		familyService.makeFamily(requestDto, member1.getUsername());
+		String invitationCode = familyRepository.findById(1L).get().getInvitationCode();
+		familyService.insertFamilyMemberShip(invitationCode,member2.getUsername());
+		List<FamilyMemberResponseDto> list= familyService.loadFamilyMemberList(1L,member1.getUsername());
+		Assertions.assertEquals(list.get(0).getRole(),FamilyRole.LEADER);
+		Assertions.assertEquals(list.get(0).getNickname(),"A");
+		Assertions.assertEquals(list.get(1).getNickname(),"B");
+		Assertions.assertEquals(list.get(1).getRole(),FamilyRole.MEMBER);
+		Assertions.assertTrue(list.get(0).isMe());
+		Assertions.assertFalse(list.get(1).isMe());
+	}
+
+	@Test
+	@Transactional
+	void mendateHeadTest_가장위임(){
+		Member member1 = memberRepository.findById(1L).get();
+		Member member2 = memberRepository.findById(2L).get();
+		MakingFamilyRequestDto requestDto = new MakingFamilyRequestDto("대한민국","16강 가즈아",null);
+		familyService.makeFamily(requestDto , member1.getUsername());
+		String invitationCode = familyRepository.findById(1L).get().getInvitationCode();
+		familyService.insertFamilyMemberShip(invitationCode,member2.getUsername());
+
+		familyService.mandateHead(1L,2L, "user");
+
+		List<FamilyMemberResponseDto> list = familyService.loadFamilyMemberList(1L,member1.getUsername());
+
+		Assertions.assertEquals(list.get(0).getRole(),FamilyRole.MEMBER);
+		Assertions.assertEquals(list.get(1).getRole(),FamilyRole.LEADER);
+	}
 }

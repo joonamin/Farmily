@@ -1,5 +1,7 @@
 package com.ssafy.farmily.dto;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.ssafy.farmily.entity.Image;
 import com.ssafy.farmily.entity.Member;
 import com.ssafy.farmily.entity.Sprint;
@@ -16,10 +18,6 @@ public class InsertCommunityPostRequestDto {
 
 	@NotNull
 	String content;
-
-	// TODO: Entity가 아닌 타입을 참조
-	Member author;
-
-	// TODO: Entity가 아닌 타입을 참조
-	Image treeSnapshot;
+	String author;
+	MultipartFile treeSnapshot;
 }

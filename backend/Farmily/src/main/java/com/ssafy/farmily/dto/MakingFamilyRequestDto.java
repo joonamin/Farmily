@@ -1,5 +1,8 @@
 package com.ssafy.farmily.dto;
 
+import org.springframework.web.multipart.MultipartFile;
+
+import com.ssafy.farmily.entity.Image;
 import com.ssafy.farmily.entity.Member;
 
 import jakarta.validation.constraints.NotBlank;
@@ -16,13 +19,12 @@ public class MakingFamilyRequestDto {
 	
 	@NotBlank
 	private String motto;
-	
-	// TODO: Entity가 아닌 타입을 참조
-	private Member member;
+	private MultipartFile image;
 
-	public MakingFamilyRequestDto(String name, String motto, Member member) {
+
+	public MakingFamilyRequestDto(String name, String motto, MultipartFile image) {
 		this.name = name;
 		this.motto = motto;
-		this.member = member;
+		this.image = image;
 	}
 }
