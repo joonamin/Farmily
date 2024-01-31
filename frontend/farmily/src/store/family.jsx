@@ -34,12 +34,12 @@ const familySlice = createSlice({
   initialState,
   reducers: {
     setFamily: (state, action) => {
-      state.id = action.payload.id;
-      state.name = action.payload.name;
-      state.motto = action.payload.motto;
-      state.tree = action.payload.tree;
-      state.challengesIds = action.payload.challengesIds;
-      state.sprintId = action.payload.sprintId;
+      state.value.id = action.payload.id;
+      state.value.name = action.payload.name;
+      state.value.motto = action.payload.motto;
+      state.value.tree = action.payload.tree;
+      state.value.challengesIds = action.payload.challengesIds;
+      state.value.sprintId = action.payload.sprintId;
     },
   },
 });

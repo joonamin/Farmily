@@ -4,6 +4,10 @@ import SideButton from './SideButton.jsx';
 import logo from '../assets/images/Farmily.png';
 import { Link } from 'react-router-dom';
 
+import { useDispatch } from 'react-redux';
+import { logOut } from '../store/auth.jsx';
+import { useNavigate } from 'react-router-dom';
+
 // record => 현재 sprintId 받아오면 수정하기
 const sprintId = 1;
 const category = [
@@ -16,8 +20,13 @@ const category = [
 ];
 
 export default function SideBar() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   function clickLogout() {
     // 로그아웃 요청 보내기
+    dispatch(logOut());
+    navigate('/');
   }
   return (
     <aside className="w-1/3 h-full px-4 py-6 bg-slate-50 text-stone-900 md:w-60 rounded-r-md text-center">
