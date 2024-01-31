@@ -37,6 +37,17 @@ public class JwtUtils {
 		return null;
 	}
 
+	public static String getUsernameFromToken(String token, Key key) {
+		Assert.notNull(token, "token must not be null");
+		Assert.notNull(key, "key must not be null");
+		return Jwts.parser()
+			.verifyWith((SecretKey)key)
+			.build()
+			.parseSignedClaims(token)
+			.getPayload()
+			.getSubject();
+	}
+
 	public static AuthenticatedUser verifyToken(String token, Key key) throws ExpiredJwtException {
 		if (token == null) {
 			log.info("token is null");
