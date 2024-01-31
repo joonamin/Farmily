@@ -5,13 +5,17 @@ import axios from '../api/axios.jsx';
 
 export default function FamilyCreatePage() {
   const [previewImage, setPreviewImage] = useState(chunsik);
-  const [formData, setFormData] = useState({
+  const [data, setData] = useState({
     name: '',
     motto: '',
     image: chunsik,
   });
   const handleClick = () => {
-    // 로그인 후 유저 정보 같이 보내기
+    const formData = new FormData();
+    formData.append('name', data.name);
+    formData.append('motto', data.motto);
+    formData.append('image', data.image);
+
     axios
       .post('/family/insertFamliy', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
@@ -27,26 +31,36 @@ export default function FamilyCreatePage() {
     const file = e.target.files[0];
 
     if (file) {
-      // FileReader를 사용하여 파일을 읽음
       const reader = new FileReader();
 
-      // 파일을 읽을 때 이벤트 핸들러
       reader.onloadend = () => {
         setPreviewImage(reader.result);
-        setFormData({
-          ...formData,
+        setData({
+          ...data,
           image: file,
         });
       };
-
-      // 파일을 읽음
       reader.readAsDataURL(file);
     }
   };
+  const handleNameChange = (e) => {
+    setData({
+      ...data,
+      name: e.target.value,
+    });
+  };
+
+  const handleMottoChange = (e) => {
+    setData({
+      ...data,
+      motto: e.target.value,
+    });
+  };
+
   return (
     <>
       <div className="h-screen text-center align-middle w-full py-24 px-60 ">
-        <div className="border-8 border-black bg-white h-full w-full rounded-xl p-10">
+        <div className="border-8 border-black bg-white h-full w-full rounded-xl p-5">
           <h1 className="text-2xl mb-5">가족 생성하기</h1>
           <div className="flex align-middle flex-col w-full h-full">
             <p>사진 미리보기</p>
@@ -58,7 +72,7 @@ export default function FamilyCreatePage() {
               />
             </div>
 
-            <div className="w-full flex justify-around m-4">
+            <div className="w-full flex justify-around m-2">
               <p className="w-1/4">가족 대표 사진</p>
               <input
                 type="file"
@@ -66,17 +80,19 @@ export default function FamilyCreatePage() {
                 className="border-4 border-black p-1 rounded-md w-1/2"
               />
             </div>
-            <div className="w-full flex justify-around m-4">
+            <div className="w-full flex justify-around m-2">
               <p className="w-1/4">가족 이름</p>
               <input
                 type="text"
+                onChange={handleNameChange}
                 className="border-4 border-black rounded-md p-1 w-1/2"
               />
             </div>
-            <div className="w-full flex justify-around m-4">
+            <div className="w-full flex justify-around m-2">
               <p className="w-1/4">가훈</p>
               <input
                 type="text"
+                onChange={handleMottoChange}
                 className="border-4 border-black rounded-md p-1 w-1/2"
               />
             </div>
