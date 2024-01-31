@@ -28,6 +28,7 @@ import com.ssafy.farmily.entity.Member;
 import com.ssafy.farmily.entity.Record;
 import com.ssafy.farmily.entity.Sprint;
 import com.ssafy.farmily.exception.NoSuchContentException;
+import com.ssafy.farmily.repository.ChallengeProgressRepository;
 import com.ssafy.farmily.repository.ImageCardRepository;
 import com.ssafy.farmily.repository.RecordRepository;
 import com.ssafy.farmily.service.family.FamilyService;
@@ -43,6 +44,7 @@ import lombok.RequiredArgsConstructor;
 public class RecordServiceImpl implements RecordService {
 	private final RecordRepository recordRepository;
 	private final ImageCardRepository imageCardRepository;
+	private final ChallengeProgressRepository challengeProgressRepository;
 
 	private final FileService fileService;
 	private final SprintService sprintService;
@@ -169,9 +171,7 @@ public class RecordServiceImpl implements RecordService {
 			.date(LocalDate.now())
 			.build();
 
-		recordEntity.getProgresses().add(progressEntity);
-
-		recordRepository.save(recordEntity);
+		challengeProgressRepository.save(progressEntity);
 	}
 
 	@Override
