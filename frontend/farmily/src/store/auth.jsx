@@ -16,9 +16,9 @@ const authSlice = createSlice({
   reducers: {
     getAccessToken: (state, action) => {
       state.value.accessToken = action.payload.accessToken;
-      axios.defaults.headers.common[
-        'Authorization'
-      ] = `Bearer ${state.value.accessToken}`;
+      // axios.defaults.headers.common[
+      //   'Authorization'
+      // ] = `Bearer ${state.value.accessToken}`;
     },
 
     setUser: (state, action) => {
@@ -29,9 +29,9 @@ const authSlice = createSlice({
       state.value.username = '';
       state.value.nickname = '';
       state.value.accessToken = '';
-      axios.defaults.headers.common[
-        'Authorization'
-      ] = `Bearer ${state.value.accessToken}`;
+      // axios.defaults.headers.common[
+      //   'Authorization'
+      // ] = `Bearer ${state.value.accessToken}`;
       document.cookie =
         'accessToken' + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
       'refreshToken' + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
