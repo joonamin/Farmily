@@ -120,7 +120,10 @@ public class FamilyController {
 			description = "가족 생성 성공"
 		)
 	})
-	public ResponseEntity<Void> createFamily(@RequestBody MakingFamilyRequestDto makingFamilyRequestDto, @AuthenticationPrincipal String username){
+	public ResponseEntity<Void> createFamily(
+		@RequestBody MakingFamilyRequestDto makingFamilyRequestDto,
+		@AuthenticationPrincipal String username
+	){
 		familyService.makeFamily(makingFamilyRequestDto,username);
 		return ResponseEntity.ok().build();
 	}
@@ -153,7 +156,10 @@ public class FamilyController {
 	})
 	@PostMapping("/join")
 	@PreAuthorize("hasRole('ROLE_USER')")
-	public ResponseEntity<Void> joinFamily(@RequestBody String invitationCode, @AuthenticationPrincipal String username){
+	public ResponseEntity<Void> joinFamily(
+		@RequestBody String invitationCode,
+		@AuthenticationPrincipal String username
+	){
 		familyService.insertFamilyMemberShip(invitationCode, username);
 		return ResponseEntity.ok().build();
 	}
@@ -179,7 +185,8 @@ public class FamilyController {
 	@PreAuthorize("hasRole('ROLE_USER')")
 	public ResponseEntity<List<FamilyMemberResponseDto>> loadFamilyMemberList(
 		@PathVariable Long familyId,
-		@AuthenticationPrincipal String username){
+		@AuthenticationPrincipal String username
+	) {
 		List<FamilyMemberResponseDto> familyMemberList = familyService.loadFamilyMemberList(familyId,username);
 		return ResponseEntity.ok(familyMemberList);
 	}
@@ -199,7 +206,8 @@ public class FamilyController {
 	public ResponseEntity<Void> mandateHead(
 		@PathVariable(value = "familyId") Long familyId,
 		@PathVariable(value = "memberId") Long memberId,
-		@AuthenticationPrincipal String username){
+		@AuthenticationPrincipal String username
+	){
 		familyService.mandateLeader(familyId,memberId,username);
 		return ResponseEntity.ok().build();
 	}
