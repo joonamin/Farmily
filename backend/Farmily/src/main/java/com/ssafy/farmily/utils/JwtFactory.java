@@ -16,8 +16,10 @@ import com.ssafy.farmily.dto.oauth.LoginResponseDto;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import lombok.extern.slf4j.Slf4j;
 
 @Component
+@Slf4j
 public class JwtFactory {
 
 	private final Key key;
@@ -29,6 +31,7 @@ public class JwtFactory {
 
 	public JwtFactory(@Value("${jwt.secret}") String secret) {
 		Assert.notNull(secret, "설정 파일에 jwt secret이 존재하지 않음");
+		log.warn("[JwtFactory] secret: " + secret);
 		String base64EncodedSecret = Base64.encode(secret).decodeToString();
 		this.key = Keys.hmacShaKeyFor(base64EncodedSecret.getBytes());
 	}
