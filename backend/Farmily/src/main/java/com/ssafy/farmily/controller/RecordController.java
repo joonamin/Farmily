@@ -1,6 +1,7 @@
 package com.ssafy.farmily.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -68,10 +69,10 @@ public class RecordController {
 		@ApiResponse(responseCode = "200", description = "기록 작성 성공")
 	})
 	private ResponseEntity<Void> postEvent(
-		// TODO: userdetails 추가
+		@AuthenticationPrincipal String username,
 		@Valid EventRecordPostRequestDto request
 	) {
-		recordService.createEventRecord(request);
+		recordService.createEventRecord(username, request);
 
 		return ResponseEntity.ok().build();
 	}
@@ -86,10 +87,10 @@ public class RecordController {
 		@ApiResponse(responseCode = "200", description = "기록 수정 성공")
 	})
 	private ResponseEntity<Void> putEvent(
-		// TODO: userdetails 추가
+		@AuthenticationPrincipal String username,
 		@Valid EventRecordPutRequestDto request
 	) {
-		recordService.editEventRecord(request);
+		recordService.editEventRecord(username, request);
 
 		return ResponseEntity.ok().build();
 	}
@@ -103,10 +104,10 @@ public class RecordController {
 		@ApiResponse(responseCode = "200", description = "기록 작성 성공")
 	})
 	private ResponseEntity<Void> postDaily(
-		// TODO: userdetails 추가
+		@AuthenticationPrincipal String username,
 		@Valid @RequestBody DailyRecordPostRequestDto request
 	) {
-		recordService.createDailyRecord(request);
+		recordService.createDailyRecord(username, request);
 
 		return ResponseEntity.ok().build();
 	}
@@ -121,10 +122,10 @@ public class RecordController {
 		@ApiResponse(responseCode = "200", description = "기록 수정 성공")
 	})
 	private ResponseEntity<Void> putDaily(
-		// TODO: userdetails 추가
+		@AuthenticationPrincipal String username,
 		@Valid @RequestBody DailyRecordPutRequestDto request
 	) {
-		recordService.editDailyRecord(request);
+		recordService.editDailyRecord(username, request);
 
 		return ResponseEntity.ok().build();
 	}
@@ -138,10 +139,10 @@ public class RecordController {
 		@ApiResponse(responseCode = "200", description = "기록 작성 성공")
 	})
 	private ResponseEntity<Void> postChallenge(
-		// TODO: userdetails 추가
+		@AuthenticationPrincipal String username,
 		@Valid @RequestBody ChallengeRecordPostRequestDto request
 	) {
-		recordService.createChallengeRecord(request);
+		recordService.createChallengeRecord(username, request);
 
 		return ResponseEntity.ok().build();
 	}
@@ -155,10 +156,10 @@ public class RecordController {
 		@ApiResponse(responseCode = "200", description = "표시 성공")
 	})
 	private ResponseEntity<Void> postChallengeMark(
-		// TODO: userdetails 추가
+		@AuthenticationPrincipal String username,
 		@Valid @RequestBody ChallengeRecordMarkRequestDto request
 	) {
-		recordService.markChallengeRecord(request);
+		recordService.markChallengeRecord(username, request);
 
 		return ResponseEntity.ok().build();
 	}
@@ -172,10 +173,10 @@ public class RecordController {
 		@ApiResponse(responseCode = "200", description = "기록 수정 성공")
 	})
 	private ResponseEntity<Void> putChallenge(
-		// TODO: userdetails 추가
+		@AuthenticationPrincipal String username,
 		@Valid @RequestBody ChallengeRecordPutRequestDto request
 	) {
-		recordService.editChallengeRecord(request);
+		recordService.editChallengeRecord(username, request);
 
 		return ResponseEntity.ok().build();
 	}

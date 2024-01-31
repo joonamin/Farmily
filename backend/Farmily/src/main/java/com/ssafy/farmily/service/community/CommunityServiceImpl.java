@@ -18,13 +18,15 @@ import lombok.RequiredArgsConstructor;
 
 import com.ssafy.farmily.repository.MemberRepository;
 import com.ssafy.farmily.service.file.FileService;
+import com.ssafy.farmily.service.member.MemberService;
 import com.ssafy.farmily.utils.SliceResponse;
 
 @Service
 @RequiredArgsConstructor
 public class CommunityServiceImpl implements CommunityService {
 	private final CommunityPostRepository communityPostRepository;
-	private final MemberRepository memberRepository;
+
+	private final MemberService memberService;
 	private final FileService fileService;
 
 	@Override
@@ -38,7 +40,7 @@ public class CommunityServiceImpl implements CommunityService {
 
 	@Override
 	public String insertCommunityPost(InsertCommunityPostRequestDto requestDto, String username) {
-		Member member = memberRepository.findByUsername(username).get();
+		Member member = memberService.getEntity(username);
 
 		Image treeSnapshot = null;
 		if(requestDto.getTreeSnapshot() != null){

@@ -123,7 +123,10 @@ public class FamilyController {
 			description = "가족 생성 성공"
 		)
 	})
-	public ResponseEntity<Void> createFamily(@RequestBody MakingFamilyRequestDto makingFamilyRequestDto, @AuthenticationPrincipal String username){
+	public ResponseEntity<Void> createFamily(
+		@RequestBody MakingFamilyRequestDto makingFamilyRequestDto,
+		@AuthenticationPrincipal String username
+	){
 		familyService.makeFamily(makingFamilyRequestDto,username);
 		return ResponseEntity.ok().build();
 	}
@@ -182,7 +185,8 @@ public class FamilyController {
 	@PreAuthorize("hasRole('ROLE_USER')")
 	public ResponseEntity<List<FamilyMemberResponseDto>> loadFamilyMemberList(
 		@PathVariable Long familyId,
-		@AuthenticationPrincipal String username){
+		@AuthenticationPrincipal String username
+	) {
 		List<FamilyMemberResponseDto> familyMemberList = familyService.loadFamilyMemberList(familyId,username);
 		return ResponseEntity.ok(familyMemberList);
 	}
