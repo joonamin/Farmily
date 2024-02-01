@@ -196,6 +196,8 @@ public class RecordServiceImpl implements RecordService {
 
 		Member member = memberService.getEntity(username);
 
+		System.out.println(member.getNickname());
+
 		Comment comment = Comment.builder()
 			.record(record)
 			.author(member)
@@ -209,8 +211,17 @@ public class RecordServiceImpl implements RecordService {
 
 	@Override
 	public void editComment(Long recordId, Long commentId, String username, RecordCommentDto.Request.Put dto) {
+		Record record = recordRepository.findById(recordId)
+			.orElseThrow(NoSuchContentException::new);
 
+		Comment comment = recordRepository.findCommentByIdAndCommentsId(recordId, commentId)
+			.orElseThrow(NoSuchContentException::new);
 
+		memberService.assertAuthorship(comment.getAuthor(), username);
+
+		comment.setContent(dto.getContent());
+
+		recordRepository.save(record);
 	}
 
 	private List<ImageCard> persistImageCards(Record record, Collection<ImageCardRequestDto> dtos) {
