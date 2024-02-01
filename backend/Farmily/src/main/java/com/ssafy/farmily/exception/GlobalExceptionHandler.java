@@ -10,7 +10,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class GlobalExceptionHandler {
 	@ExceptionHandler(NoSuchContentException.class)
 	public ResponseEntity<String> handleException(NoSuchContentException exception) {
-		return ResponseEntity.notFound().build();
+		String message = exception.getMessage();
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(message);
 	}
 
 	@ExceptionHandler(MethodArgumentNotValidException.class)
@@ -19,12 +20,14 @@ public class GlobalExceptionHandler {
 	}
 
 	@ExceptionHandler(ForbiddenException.class)
-	public ResponseEntity<Void> handleException(ForbiddenException exception) {
-		return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+	public ResponseEntity<String> handleException(ForbiddenException exception) {
+		String message = exception.getMessage();
+		return ResponseEntity.status(HttpStatus.FORBIDDEN).body(message);
 	}
 
 	@ExceptionHandler(BusinessException.class)
-	public ResponseEntity<Void> handleException(BusinessException exception) {
-		return ResponseEntity.badRequest().build();
+	public ResponseEntity<String> handleException(BusinessException exception) {
+		String message = exception.getMessage();
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(message);
 	}
 }

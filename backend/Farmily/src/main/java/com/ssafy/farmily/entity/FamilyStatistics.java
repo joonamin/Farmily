@@ -28,32 +28,20 @@ public class FamilyStatistics extends BaseEntity {
 	private Family family;
 
 	@Column
-	private Integer fruitCount;
+	private Integer dailyRecordCount;
 
 	@Column
-	private Integer conferenceCount;
+	private Integer eventRecordCount;
 
 	@Column
-	private Integer chatCount;
-
-	@Column
-	private Integer treeChangeCount;
-
-	@Column
-	private Integer recordCount;
-
-	@Column
-	private Integer recordStreak;
-
-	@Column
-	private Integer commentCount;
-
-	@Column
-	private Integer communityPostCount;
-
-	@Column
-	private Integer accessoryCount;
+	private Integer challengeCompleteCount;
 
 	@Column
 	private Integer harvestCount;
+
+	@Column
+	private Integer calendarPlanCount;
+
+	@Column
+	private boolean isFirstConference;
 }
