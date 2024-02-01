@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.ssafy.farmily.entity.FamilyStatistics;
 import com.ssafy.farmily.type.Achievement;
-import com.ssafy.farmily.type.AchievementType;
 
 import lombok.Data;
 import lombok.ToString;
@@ -30,17 +29,5 @@ public class FamilyAchievementProgressDto {
 		responseDto.setCalendarPlanCount(familyStatistics.getCalendarPlanCount());
 		responseDto.isFirstConference = familyStatistics.isFirstConference();
 		return responseDto;
-	}
-
-	public int getter(AchievementType type){
-		int progress = 0;
-		switch (type){
-			case DAILY : progress = dailyRecordCount;
-			case EVENT: progress = eventRecordCount;
-			case CHALLENGE: progress = challengeCompleteCount;
-			case HARVEST: progress = harvestCount;
-			case CALENDARPLAN: progress = harvestCount;
-		}
-		return progress;
 	}
 }
