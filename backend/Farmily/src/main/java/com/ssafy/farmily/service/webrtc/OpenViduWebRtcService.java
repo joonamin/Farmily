@@ -6,8 +6,11 @@ import org.springframework.stereotype.Service;
 
 import com.ssafy.farmily.entity.Conference;
 import com.ssafy.farmily.dto.ConferenceJoinResponseDto;
+import com.ssafy.farmily.entity.Member;
 import com.ssafy.farmily.exception.NoSuchContentException;
 import com.ssafy.farmily.repository.ConferenceRepository;
+import com.ssafy.farmily.service.family.FamilyService;
+import com.ssafy.farmily.service.member.MemberService;
 
 import io.openvidu.java.client.Connection;
 import io.openvidu.java.client.ConnectionProperties;
@@ -20,15 +23,19 @@ import io.openvidu.java.client.SessionProperties;
 public class OpenViduWebRtcService implements WebRtcService {
 	private final ConferenceRepository conferenceRepository;
 
+	private final FamilyService familyService;
+
 	private final OpenVidu openVidu;
 
 	@Autowired
 	public OpenViduWebRtcService(
 		final ConferenceRepository conferenceRepository,
+		final FamilyService familyService,
 		@Value("${openvidu.url}") final String url,
 		@Value("${openvidu.secret}") final String secret
 	) {
 		this.conferenceRepository = conferenceRepository;
+		this.familyService = familyService;
 		this.openVidu = new OpenVidu(url, secret);
 	}
 
@@ -36,6 +43,8 @@ public class OpenViduWebRtcService implements WebRtcService {
 	public ConferenceJoinResponseDto enterConference(String username, Long familyId) {
 		Conference conference = conferenceRepository.findById(familyId)
 			.orElseGet(() -> createConference(familyId));
+
+		familyService.assertMembership(familyId, username);
 
 		String token = joinConference(username, conference);
 
