@@ -18,5 +18,5 @@ public class FamilyDisplayDto {
 	private Long familyId;
 	private String name;
 	private String motto;
-	private Image image;
+	private String profileImageUrl;
 }
