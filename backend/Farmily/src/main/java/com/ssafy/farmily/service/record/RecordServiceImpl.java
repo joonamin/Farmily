@@ -31,6 +31,7 @@ import com.ssafy.farmily.entity.Record;
 import com.ssafy.farmily.entity.Sprint;
 import com.ssafy.farmily.exception.NoSuchContentException;
 import com.ssafy.farmily.repository.ChallengeProgressRepository;
+import com.ssafy.farmily.repository.CommentRepository;
 import com.ssafy.farmily.repository.ImageCardRepository;
 import com.ssafy.farmily.repository.RecordRepository;
 import com.ssafy.farmily.service.family.FamilyService;
@@ -45,6 +46,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class RecordServiceImpl implements RecordService {
 	private final RecordRepository recordRepository;
+	private final CommentRepository commentRepository;
 	private final ImageCardRepository imageCardRepository;
 	private final ChallengeProgressRepository challengeProgressRepository;
 
@@ -211,17 +213,14 @@ public class RecordServiceImpl implements RecordService {
 
 	@Override
 	public void editComment(Long recordId, Long commentId, String username, RecordCommentDto.Request.Put dto) {
-		Record record = recordRepository.findById(recordId)
-			.orElseThrow(NoSuchContentException::new);
-
-		Comment comment = recordRepository.findCommentByIdAndCommentsId(recordId, commentId)
+		Comment comment = commentRepository.findById(commentId)
 			.orElseThrow(NoSuchContentException::new);
 
 		memberService.assertAuthorship(comment.getAuthor(), username);
 
 		comment.setContent(dto.getContent());
 
-		recordRepository.save(record);
+		commentRepository.save(comment);
 	}
 
 	private List<ImageCard> persistImageCards(Record record, Collection<ImageCardRequestDto> dtos) {

@@ -23,6 +23,4 @@ public interface RecordRepository extends JpaRepository<Record, Long> {
 	List<Long> findCurrentChallenges(Long familyId);
 
 	List<Record> findAllBySprint(Sprint sprint);
-
-	Optional<Comment> findCommentByIdAndCommentsId(Long recordId, Long commentId);
 }
