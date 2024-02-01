@@ -27,7 +27,7 @@ public class RecordResponseDto {
 	protected String title;
 	protected String content;
 	protected MemberInfoDto author;
-	protected List<CommentDto> comments;
+	protected List<RecordCommentDto.Response> comments;
 
 
 	public static RecordResponseDto from(Record entity) {
@@ -37,8 +37,8 @@ public class RecordResponseDto {
 		MemberInfoDto authorDto = MemberInfoDto.from(entity.getAuthor());
 		dto.setAuthor(authorDto);
 
-		List<CommentDto> commentDtos = entity.getComments().stream()
-			.map(CommentDto::from)
+		List<RecordCommentDto.Response> commentDtos = entity.getComments().stream()
+			.map(RecordCommentDto.Response::from)
 			.toList();
 		dto.setComments(commentDtos);
 

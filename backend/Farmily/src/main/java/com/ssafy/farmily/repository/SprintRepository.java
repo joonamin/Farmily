@@ -10,7 +10,7 @@ import com.ssafy.farmily.entity.Sprint;
 
 @Repository
 public interface SprintRepository extends JpaRepository<Sprint, Long> {
-	List<Sprint> findAllByFamilyIdAndIsHarvested(Long familyId, Boolean isHarvested);
+	List<Sprint> findAllByFamilyIdAndIsHarvestedDesc(Long familyId, Boolean isHarvested);
 
 	Optional<Sprint> findByFamilyIdAndIsHarvested(Long familyId, Boolean isHarvested);
 

@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.ssafy.farmily.type.RecordType;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorColumn;
 import jakarta.persistence.DiscriminatorValue;
@@ -52,7 +53,7 @@ public class Record extends BaseEntity {
 	@Column(columnDefinition = "TEXT")
 	private String content;
 
-	@OneToMany(mappedBy = "record")
+	@OneToMany(mappedBy = "record", cascade = CascadeType.ALL)
 	private List<Comment> comments;
 
 	@OneToMany(mappedBy = "record")
