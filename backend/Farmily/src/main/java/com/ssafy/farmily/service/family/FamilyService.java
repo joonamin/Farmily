@@ -5,6 +5,7 @@ import java.util.List;
 import com.ssafy.farmily.dto.ChangeLeaderRequestDto;
 import com.ssafy.farmily.dto.FamilyBasketDto;
 import com.ssafy.farmily.dto.FamilyItemDto;
+import com.ssafy.farmily.dto.FamilyListDto;
 import com.ssafy.farmily.dto.FamilyMainDto;
 import com.ssafy.farmily.dto.FamilyMemberResponseDto;
 import com.ssafy.farmily.dto.FamilyAchievementProgressDto;
@@ -63,6 +64,8 @@ public interface FamilyService {
 	public List<FamilyMemberResponseDto> loadFamilyMemberList(Long familyId,String username);
 
 	public void changeLeader(Long familyId, ChangeLeaderRequestDto requestDto, String pastLeaderName);
+
+	public FamilyListDto getFamilyList(String username);
 
 	//TODO public void raffleItem(Long familyId);
 
