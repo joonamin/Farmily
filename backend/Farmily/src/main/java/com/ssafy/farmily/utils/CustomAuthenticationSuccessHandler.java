@@ -24,8 +24,7 @@ import lombok.extern.log4j.Log4j2;
 public class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
 	private final JwtFactory jwtFactory;
-	@Value("${spring.security.farmily.redirect-uri}") private String REDIRECT_URL;
-
+	private final String REDIRECT_URL = "http://localhost:8080";
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 		Authentication authentication) throws IOException, ServletException {

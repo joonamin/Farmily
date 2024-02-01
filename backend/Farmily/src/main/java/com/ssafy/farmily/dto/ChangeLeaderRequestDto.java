@@ -5,6 +5,6 @@ import lombok.ToString;
 
 @Data
 @ToString
-public class JoinRequestDto {
-	private String invitationCode;
+public class ChangeLeaderRequestDto {
+	private Long newLeaderMemberId;
 }
