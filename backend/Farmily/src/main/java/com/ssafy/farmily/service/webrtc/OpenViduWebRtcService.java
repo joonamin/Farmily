@@ -25,16 +25,24 @@ public class OpenViduWebRtcService implements WebRtcService {
 		this.openVidu = new OpenVidu(url, secret);
 	}
 
-	public String initializeSession(SessionProperties sessionProperties) {
+	@Override
+	public String enterConference(String username, Long familyId) {
+
+	}
+
+	@Override
+	public String createConference(Long familyId) {
 		try {
-			Session session = openVidu.createSession(sessionProperties);
+			Session session = openVidu.createSession();
 			return session.getSessionId();
 		} catch (OpenViduException ex) {
 			throw new RuntimeException(ex);
 		}
 	}
 
-	public String createConnection(String sessionId, ConnectionProperties properties) {
+	@Override
+	public String joinConference(String username, Long familyId) {
+
 		try {
 			Session session = openVidu.getActiveSession(sessionId);
 			if (session == null)
@@ -45,21 +53,5 @@ public class OpenViduWebRtcService implements WebRtcService {
 		} catch (OpenViduException ex) {
 			throw new RuntimeException(ex);
 		}
-	}
-
-	@Override
-	public String enterConference(String username, Long familyId) {
-
-		return null; // TODO
-	}
-
-	@Override
-	public String createConference(Long familyId) {
-		return null; // TODO
-	}
-
-	@Override
-	public String joinConference(String username, Long familyId) {
-		return null; // TODO
 	}
 }
