@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ssafy.farmily.dto.LogoutRequestDto;
+import com.ssafy.farmily.dto.MemberEditRequestDto;
 import com.ssafy.farmily.dto.MemberInfoDto;
 import com.ssafy.farmily.dto.MemberRegisterDto;
 import com.ssafy.farmily.entity.Image;
@@ -83,5 +84,15 @@ public class CustomMemberService implements MemberService {
 			throw new RuntimeException("작성자 확인 실패: 작성자가 null입니다.");
 		if (!Objects.equals(authorEntity.getUsername(), username))
 			throw new ForbiddenException();
+	}
+
+	@Override
+	@Transactional
+	public void editMemberInfo(String username, MemberEditRequestDto dto) {
+		Member member = this.getEntity(username);
+
+		member.setNickname(dto.getNewNickname());
+
+		memberRepository.save(member);
 	}
 }

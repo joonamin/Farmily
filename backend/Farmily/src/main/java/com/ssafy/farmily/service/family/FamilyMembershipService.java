@@ -31,7 +31,7 @@ public class FamilyMembershipService {
 			.familyId(fms.getFamily().getId())
 			.name(fms.getFamily().getName())
 			.motto(fms.getFamily().getMotto())
-			.image(fms.getFamily().getImage())
+			.profileImageUrl(fms.getFamily().getImage().getLocation())
 			.build()));
 		return userFamilies;
 	}
