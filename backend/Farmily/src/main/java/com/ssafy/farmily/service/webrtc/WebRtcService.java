@@ -1,12 +1,12 @@
 package com.ssafy.farmily.service.webrtc;
 
-import io.openvidu.java.client.ConnectionProperties;
-import io.openvidu.java.client.SessionProperties;
+import com.ssafy.farmily.entity.Conference;
+import com.ssafy.farmily.dto.ConferenceJoinResponseDto;
 
 public interface WebRtcService {
-	String enterConference(String username, Long familyId);
+	ConferenceJoinResponseDto enterConference(String username, Long familyId);
 
-	String createConference(Long familyId);
+	Conference createConference(Long familyId);
 
-	String joinConference(String username, Long familyId);
+	String joinConference(String username, Conference conference);
 }

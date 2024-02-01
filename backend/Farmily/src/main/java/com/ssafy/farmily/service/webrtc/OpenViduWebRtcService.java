@@ -4,7 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.ssafy.farmily.entity.Conference;
+import com.ssafy.farmily.dto.ConferenceJoinResponseDto;
 import com.ssafy.farmily.exception.NoSuchContentException;
+import com.ssafy.farmily.repository.ConferenceRepository;
 
 import io.openvidu.java.client.Connection;
 import io.openvidu.java.client.ConnectionProperties;
@@ -15,41 +18,71 @@ import io.openvidu.java.client.SessionProperties;
 
 @Service
 public class OpenViduWebRtcService implements WebRtcService {
+	private final ConferenceRepository conferenceRepository;
+
 	private final OpenVidu openVidu;
 
 	@Autowired
 	public OpenViduWebRtcService(
+		final ConferenceRepository conferenceRepository,
 		@Value("${openvidu.url}") final String url,
 		@Value("${openvidu.secret}") final String secret
 	) {
+		this.conferenceRepository = conferenceRepository;
 		this.openVidu = new OpenVidu(url, secret);
 	}
 
 	@Override
-	public String enterConference(String username, Long familyId) {
+	public ConferenceJoinResponseDto enterConference(String username, Long familyId) {
+		Conference conference = conferenceRepository.findById(familyId)
+			.orElseGet(() -> createConference(familyId));
 
+		String token = joinConference(username, conference);
+
+		return ConferenceJoinResponseDto.builder()
+			.sessionUrl(token)
+			.build();
 	}
 
 	@Override
-	public String createConference(Long familyId) {
+	public Conference createConference(Long familyId) {
+		String sessionId = "ses_" + familyId;
+
+		SessionProperties properties = new SessionProperties.Builder()
+			.customSessionId(sessionId)
+			.build();
+
 		try {
-			Session session = openVidu.createSession();
-			return session.getSessionId();
+			openVidu.createSession(properties);
+
+			Conference conference = Conference.builder()
+				.id(familyId)
+				.sessionId(sessionId)
+				.build();
+
+			conferenceRepository.save(conference);
+
+			return conference;
 		} catch (OpenViduException ex) {
 			throw new RuntimeException(ex);
 		}
 	}
 
 	@Override
-	public String joinConference(String username, Long familyId) {
+	public String joinConference(String username, Conference conference) {
+		ConnectionProperties properties = new ConnectionProperties.Builder()
+			// .data(username)		// TODO: Front 측에서 필요한 데이터 jsonify 후 넘겨주기
+			.build();
 
 		try {
-			Session session = openVidu.getActiveSession(sessionId);
+			Session session = openVidu.getActiveSession(conference.getSessionId());
 			if (session == null)
 				throw new NoSuchContentException("해당 세션을 찾을 수 없습니다.");
 
 			Connection connection = session.createConnection(properties);
+
 			return connection.getToken();
+
 		} catch (OpenViduException ex) {
 			throw new RuntimeException(ex);
 		}
