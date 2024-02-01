@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import ArticleItem from './ArticleItem.jsx';
 import axios from '../../api/axios.jsx';
 
-export default function ArticleList() {
+export default function ArticleList({ sprintId }) {
   const [records, setRecords] = useState([
     {
       id: 0,
@@ -17,7 +17,7 @@ export default function ArticleList() {
   useEffect(() => {
     // 유저 인증 후 sprintId 적절히 넣기
     axios
-      .get('/sprint/1/record')
+      .get(`/sprint/${sprintId}/record`)
       .then((response) => {
         setRecords(response.data);
       })
