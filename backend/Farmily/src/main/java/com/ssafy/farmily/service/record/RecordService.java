@@ -10,6 +10,7 @@ import com.ssafy.farmily.dto.DailyRecordPutRequestDto;
 import com.ssafy.farmily.dto.EventRecordPostRequestDto;
 import com.ssafy.farmily.dto.EventRecordPutRequestDto;
 import com.ssafy.farmily.dto.EventRecordResponseDto;
+import com.ssafy.farmily.dto.RecordCommentDto;
 import com.ssafy.farmily.dto.RecordResponseDto;
 import com.ssafy.farmily.entity.Record;
 
@@ -29,4 +30,8 @@ public interface RecordService {
 	void markChallengeRecord(String username, ChallengeRecordMarkRequestDto dto);
 
 	void editChallengeRecord(String username, ChallengeRecordPutRequestDto dto);
+
+	void createComment(Long recordId, String username, RecordCommentDto.Request.Post dto);
+
+	void editComment(Long recordId, Long commentId, String username, RecordCommentDto.Request.Put dto);
 }

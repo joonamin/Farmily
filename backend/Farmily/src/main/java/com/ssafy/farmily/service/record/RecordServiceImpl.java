@@ -19,9 +19,11 @@ import com.ssafy.farmily.dto.EventRecordPostRequestDto;
 import com.ssafy.farmily.dto.EventRecordPutRequestDto;
 import com.ssafy.farmily.dto.EventRecordResponseDto;
 import com.ssafy.farmily.dto.ImageCardRequestDto;
+import com.ssafy.farmily.dto.RecordCommentDto;
 import com.ssafy.farmily.dto.RecordResponseDto;
 import com.ssafy.farmily.entity.ChallengeProgress;
 import com.ssafy.farmily.entity.ChallengeRecord;
+import com.ssafy.farmily.entity.Comment;
 import com.ssafy.farmily.entity.Image;
 import com.ssafy.farmily.entity.ImageCard;
 import com.ssafy.farmily.entity.Member;
@@ -29,6 +31,7 @@ import com.ssafy.farmily.entity.Record;
 import com.ssafy.farmily.entity.Sprint;
 import com.ssafy.farmily.exception.NoSuchContentException;
 import com.ssafy.farmily.repository.ChallengeProgressRepository;
+import com.ssafy.farmily.repository.CommentRepository;
 import com.ssafy.farmily.repository.ImageCardRepository;
 import com.ssafy.farmily.repository.RecordRepository;
 import com.ssafy.farmily.service.family.FamilyService;
@@ -43,6 +46,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class RecordServiceImpl implements RecordService {
 	private final RecordRepository recordRepository;
+	private final CommentRepository commentRepository;
 	private final ImageCardRepository imageCardRepository;
 	private final ChallengeProgressRepository challengeProgressRepository;
 
@@ -187,6 +191,37 @@ public class RecordServiceImpl implements RecordService {
 		recordRepository.save(entity);
 	}
 
+	@Override
+	public void createComment(Long recordId, String username, RecordCommentDto.Request.Post dto) {
+		Record record = recordRepository.findById(recordId)
+			.orElseThrow(NoSuchContentException::new);
+
+		Member member = memberService.getEntity(username);
+
+		System.out.println(member.getNickname());
+
+		Comment comment = Comment.builder()
+			.record(record)
+			.author(member)
+			.content(dto.getContent())
+			.build();
+
+		record.getComments().add(comment);
+
+		recordRepository.save(record);
+	}
+
+	@Override
+	public void editComment(Long recordId, Long commentId, String username, RecordCommentDto.Request.Put dto) {
+		Comment comment = commentRepository.findById(commentId)
+			.orElseThrow(NoSuchContentException::new);
+
+		memberService.assertAuthorship(comment.getAuthor(), username);
+
+		comment.setContent(dto.getContent());
+
+		commentRepository.save(comment);
+	}
 
 	private List<ImageCard> persistImageCards(Record record, Collection<ImageCardRequestDto> dtos) {
 		List<MultipartFile> multipartFiles = dtos.stream()
