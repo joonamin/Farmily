@@ -10,6 +10,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.ssafy.farmily.dto.oauth.AuthenticatedUser;
+import com.ssafy.farmily.exception.BusinessException;
+import com.ssafy.farmily.repository.TokenBlackListRepository;
 import com.ssafy.farmily.utils.JwtUtils;
 
 import io.jsonwebtoken.security.Keys;
@@ -24,11 +26,13 @@ import lombok.extern.slf4j.Slf4j;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 	private final Key secretKey;
+	private final TokenBlackListRepository tokenBlackListRepository;
 
-	public JwtAuthenticationFilter(Environment env) {
+	public JwtAuthenticationFilter(Environment env, TokenBlackListRepository tokenBlackListRepository) {
 		String secret = env.getProperty("jwt.secret");
 		log.warn("secret: " + secret);
 		this.secretKey = Keys.hmacShaKeyFor(secret.getBytes());
+		this.tokenBlackListRepository = tokenBlackListRepository;
 	}
 
 	@Override
@@ -44,6 +48,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 		FilterChain filterChain) throws ServletException, IOException {
 		String resolveToken = JwtUtils.resolveToken(request);
 		AuthenticatedUser authenticatedUser = JwtUtils.verifyToken(resolveToken, secretKey);
+
+		tokenBlackListRepository.findByToken(resolveToken).ifPresent(e -> {
+			throw new BusinessException(e.getToken().substring(7) + "...은 이미 로그아웃된 토큰 입니다");
+		});
+
 		SecurityContextHolder.getContext().setAuthentication(authenticatedUser);
 		filterChain.doFilter(request, response);
 	}
