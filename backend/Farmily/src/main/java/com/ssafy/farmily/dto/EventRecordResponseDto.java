@@ -32,8 +32,8 @@ public class EventRecordResponseDto extends RecordResponseDto {
 		MemberInfoDto authorDto = MemberInfoDto.from(entity.getAuthor());
 		dto.setAuthor(authorDto);
 
-		List<CommentDto> commentDtos = entity.getComments().stream()
-			.map(CommentDto::from)
+		List<RecordCommentDto.Response> commentDtos = entity.getComments().stream()
+			.map(RecordCommentDto.Response::from)
 			.toList();
 		dto.setComments(commentDtos);
 

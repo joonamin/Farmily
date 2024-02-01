@@ -21,6 +21,7 @@ import com.ssafy.farmily.dto.DailyRecordPutRequestDto;
 import com.ssafy.farmily.dto.EventRecordPostRequestDto;
 import com.ssafy.farmily.dto.EventRecordPutRequestDto;
 import com.ssafy.farmily.dto.EventRecordResponseDto;
+import com.ssafy.farmily.dto.RecordCommentDto;
 import com.ssafy.farmily.dto.RecordResponseDto;
 import com.ssafy.farmily.service.record.RecordService;
 
@@ -183,6 +184,43 @@ public class RecordController {
 		@Valid @RequestBody ChallengeRecordPutRequestDto request
 	) {
 		recordService.editChallengeRecord(username, request);
+
+		return ResponseEntity.ok().build();
+	}
+
+	@PostMapping("/{recordId}/comment")
+	@Operation(
+		summary = "기록 댓글 작성",
+		description = "기록에 댓글을 작성합니다."
+	)
+	@ApiResponses({
+		@ApiResponse(responseCode = "200", description = "댓글 작성 성공")
+	})
+	private ResponseEntity<Void> postComment(
+		@PathVariable Long recordId,
+		@AuthenticationPrincipal String username,
+		@RequestBody RecordCommentDto.Request.Post dto
+	) {
+		recordService.createComment(recordId, username, dto);
+
+		return ResponseEntity.ok().build();
+	}
+
+	@PutMapping("/{recordId}/comment/{commentId}")
+	@Operation(
+		summary = "챌린지 기록 수정",
+		description = "챌린지 기록을 수정합니다."
+	)
+	@ApiResponses({
+		@ApiResponse(responseCode = "200", description = "댓글 수정 성공")
+	})
+	private ResponseEntity<Void> putComment(
+		@PathVariable Long recordId,
+		@PathVariable Long commentId,
+		@AuthenticationPrincipal String username,
+		@RequestBody RecordCommentDto.Request.Put dto
+	) {
+		recordService.editComment(recordId, commentId, username, dto);
 
 		return ResponseEntity.ok().build();
 	}

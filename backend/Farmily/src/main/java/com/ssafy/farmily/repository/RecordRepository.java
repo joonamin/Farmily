@@ -16,7 +16,7 @@ public interface RecordRepository extends JpaRepository<Record, Long> {
 		FROM challenge_record a
 		JOIN record b ON a.id = b.id
 		JOIN sprint c ON b.sprint_id = c.id
-		WHERE curdate() BETWEEN c.start_date AND c.end_date
+		WHERE c.is_harvested = false
 		AND c.family_id = :familyId""", nativeQuery = true)
 	List<Long> findCurrentChallenges(Long familyId);
 

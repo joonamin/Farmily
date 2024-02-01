@@ -12,19 +12,24 @@ import java.util.UUID;
 import org.springframework.stereotype.Service;
 
 import com.ssafy.farmily.dto.ChangeLeaderRequestDto;
+import com.ssafy.farmily.dto.FamilyAchievementProgressDto;
 import com.ssafy.farmily.dto.FamilyBasketDto;
 import com.ssafy.farmily.dto.FamilyItemDto;
+import com.ssafy.farmily.dto.FamilyListDto;
 import com.ssafy.farmily.dto.FamilyMainDto;
 import com.ssafy.farmily.dto.FamilyMemberResponseDto;
+import com.ssafy.farmily.dto.FamilyStatisticsResponseDto;
 import com.ssafy.farmily.dto.JoinRequestDto;
 import com.ssafy.farmily.dto.MakingFamilyRequestDto;
 import com.ssafy.farmily.dto.PlacementDto;
 import com.ssafy.farmily.dto.PlacingItemRequestDto;
 import com.ssafy.farmily.dto.RefreshSprintRequestDto;
 import com.ssafy.farmily.entity.AccessoryPlacement;
+import com.ssafy.farmily.entity.AchievementRewardHistory;
 import com.ssafy.farmily.entity.Family;
 import com.ssafy.farmily.entity.FamilyItem;
 import com.ssafy.farmily.entity.FamilyMembership;
+import com.ssafy.farmily.entity.FamilyStatistics;
 import com.ssafy.farmily.entity.FruitPlacement;
 import com.ssafy.farmily.entity.Image;
 import com.ssafy.farmily.entity.Member;
@@ -35,9 +40,11 @@ import com.ssafy.farmily.entity.Tree;
 import com.ssafy.farmily.exception.BusinessException;
 import com.ssafy.farmily.exception.ForbiddenException;
 import com.ssafy.farmily.exception.NoSuchContentException;
+import com.ssafy.farmily.repository.AchievementRewardHistoryRepository;
 import com.ssafy.farmily.repository.FamilyItemRepository;
 import com.ssafy.farmily.repository.FamilyMembershipRepository;
 import com.ssafy.farmily.repository.FamilyRepository;
+import com.ssafy.farmily.repository.FamilyStatisticsRepository;
 import com.ssafy.farmily.repository.MemberRepository;
 import com.ssafy.farmily.repository.PlacementRepository;
 import com.ssafy.farmily.repository.RecordRepository;
@@ -46,6 +53,7 @@ import com.ssafy.farmily.repository.TreeRepository;
 import com.ssafy.farmily.service.file.FileService;
 import com.ssafy.farmily.service.member.MemberService;
 import com.ssafy.farmily.type.AccessoryType;
+import com.ssafy.farmily.type.Achievement;
 import com.ssafy.farmily.type.FamilyRole;
 import com.ssafy.farmily.utils.DateRange;
 
@@ -65,6 +73,8 @@ public class FamilyServiceImpl implements FamilyService {
 	private final TreeRepository treeRepository;
 	private final MemberRepository memberRepository;
 	private final FamilyMembershipRepository familyMembershipRepository;
+	private final FamilyStatisticsRepository familyStatisticsRepository;
+	private final AchievementRewardHistoryRepository achievementRewardHistoryRepository;
 
 	private final MemberService memberService;
 	private final FileService fileService;
@@ -186,6 +196,7 @@ public class FamilyServiceImpl implements FamilyService {
 			.motto(makingFamilyRequestDto.getMotto())
 			.invitationCode(invitationCode)
 			.image(profileImage)
+			.point(0)
 			.sprints(List.of())
 			.items(List.of())
 			.build();
@@ -301,10 +312,9 @@ public class FamilyServiceImpl implements FamilyService {
 	}
 
 	@Override
-	public void changeLeader(Long familyId, ChangeLeaderRequestDto requestDto, String pastLeaderName) throws
-		BusinessException {
+	public void changeLeader(Long familyId, ChangeLeaderRequestDto requestDto, String pastLeaderName) {
 		Long newLeaderId = requestDto.getNewLeaderMemberId();
-		Member pastLeader = memberRepository.findByUsername(pastLeaderName).get();
+		Member pastLeader = memberService.getEntity(pastLeaderName);
 		Long pastLeaderId = pastLeader.getId();
 		FamilyMembership pastLeaderMemberShip = getPastLeaderMembership(familyId, pastLeaderId);
 		FamilyMembership newLeaderMemberShip = familyMembershipRepository.findByFamilyIdAndMemberId(familyId,
@@ -316,13 +326,71 @@ public class FamilyServiceImpl implements FamilyService {
 		familyMembershipRepository.save(pastLeaderMemberShip);
 	}
 
+	@Override
+	public List<FamilyStatisticsResponseDto> familyAchievementProgress(Long familyId) {
+		FamilyStatistics familyStatistics = familyStatisticsRepository.findById(familyId)
+			.orElseThrow(() -> new NoSuchContentException("유효하지 않은 가족입니다."));
+		FamilyAchievementProgressDto progressDto = FamilyAchievementProgressDto.from(familyStatistics);
+		List<Achievement> receivedRewardChallenge = from(achievementRewardHistoryRepository.findAllByFamilyId(familyId));
+		progressDto.setReceivedRewardChallenge(receivedRewardChallenge);
+
+		List<FamilyStatisticsResponseDto> responseDtoList = new ArrayList<>();
+		for(Achievement achievement : Achievement.values()){
+			int progress = achievement.getGetter().apply(familyStatistics);
+			int rewardPoint = achievement.getReward();
+			float goal = achievement.getGoal();
+			String content = achievement.getContent();
+
+			int percent = 0;
+			if(progress >= goal) {
+				progress = (int)goal;
+				percent = 100;
+			}
+			else {
+				percent = Math.round((progress/goal)*100);
+			}
+
+			FamilyStatisticsResponseDto responseDto = FamilyStatisticsResponseDto.builder()
+				.content(content)
+				.rewardPoint(rewardPoint)
+				.percent(percent)
+				.progress(progress)
+				.rewarded(false)
+				.build();
+			if(progressDto.getReceivedRewardChallenge().contains(achievement))
+				responseDto.setRewarded(true);
+			responseDtoList.add(responseDto);
+		}
+		return responseDtoList;
+	}
+
+	private List<Achievement> from(List<AchievementRewardHistory> achievementRewardHistoryList){
+		List<Achievement> getAchievementList = new ArrayList<>();
+		for(AchievementRewardHistory entity : achievementRewardHistoryList){
+			getAchievementList.add(entity.getAchievement());
+		}
+		return getAchievementList;
+	}
+
 	private FamilyMembership getPastLeaderMembership(Long familyId, Long pastLeaderId) throws BusinessException {
 		FamilyMembership pastLeaderMemberShip = familyMembershipRepository.findByFamilyIdAndMemberId(familyId,
 			pastLeaderId).get();
 		if (!pastLeaderMemberShip.getRole().equals(FamilyRole.LEADER)) {
-			throw new BusinessException("가장이 아닙니다.");
+			throw new ForbiddenException("가장이 아닙니다.");
 		}
 		return pastLeaderMemberShip;
 	}
 
+	@Override
+	public FamilyListDto getFamilyList(String username) {
+		Optional<Member> memberOptional = Optional.ofNullable(memberService.getEntity(username));
+		Member member = memberOptional.orElseThrow(() -> new NoSuchContentException("존재하지 않는 사용자입니다."));
+
+		List<FamilyMembership> familyMemberships = member.getFamilyMemberships();
+		List<FamilyListDto.FamilyInfo> familyInfoList = new ArrayList<>();
+		familyMemberships.forEach(fm -> {
+			familyInfoList.add(new FamilyListDto.FamilyInfo(fm.getFamily().getId(), fm.getFamily().getName()));
+		});
+		return new FamilyListDto(familyInfoList);
+	}
 }
