@@ -5,6 +5,7 @@ import org.springframework.beans.BeanUtils;
 import com.ssafy.farmily.entity.Comment;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -20,6 +21,7 @@ public class RecordCommentDto {
 		@AllArgsConstructor
 		@Builder
 		public static class Post {
+			@NotNull
 			private String content;
 		}
 
@@ -29,6 +31,7 @@ public class RecordCommentDto {
 		@AllArgsConstructor
 		@Builder
 		public static class Put {
+			@NotNull
 			private String content;
 		}
 	}
