@@ -18,6 +18,7 @@ import com.ssafy.farmily.dto.FamilyBasketDto;
 import com.ssafy.farmily.dto.FamilyItemDto;
 import com.ssafy.farmily.dto.FamilyMainDto;
 import com.ssafy.farmily.dto.FamilyMemberResponseDto;
+import com.ssafy.farmily.dto.FamilyStatisticsResponseDto;
 import com.ssafy.farmily.dto.JoinRequestDto;
 import com.ssafy.farmily.dto.MakingFamilyRequestDto;
 import com.ssafy.farmily.dto.PlacingItemRequestDto;
@@ -124,7 +125,7 @@ public class FamilyController {
 		)
 	})
 	public ResponseEntity<Void> createFamily(
-		@RequestBody MakingFamilyRequestDto makingFamilyRequestDto,
+		MakingFamilyRequestDto makingFamilyRequestDto,
 		@AuthenticationPrincipal String username
 	){
 		familyService.makeFamily(makingFamilyRequestDto,username);
@@ -209,6 +210,13 @@ public class FamilyController {
 		@AuthenticationPrincipal String username){
 		familyService.changeLeader(familyId,requestDto,username);
 		return ResponseEntity.ok().build();
+	}
+
+	@GetMapping("/{familyId}/achievement")
+	@PreAuthorize("hasRole('ROLE_USER')")
+	public ResponseEntity<List<FamilyStatisticsResponseDto>> getAchievements(@PathVariable Long familyId){
+		List<FamilyStatisticsResponseDto> achievementProgress = familyService.familyAchievementProgress(familyId);
+		return ResponseEntity.ok(achievementProgress);
 	}
 
 	/*
