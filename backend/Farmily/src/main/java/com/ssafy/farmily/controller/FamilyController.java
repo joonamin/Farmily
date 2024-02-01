@@ -205,7 +205,7 @@ public class FamilyController {
 	})
 	@GetMapping("/family")
 	public ResponseEntity<FamilyListDto> getFamilyList(
-		@RequestParam @AuthenticationPrincipal String username
+		@AuthenticationPrincipal String username
 	) {
 		FamilyListDto familyListDto = familyService.getFamilyList(username);
 		return ResponseEntity.ok(familyListDto);
