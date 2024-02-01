@@ -7,7 +7,7 @@ import board from '../assets/images/mainboard.png';
 
 import { useState, useEffect } from 'react';
 import { getAccessToken } from '../store/auth.jsx';
-import { setFamily } from '../store/family.jsx';
+import { getFamilies, getUser } from '../store/user.jsx';
 
 const welcomeMessage = 'Welcome Farmily';
 const introTitle_1 = '가족과 함께';
@@ -17,6 +17,10 @@ const introContent_2 = '열매를 맺어 수확하세요.';
 
 export default function WelcomePage() {
   const dispatch = useDispatch();
+  const auth = useSelector((state) => state.auth.value);
+  const user = useSelector((state) => state.user.value);
+
+  const [families, setFamilies] = useState([]);
 
   const cookies = document.cookie.split(';');
   const cookie = cookies.find((c) => c.startsWith('accessToken='));
@@ -24,19 +28,23 @@ export default function WelcomePage() {
 
   useEffect(() => {
     dispatch(getAccessToken({ accessToken: accessToken }));
+
     axios
-      .get(`/family/1`)
+      .get('/member/me')
       .then((res) => {
-        const familyData = {
-          id: res.data.id,
-          name: res.data.name,
-          motto: res.data.motto,
-          tree: res.data.tree,
-          challengesIds: res.data.challengesIds,
-          sprintId: res.data.sprintId,
-        };
-        dispatch(setFamily(familyData));
+        dispatch(getUser(res.data));
         console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+    axios
+      .get('/member/family')
+      .then((res) => {
+        dispatch(getFamilies(res.data));
+        setFamilies(res.data);
+        console.log(res.data);
       })
       .catch((err) => {
         console.log(err);
@@ -52,6 +60,13 @@ export default function WelcomePage() {
         <br />
         <p className="">{introContent_1}</p>
         <p className="">{introContent_2}</p>
+        <select>
+          {families.map((family, index) => (
+            <option key={index} value={family.familyId}>
+              {family.name}
+            </option>
+          ))}
+        </select>
         <br />
       </div>
       <div className="w-5/12">
