@@ -8,12 +8,12 @@ import com.ssafy.farmily.dto.FamilyItemDto;
 import com.ssafy.farmily.dto.FamilyListDto;
 import com.ssafy.farmily.dto.FamilyMainDto;
 import com.ssafy.farmily.dto.FamilyMemberResponseDto;
+import com.ssafy.farmily.dto.FamilyAchievementProgressDto;
+import com.ssafy.farmily.dto.FamilyStatisticsResponseDto;
 import com.ssafy.farmily.dto.JoinRequestDto;
 import com.ssafy.farmily.dto.MakingFamilyRequestDto;
 import com.ssafy.farmily.dto.PlacingItemRequestDto;
-import com.ssafy.farmily.dto.RafflingRequestDto;
 import com.ssafy.farmily.dto.RefreshSprintRequestDto;
-import com.ssafy.farmily.entity.Member;
 import com.ssafy.farmily.exception.NoSuchContentException;
 
 public interface FamilyService {
@@ -68,4 +68,6 @@ public interface FamilyService {
 	public FamilyListDto getFamilyList(String username);
 
 	//TODO public void raffleItem(Long familyId);
+
+	public List<FamilyStatisticsResponseDto> familyAchievementProgress(Long familyId);
 }
