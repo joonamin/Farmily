@@ -1,18 +1,20 @@
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import CreateDetail from "../components/common/CreateDetail";
-import SmallButton from "../components/button/SmallButton.jsx";
-import axios from "../api/axios.jsx";
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import CreateDetail from '../components/common/CreateDetail';
+import SmallButton from '../components/button/SmallButton.jsx';
+import axios from '../api/axios.jsx';
 
 export default function DailyCreatePage() {
-  const [errorMessage, setErrorMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
+  const family = useSelector((state) => state.family.value);
 
   const [formData, setFormData] = useState({
     // 로그인 후 sprintId 받아오면 수정하기
-    sprintId: 1,
-    title: "",
-    content: "",
+    sprintId: family.sprintId,
+    title: '',
+    content: '',
   });
 
   const handleChange = (e) => {
@@ -22,18 +24,18 @@ export default function DailyCreatePage() {
   const handleClick = () => {
     // 로그인 후 유저 정보 같이 보내기
     if (!formData.title) {
-      setErrorMessage("제목을 입력해 주세요.");
+      setErrorMessage('제목을 입력해 주세요.');
       return;
     }
     if (!formData.content) {
-      setErrorMessage("내용을 입력해 주세요.");
+      setErrorMessage('내용을 입력해 주세요.');
       return;
     }
     axios
-      .post("/record/daily", formData)
+      .post('/record/daily', formData)
       .then((response) => {
         // 보낼 때 현재 sprintId 받아서 보내기
-        navigate('/family/record/1');
+        navigate(`/family/record/${family.sprintId}`);
       })
       .catch((error) => {
         console.log(error);
