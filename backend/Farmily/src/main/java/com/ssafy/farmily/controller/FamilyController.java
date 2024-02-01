@@ -11,14 +11,20 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ssafy.farmily.dto.ChangeLeaderRequestDto;
 import com.ssafy.farmily.dto.FamilyBasketDto;
 import com.ssafy.farmily.dto.FamilyItemDto;
+import com.ssafy.farmily.dto.FamilyListDto;
 import com.ssafy.farmily.dto.FamilyMainDto;
 import com.ssafy.farmily.dto.FamilyMemberResponseDto;
+import com.ssafy.farmily.dto.FamilyStatisticsResponseDto;
+import com.ssafy.farmily.dto.JoinRequestDto;
 import com.ssafy.farmily.dto.MakingFamilyRequestDto;
 import com.ssafy.farmily.dto.PlacingItemRequestDto;
+import com.ssafy.farmily.dto.RefreshSprintRequestDto;
 import com.ssafy.farmily.service.family.FamilyService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -121,7 +127,7 @@ public class FamilyController {
 		)
 	})
 	public ResponseEntity<Void> createFamily(
-		@RequestBody MakingFamilyRequestDto makingFamilyRequestDto,
+		MakingFamilyRequestDto makingFamilyRequestDto,
 		@AuthenticationPrincipal String username
 	){
 		familyService.makeFamily(makingFamilyRequestDto,username);
@@ -139,8 +145,8 @@ public class FamilyController {
 			description = "스프린트 새로고침 성공"
 		)
 	})
-	public ResponseEntity<Void> refreshSprint(@RequestBody Long familyId){
-		familyService.swapSprint(familyId);
+	public ResponseEntity<Void> refreshSprint(@RequestBody RefreshSprintRequestDto requestDto){
+		familyService.swapSprint(requestDto);
 		return ResponseEntity.ok().build();
 	}
 
@@ -156,11 +162,8 @@ public class FamilyController {
 	})
 	@PostMapping("/join")
 	@PreAuthorize("hasRole('ROLE_USER')")
-	public ResponseEntity<Void> joinFamily(
-		@RequestBody String invitationCode,
-		@AuthenticationPrincipal String username
-	){
-		familyService.insertFamilyMemberShip(invitationCode, username);
+	public ResponseEntity<Void> joinFamily(@RequestBody JoinRequestDto requestDto, @AuthenticationPrincipal String username){
+		familyService.insertFamilyMemberShip(requestDto, username);
 		return ResponseEntity.ok().build();
 	}
 
@@ -192,6 +195,24 @@ public class FamilyController {
 	}
 
 	@Operation(
+		summary = "가족 정보 가져오기",
+		description = "username에 해당하는 유저의 가족 리스트 정보를 가져옴"
+	)
+	@ApiResponses({
+		@ApiResponse(
+			responseCode = "200",
+			description = "리스트 가져오기 성공"
+		)
+	})
+	@GetMapping("/family")
+	public ResponseEntity<FamilyListDto> getFamilyList(
+		@AuthenticationPrincipal String username
+	) {
+		FamilyListDto familyListDto = familyService.getFamilyList(username);
+		return ResponseEntity.ok(familyListDto);
+	}
+
+	@Operation(
 		summary = "가장 위임",
 		description = "가족ID와 위임 받을 사람의 ID 가장을 위임합니다."
 	)
@@ -201,15 +222,32 @@ public class FamilyController {
 			description = "가장 위임 성공"
 		)
 	})
-	@PutMapping("/{familyId}/mandate/{memberId}")
+	@PutMapping("/{familyId}/mandate")
 	@PreAuthorize("hasRole('ROLE_USER')")
-	public ResponseEntity<Void> mandateHead(
+	public ResponseEntity<Void> changeLeader(
 		@PathVariable(value = "familyId") Long familyId,
-		@PathVariable(value = "memberId") Long memberId,
-		@AuthenticationPrincipal String username
-	){
-		familyService.mandateLeader(familyId,memberId,username);
+		@RequestBody ChangeLeaderRequestDto requestDto,
+		@AuthenticationPrincipal String username){
+		familyService.changeLeader(familyId,requestDto,username);
 		return ResponseEntity.ok().build();
+	}
+
+
+	@GetMapping("/{familyId}/achievement")
+	@PreAuthorize("hasRole('ROLE_USER')")
+	@Operation(
+		summary = "업적 가져오기",
+		description = "가족 ID를 통해 해당 가족의 업적 현황을 불러옵니다."
+	)
+	@ApiResponses({
+		@ApiResponse(
+			responseCode = "200",
+			description = "업적 불러오기 성공"
+		)
+	})
+	public ResponseEntity<List<FamilyStatisticsResponseDto>> getAchievements(@PathVariable Long familyId){
+		List<FamilyStatisticsResponseDto> achievementProgress = familyService.familyAchievementProgress(familyId);
+		return ResponseEntity.ok(achievementProgress);
 	}
 
 	/*

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import axios from '../api/axios.jsx';
 
 import SmallButton from '../components/button/SmallButton.jsx';
@@ -11,6 +12,7 @@ export default function EventCreatePage() {
   const [titleError, setTitleError] = useState(''); // 새로운 상태 추가
 
   const navigate = useNavigate();
+  const family = useSelector((state) => state.family.value);
 
   const handleImageChange = (event) => {
     const files = event.target.files;
@@ -54,7 +56,7 @@ export default function EventCreatePage() {
     }
 
     const formData = new FormData();
-    formData.append('sprintId', 1);
+    formData.append('sprintId', family.sprintId);
     formData.append('title', title);
 
     images.forEach((image, index) => {
@@ -90,7 +92,7 @@ export default function EventCreatePage() {
         // 이후 작업 수행 (예: 페이지 이동 등)
 
         // 보낼 때 현재 sprintId 받아서 보내기
-        navigate('/family/record/1');
+        navigate(`/family/record/${family.sprintId}`);
       })
       .catch((error) => {
         // 오류가 발생한 경우

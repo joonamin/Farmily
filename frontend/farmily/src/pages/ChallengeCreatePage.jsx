@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import CreateDetail from '../components/common/CreateDetail.jsx';
 import SmallButton from '../components/button/SmallButton.jsx';
 import axios from '../api/axios.jsx';
@@ -8,9 +9,11 @@ export default function ChallengeCreatePage() {
   const [errorMessage, setErrorMessage] = useState('');
   const today = new Date().toISOString().split('T')[0];
   const navigate = useNavigate();
+  const family = useSelector((state) => state.family.value);
+
   const [formData, setFormData] = useState({
     // 로그인 후 sprintId 받아오면 수정하기
-    sprintId: 1,
+    sprintId: family.sprintId,
     title: '',
     content: '',
     dateRange: {
@@ -52,7 +55,7 @@ export default function ChallengeCreatePage() {
       .post('/record/challenge', formData)
       .then((response) => {
         // 보낼 때 현재 sprintId 받아서 보내기
-        navigate('/family/record/1');
+        navigate(`/family/record/${family.sprintId}`);
       })
       .catch((error) => {
         console.log(error);

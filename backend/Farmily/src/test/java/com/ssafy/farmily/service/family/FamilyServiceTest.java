@@ -3,30 +3,34 @@ package com.ssafy.farmily.service.family;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
+import com.ssafy.farmily.dto.ChangeLeaderRequestDto;
 import com.ssafy.farmily.dto.FamilyBasketDto;
 import com.ssafy.farmily.dto.FamilyItemDto;
 import com.ssafy.farmily.dto.FamilyMainDto;
 import com.ssafy.farmily.dto.FamilyMainTreeDto;
 import com.ssafy.farmily.dto.FamilyMemberResponseDto;
+import com.ssafy.farmily.dto.JoinRequestDto;
 import com.ssafy.farmily.dto.MakingFamilyRequestDto;
 import com.ssafy.farmily.dto.PlacementDto;
 import com.ssafy.farmily.dto.PlacingItemRequestDto;
+import com.ssafy.farmily.dto.RefreshSprintRequestDto;
 import com.ssafy.farmily.entity.Family;
 import com.ssafy.farmily.entity.FamilyItem;
-import com.ssafy.farmily.entity.FamilyMembership;
 import com.ssafy.farmily.entity.Member;
 import com.ssafy.farmily.entity.Record;
 import com.ssafy.farmily.entity.Sprint;
+import com.ssafy.farmily.exception.NoSuchContentException;
 import com.ssafy.farmily.repository.FamilyItemRepository;
 import com.ssafy.farmily.repository.FamilyMembershipRepository;
 import com.ssafy.farmily.repository.FamilyRepository;
@@ -41,10 +45,10 @@ import com.ssafy.farmily.type.FamilyRole;
 import com.ssafy.farmily.type.Item;
 import com.ssafy.farmily.type.ItemType;
 import com.ssafy.farmily.type.RecordType;
-
-import jakarta.transaction.Transactional;
 import com.ssafy.farmily.utils.DateRange;
 import com.ssafy.farmily.utils.Position;
+
+import jakarta.transaction.Transactional;
 
 @SpringBootTest
 @ActiveProfiles("local")
@@ -110,8 +114,10 @@ class FamilyServiceTest {
 		Member member = memberRepository.findById(1L).get();
 		MakingFamilyRequestDto makingFamilyRequestDto = new MakingFamilyRequestDto("대한민국", "삶의 모토",null);
 		familyService.makeFamily(makingFamilyRequestDto, member.getUsername());
+		RefreshSprintRequestDto requestDto = new RefreshSprintRequestDto();
+		requestDto.setFamilyId(1L);
 		// when
-		familyService.swapSprint(1L);
+		familyService.swapSprint(requestDto);
 		// then
 		String now = LocalDate.now().format(DateTimeFormatter.ofPattern("YYYY-MM-dd"));
 		Assertions.assertEquals(sprintRepository.findByFamilyId(1L).getDateRange().getStartDate(),
@@ -125,7 +131,9 @@ class FamilyServiceTest {
 		Member member = memberRepository.findById(1L).get();
 		MakingFamilyRequestDto makingFamilyRequestDto = new MakingFamilyRequestDto("대한민국", "삶의 모토",null);
 		familyService.makeFamily(makingFamilyRequestDto, member.getUsername());
-		familyService.swapSprint(1L);
+		RefreshSprintRequestDto requestDto = new RefreshSprintRequestDto();
+		requestDto.setFamilyId(1L);
+		familyService.swapSprint(requestDto);
 		// when
 		FamilyMainDto familyMainDto = familyService.setMainFamilyInfo(1L);
 		FamilyMainTreeDto tree = FamilyMainTreeDto.from(treeRepository.findById(1L).get());
@@ -140,7 +148,9 @@ class FamilyServiceTest {
 		Member member = memberRepository.findById(1L).get();
 		MakingFamilyRequestDto makingFamilyRequestDto = new MakingFamilyRequestDto("대한민국", "삶의 모토",null);
 		familyService.makeFamily(makingFamilyRequestDto, member.getUsername());
-		familyService.swapSprint(1L);
+		RefreshSprintRequestDto requestDto = new RefreshSprintRequestDto();
+		requestDto.setFamilyId(1L);
+		familyService.swapSprint(requestDto);
 		Family family = familyRepository.findById(1L).get();
 		FamilyItem familyItem1 = FamilyItem.builder()
 			.family(family).code(Item.TREE_1).type(ItemType.TREE_SKIN).build();
@@ -168,7 +178,9 @@ class FamilyServiceTest {
 		dateRange.setEndDate(LocalDate.parse("2023-12-31"));
 		Sprint sprint = Sprint.builder().family(family).isHarvested(false).dateRange(dateRange).records(new ArrayList<>()).build();
 		sprintRepository.save(sprint);
-		familyService.swapSprint(1L);
+		RefreshSprintRequestDto requestDto = new RefreshSprintRequestDto();
+		requestDto.setFamilyId(1L);
+		familyService.swapSprint(requestDto);
 
 		List<FamilyBasketDto> familyBasketDtoList = familyService.getFamilySprintList(1L);
 
@@ -183,7 +195,9 @@ class FamilyServiceTest {
 		MakingFamilyRequestDto makingFamilyRequestDto = new MakingFamilyRequestDto("대한민국", "삶의 모토",null);
 		familyService.makeFamily(makingFamilyRequestDto, member.getUsername());
 		Family family = familyRepository.findById(1L).get();
-		familyService.swapSprint(1L);
+		RefreshSprintRequestDto refreshSprintRequestDto = new RefreshSprintRequestDto();
+		refreshSprintRequestDto.setFamilyId(1L);
+		familyService.swapSprint(refreshSprintRequestDto);
 		Sprint sprint = sprintRepository.findById(1L).get();
 		Record record = Record
 			.builder().id(1L).content("내용").title("제목").author(member).sprint(sprint).type(RecordType.DAILY).build();
@@ -217,7 +231,9 @@ class FamilyServiceTest {
 		MakingFamilyRequestDto requestDto = new MakingFamilyRequestDto("대한민국","16강 가즈아",null);
 		familyService.makeFamily(requestDto, member1.getUsername());
 		String invitationCode = familyRepository.findById(1L).get().getInvitationCode();
-		familyService.insertFamilyMemberShip(invitationCode,member2.getUsername());
+		JoinRequestDto joinRequestDto = new JoinRequestDto();
+		joinRequestDto.setInvitationCode(invitationCode);
+		familyService.insertFamilyMemberShip(joinRequestDto,member2.getUsername());
 		List<FamilyMemberResponseDto> list= familyService.loadFamilyMemberList(1L,member1.getUsername());
 		Assertions.assertEquals(list.get(0).getRole(),FamilyRole.LEADER);
 		Assertions.assertEquals(list.get(0).getNickname(),"A");
@@ -235,13 +251,40 @@ class FamilyServiceTest {
 		MakingFamilyRequestDto requestDto = new MakingFamilyRequestDto("대한민국","16강 가즈아",null);
 		familyService.makeFamily(requestDto , member1.getUsername());
 		String invitationCode = familyRepository.findById(1L).get().getInvitationCode();
-		familyService.insertFamilyMemberShip(invitationCode,member2.getUsername());
-
-		familyService.mandateLeader(1L,2L, "user");
+		JoinRequestDto joinRequestDto = new JoinRequestDto();
+		joinRequestDto.setInvitationCode(invitationCode);
+		familyService.insertFamilyMemberShip(joinRequestDto,member2.getUsername());
+		ChangeLeaderRequestDto changeLeaderRequestDto = new ChangeLeaderRequestDto();
+		changeLeaderRequestDto.setNewLeaderMemberId(2L);
+		familyService.changeLeader(1L,changeLeaderRequestDto,"user");
 
 		List<FamilyMemberResponseDto> list = familyService.loadFamilyMemberList(1L,member1.getUsername());
 
 		Assertions.assertEquals(list.get(0).getRole(),FamilyRole.MEMBER);
 		Assertions.assertEquals(list.get(1).getRole(),FamilyRole.LEADER);
 	}
+
+	@Nested
+	class getFamilyList는 {
+		@Nested
+		class valid_input_에_대해 {
+			String username = "valid_user";
+			@Test
+			void it_returns_family_list() {
+				// 실제 해당 사용자를 insert 하고, 해당 사용자의 가족을 가져오는 것을 테스트
+			}
+		@Nested
+		class invalid_input_에_대해 {
+			String username = "NOT_FOUND_USER";
+			@Test
+			void it_returns_family_list() {
+				// NoSuchElements exception을 던진다.
+				// org.assertj.core.api.Assertions.assertThatThrow(familyService.getFamilyList(username)).;
+				org.assertj.core.api.Assertions.assertThatThrownBy(() -> familyService.getFamilyList(username))
+					.isInstanceOf(NoSuchElementException.class);
+			}
+		}
+	}
+
+
 }

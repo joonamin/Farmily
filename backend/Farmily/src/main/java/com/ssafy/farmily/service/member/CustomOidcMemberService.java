@@ -34,6 +34,7 @@ public class CustomOidcMemberService extends OidcUserService {
 
 	private final MemberService memberService;
 
+
 	@Override
 	public OidcUser loadUser(OidcUserRequest userRequest) throws OAuth2AuthenticationException {
 		OidcUser oidcUser = super.loadUser(userRequest);
@@ -49,6 +50,7 @@ public class CustomOidcMemberService extends OidcUserService {
 
 		oidcUser.getAttributes().forEach((k, v) -> log.info("[OidcUser claims] key: {}, value: {}", k, v));
 		OidcUserInfo userInfo = new OidcUserInfo(Map.of("sub", oAuth2Attributes.getUsername()));
+
 		return new DefaultOidcUser(oidcUser.getAuthorities(), userRequest.getIdToken(), userInfo);
 	}
 
