@@ -24,7 +24,7 @@ export default function ArticleList({ sprintId }) {
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+  }, [sprintId]);
 
   const itemsPerPage = 7;
   const [currentPage, setCurrentPage] = useState(1);

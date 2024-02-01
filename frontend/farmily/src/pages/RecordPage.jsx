@@ -16,7 +16,7 @@ export default function RecordPage() {
     if (family.sprintId === parseInt(sprintId)) {
       setIsValid(true);
     }
-  }, [family.sprintId, sprintId]);
+  }, [family.sprintId, sprintId, isValid]);
 
   console.log(isValid);
 
