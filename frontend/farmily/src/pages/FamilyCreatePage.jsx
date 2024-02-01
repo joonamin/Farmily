@@ -17,7 +17,7 @@ export default function FamilyCreatePage() {
     formData.append('image', data.image);
 
     axios
-      .post('/family/insertFamliy', formData, {
+      .post('/family/insertFamily', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       })
       .then((response) => {
