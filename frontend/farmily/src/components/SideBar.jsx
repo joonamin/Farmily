@@ -9,21 +9,22 @@ import { logOut } from '../store/auth.jsx';
 import { useNavigate } from 'react-router-dom';
 
 // record => 현재 sprintId 받아오면 수정하기
-const sprintId = 1;
-const category = [
-  { name: '📑 기록하기', url: `/family/record/${sprintId}` },
-  { name: '🌳 추억보기', url: '/family/memory' },
-  { name: '📅 일정보기', url: '/family/calendar' },
-  { name: '🖼 커뮤니티', url: '/family/community' },
-  { name: '🏆 업적보기', url: '/family/achievement' },
-  { name: '💬 소통하기', url: '/family/contact' },
-];
 
 export default function SideBar() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const family = useSelector((state) => state.family.value);
+
+  const sprintId = family.sprintId;
+  const category = [
+    { name: '📑 기록하기', url: `/family/record/${sprintId}` },
+    { name: '🌳 추억보기', url: '/family/memory' },
+    { name: '📅 일정보기', url: '/family/calendar' },
+    { name: '🖼 커뮤니티', url: '/family/community' },
+    { name: '🏆 업적보기', url: '/family/achievement' },
+    { name: '💬 소통하기', url: '/family/contact' },
+  ];
 
   function clickLogout() {
     // 로그아웃 요청 보내기

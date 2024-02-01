@@ -11,13 +11,16 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
+import com.ssafy.farmily.dto.ChangeLeaderRequestDto;
 import com.ssafy.farmily.dto.FamilyBasketDto;
 import com.ssafy.farmily.dto.FamilyItemDto;
 import com.ssafy.farmily.dto.FamilyMainDto;
 import com.ssafy.farmily.dto.FamilyMemberResponseDto;
+import com.ssafy.farmily.dto.JoinRequestDto;
 import com.ssafy.farmily.dto.MakingFamilyRequestDto;
 import com.ssafy.farmily.dto.PlacementDto;
 import com.ssafy.farmily.dto.PlacingItemRequestDto;
+import com.ssafy.farmily.dto.RefreshSprintRequestDto;
 import com.ssafy.farmily.entity.AccessoryPlacement;
 import com.ssafy.farmily.entity.Family;
 import com.ssafy.farmily.entity.FamilyItem;
@@ -170,10 +173,10 @@ public class FamilyServiceImpl implements FamilyService {
 
 	@Override
 	@Transactional
-	public void makeFamily(MakingFamilyRequestDto makingFamilyRequestDto,String username) {
+	public void makeFamily(MakingFamilyRequestDto makingFamilyRequestDto, String username) {
 		Member member = memberService.getEntity(username);
 		Image profileImage = null;
-		if(makingFamilyRequestDto.getImage() != null){
+		if (makingFamilyRequestDto.getImage() != null) {
 			profileImage = fileService.saveImage(makingFamilyRequestDto.getImage());
 		}
 		String invitationCode = UUID.randomUUID().toString();
@@ -204,7 +207,8 @@ public class FamilyServiceImpl implements FamilyService {
 
 	@Override
 	@Transactional
-	public void swapSprint(Long familyId) {
+	public void swapSprint(RefreshSprintRequestDto requestDto) {
+		Long familyId = requestDto.getFamilyId();
 		Optional<Sprint> unHarvestedSprint = sprintRepository.findByFamilyIdAndIsHarvested(familyId, false);
 		if (unHarvestedSprint.isPresent()) {
 			Sprint pastSprint = unHarvestedSprint.get();
@@ -232,7 +236,8 @@ public class FamilyServiceImpl implements FamilyService {
 	}
 
 	@Override
-	public void insertFamilyMemberShip(String inviteCode, String username) {
+	public void insertFamilyMemberShip(JoinRequestDto requestDto, String username) throws NoSuchContentException {
+		String inviteCode = requestDto.getInvitationCode();
 		Family family = familyRepository.findByInvitationCode(inviteCode)
 			.orElseThrow(() -> new NoSuchContentException("존재 하지 않는 초대코드입니다."));
 		Member member = memberService.getEntity(username);
@@ -246,7 +251,7 @@ public class FamilyServiceImpl implements FamilyService {
 	}
 
 	@Override
-	public String getInvitationCode(Long familyId) {
+	public String getInvitationCode(Long familyId) throws NoSuchContentException {
 		Family family = familyRepository.findById(familyId)
 			.orElseThrow(() -> new NoSuchContentException("유효하지 않은 가족입니다."));
 		return family.getInvitationCode();
@@ -279,15 +284,16 @@ public class FamilyServiceImpl implements FamilyService {
 	// 	return item.getid;
 	// }
 	@Override
-	public List<FamilyMemberResponseDto> loadFamilyMemberList(Long familyId,String username){
+	public List<FamilyMemberResponseDto> loadFamilyMemberList(Long familyId, String username) {
 		Member me = memberService.getEntity(username);
 		List<FamilyMemberResponseDto> familyMembers = memberRepository.findAllByFamilyId(familyId);
-		return checkIsMe(familyMembers,me.getId());
+		return checkIsMe(familyMembers, me.getId());
 	}
 
-	protected List<FamilyMemberResponseDto> checkIsMe(List<FamilyMemberResponseDto> familyMembers, Long me){
+	private List<FamilyMemberResponseDto> checkIsMe(List<FamilyMemberResponseDto> familyMembers, Long me) {
 		List<FamilyMemberResponseDto> result = new ArrayList<>();
-		for(FamilyMemberResponseDto dto : familyMembers){
+
+		for (FamilyMemberResponseDto dto : familyMembers) {
 			dto.setMe(Objects.equals(dto.getMemberId(), me));
 			result.add(dto);
 		}
@@ -295,15 +301,14 @@ public class FamilyServiceImpl implements FamilyService {
 	}
 
 	@Override
-	public void mandateLeader(Long familyId, Long newLeaderId, String pastLeaderName){
-		Member pastLeader = memberService.getEntity(pastLeaderName);
+	public void changeLeader(Long familyId, ChangeLeaderRequestDto requestDto, String pastLeaderName) throws
+		BusinessException {
+		Long newLeaderId = requestDto.getNewLeaderMemberId();
+		Member pastLeader = memberRepository.findByUsername(pastLeaderName).get();
 		Long pastLeaderId = pastLeader.getId();
-		FamilyMembership pastLeaderMemberShip = familyMembershipRepository.findByFamilyIdAndMemberId(familyId,pastLeaderId).get();
-		if(!pastLeaderMemberShip.getRole().equals(FamilyRole.LEADER)){
-			throw new ForbiddenException("가장이 아닙니다.");
-		}
-		FamilyMembership newLeaderMemberShip = familyMembershipRepository.findByFamilyIdAndMemberId(familyId,newLeaderId).get();
-
+		FamilyMembership pastLeaderMemberShip = getPastLeaderMembership(familyId, pastLeaderId);
+		FamilyMembership newLeaderMemberShip = familyMembershipRepository.findByFamilyIdAndMemberId(familyId,
+			newLeaderId).get();
 		newLeaderMemberShip.setRole(FamilyRole.LEADER);
 		pastLeaderMemberShip.setRole(FamilyRole.MEMBER);
 
@@ -311,5 +316,13 @@ public class FamilyServiceImpl implements FamilyService {
 		familyMembershipRepository.save(pastLeaderMemberShip);
 	}
 
+	private FamilyMembership getPastLeaderMembership(Long familyId, Long pastLeaderId) throws BusinessException {
+		FamilyMembership pastLeaderMemberShip = familyMembershipRepository.findByFamilyIdAndMemberId(familyId,
+			pastLeaderId).get();
+		if (!pastLeaderMemberShip.getRole().equals(FamilyRole.LEADER)) {
+			throw new BusinessException("가장이 아닙니다.");
+		}
+		return pastLeaderMemberShip;
+	}
 
 }
