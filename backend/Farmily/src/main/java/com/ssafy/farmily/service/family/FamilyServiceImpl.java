@@ -196,6 +196,7 @@ public class FamilyServiceImpl implements FamilyService {
 			.motto(makingFamilyRequestDto.getMotto())
 			.invitationCode(invitationCode)
 			.image(profileImage)
+			.point(0)
 			.sprints(List.of())
 			.items(List.of())
 			.build();
