@@ -1,4 +1,4 @@
-package com.ssafy.farmily.service.family;
+package com.ssafy.farmily.service;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -38,6 +38,7 @@ import com.ssafy.farmily.repository.MemberRepository;
 import com.ssafy.farmily.repository.RecordRepository;
 import com.ssafy.farmily.repository.SprintRepository;
 import com.ssafy.farmily.repository.TreeRepository;
+import com.ssafy.farmily.service.family.FamilyService;
 import com.ssafy.farmily.service.file.FileService;
 import com.ssafy.farmily.service.record.RecordService;
 import com.ssafy.farmily.type.AccessoryType;
@@ -269,22 +270,25 @@ class FamilyServiceTest {
 		@Nested
 		class valid_input_에_대해 {
 			String username = "valid_user";
+
 			@Test
 			void it_returns_family_list() {
 				// 실제 해당 사용자를 insert 하고, 해당 사용자의 가족을 가져오는 것을 테스트
 			}
-		@Nested
-		class invalid_input_에_대해 {
-			String username = "NOT_FOUND_USER";
-			@Test
-			void it_returns_family_list() {
-				// NoSuchElements exception을 던진다.
-				// org.assertj.core.api.Assertions.assertThatThrow(familyService.getFamilyList(username)).;
-				org.assertj.core.api.Assertions.assertThatThrownBy(() -> familyService.getFamilyList(username))
-					.isInstanceOf(NoSuchElementException.class);
+
+			@Nested
+			class invalid_input_에_대해 {
+				String username = "NOT_FOUND_USER";
+
+				@Test
+				void it_returns_family_list() {
+					// NoSuchElements exception을 던진다.
+					// org.assertj.core.api.Assertions.assertThatThrow(familyService.getFamilyList(username)).;
+					org.assertj.core.api.Assertions.assertThatThrownBy(() -> familyService.getFamilyList(username))
+						.isInstanceOf(NoSuchElementException.class);
+				}
 			}
 		}
+
 	}
-
-
 }
