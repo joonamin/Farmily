@@ -5,7 +5,9 @@ export default function MainLayout() {
   return (
     <main className="absolute flex items-end justify-between h-screen w-screen bg-main bg-cover bg-bottom mx-0 font-['DungGeunMo']">
       <SideBar />
-      <Outlet />
+      <div className="w-full-side flex">
+        <Outlet />
+      </div>
     </main>
   );
 }

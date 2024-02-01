@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import SmallButton from '../components/button/SmallButton.jsx';
 import chunsik from '../assets/images/chunsik.jpg';
 import axios from '../api/axios.jsx';
@@ -10,6 +11,7 @@ export default function FamilyCreatePage() {
     motto: '',
     image: chunsik,
   });
+  const navigate = useNavigate();
   const handleClick = () => {
     const formData = new FormData();
     formData.append('name', data.name);
@@ -21,7 +23,7 @@ export default function FamilyCreatePage() {
         headers: { 'Content-Type': 'multipart/form-data' },
       })
       .then((response) => {
-        console.log(response);
+        navigate('/tree');
       })
       .catch((error) => {
         console.log(error);

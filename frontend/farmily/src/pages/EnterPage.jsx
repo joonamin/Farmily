@@ -3,11 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import axios from '../api/axios.jsx';
 
 export default function EnterPage() {
-  const [invitaionCode, setInvitationCode] = useState();
+  const [invitationCode, setInvitationCode] = useState();
   const navigate = useNavigate();
   const handleClick = () => {
     axios
-      .post('/family/join', { invitaionCode: invitaionCode })
+      .post('/family/join', { invitationCode: invitationCode })
       .then((response) => {
         console.log(response.data);
         navigate('/tree');
