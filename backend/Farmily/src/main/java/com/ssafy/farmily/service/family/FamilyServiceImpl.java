@@ -1,6 +1,7 @@
 package com.ssafy.farmily.service.family;
 
 import java.time.LocalDate;
+import java.time.Month;
 import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -84,8 +85,7 @@ public class FamilyServiceImpl implements FamilyService {
 	public FamilyMainDto setMainFamilyInfo(Long familyId) {
 		Family family = familyRepository.findById(familyId)
 			.orElseThrow(() -> new NoSuchContentException("존재하지 않는 가족입니다."));
-		Tree tree = treeRepository.findById(familyId)
-			.orElseThrow(() -> new NoSuchContentException("존재하지 않는 나무입니다."));
+		Tree tree = treeRepository.findById(familyId).orElseThrow(() -> new NoSuchContentException("존재하지 않는 나무입니다."));
 		List<Placement> placementList = placementRepository.findAllByTreeId(tree.getId());
 		tree.setPlacements(placementList);
 		family.setTree(tree);
@@ -104,8 +104,7 @@ public class FamilyServiceImpl implements FamilyService {
 	@Override
 	@Transactional
 	public List<FamilyItemDto> getFamilyInventory(Long familyId) {
-		familyRepository.findById(familyId)
-			.orElseThrow(() -> new NoSuchContentException("존재하지 않는 가족입니다."));
+		familyRepository.findById(familyId).orElseThrow(() -> new NoSuchContentException("존재하지 않는 가족입니다."));
 
 		List<FamilyItemDto> familyItemDtoList = new LinkedList<>();
 		List<FamilyItem> temp = familyItemRepository.findByFamilyId(familyId);
@@ -119,8 +118,7 @@ public class FamilyServiceImpl implements FamilyService {
 	@Override
 	@Transactional
 	public List<FamilyBasketDto> getFamilySprintList(Long familyId) {
-		familyRepository.findById(familyId)
-			.orElseThrow(() -> new NoSuchContentException("존재하지 않는 가족입니다."));
+		familyRepository.findById(familyId).orElseThrow(() -> new NoSuchContentException("존재하지 않는 가족입니다."));
 
 		List<FamilyBasketDto> familySprintList = new ArrayList<>();
 		List<Sprint> temp = sprintRepository.findAllByFamilyIdAndIsHarvestedOrderByIdDesc(familyId, true);
@@ -197,11 +195,20 @@ public class FamilyServiceImpl implements FamilyService {
 			.invitationCode(invitationCode)
 			.image(profileImage)
 			.point(0)
-			.sprints(List.of())
+			.sprints(null) // setSprints에 의하여 초기화 될 예정
 			.items(List.of())
 			.build();
 
+		Sprint sprint = Sprint.builder()
+			.family(family)
+			.records(List.of())
+			.dateRange(getInitDateRange(LocalDate.now()))
+			.isHarvested(false)
+			.build();
+
 		Tree tree = Tree.builder().family(family).placements(List.of()).build();
+
+		family.setSprints(List.of(sprint));
 		family.setTree(tree);
 
 		familyRepository.save(family);
@@ -214,6 +221,14 @@ public class FamilyServiceImpl implements FamilyService {
 			.build();
 
 		familyMembershipRepository.save(familyMembership);
+	}
+
+	private DateRange getInitDateRange(LocalDate date) {
+		Month month = date.getMonth();
+		int totalDaysOfMonth = month.length(date.isLeapYear());
+		int currentDayOfMonth = date.getDayOfMonth();
+		LocalDate endDate = date.plusDays(totalDaysOfMonth - currentDayOfMonth);
+		return DateRange.builder().startDate(date).endDate(endDate).build();
 	}
 
 	@Override
@@ -331,23 +346,23 @@ public class FamilyServiceImpl implements FamilyService {
 		FamilyStatistics familyStatistics = familyStatisticsRepository.findById(familyId)
 			.orElseThrow(() -> new NoSuchContentException("유효하지 않은 가족입니다."));
 		FamilyAchievementProgressDto progressDto = FamilyAchievementProgressDto.from(familyStatistics);
-		List<Achievement> receivedRewardChallenge = from(achievementRewardHistoryRepository.findAllByFamilyIdOrderByIdDesc(familyId));
+		List<Achievement> receivedRewardChallenge = from(
+			achievementRewardHistoryRepository.findAllByFamilyIdOrderByIdDesc(familyId));
 		progressDto.setReceivedRewardChallenge(receivedRewardChallenge);
 
 		List<FamilyStatisticsResponseDto> responseDtoList = new ArrayList<>();
-		for(Achievement achievement : Achievement.values()){
+		for (Achievement achievement : Achievement.values()) {
 			int progress = achievement.getGetter().apply(familyStatistics);
 			int rewardPoint = achievement.getReward();
 			float goal = achievement.getGoal();
 			String content = achievement.getContent();
 
 			int percent = 0;
-			if(progress >= goal) {
+			if (progress >= goal) {
 				progress = (int)goal;
 				percent = 100;
-			}
-			else {
-				percent = Math.round((progress/goal)*100);
+			} else {
+				percent = Math.round((progress / goal) * 100);
 			}
 
 			FamilyStatisticsResponseDto responseDto = FamilyStatisticsResponseDto.builder()
@@ -357,16 +372,16 @@ public class FamilyServiceImpl implements FamilyService {
 				.progress(progress)
 				.rewarded(false)
 				.build();
-			if(progressDto.getReceivedRewardChallenge().contains(achievement))
+			if (progressDto.getReceivedRewardChallenge().contains(achievement))
 				responseDto.setRewarded(true);
 			responseDtoList.add(responseDto);
 		}
 		return responseDtoList;
 	}
 
-	private List<Achievement> from(List<AchievementRewardHistory> achievementRewardHistoryList){
+	private List<Achievement> from(List<AchievementRewardHistory> achievementRewardHistoryList) {
 		List<Achievement> getAchievementList = new ArrayList<>();
-		for(AchievementRewardHistory entity : achievementRewardHistoryList){
+		for (AchievementRewardHistory entity : achievementRewardHistoryList) {
 			getAchievementList.add(entity.getAchievement());
 		}
 		return getAchievementList;
