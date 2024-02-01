@@ -41,7 +41,7 @@ export default function ChallengeDetailPage() {
         </span>
         <span>종료 기간 : {record.dateRange.endDate.slice(0, 10)}</span>
       </div>
-      <div>{startDate.toLocaleDateString()}</div>
+      {/* <div>{startDate.toLocaleDateString()}</div> */}
       <ChallengeCalendar
         startDate={startDate}
         endDate={endDate}
