@@ -7,5 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.ssafy.farmily.entity.AchievementRewardHistory;
 
 public interface AchievementRewardHistoryRepository extends JpaRepository<AchievementRewardHistory, Long> {
-	List<AchievementRewardHistory> findAllByFamilyId(Long familyId);
+	List<AchievementRewardHistory> findAllByFamilyIdOrderByIdDesc(Long familyId);
 }

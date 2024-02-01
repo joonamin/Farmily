@@ -123,7 +123,7 @@ public class FamilyServiceImpl implements FamilyService {
 			.orElseThrow(() -> new NoSuchContentException("존재하지 않는 가족입니다."));
 
 		List<FamilyBasketDto> familySprintList = new ArrayList<>();
-		List<Sprint> temp = sprintRepository.findAllByFamilyIdAndIsHarvestedDesc(familyId, true);
+		List<Sprint> temp = sprintRepository.findAllByFamilyIdAndIsHarvestedOrderByIdDesc(familyId, true);
 		for (Sprint sprint : temp) {
 			FamilyBasketDto familyBasketDTO = new FamilyBasketDto().of(sprint);
 			familySprintList.add(familyBasketDTO);
@@ -331,7 +331,7 @@ public class FamilyServiceImpl implements FamilyService {
 		FamilyStatistics familyStatistics = familyStatisticsRepository.findById(familyId)
 			.orElseThrow(() -> new NoSuchContentException("유효하지 않은 가족입니다."));
 		FamilyAchievementProgressDto progressDto = FamilyAchievementProgressDto.from(familyStatistics);
-		List<Achievement> receivedRewardChallenge = from(achievementRewardHistoryRepository.findAllByFamilyId(familyId));
+		List<Achievement> receivedRewardChallenge = from(achievementRewardHistoryRepository.findAllByFamilyIdOrderByIdDesc(familyId));
 		progressDto.setReceivedRewardChallenge(receivedRewardChallenge);
 
 		List<FamilyStatisticsResponseDto> responseDtoList = new ArrayList<>();

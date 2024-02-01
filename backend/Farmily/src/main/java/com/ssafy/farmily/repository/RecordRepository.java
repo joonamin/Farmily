@@ -20,5 +20,5 @@ public interface RecordRepository extends JpaRepository<Record, Long> {
 		AND c.family_id = :familyId""", nativeQuery = true)
 	List<Long> findCurrentChallenges(Long familyId);
 
-	List<Record> findAllBySprintDesc(Sprint sprint);
+	List<Record> findAllBySprintOrderByIdDesc(Sprint sprint);
 }
