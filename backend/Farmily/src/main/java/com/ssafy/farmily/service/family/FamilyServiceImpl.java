@@ -1,7 +1,6 @@
 package com.ssafy.farmily.service.family;
 
 import java.time.LocalDate;
-import java.time.Month;
 import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -202,7 +201,8 @@ public class FamilyServiceImpl implements FamilyService {
 		Sprint sprint = Sprint.builder()
 			.family(family)
 			.records(List.of())
-			.dateRange(getInitDateRange(LocalDate.now()))
+			// .dateRange(getInitDateRange(LocalDate.now()))
+			.dateRange(getInitialDateRange())
 			.isHarvested(false)
 			.build();
 
@@ -223,12 +223,13 @@ public class FamilyServiceImpl implements FamilyService {
 		familyMembershipRepository.save(familyMembership);
 	}
 
-	private DateRange getInitDateRange(LocalDate date) {
-		Month month = date.getMonth();
-		int totalDaysOfMonth = month.length(date.isLeapYear());
-		int currentDayOfMonth = date.getDayOfMonth();
-		LocalDate endDate = date.plusDays(totalDaysOfMonth - currentDayOfMonth);
-		return DateRange.builder().startDate(date).endDate(endDate).build();
+	private DateRange getInitialDateRange() {
+		LocalDate startDate = LocalDate.now();
+		LocalDate endDate = YearMonth.from(startDate).atEndOfMonth();
+		return DateRange.builder()
+			.startDate(startDate)
+			.endDate(endDate)
+			.build();
 	}
 
 	@Override
