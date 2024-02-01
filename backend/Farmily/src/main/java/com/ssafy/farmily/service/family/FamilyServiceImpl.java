@@ -113,7 +113,7 @@ public class FamilyServiceImpl implements FamilyService {
 			.orElseThrow(() -> new NoSuchContentException("존재하지 않는 가족입니다."));
 
 		List<FamilyBasketDto> familySprintList = new ArrayList<>();
-		List<Sprint> temp = sprintRepository.findAllByFamilyIdAndIsHarvested(familyId, true);
+		List<Sprint> temp = sprintRepository.findAllByFamilyIdAndIsHarvestedDesc(familyId, true);
 		for (Sprint sprint : temp) {
 			FamilyBasketDto familyBasketDTO = new FamilyBasketDto().of(sprint);
 			familySprintList.add(familyBasketDTO);
