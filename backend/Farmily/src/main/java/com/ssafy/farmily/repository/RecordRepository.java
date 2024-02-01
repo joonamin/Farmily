@@ -1,13 +1,11 @@
 package com.ssafy.farmily.repository;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import com.ssafy.farmily.entity.Comment;
 import com.ssafy.farmily.entity.Record;
 import com.ssafy.farmily.entity.Sprint;
 
@@ -22,5 +20,5 @@ public interface RecordRepository extends JpaRepository<Record, Long> {
 		AND c.family_id = :familyId""", nativeQuery = true)
 	List<Long> findCurrentChallenges(Long familyId);
 
-	List<Record> findAllBySprint(Sprint sprint);
+	List<Record> findAllBySprintDesc(Sprint sprint);
 }
