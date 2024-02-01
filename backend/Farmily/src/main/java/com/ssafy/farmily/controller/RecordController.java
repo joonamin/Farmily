@@ -15,10 +15,12 @@ import com.ssafy.farmily.dto.ChallengeRecordMarkRequestDto;
 
 import com.ssafy.farmily.dto.ChallengeRecordPostRequestDto;
 import com.ssafy.farmily.dto.ChallengeRecordPutRequestDto;
+import com.ssafy.farmily.dto.ChallengeRecordResponseDto;
 import com.ssafy.farmily.dto.DailyRecordPostRequestDto;
 import com.ssafy.farmily.dto.DailyRecordPutRequestDto;
 import com.ssafy.farmily.dto.EventRecordPostRequestDto;
 import com.ssafy.farmily.dto.EventRecordPutRequestDto;
+import com.ssafy.farmily.dto.EventRecordResponseDto;
 import com.ssafy.farmily.dto.RecordResponseDto;
 import com.ssafy.farmily.service.record.RecordService;
 
@@ -52,12 +54,16 @@ public class RecordController {
 			content = @Content(schema = @Schema(implementation = RecordResponseDto.class))
 		)
 	})
-	private ResponseEntity<RecordResponseDto> get(
+	private ResponseEntity<? extends RecordResponseDto> get(
 		@Parameter(description = "요청할 기록 ID") @PathVariable Long requestId
 	) {
 		RecordResponseDto dto = recordService.getDtoById(requestId);
-
-		return ResponseEntity.ok(dto);
+		if (dto instanceof ChallengeRecordResponseDto)
+			return ResponseEntity.ok((ChallengeRecordResponseDto) dto);
+		else if (dto instanceof EventRecordResponseDto)
+			return ResponseEntity.ok((EventRecordResponseDto) dto);
+		else
+			return ResponseEntity.ok(dto);
 	}
 
 	@PostMapping("/event")
