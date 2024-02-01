@@ -345,7 +345,7 @@ public class FamilyServiceImpl implements FamilyService {
 				percent = 100;
 			}
 			else {
-				percent = Math.round(progress/goal);
+				percent = Math.round((progress/goal)*100);
 			}
 
 			FamilyStatisticsResponseDto responseDto = FamilyStatisticsResponseDto.builder()

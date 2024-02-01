@@ -126,7 +126,7 @@ public class FamilyController {
 		)
 	})
 	public ResponseEntity<Void> createFamily(
-		@RequestBody MakingFamilyRequestDto makingFamilyRequestDto,
+		MakingFamilyRequestDto makingFamilyRequestDto,
 		@AuthenticationPrincipal String username
 	){
 		familyService.makeFamily(makingFamilyRequestDto,username);
