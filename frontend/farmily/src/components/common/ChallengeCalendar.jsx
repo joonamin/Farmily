@@ -78,7 +78,7 @@ export default function ChallengeCalendar({ startDate, endDate, recordId }) {
 
   const titleBar = (
     <div className="flex flex-col items-center justify-center px-4 py-2 border-b">
-      <h1 className="text-xl font-bold">Title</h1>
+      {/* <h1 className="text-xl font-bold">Title</h1> */}
       <span>
         {weekDates[0]?.toLocaleDateString()} ~{' '}
         {weekDates[6]?.toLocaleDateString()}
@@ -151,7 +151,7 @@ export default function ChallengeCalendar({ startDate, endDate, recordId }) {
   return (
     <div className="flex items-center justify-center h-1/2 w-full">
       <div className="relative max-w-2xl mx-auto bg-white rounded-md shadow-lg">
-        {titleBar}
+        {/* {titleBar} */}
         {weekDisplay}
         {/* {confirmationModal} */}
       </div>
