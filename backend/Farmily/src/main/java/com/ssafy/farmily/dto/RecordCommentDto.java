@@ -47,6 +47,7 @@ public class RecordCommentDto {
 		public static Response from(Comment entity) {
 			Response dto = new Response();
 			BeanUtils.copyProperties(entity, dto);
+			dto.setAuthor(MemberInfoDto.from(entity.getAuthor()));
 			return dto;
 		}
 	}
