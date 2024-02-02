@@ -2,11 +2,11 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import EventCard from '../components/common/EventCard.jsx';
 import axios from '../api/axios.jsx';
+import Comment from '../components/common/Comment';
 
 export default function EventDetailPage() {
   const { recordId } = useParams();
-  const URL = `/record/${recordId}`;
-
+  const [isChange, setIsChange] = useState(true);
   const [record, setRecord] = useState({
     title: '',
     content: '',
@@ -15,12 +15,15 @@ export default function EventDetailPage() {
     imageCards: [
       { image: { location: '', originalFileName: '' }, description: '' },
     ],
-    comments: [],
+    comments: [{ content: '', createdAt: '', author: { nickname: '' } }],
   });
+  const onCommentCreate = () => {
+    setIsChange(!isChange);
+  };
 
   useEffect(() => {
     axios
-      .get(URL)
+      .get(`/record/${recordId}`)
       .then((response) => {
         setRecord(response.data);
         console.log(response.data);
@@ -28,16 +31,21 @@ export default function EventDetailPage() {
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+  }, [isChange]);
 
   return (
-    <div className="h-full w-full overflow-hidden">
-      <div className="h-1/6 p-10">
+    <div className="overflow-y-auto max-h-full p-10">
+      <div className="h-1/6">
         <div className="border-4 p-2 border-black rounded-xl text-left">
           <p>{record.title}</p>
         </div>
       </div>
-      <p className="text-right px-10">작성자 : {record.author.nickname}</p>
+      <div className="flex justify-between">
+        <span className="text-left">
+          작성일자 : {record.createdAt.slice(0, 10)}
+        </span>
+        <span className="text-right">작성자 : {record.author.nickname}</span>
+      </div>
       <div className="flex h-3/5 snap-x overflow-x-scroll px-6 justify-center">
         <div className="h-full w-full flex m-auto">
           {record.imageCards.map((item, index) => (
@@ -46,7 +54,11 @@ export default function EventDetailPage() {
         </div>
       </div>
       <div className="">
-        <p>댓글공간</p>
+        <Comment
+          comments={record.comments}
+          recordId={recordId}
+          onCommentCreate={onCommentCreate}
+        />
       </div>
     </div>
   );

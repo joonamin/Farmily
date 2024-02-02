@@ -9,7 +9,7 @@ export default function FamilyCreatePage() {
   const [data, setData] = useState({
     name: '',
     motto: '',
-    image: chunsik,
+    image: null,
   });
   const navigate = useNavigate();
   const handleClick = () => {
@@ -24,7 +24,7 @@ export default function FamilyCreatePage() {
       })
       .then((response) => {
         console.log(response);
-        navigate('/tree');
+        navigate('/welcome');
       })
       .then((res) => {})
       .catch((error) => {
