@@ -213,6 +213,16 @@ public class FamilyServiceImpl implements FamilyService {
 		family.setTree(tree);
 
 		familyRepository.save(family);
+		FamilyStatistics familyStatistics = FamilyStatistics.builder()
+			.family(family)
+			.calendarPlanCount(0)
+			.dailyRecordCount(0)
+			.challengeCompleteCount(0)
+			.eventRecordCount(0)
+			.harvestCount(0)
+			.build();
+		familyStatisticsRepository.save(familyStatistics);
+
 		treeRepository.save(tree);
 
 		FamilyMembership familyMembership = FamilyMembership.builder()
