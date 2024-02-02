@@ -9,6 +9,7 @@ import { useDispatch } from 'react-redux';
 import { getAccessToken } from '../store/auth';
 import { setFamily } from '../store/family';
 import styled from 'styled-components';
+import { useParams } from 'react-router-dom';
 
 const MainPageContainer = styled.div`
   display: flex;
@@ -44,16 +45,17 @@ const Container = styled.div`
 export default function MainPage() {
   const dispatch = useDispatch();
   const [challengeData, setChallengeData] = useState({ challenge1: null, challenge2: null, challenge3: null });
-
+  const { familyId } = useParams();
 
   useEffect(() => {
     const cookies = document.cookie.split(';');
     const cookie = cookies.find(c => c.trim().startsWith('accessToken='));
     if (!cookie) return; // accessToken 쿠키가 없으면 초기화 중단
     const accessToken = cookie.split('=')[1];
-
+    
+    
     dispatch(getAccessToken({ accessToken }));
-    axios.get(`/family/1`).then(res => {
+    axios.get(`/family/${familyId}`).then(res => {
       const familyData = {
         id: res.data.id,
         name: res.data.name,
