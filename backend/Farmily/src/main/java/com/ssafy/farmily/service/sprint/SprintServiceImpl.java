@@ -5,6 +5,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ssafy.farmily.dto.SprintRecordFirstResponseDto;
 import com.ssafy.farmily.dto.SprintRecordPageResponseDto;
+import com.ssafy.farmily.entity.Member;
 import com.ssafy.farmily.entity.Sprint;
 import com.ssafy.farmily.exception.NoSuchContentException;
 import com.ssafy.farmily.repository.RecordRepository;
@@ -39,12 +40,12 @@ public class SprintServiceImpl implements SprintService {
 	}
 
 	@Override
-	public SprintRecordFirstResponseDto getRecordsInitially(String username, Long sprintId, int pageSize) {
+	public SprintRecordFirstResponseDto getRecordsInitially(Long sprintId, int pageSize) {
 		return null; // TODO
 	}
 
 	@Override
-	public SprintRecordPageResponseDto getRecordsPagination(String username, Long sprintId, int pageNo, int pageSize) {
+	public SprintRecordPageResponseDto getRecordsPagination(Long sprintId, int pageNo, int pageSize) {
 		return null; // TODO
 	}
 }
