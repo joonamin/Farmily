@@ -29,7 +29,7 @@ public class JwtUtils {
 		String bearerToken = request.getHeader("Authorization");
 		if (bearerToken == null || !bearerToken.startsWith("Bearer ")) {
 			log.info("bearer token is null");
-			throw new InvalidJwtClaimException("인증이 필요한 API에 필요한 token이 없습니다.");
+			throw new JwtNotFoundException("인증이 필요한 API에 필요한 token이 없습니다.");
 		}
 		if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
 			return bearerToken.substring(7);
