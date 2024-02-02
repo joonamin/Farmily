@@ -24,7 +24,7 @@ import lombok.RequiredArgsConstructor;
 public class CalendarController {
 	private final CalendarService calendarService;
 
-	@PostMapping("/insertCalendarPlan")
+	@PostMapping("")
 	public ResponseEntity<Void> postCalendarPlan(
 		@Valid @RequestBody CalendarPlanRequestDto dto,
 		@AuthenticationPrincipal String username) {
