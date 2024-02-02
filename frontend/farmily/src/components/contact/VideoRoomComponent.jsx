@@ -11,8 +11,7 @@ import UserModel from "./models/user-model";
 import ToolbarComponent from "./toolbar/ToolbarComponent.jsx";
 
 var localUser = new UserModel();
-const APPLICATION_SERVER_URL =
-  process.env.NODE_ENV === "production" ? "" : "http://localhost:5000/";
+const APPLICATION_SERVER_URL = "http://i10e102.p.ssafy.io:8080/webrtc/1";
 
 class VideoRoomComponent extends Component {
   constructor(props) {
@@ -629,6 +628,7 @@ class VideoRoomComponent extends Component {
   async getToken() {
     const sessionId = await this.createSession(this.state.mySessionId);
     return await this.createToken(sessionId);
+  
   }
 
   async createSession(sessionId) {
@@ -650,6 +650,7 @@ class VideoRoomComponent extends Component {
         headers: { "Content-Type": "application/json" },
       }
     );
+ 
     return response.data; // The token
   }
 }
