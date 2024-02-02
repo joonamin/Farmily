@@ -23,8 +23,10 @@ export default function FamilyCreatePage() {
         headers: { 'Content-Type': 'multipart/form-data' },
       })
       .then((response) => {
+        console.log(response);
         navigate('/tree');
       })
+      .then((res) => {})
       .catch((error) => {
         console.log(error);
       });
