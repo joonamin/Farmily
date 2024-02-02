@@ -1,4 +1,4 @@
-package com.ssafy.farmily.service.community;
+package com.ssafy.farmily.service;
 
 import java.util.LinkedList;
 
@@ -17,6 +17,7 @@ import com.ssafy.farmily.repository.CommunityPostRepository;
 import com.ssafy.farmily.repository.FamilyRepository;
 import com.ssafy.farmily.repository.MemberRepository;
 
+import com.ssafy.farmily.service.community.CommunityService;
 import com.ssafy.farmily.utils.SliceResponse;
 
 @SpringBootTest
