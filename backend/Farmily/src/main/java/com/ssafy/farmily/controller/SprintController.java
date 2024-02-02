@@ -54,14 +54,14 @@ public class SprintController {
 	@ApiResponses({
 		@ApiResponse(responseCode = "200", description = "조회 성공")
 	})
-	private ResponseEntity<SprintRecordFirstResponseDto> postRecord(
+	private ResponseEntity<SprintRecordFirstResponseDto> getRecordInitially(
 		@AuthenticationPrincipal String username,
 		@PathVariable Long sprintId,
 		@RequestParam @Min(1) int pageSize
 	) {
-		List<RecordBriefResponseDto> dtos = sprintService.getRecords(sprintId);
+		SprintRecordFirstResponseDto dto = sprintService.getRecordsInitially(username, sprintId, pageSize);
 
-		return ResponseEntity.ok(dtos);
+		return ResponseEntity.ok(dto);
 	}
 
 	@GetMapping("/{sprintId}/record/{pageNo}")
@@ -72,7 +72,7 @@ public class SprintController {
 	@ApiResponses({
 		@ApiResponse(responseCode = "200", description = "조회 성공")
 	})
-	private ResponseEntity<SprintRecordPageResponseDto> postRecord(
+	private ResponseEntity<SprintRecordPageResponseDto> getRecordPagination(
 		@AuthenticationPrincipal String username,
 		@PathVariable Long sprintId,
 		@PathVariable int pageNo,
