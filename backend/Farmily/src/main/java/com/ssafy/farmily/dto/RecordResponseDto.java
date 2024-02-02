@@ -27,8 +27,9 @@ public class RecordResponseDto {
 	protected String title;
 	protected String content;
 	protected MemberInfoDto author;
-	protected List<CommentDto> comments;
-
+	protected List<RecordCommentDto.Response> comments;
+	protected LocalDateTime createdAt;
+	protected LocalDateTime lastEditedAt;
 
 	public static RecordResponseDto from(Record entity) {
 		RecordResponseDto dto = new RecordResponseDto();
@@ -37,8 +38,8 @@ public class RecordResponseDto {
 		MemberInfoDto authorDto = MemberInfoDto.from(entity.getAuthor());
 		dto.setAuthor(authorDto);
 
-		List<CommentDto> commentDtos = entity.getComments().stream()
-			.map(CommentDto::from)
+		List<RecordCommentDto.Response> commentDtos = entity.getComments().stream()
+			.map(RecordCommentDto.Response::from)
 			.toList();
 		dto.setComments(commentDtos);
 

@@ -11,5 +11,6 @@ import com.ssafy.farmily.entity.FamilyMembership;
 public interface FamilyMembershipRepository extends JpaRepository<FamilyMembership, Long> {
 	Optional<FamilyMembership> findByFamilyIdAndMemberId(Long familyId, Long memberId);
 
+	List<FamilyMembership> findByMemberId(Long memberId);
 	boolean existsByFamilyIdAndMemberUsername(Long familyId, String username);
 }

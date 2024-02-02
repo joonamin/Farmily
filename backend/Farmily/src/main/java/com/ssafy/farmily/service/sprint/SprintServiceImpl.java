@@ -45,7 +45,7 @@ public class SprintServiceImpl implements SprintService {
 	public List<RecordBriefResponseDto> getRecords(Long sprintId) {
 		Sprint sprint = getEntityById(sprintId);
 
-		List<Record> entities = recordRepository.findAllBySprint(sprint);
+		List<Record> entities = recordRepository.findAllBySprintOrderByIdDesc(sprint);
 
 		List<RecordBriefResponseDto> dtos = entities.stream().map(RecordBriefResponseDto::from).toList();
 

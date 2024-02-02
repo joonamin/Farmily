@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ssafy.farmily.dto.ConferenceJoinResponseDto;
 import com.ssafy.farmily.service.webrtc.WebRtcService;
 
 import io.openvidu.java.client.ConnectionProperties;
@@ -48,12 +49,12 @@ public class WebRtcController {
 			)
 		)
 	})
-	public ResponseEntity<String> post(
+	public ResponseEntity<ConferenceJoinResponseDto> post(
 		@AuthenticationPrincipal String username,
 		@PathVariable Long familyId
 	) {
-		String urlWithToken = webRtcService.enterConference(username, familyId);
-		return ResponseEntity.ok(urlWithToken);
+		ConferenceJoinResponseDto dto = webRtcService.enterConference(username, familyId);
+		return ResponseEntity.ok(dto);
 	}
 
 }

@@ -41,7 +41,6 @@ public class Member extends BaseEntity {
 	@JoinColumn(name = "profilePicId")
 	private Image profilePic;
 
-
 	@OneToMany(mappedBy = "member")
 	private List<FamilyMembership> familyMemberships;
 
