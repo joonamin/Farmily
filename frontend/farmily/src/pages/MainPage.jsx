@@ -31,6 +31,7 @@ export default function MainPage() {
           motto: res.data.motto,
           tree: res.data.tree,
           challengesIds: res.data.challengesIds,
+          invitationCode: res.data.invitationCode,
           sprintId: res.data.sprintId,
         };
         dispatch(setFamily(familyData));
