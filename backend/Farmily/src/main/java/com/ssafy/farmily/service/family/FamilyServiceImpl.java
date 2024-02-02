@@ -207,14 +207,23 @@ public class FamilyServiceImpl implements FamilyService {
 			.isHarvested(false)
 			.build();
 
+		sprintRepository.save(sprint);
 		Tree tree = Tree.builder().family(family).placements(List.of()).build();
 
 		family.setSprints(List.of(sprint));
 		family.setTree(tree);
 		familyRepository.save(family);
-		CreateFamilyResponseDto createFamilyResponseDto = CreateFamilyResponseDto.builder()
-			.familyId(family.getId())
+
+		FamilyStatistics familyStatistics = FamilyStatistics.builder()
+			.family(family)
+			.calendarPlanCount(0)
+			.dailyRecordCount(0)
+			.challengeCompleteCount(0)
+			.eventRecordCount(0)
+			.harvestCount(0)
 			.build();
+
+		familyStatisticsRepository.save(familyStatistics);
 		treeRepository.save(tree);
 
 		FamilyMembership familyMembership = FamilyMembership.builder()
@@ -224,6 +233,10 @@ public class FamilyServiceImpl implements FamilyService {
 			.build();
 
 		familyMembershipRepository.save(familyMembership);
+
+		CreateFamilyResponseDto createFamilyResponseDto = CreateFamilyResponseDto.builder()
+			.familyId(family.getId())
+			.build();
 		return createFamilyResponseDto;
 	}
 

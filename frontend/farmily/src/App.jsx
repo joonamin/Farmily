@@ -43,7 +43,7 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: '/tree',
+    path: '/tree/:familyId',
     element: <MainLayout />,
     children: [{ path: '', element: <MainPage /> }],
   },

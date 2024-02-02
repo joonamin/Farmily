@@ -8,6 +8,7 @@ import Board from '../components/tree/Board.jsx';
 import { useDispatch } from 'react-redux';
 import { getAccessToken } from '../store/auth.jsx';
 import { setFamily } from '../store/family.jsx';
+import { useParams } from 'react-router-dom';
 
 export default function MainPage() {
   const dispatch = useDispatch();
@@ -16,11 +17,13 @@ export default function MainPage() {
   const cookie = cookies.find((c) => c.startsWith('accessToken='));
   const accessToken = cookie.split('accessToken=')[1];
 
+  const { familyId } = useParams();
+
   // 유저 정보 통해서 familyID 받아오면 수정할 것
   useEffect(() => {
     dispatch(getAccessToken({ accessToken: accessToken }));
     axios
-      .get(`/family/1`)
+      .get(`/family/${familyId}`)
       .then((res) => {
         const familyData = {
           id: res.data.id,
