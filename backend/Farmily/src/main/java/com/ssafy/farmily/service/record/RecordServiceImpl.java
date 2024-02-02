@@ -29,6 +29,7 @@ import com.ssafy.farmily.entity.ImageCard;
 import com.ssafy.farmily.entity.Member;
 import com.ssafy.farmily.entity.Record;
 import com.ssafy.farmily.entity.Sprint;
+import com.ssafy.farmily.exception.BusinessException;
 import com.ssafy.farmily.exception.NoSuchContentException;
 import com.ssafy.farmily.repository.ChallengeProgressRepository;
 import com.ssafy.farmily.repository.CommentRepository;
@@ -166,6 +167,9 @@ public class RecordServiceImpl implements RecordService {
 	public void markChallengeRecord(String username, ChallengeRecordMarkRequestDto dto) {
 		Member member = memberService.getEntity(username);
 		ChallengeRecord recordEntity = (ChallengeRecord) getEntityById(dto.getChallengeId());
+
+		if(challengeProgressRepository.existsByDateAndId(LocalDate.now(),dto.getChallengeId()))
+			throw new BusinessException("이미 체크 된 날짜입니다.");
 
 		Long familyId = recordEntity.getSprint().getFamily().getId();
 		familyService.assertMembership(familyId, username);

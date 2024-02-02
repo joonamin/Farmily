@@ -22,7 +22,6 @@ public class MakingFamilyRequestDto {
 	@NotBlank
 	private String motto;
 
-	@NotNull
 	@AllowedFileCategories(categories = FileCategory.IMAGE)
 	private MultipartFile image;
 
