@@ -41,10 +41,10 @@ public class OpenViduWebRtcService implements WebRtcService {
 
 	@Override
 	public ConferenceJoinResponseDto enterConference(String username, Long familyId) {
+		familyService.assertMembership(familyId, username);
+
 		Conference conference = conferenceRepository.findById(familyId)
 			.orElseGet(() -> createConference(familyId));
-
-		familyService.assertMembership(familyId, username);
 
 		String token = joinConference(username, conference);
 
