@@ -61,6 +61,7 @@ export default function MainPage() {
         name: res.data.name,
         motto: res.data.motto,
         tree: res.data.tree,
+        invitationCode: res.data.invitationCode,
         challengesIds: res.data.challengesIds,
         sprintId: res.data.sprintId,
       };
