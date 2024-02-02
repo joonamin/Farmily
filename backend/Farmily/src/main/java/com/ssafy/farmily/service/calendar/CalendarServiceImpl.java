@@ -30,10 +30,10 @@ public class CalendarServiceImpl implements CalendarService {
 		Family family = familyRepository.findById(dto.getFamilyId()).orElseThrow(
 			() -> new NoSuchContentException("유효하지 않은 가족입니다.")
 		);
-
+		String color = dto.getColor().toUpperCase();
 		CalendarSchedule entity = CalendarSchedule.builder()
 			.dateRange(dto.getDateRange())
-			.color(dto.getColor())
+			.color(color)
 			.memo(dto.getContent())
 			.family(family)
 			.build();
