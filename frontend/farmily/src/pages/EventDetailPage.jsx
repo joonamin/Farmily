@@ -34,8 +34,8 @@ export default function EventDetailPage() {
   }, [isChange]);
 
   return (
-    <div className="overflow-y-auto max-h-full p-10">
-      <div className="h-1/6">
+    <div className="h-full w-full overflow-hidden p-10">
+      <div className="h-1/12">
         <div className="border-4 p-2 border-black rounded-xl text-left">
           <p>{record.title}</p>
         </div>
