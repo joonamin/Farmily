@@ -28,7 +28,8 @@ public class RecordResponseDto {
 	protected String content;
 	protected MemberInfoDto author;
 	protected List<RecordCommentDto.Response> comments;
-
+	protected LocalDateTime createdAt;
+	protected LocalDateTime lastEditedAt;
 
 	public static RecordResponseDto from(Record entity) {
 		RecordResponseDto dto = new RecordResponseDto();
