@@ -58,7 +58,7 @@ public class SprintController {
 		@PathVariable Long sprintId,
 		@RequestParam @Min(1) int pageSize
 	) {
-		SprintRecordFirstResponseDto dto = sprintService.getRecordsInitially(username, sprintId, pageSize);
+		SprintRecordFirstResponseDto dto = sprintService.getRecordsInitially(sprintId, pageSize);
 
 		return ResponseEntity.ok(dto);
 	}
@@ -76,7 +76,7 @@ public class SprintController {
 		@PathVariable int pageNo,
 		@RequestParam @Min(1) int pageSize
 	) {
-		SprintRecordPageResponseDto dto = sprintService.getRecordsPagination(username, sprintId, pageNo, pageSize);
+		SprintRecordPageResponseDto dto = sprintService.getRecordsPagination(sprintId, pageNo, pageSize);
 
 		return ResponseEntity.ok(dto);
 	}
