@@ -18,7 +18,7 @@ export default function RecordPage() {
     }
   }, [family.sprintId, sprintId, isValid]);
 
-  console.log(isValid);
+  // console.log(isValid);
 
   return (
     <>

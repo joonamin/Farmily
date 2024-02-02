@@ -1,23 +1,24 @@
 import React, { useState, useEffect, useRef } from 'react';
-import challenge from '../../assets/images/challenge_modal.png';
-import SmallButton from '../button/SmallButton.jsx';
+import axios from '../../api/axios';
+import challengeImage from '../../assets/images/challenge_modal.png';
+import SmallButton from '../button/SmallButton';
 
-// 요일을 반환하는 함수
 function getDayOfWeek(date) {
   const days = ['일', '월', '화', '수', '목', '금', '토'];
   return days[date.getDay()];
 }
 
-export default function ChallengeModal({ isOpen, onClose }) {
+export default function ChallengeModal({ isOpen, onClose, challengeData }) {
   const [currentWeekIndex, setCurrentWeekIndex] = useState(0);
   const [weekDates, setWeekDates] = useState([]);
   const [images, setImages] = useState({});
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const modalRef = useRef();
 
-  function generateWeekDates(weekIndex) {
+  const generateWeekDates = (weekIndex) => {
     const now = new Date();
     now.setDate(now.getDate() + weekIndex * 7);
-
     const firstDayOfWeek = now.getDate() - now.getDay();
     now.setDate(firstDayOfWeek);
 
@@ -27,133 +28,105 @@ export default function ChallengeModal({ isOpen, onClose }) {
       date.setDate(date.getDate() + i);
       week.push(date);
     }
-
     return week;
-  }
-
-  const moveToPreviousWeek = () => {
-    setCurrentWeekIndex(currentWeekIndex - 1);
-  };
-
-  const moveToNextWeek = () => {
-    setCurrentWeekIndex(currentWeekIndex + 1);
-  };
-
-  const handleImageClick = (date) => {
-    setImages({ ...images, [date]: challenge });
   };
 
   useEffect(() => {
     const newWeekDates = generateWeekDates(currentWeekIndex);
     setWeekDates(newWeekDates);
-  }, [currentWeekIndex]);
+
+    const newImages = {};
+    challengeData?.progresses.forEach((progressDate) => {
+      const progressDateObj = new Date(progressDate);
+      const progressKey = progressDateObj.toISOString().split('T')[0];
+      newImages[progressKey] = challengeImage;
+    });
+    setImages(newImages);
+  }, [currentWeekIndex, challengeData]);
 
   useEffect(() => {
-    function handleClickOutside(event) {
+    const handleClickOutside = (event) => {
       if (modalRef.current && !modalRef.current.contains(event.target)) {
         onClose();
       }
-    }
-
+    };
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [onClose]);
 
-  const titleBar = (
-    <div className="flex flex-col items-center justify-center px-4 py-2 border-b">
-      <h1 className="text-xl font-bold">Title</h1>
-      <span>
-        {weekDates[0]?.toLocaleDateString()} ~{' '}
-        {weekDates[6]?.toLocaleDateString()}
-      </span>
-    </div>
-  );
+  const handleImageClick = (date) => {
+    const today = new Date().toISOString().slice(0, 10);
+    const clickedDate = date.toISOString().slice(0, 10);
 
-  const pixelButtonStyle = {
-    display: 'inline-block',
-    width: '30px',
-    height: '30px',
-    backgroundColor: '#000',
-    color: '#fff', // 글자 색상 추가
-    fontFamily: "'Pixel', sans-serif",
-    fontSize: '15px',
-    border: 'none',
-    cursor: 'pointer',
-    imageRendering: 'pixelated',
+    if (clickedDate === today) {
+      if (images[clickedDate]) {
+        setSelectedDate(clickedDate);
+        setShowConfirmationModal(true);
+      } else {
+        setImages({ ...images, [clickedDate]: challengeImage });
+        axios.post('/record/challenge/mark', {
+          challengeId: challengeData.id,
+          date: clickedDate,
+        })
+        .then((response) => {
+          // 성공적으로 마크되었을 때의 처리
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+      }
+    } else {
+      console.log('오늘 날짜만 선택 가능합니다.');
+    }
   };
 
-  const weekDisplay = (
-    <div className="flex items-center justify-between px-4 py-2">
-      <button
-        onClick={moveToPreviousWeek}
-        style={{ ...pixelButtonStyle, marginTop: '30px', marginRight: '5px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-      >
-        &lt;
-      </button>
-      <div className="flex justify-around flex-grow">
-        {weekDates.map((date, index) => (
-          <div key={index} className="text-center">
-            <div>
-              {`${date.getMonth() + 1}/${date.getDate()}(${getDayOfWeek(
-                date
-              )})`}
-            </div>
-            <div
-              className="w-20 h-20 mt-2 border cursor-pointer flex items-center justify-center text-center" // 세로 가운데 정렬을 위해 flex 사용
-              onClick={() => handleImageClick(date)}
-            >
-              {images[date] ? (
-                <img
-                  src={images[date]}
-                  alt="Selected"
-                  className="max-w-full max-h-full mx-auto" // 이미지를 가로, 세로 중앙으로 정렬
-                />
-              ) : (
-                <div className="w-full h-full"></div>
-              )}
-            </div>
-          </div>
-        ))}
-      </div>
-      <button
-        onClick={moveToNextWeek}
-        style={{ ...pixelButtonStyle, marginTop: '30px', marginLeft: '5px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-      >
-        &gt;
-      </button>
-    </div>
-  );
-  
-  const bottomButtons = (
-    <div className="flex justify-end mt-0">
-      <div>
-        <SmallButton text="포기하기" url="" />
-      </div>
-      <div className="mr-10">
-        <SmallButton text="열매받기" url="" />
-      </div>
-    </div>
-  );
-
   return (
-    <div
-      className={`fixed inset-0 flex items-center justify-center bg-gray-600 bg-opacity-50 overflow-y-auto h-auto w-full ${
-        isOpen ? 'block' : 'hidden'
-      }`}
-      style={{ zIndex: isOpen ? 9999 : -1 }}
-    >
-      <div
-        className="relative max-w-2xl mx-auto my-20 bg-white rounded-md shadow-lg"
-        ref={modalRef}
-      >
-        {titleBar}
-        {weekDisplay}
-        {bottomButtons}
-        <button onClick={onClose} className="absolute top-2 right-2">
-          &times;
-        </button>
+    <div className={`fixed inset-0 flex items-center justify-center ${isOpen ? 'block' : 'hidden'}`} style={{ zIndex: 9999 }}>
+      <div className="relative bg-white rounded-lg shadow-lg" ref={modalRef}>
+        <div className="flex flex-col items-center justify-center px-4 py-2 border-b">
+          <h1 className="text-xl font-bold">{challengeData?.title || "챌린지 제목"}</h1>
+          <span>
+            {challengeData?.dateRange?.startDate && new Date(challengeData.dateRange.startDate).toLocaleDateString()} ~ 
+            {challengeData?.dateRange?.endDate && new Date(challengeData.dateRange.endDate).toLocaleDateString()}
+          </span>
+        </div>
+
+        <div className="flex items-center justify-between px-4 py-2">
+          <button onClick={() => setCurrentWeekIndex(currentWeekIndex - 1)}>&lt;</button>
+          <div className="flex justify-around flex-grow">
+            {weekDates.map((date, index) => {
+              const dateKey = date.toISOString().split('T')[0];
+              const dayOfWeek = date.getDay();
+              const isToday = new Date().toDateString() === date.toDateString();
+              const dateStyle = isToday ? {} : { opacity: 0.6 }; // 오늘 날짜가 아니면 투명도 50%
+              const dayColor = dayOfWeek === 6 ? 'blue' : dayOfWeek === 0 ? 'red' : 'black'; // 토요일은 파란색, 일요일은 빨간색
+
+              return (
+                <div key={index} className="text-center" style={dateStyle}>
+                  <div style={{ color: dayColor }}>
+                    {`${date.getMonth() + 1}/${date.getDate()}(${getDayOfWeek(date)})`}
+                  </div>
+                  <div className="w-20 h-20 mt-2 border cursor-pointer flex items-center justify-center" onClick={() => handleImageClick(date)}>
+                    {images[dateKey] && <img src={images[dateKey]} alt="Selected" className="max-w-full max-h-full" />}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+          <button onClick={() => setCurrentWeekIndex(currentWeekIndex + 1)}>&gt;</button>
+        </div>
+
+        <div className="flex justify-end mt-4">
+          <SmallButton text="포기하기" onClick={() => console.log('포기하기')} />
+          <SmallButton text="열매받기" onClick={() => console.log('열매받기')} />
+        </div>
+
+        <button onClick={onClose} className="absolute top-2 right-2">&times;</button>
+        {showConfirmationModal && (
+          <div> {/* Confirmation Modal 내용 */} </div>
+        )}
       </div>
     </div>
   );

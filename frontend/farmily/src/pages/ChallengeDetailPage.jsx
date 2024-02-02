@@ -12,6 +12,7 @@ export default function ChallengeDetailPage() {
 
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
+  const [progresses, setProgresses] = useState([]); 
   const [record, setRecord] = useState({
     title: '',
     content: '',
@@ -30,6 +31,7 @@ export default function ChallengeDetailPage() {
         setRecord(response.data);
         setStartDate(new Date(response.data.dateRange.startDate.slice(0, 10)));
         setEndDate(new Date(response.data.dateRange.endDate.slice(0, 10)));
+        setProgresses(Array.isArray(response.data.progresses) ? response.data.progresses : []);
       })
       .catch((error) => {
         console.log(error);
@@ -50,6 +52,7 @@ export default function ChallengeDetailPage() {
         startDate={startDate}
         endDate={endDate}
         recordId={recordId}
+        progresses={progresses} 
       />
       <Comment
         comments={record.comments}
