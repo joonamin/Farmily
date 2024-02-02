@@ -12,6 +12,6 @@ public interface SprintService {
 
 	void harvest(Long sprintId);
 
-	SprintRecordFirstResponseDto getRecordsInitially(Long sprintId, int pageSize);
+	SprintRecordFirstResponseDto getRecordsInitially(Long sprintId, int pageSize, int imageCountMax);
 	SprintRecordPageResponseDto getRecordsPagination(Long sprintId, int pageNo, int pageSize);
 }

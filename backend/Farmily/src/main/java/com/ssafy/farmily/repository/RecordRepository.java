@@ -2,6 +2,8 @@ package com.ssafy.farmily.repository;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -20,5 +22,5 @@ public interface RecordRepository extends JpaRepository<Record, Long> {
 		AND c.family_id = :familyId""", nativeQuery = true)
 	List<Long> findCurrentChallenges(Long familyId);
 
-	List<Record> findAllBySprintOrderByIdDesc(Sprint sprint);
+	Page<Record> findAllBySprintOrderByIdDesc(Sprint sprint, Pageable pageable);
 }

@@ -1,9 +1,6 @@
 package com.ssafy.farmily.controller;
 
-import java.util.List;
-
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ssafy.farmily.dto.RecordBriefResponseDto;
 import com.ssafy.farmily.dto.SprintRecordFirstResponseDto;
 import com.ssafy.farmily.dto.SprintRecordPageResponseDto;
 import com.ssafy.farmily.service.sprint.SprintService;
@@ -56,9 +52,10 @@ public class SprintController {
 	})
 	private ResponseEntity<SprintRecordFirstResponseDto> getRecordInitially(
 		@PathVariable Long sprintId,
-		@RequestParam @Min(1) int pageSize
+		@RequestParam @Min(1) int pageSize,
+		@RequestParam(defaultValue = "10") @Min(0) int imageCount
 	) {
-		SprintRecordFirstResponseDto dto = sprintService.getRecordsInitially(sprintId, pageSize);
+		SprintRecordFirstResponseDto dto = sprintService.getRecordsInitially(sprintId, pageSize, imageCount);
 
 		return ResponseEntity.ok(dto);
 	}
