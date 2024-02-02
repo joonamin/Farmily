@@ -4,6 +4,7 @@ import com.ssafy.farmily.utils.DateRange;
 import com.ssafy.farmily.validation.annotation.NotInverted;
 import com.ssafy.farmily.validation.annotation.StartsNowOrLater;
 
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.Data;
@@ -17,7 +18,7 @@ public class CalendarPlanRequestDto {
 	@NotNull
 	private Long familyId;
 
-	@NotInverted
+	@NotBlank
 	private String content;
 
 	@NotNull
