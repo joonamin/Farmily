@@ -1,12 +1,10 @@
 package com.ssafy.farmily.service.sprint;
 
-import java.util.List;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.ssafy.farmily.dto.RecordBriefResponseDto;
-import com.ssafy.farmily.entity.Record;
+import com.ssafy.farmily.dto.SprintRecordFirstResponseDto;
+import com.ssafy.farmily.dto.SprintRecordPageResponseDto;
 import com.ssafy.farmily.entity.Sprint;
 import com.ssafy.farmily.exception.NoSuchContentException;
 import com.ssafy.farmily.repository.RecordRepository;
@@ -41,14 +39,12 @@ public class SprintServiceImpl implements SprintService {
 	}
 
 	@Override
-	@Transactional
-	public List<RecordBriefResponseDto> getRecords(Long sprintId) {
-		Sprint sprint = getEntityById(sprintId);
+	public SprintRecordFirstResponseDto getRecordsInitially(String username, Long sprintId, int pageSize) {
+		return null; // TODO
+	}
 
-		List<Record> entities = recordRepository.findAllBySprintOrderByIdDesc(sprint);
-
-		List<RecordBriefResponseDto> dtos = entities.stream().map(RecordBriefResponseDto::from).toList();
-
-		return dtos;
+	@Override
+	public SprintRecordPageResponseDto getRecordsPagination(String username, Long sprintId, int pageNo, int pageSize) {
+		return null; // TODO
 	}
 }
