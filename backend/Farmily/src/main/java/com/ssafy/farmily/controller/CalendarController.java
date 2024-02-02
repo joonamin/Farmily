@@ -15,6 +15,7 @@ import com.ssafy.farmily.dto.CalendarPlanRequestDto;
 import com.ssafy.farmily.dto.CalendarPlanResponseDto;
 import com.ssafy.farmily.service.calendar.CalendarService;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -25,7 +26,7 @@ public class CalendarController {
 
 	@PostMapping("/insertCalendarPlan")
 	public ResponseEntity<Void> postCalendarPlan(
-		@RequestBody CalendarPlanRequestDto dto,
+		@Valid @RequestBody CalendarPlanRequestDto dto,
 		@AuthenticationPrincipal String username) {
 		calendarService.postCalendarPlan(dto, username);
 		return ResponseEntity.ok().build();
