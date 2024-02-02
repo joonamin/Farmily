@@ -14,6 +14,7 @@ import com.ssafy.farmily.entity.Sprint;
 import com.ssafy.farmily.exception.NoSuchContentException;
 import com.ssafy.farmily.repository.ImageRepository;
 import com.ssafy.farmily.repository.SprintRepository;
+import com.ssafy.farmily.service.family.FamilyService;
 import com.ssafy.farmily.utils.RandomNumberGenerator;
 
 import lombok.RequiredArgsConstructor;
@@ -65,19 +66,19 @@ public class SprintServiceImpl implements SprintService {
 	private List<ImageDto> getRandomImages(Long sprintId, int countMax) {
 		int imageTotalCount = imageRepository.countAllImagesInSprint(sprintId);
 
-		List<Image> ret;
+		List<Image> images;
 		if (imageTotalCount <= countMax) {
-			ret = imageRepository.findAllImagesInSprintOrderByIdDesc(sprintId);
+			images = imageRepository.findAllImagesInSprintOrderByIdDesc(sprintId);
 		}
 		else {
 			Set<Long> indexes = RandomNumberGenerator.getRandomUniqueLongs(0, imageTotalCount, countMax);
-			ret = imageRepository.findAllImagesInSprintAndIdInOrderByIdDesc(sprintId, indexes);
+			images = imageRepository.findAllImagesInSprintAndIdInOrderByIdDesc(sprintId, indexes);
 		}
 
-		return ret.stream().map(ImageDto::from).toList();
+		return images.stream().map(ImageDto::from).toList();
 	}
 
 	private SprintRecordPageResponseDto getRecordsPagination(Sprint sprint, int pageNo, int pageSize) {
-
+		return null; // TODO
 	}
 }
