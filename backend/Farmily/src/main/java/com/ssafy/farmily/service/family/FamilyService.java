@@ -3,6 +3,7 @@ package com.ssafy.farmily.service.family;
 import java.util.List;
 
 import com.ssafy.farmily.dto.ChangeLeaderRequestDto;
+import com.ssafy.farmily.dto.CreateFamilyResponseDto;
 import com.ssafy.farmily.dto.FamilyBasketDto;
 import com.ssafy.farmily.dto.FamilyItemDto;
 import com.ssafy.farmily.dto.FamilyListDto;
@@ -54,7 +55,7 @@ public interface FamilyService {
 
 	public void deletePlacement(Long treeId);
 
-	public void makeFamily(MakingFamilyRequestDto makingFamilyRequestDto, String username);
+	public CreateFamilyResponseDto makeFamily(MakingFamilyRequestDto makingFamilyRequestDto, String username);
 	public void swapSprint(RefreshSprintRequestDto requestDto);
 
 	public void insertFamilyMemberShip(JoinRequestDto requestDto,String username);

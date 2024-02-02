@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.farmily.dto.ChangeLeaderRequestDto;
+import com.ssafy.farmily.dto.CreateFamilyResponseDto;
 import com.ssafy.farmily.dto.FamilyBasketDto;
 import com.ssafy.farmily.dto.FamilyItemDto;
 import com.ssafy.farmily.dto.FamilyListDto;
@@ -126,12 +127,12 @@ public class FamilyController {
 			description = "가족 생성 성공"
 		)
 	})
-	public ResponseEntity<Void> createFamily(
+	public ResponseEntity<CreateFamilyResponseDto> createFamily(
 		MakingFamilyRequestDto makingFamilyRequestDto,
 		@AuthenticationPrincipal String username
 	){
-		familyService.makeFamily(makingFamilyRequestDto,username);
-		return ResponseEntity.ok().build();
+		CreateFamilyResponseDto dto = familyService.makeFamily(makingFamilyRequestDto,username);
+		return ResponseEntity.ok(dto);
 	}
 
 	@PostMapping("/refreshSprint")

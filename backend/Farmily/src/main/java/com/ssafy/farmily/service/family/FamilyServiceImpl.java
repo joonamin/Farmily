@@ -12,6 +12,7 @@ import java.util.UUID;
 import org.springframework.stereotype.Service;
 
 import com.ssafy.farmily.dto.ChangeLeaderRequestDto;
+import com.ssafy.farmily.dto.CreateFamilyResponseDto;
 import com.ssafy.farmily.dto.FamilyAchievementProgressDto;
 import com.ssafy.farmily.dto.FamilyBasketDto;
 import com.ssafy.farmily.dto.FamilyItemDto;
@@ -180,7 +181,7 @@ public class FamilyServiceImpl implements FamilyService {
 
 	@Override
 	@Transactional
-	public void makeFamily(MakingFamilyRequestDto makingFamilyRequestDto, String username) {
+	public CreateFamilyResponseDto makeFamily(MakingFamilyRequestDto makingFamilyRequestDto, String username) {
 		Member member = memberService.getEntity(username);
 		Image profileImage = null;
 		if (makingFamilyRequestDto.getImage() != null) {
@@ -210,8 +211,10 @@ public class FamilyServiceImpl implements FamilyService {
 
 		family.setSprints(List.of(sprint));
 		family.setTree(tree);
-
 		familyRepository.save(family);
+		CreateFamilyResponseDto createFamilyResponseDto = CreateFamilyResponseDto.builder()
+			.familyId(family.getId())
+			.build();
 		treeRepository.save(tree);
 
 		FamilyMembership familyMembership = FamilyMembership.builder()
@@ -221,6 +224,7 @@ public class FamilyServiceImpl implements FamilyService {
 			.build();
 
 		familyMembershipRepository.save(familyMembership);
+		return createFamilyResponseDto;
 	}
 
 	private DateRange getInitialDateRange() {
