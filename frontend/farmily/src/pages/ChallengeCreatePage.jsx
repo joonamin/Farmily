@@ -12,15 +12,29 @@ export default function ChallengeCreatePage() {
   const family = useSelector((state) => state.family.value);
 
   const [formData, setFormData] = useState({
-    // 로그인 후 sprintId 받아오면 수정하기
     sprintId: family.sprintId,
     title: '',
     content: '',
     dateRange: {
-      startDate: today,
+      startDate: today, // 시작 날짜를 오늘로 설정
       endDate: '',
     },
   });
+
+  useEffect(() => {
+    // 종료 날짜의 기본값을 시작 날짜의 다음 날로 설정
+    const startDate = new Date(formData.dateRange.startDate);
+    startDate.setDate(startDate.getDate() + 1);
+    const endDateStr = startDate.toISOString().split('T')[0];
+
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      dateRange: {
+        ...prevFormData.dateRange,
+        endDate: endDateStr,
+      },
+    }));
+  }, []);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -28,13 +42,15 @@ export default function ChallengeCreatePage() {
 
   const handleDateChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      dateRange: {
-        ...prevFormData.dateRange,
-        [name]: value,
-      },
-    }));
+    if (name === 'endDate') {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        dateRange: {
+          ...prevFormData.dateRange,
+          [name]: value,
+        },
+      }));
+    }
   };
 
   const handleClick = () => {
@@ -46,15 +62,13 @@ export default function ChallengeCreatePage() {
       setErrorMessage('내용을 입력해 주세요.');
       return;
     }
-    if (!formData.dateRange.startDate || !formData.dateRange.endDate) {
+    if (!formData.dateRange.endDate) {
       setErrorMessage('챌린지 기간을 입력해 주세요.');
       return;
     }
-    // 로그인 후 유저 정보 같이 보내기
-    axios
-      .post('/record/challenge', formData)
+
+    axios.post('/record/challenge', formData)
       .then((response) => {
-        // 보낼 때 현재 sprintId 받아서 보내기
         navigate(`/family/record/${family.sprintId}`);
       })
       .catch((error) => {
@@ -82,6 +96,7 @@ export default function ChallengeCreatePage() {
           value={formData.dateRange.startDate}
           onChange={handleDateChange}
           min={today}
+          disabled={true} // 시작 날짜를 변경할 수 없도록 설정
         />
         <label htmlFor="endDate">종료 날짜 : </label>
         <input
@@ -91,7 +106,7 @@ export default function ChallengeCreatePage() {
           className="border border-stone-700 rounded"
           value={formData.dateRange.endDate}
           onChange={handleDateChange}
-          min={formData.dateRange.startDate}
+          min={formData.dateRange.endDate}
         />
       </div>
       <div className="h-1/4">

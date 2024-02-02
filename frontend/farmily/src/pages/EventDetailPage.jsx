@@ -2,11 +2,11 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import EventCard from '../components/common/EventCard.jsx';
 import axios from '../api/axios.jsx';
+import Comment from '../components/common/Comment';
 
 export default function EventDetailPage() {
   const { recordId } = useParams();
-  const URL = `/record/${recordId}`;
-
+  const [isChange, setIsChange] = useState(true);
   const [record, setRecord] = useState({
     title: '',
     content: '',
@@ -15,12 +15,15 @@ export default function EventDetailPage() {
     imageCards: [
       { image: { location: '', originalFileName: '' }, description: '' },
     ],
-    comments: [],
+    comments: [{ content: '', createdAt: '', author: { nickname: '' } }],
   });
+  const onCommentCreate = () => {
+    setIsChange(!isChange);
+  };
 
   useEffect(() => {
     axios
-      .get(URL)
+      .get(`/record/${recordId}`)
       .then((response) => {
         setRecord(response.data);
         console.log(response.data);
@@ -28,7 +31,7 @@ export default function EventDetailPage() {
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+  }, [isChange]);
 
   return (
     <div className="h-full w-full overflow-hidden p-10">
@@ -51,7 +54,11 @@ export default function EventDetailPage() {
         </div>
       </div>
       <div className="">
-        <p>댓글공간</p>
+        <Comment
+          comments={record.comments}
+          recordId={recordId}
+          onCommentCreate={onCommentCreate}
+        />
       </div>
     </div>
   );

@@ -7,18 +7,23 @@ import axios from '../api/axios.jsx';
 
 export default function ChallengeDetailPage() {
   const { recordId } = useParams();
+  const [isChange, setIsChange] = useState(true);
   const URL = `/record/${recordId}`;
 
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
+  const [progresses, setProgresses] = useState([]); 
   const [record, setRecord] = useState({
     title: '',
     content: '',
     createdAt: '',
     author: { nickname: '' },
     dateRange: { startDate: '', endDate: '' },
+    comments: [{ content: '', createdAt: '', author: { nickname: '' } }],
   });
-
+  const onCommentCreate = () => {
+    setIsChange(!isChange);
+  };
   useEffect(() => {
     axios
       .get(URL)
@@ -26,11 +31,12 @@ export default function ChallengeDetailPage() {
         setRecord(response.data);
         setStartDate(new Date(response.data.dateRange.startDate.slice(0, 10)));
         setEndDate(new Date(response.data.dateRange.endDate.slice(0, 10)));
+        setProgresses(Array.isArray(response.data.progresses) ? response.data.progresses : []);
       })
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+  }, [isChange]);
 
   return (
     <div className="overflow-y-auto max-h-full p-10">
@@ -46,8 +52,13 @@ export default function ChallengeDetailPage() {
         startDate={startDate}
         endDate={endDate}
         recordId={recordId}
+        progresses={progresses} 
       />
-      <Comment />
+      <Comment
+        comments={record.comments}
+        recordId={recordId}
+        onCommentCreate={onCommentCreate}
+      />
     </div>
   );
 }

@@ -12,6 +12,7 @@ import java.util.UUID;
 import org.springframework.stereotype.Service;
 
 import com.ssafy.farmily.dto.ChangeLeaderRequestDto;
+import com.ssafy.farmily.dto.CreateFamilyResponseDto;
 import com.ssafy.farmily.dto.FamilyAchievementProgressDto;
 import com.ssafy.farmily.dto.FamilyBasketDto;
 import com.ssafy.farmily.dto.FamilyItemDto;
@@ -180,7 +181,7 @@ public class FamilyServiceImpl implements FamilyService {
 
 	@Override
 	@Transactional
-	public void makeFamily(MakingFamilyRequestDto makingFamilyRequestDto, String username) {
+	public CreateFamilyResponseDto makeFamily(MakingFamilyRequestDto makingFamilyRequestDto, String username) {
 		Member member = memberService.getEntity(username);
 		Image profileImage = null;
 		if (makingFamilyRequestDto.getImage() != null) {
@@ -211,8 +212,18 @@ public class FamilyServiceImpl implements FamilyService {
 
 		family.setSprints(List.of(sprint));
 		family.setTree(tree);
-
 		familyRepository.save(family);
+
+		FamilyStatistics familyStatistics = FamilyStatistics.builder()
+			.family(family)
+			.calendarPlanCount(0)
+			.dailyRecordCount(0)
+			.challengeCompleteCount(0)
+			.eventRecordCount(0)
+			.harvestCount(0)
+			.build();
+
+		familyStatisticsRepository.save(familyStatistics);
 		treeRepository.save(tree);
 
 		FamilyMembership familyMembership = FamilyMembership.builder()
@@ -222,6 +233,11 @@ public class FamilyServiceImpl implements FamilyService {
 			.build();
 
 		familyMembershipRepository.save(familyMembership);
+
+		CreateFamilyResponseDto createFamilyResponseDto = CreateFamilyResponseDto.builder()
+			.familyId(family.getId())
+			.build();
+		return createFamilyResponseDto;
 	}
 
 	private DateRange getInitialDateRange() {
