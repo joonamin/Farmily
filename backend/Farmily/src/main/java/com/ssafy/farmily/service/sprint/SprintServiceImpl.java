@@ -95,7 +95,7 @@ public class SprintServiceImpl implements SprintService {
 
 		int recordPageSize = pageSize - challengeCount;
 
-		Pageable pageRequest = PageRequest.of(pageNo, recordPageSize, Sort.Direction.DESC);
+		Pageable pageRequest = PageRequest.of(pageNo, recordPageSize, Sort.Direction.DESC, "id");
 
 		Page<Record> recordPage = recordRepository.findAllBySprintOrderByIdDesc(sprint, pageRequest);
 
