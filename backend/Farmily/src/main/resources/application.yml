@@ -6,6 +6,10 @@ server:
       force: true
 
 spring:
+  servlet:
+    multipart:
+      maxFileSize: 5MB
+
   security:
     oauth2:
       client:
