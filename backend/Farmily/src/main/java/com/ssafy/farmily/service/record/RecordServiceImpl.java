@@ -132,7 +132,6 @@ public class RecordServiceImpl implements RecordService {
 	}
 
 	@Override
-	@Statistics
 	@Transactional
 	public void editDailyRecord(String username, DailyRecordPutRequestDto dto) {
 		Record entity = getEntityById(dto.getRecordId());

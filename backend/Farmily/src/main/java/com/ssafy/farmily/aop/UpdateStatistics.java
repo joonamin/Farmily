@@ -37,11 +37,12 @@ public class UpdateStatistics {
 		// create 관련 응답값을 void로 두지 않으면 좋겠습니다 -> void로 두면 업데이트 관련 메타 정보를 받아올 수 없습니다.
 		// ServiceProcessResult 를 extends 하여 Response를 작성해주시면 감사하겠습니다.
 		// 현재는 임시로 1로 설정
-		handlers = Map.ofEntries(
-			Map.entry("family", () -> log.info("family statistics update")),
-			Map.entry("sprint", () -> log.info("sprint statistics update")),
-			Map.entry("item", () -> log.info("item statistics update")),
-			Map.entry("achievement", () -> log.info("achievement statistics update"))
+		handlers = Map.of(
+			"daily", this::incrementDailyRecordCount,
+			"event", this::incrementEventRecordCount,
+			"challenge", this::incrementChallengeCompleteCount,
+			"calendar", this::incrementCalendarPlanCount,
+			"harvest", this::incrementHarvestCount
 		);
 	}
 
