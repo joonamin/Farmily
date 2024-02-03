@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.ssafy.farmily.aop.annotation.Statistics;
 import com.ssafy.farmily.dto.ChallengeRecordMarkRequestDto;
 import com.ssafy.farmily.dto.ChallengeRecordPostRequestDto;
 import com.ssafy.farmily.dto.ChallengeRecordPutRequestDto;
@@ -75,6 +76,7 @@ public class RecordServiceImpl implements RecordService {
 	}
 
 	@Override
+	@Statistics
 	@Transactional
 	public void createEventRecord(String username, EventRecordPostRequestDto dto) {
 		Member member = memberService.getEntity(username);
@@ -112,6 +114,7 @@ public class RecordServiceImpl implements RecordService {
 	}
 
 	@Override
+	@Statistics
 	@Transactional
 	public void createDailyRecord(String username, DailyRecordPostRequestDto dto) {
 		Member member = memberService.getEntity(username);
@@ -129,6 +132,7 @@ public class RecordServiceImpl implements RecordService {
 	}
 
 	@Override
+	@Statistics
 	@Transactional
 	public void editDailyRecord(String username, DailyRecordPutRequestDto dto) {
 		Record entity = getEntityById(dto.getRecordId());
@@ -162,6 +166,7 @@ public class RecordServiceImpl implements RecordService {
 	}
 
 	@Override
+	@Statistics
 	@Transactional
 	public void markChallengeRecord(String username, ChallengeRecordMarkRequestDto dto) {
 		Member member = memberService.getEntity(username);
