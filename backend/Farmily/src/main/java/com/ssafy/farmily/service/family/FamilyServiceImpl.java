@@ -26,6 +26,7 @@ import com.ssafy.farmily.dto.PlacingItemRequestDto;
 import com.ssafy.farmily.dto.RefreshSprintRequestDto;
 import com.ssafy.farmily.entity.AccessoryPlacement;
 import com.ssafy.farmily.entity.AchievementRewardHistory;
+import com.ssafy.farmily.entity.ChallengeRecord;
 import com.ssafy.farmily.entity.Family;
 import com.ssafy.farmily.entity.FamilyItem;
 import com.ssafy.farmily.entity.FamilyMembership;
@@ -88,7 +89,9 @@ public class FamilyServiceImpl implements FamilyService {
 		List<Placement> placementList = placementRepository.findAllByTreeId(tree.getId());
 		tree.setPlacements(placementList);
 		family.setTree(tree);
-		List<Long> challenges = recordRepository.findCurrentChallenges(familyId);
+		List<Long> challenges = recordRepository.findCurrentChallenges(familyId).stream()
+			.map(ChallengeRecord::getId)
+			.toList();
 		Optional<Sprint> temp = sprintRepository.findByFamilyIdAndIsHarvested(familyId, false);
 
 		FamilyMainDto familyMainDTO = FamilyMainDto.of(family);
