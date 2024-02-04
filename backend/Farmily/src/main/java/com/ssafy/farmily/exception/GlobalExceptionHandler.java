@@ -6,6 +6,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import io.jsonwebtoken.ExpiredJwtException;
+
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 	@ExceptionHandler(NoSuchContentException.class)
@@ -29,5 +31,23 @@ public class GlobalExceptionHandler {
 	public ResponseEntity<String> handleException(BusinessException exception) {
 		String message = exception.getMessage();
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(message);
+	}
+
+	@ExceptionHandler(InvalidJwtClaimException.class)
+	public ResponseEntity<String> handleException(InvalidJwtClaimException exception) {
+		String message = exception.getMessage();
+		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(message);
+	}
+
+	@ExceptionHandler(JwtNotFoundException.class)
+	public ResponseEntity<String> handleException(JwtNotFoundException exception) {
+		String message = exception.getMessage();
+		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(message);
+	}
+
+	@ExceptionHandler(ExpiredJwtException.class)
+	public ResponseEntity<String> handleException(ExpiredJwtException exception) {
+		String message = exception.getMessage();
+		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(message);
 	}
 }

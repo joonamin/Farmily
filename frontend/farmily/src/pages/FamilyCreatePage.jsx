@@ -9,7 +9,7 @@ export default function FamilyCreatePage() {
   const [data, setData] = useState({
     name: '',
     motto: '',
-    image: chunsik,
+    image: null,
   });
   const navigate = useNavigate();
   const handleClick = () => {
@@ -23,8 +23,10 @@ export default function FamilyCreatePage() {
         headers: { 'Content-Type': 'multipart/form-data' },
       })
       .then((response) => {
-        navigate('/tree');
+        console.log(response);
+        navigate('/welcome');
       })
+      .then((res) => {})
       .catch((error) => {
         console.log(error);
       });
