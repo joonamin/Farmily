@@ -11,7 +11,7 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
-import com.ssafy.farmily.aop.annotation.Statistics;
+import com.ssafy.farmily.aop.annotation.IncrementStatistics;
 import com.ssafy.farmily.dto.ChangeLeaderRequestDto;
 import com.ssafy.farmily.dto.CreateFamilyResponseDto;
 import com.ssafy.farmily.dto.FamilyAchievementProgressDto;
@@ -254,7 +254,7 @@ public class FamilyServiceImpl implements FamilyService {
 	}
 
 	@Override
-	@Statistics
+	@IncrementStatistics(FamilyStatistics.Field.HARVEST_COUNT)
 	@Transactional
 	public void swapSprint(RefreshSprintRequestDto requestDto) {
 		Long familyId = requestDto.getFamilyId();
@@ -375,7 +375,7 @@ public class FamilyServiceImpl implements FamilyService {
 
 		List<FamilyStatisticsResponseDto> responseDtoList = new ArrayList<>();
 		for (Achievement achievement : Achievement.values()) {
-			int progress = achievement.getGetter().apply(familyStatistics);
+			int progress = achievement.getField().getGetter().apply(familyStatistics);
 			int rewardPoint = achievement.getReward();
 			float goal = achievement.getGoal();
 			String content = achievement.getContent();

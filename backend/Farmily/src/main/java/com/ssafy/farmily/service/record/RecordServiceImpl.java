@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.ssafy.farmily.aop.annotation.Statistics;
+import com.ssafy.farmily.aop.annotation.IncrementStatistics;
 import com.ssafy.farmily.dto.ChallengeRecordMarkRequestDto;
 import com.ssafy.farmily.dto.ChallengeRecordPostRequestDto;
 import com.ssafy.farmily.dto.ChallengeRecordPutRequestDto;
@@ -25,6 +25,7 @@ import com.ssafy.farmily.dto.RecordResponseDto;
 import com.ssafy.farmily.entity.ChallengeProgress;
 import com.ssafy.farmily.entity.ChallengeRecord;
 import com.ssafy.farmily.entity.Comment;
+import com.ssafy.farmily.entity.FamilyStatistics;
 import com.ssafy.farmily.entity.Image;
 import com.ssafy.farmily.entity.ImageCard;
 import com.ssafy.farmily.entity.Member;
@@ -76,7 +77,7 @@ public class RecordServiceImpl implements RecordService {
 	}
 
 	@Override
-	@Statistics
+	@IncrementStatistics(FamilyStatistics.Field.EVENT_RECORD_COUNT)
 	@Transactional
 	public void createEventRecord(String username, EventRecordPostRequestDto dto) {
 		Member member = memberService.getEntity(username);
@@ -114,7 +115,7 @@ public class RecordServiceImpl implements RecordService {
 	}
 
 	@Override
-	@Statistics
+	@IncrementStatistics(FamilyStatistics.Field.CALENDAR_PLAN_COUNT)
 	@Transactional
 	public void createDailyRecord(String username, DailyRecordPostRequestDto dto) {
 		Member member = memberService.getEntity(username);
@@ -165,7 +166,7 @@ public class RecordServiceImpl implements RecordService {
 	}
 
 	@Override
-	@Statistics
+	@IncrementStatistics(FamilyStatistics.Field.CHALLENGE_COMPLETE_COUNT)
 	@Transactional
 	public void markChallengeRecord(String username, ChallengeRecordMarkRequestDto dto) {
 		Member member = memberService.getEntity(username);
