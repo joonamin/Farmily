@@ -33,7 +33,7 @@ public class UpdateStatistics {
 	}
 
 	@AfterReturning(
-		pointcut = "@annotation(com.ssafy.farmily.aop.annotation.IncrementStatistics)",
+		pointcut = "@annotation(com.ssafy.farmily.aop.annotation.Statistics)",
 		returning = "result"
 	)
 	public void doUpdateStatistics(JoinPoint joinPoint, ServiceProcessResult result) {
