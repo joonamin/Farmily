@@ -4,7 +4,7 @@ import lombok.Getter;
 
 @Getter
 public enum FileCategory {
-	IMAGE(".jpeg", ".jpg", ".png", ".gif"),
+	IMAGE("jpeg", "jpg", "png", "gif"),
 	;
 
 	private final String[] extensions;
