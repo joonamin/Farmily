@@ -9,7 +9,7 @@ import com.ssafy.farmily.entity.FamilyStatistics;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-public @interface IncrementStatistics {
+public @interface Statistics {
 	FamilyStatistics.Field value();
 
 }

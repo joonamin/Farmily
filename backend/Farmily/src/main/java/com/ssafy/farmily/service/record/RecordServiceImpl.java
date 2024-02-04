@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.ssafy.farmily.aop.annotation.IncrementStatistics;
+import com.ssafy.farmily.aop.annotation.Statistics;
 import com.ssafy.farmily.dto.ChallengeRecordMarkRequestDto;
 import com.ssafy.farmily.dto.ChallengeRecordPostRequestDto;
 import com.ssafy.farmily.dto.ChallengeRecordPutRequestDto;
@@ -77,7 +77,7 @@ public class RecordServiceImpl implements RecordService {
 	}
 
 	@Override
-	@IncrementStatistics(FamilyStatistics.Field.EVENT_RECORD_COUNT)
+	@Statistics(FamilyStatistics.Field.EVENT_RECORD_COUNT)
 	@Transactional
 	public void createEventRecord(String username, EventRecordPostRequestDto dto) {
 		Member member = memberService.getEntity(username);
@@ -115,7 +115,7 @@ public class RecordServiceImpl implements RecordService {
 	}
 
 	@Override
-	@IncrementStatistics(FamilyStatistics.Field.CALENDAR_PLAN_COUNT)
+	@Statistics(FamilyStatistics.Field.CALENDAR_PLAN_COUNT)
 	@Transactional
 	public void createDailyRecord(String username, DailyRecordPostRequestDto dto) {
 		Member member = memberService.getEntity(username);
@@ -166,7 +166,7 @@ public class RecordServiceImpl implements RecordService {
 	}
 
 	@Override
-	@IncrementStatistics(FamilyStatistics.Field.CHALLENGE_COMPLETE_COUNT)
+	@Statistics(FamilyStatistics.Field.CHALLENGE_COMPLETE_COUNT)
 	@Transactional
 	public void markChallengeRecord(String username, ChallengeRecordMarkRequestDto dto) {
 		Member member = memberService.getEntity(username);

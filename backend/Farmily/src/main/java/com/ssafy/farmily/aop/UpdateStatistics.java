@@ -7,7 +7,7 @@ import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.ssafy.farmily.aop.annotation.IncrementStatistics;
+import com.ssafy.farmily.aop.annotation.Statistics;
 import com.ssafy.farmily.dto.ServiceProcessResult;
 import com.ssafy.farmily.entity.FamilyStatistics;
 import com.ssafy.farmily.repository.FamilyStatisticsRepository;
@@ -38,7 +38,7 @@ public class UpdateStatistics {
 	)
 	public void doUpdateStatistics(JoinPoint joinPoint, ServiceProcessResult result) {
 		MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
-		IncrementStatistics annotation = methodSignature.getMethod().getAnnotation(IncrementStatistics.class);
+		Statistics annotation = methodSignature.getMethod().getAnnotation(Statistics.class);
 
 		FamilyStatistics.Field field = annotation.value();
 
