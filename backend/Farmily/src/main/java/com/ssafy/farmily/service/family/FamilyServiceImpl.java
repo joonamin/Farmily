@@ -21,6 +21,7 @@ import com.ssafy.farmily.dto.FamilyMainDto;
 import com.ssafy.farmily.dto.FamilyMemberResponseDto;
 import com.ssafy.farmily.dto.FamilyStatisticsResponseDto;
 import com.ssafy.farmily.dto.JoinRequestDto;
+import com.ssafy.farmily.dto.MainSprintResponseDto;
 import com.ssafy.farmily.dto.MakingFamilyRequestDto;
 import com.ssafy.farmily.dto.PlacementDto;
 import com.ssafy.farmily.dto.PlacingItemRequestDto;
@@ -96,7 +97,8 @@ public class FamilyServiceImpl implements FamilyService {
 		familyMainDTO.setChallengesIds(challenges);
 		if (temp.isPresent()) {
 			Sprint sprint = temp.get();
-			familyMainDTO.setSprintId(sprint.getId());
+			MainSprintResponseDto mainSprintResponseDto = MainSprintResponseDto.from(sprint);
+			familyMainDTO.setMainSprint(mainSprintResponseDto);
 		}
 		return familyMainDTO;
 	}
