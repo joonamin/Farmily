@@ -102,6 +102,9 @@ public class SprintServiceImpl implements SprintService {
 
 		Page<Record> recordPage = recordRepository.findAllBySprintOrderByIdDesc(sprint, pageRequest);
 
+		if (pageNo > recordPage.getTotalPages())
+			throw new NoSuchContentException("요청받은 페이지는 존재하지 않습니다.");
+
 		List<RecordBriefResponseDto> records = recordPage.stream()
 			.map(RecordBriefResponseDto::from)
 			.toList();
