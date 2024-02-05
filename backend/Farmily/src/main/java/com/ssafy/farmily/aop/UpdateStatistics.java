@@ -21,7 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 public class UpdateStatistics {
 
 	private Long familyId = 1L;
-	public final FamilyStatisticsRepository familyStatisticsRepository;
+	private final FamilyStatisticsRepository familyStatisticsRepository;
 
 	@Autowired
 	public UpdateStatistics(FamilyStatisticsRepository familyStatisticsRepository) {
