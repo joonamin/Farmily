@@ -166,8 +166,6 @@ public class RecordServiceImpl implements RecordService {
 	}
 
 	@Override
-	// TODO: Challenge Complete 부분으로 옮기기
-	@Statistics(FamilyStatistics.Field.CHALLENGE_COMPLETE_COUNT)
 	@Transactional
 	public void markChallengeRecord(String username, ChallengeRecordMarkRequestDto dto) {
 		Member member = memberService.getEntity(username);
