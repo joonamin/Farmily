@@ -32,22 +32,4 @@ public class GlobalExceptionHandler {
 		String message = exception.getMessage();
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(message);
 	}
-
-	@ExceptionHandler(InvalidJwtClaimException.class)
-	public ResponseEntity<String> handleException(InvalidJwtClaimException exception) {
-		String message = exception.getMessage();
-		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(message);
-	}
-
-	@ExceptionHandler(JwtNotFoundException.class)
-	public ResponseEntity<String> handleException(JwtNotFoundException exception) {
-		String message = exception.getMessage();
-		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(message);
-	}
-
-	@ExceptionHandler(ExpiredJwtException.class)
-	public ResponseEntity<String> handleException(ExpiredJwtException exception) {
-		String message = exception.getMessage();
-		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(message);
-	}
 }
