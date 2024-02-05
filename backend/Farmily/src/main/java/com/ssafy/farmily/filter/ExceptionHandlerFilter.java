@@ -7,6 +7,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.ssafy.farmily.exception.InvalidJwtClaimException;
 import com.ssafy.farmily.exception.JwtNotFoundException;
 
 import io.jsonwebtoken.ExpiredJwtException;
@@ -23,8 +24,11 @@ public class ExceptionHandlerFilter extends OncePerRequestFilter {
 	protected void doFilterInternal(
 		HttpServletRequest request, HttpServletResponse response, FilterChain filterChain
 	) throws ServletException, IOException {
-		try{
-			filterChain.doFilter(request,response);
+		try {
+			filterChain.doFilter(request, response);
+		} catch (InvalidJwtClaimException ex) {
+			log.debug("잘못된 JWT Claim 예외 발생");
+			sendErrorResponse(HttpStatus.UNAUTHORIZED, response, ex);
 		} catch (JwtNotFoundException ex) {
 			log.debug("JWT 없음 예외 발생");
 			sendErrorResponse(HttpStatus.UNAUTHORIZED, response, ex);
