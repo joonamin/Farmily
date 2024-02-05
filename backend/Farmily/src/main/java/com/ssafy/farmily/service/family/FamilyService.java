@@ -15,6 +15,7 @@ import com.ssafy.farmily.dto.JoinRequestDto;
 import com.ssafy.farmily.dto.MakingFamilyRequestDto;
 import com.ssafy.farmily.dto.PlacingItemRequestDto;
 import com.ssafy.farmily.dto.RefreshSprintRequestDto;
+import com.ssafy.farmily.dto.ServiceProcessResult;
 import com.ssafy.farmily.exception.NoSuchContentException;
 
 public interface FamilyService {
@@ -56,7 +57,7 @@ public interface FamilyService {
 	public void deletePlacement(Long treeId);
 
 	public CreateFamilyResponseDto makeFamily(MakingFamilyRequestDto makingFamilyRequestDto, String username);
-	public void swapSprint(RefreshSprintRequestDto requestDto);
+	public ServiceProcessResult swapSprint(RefreshSprintRequestDto requestDto);
 
 	public void insertFamilyMemberShip(JoinRequestDto requestDto,String username);
 

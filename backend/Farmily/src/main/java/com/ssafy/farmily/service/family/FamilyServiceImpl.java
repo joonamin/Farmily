@@ -27,6 +27,7 @@ import com.ssafy.farmily.dto.MakingFamilyRequestDto;
 import com.ssafy.farmily.dto.PlacementDto;
 import com.ssafy.farmily.dto.PlacingItemRequestDto;
 import com.ssafy.farmily.dto.RefreshSprintRequestDto;
+import com.ssafy.farmily.dto.ServiceProcessResult;
 import com.ssafy.farmily.entity.AccessoryPlacement;
 import com.ssafy.farmily.entity.AchievementRewardHistory;
 import com.ssafy.farmily.entity.ChallengeRecord;
@@ -258,7 +259,7 @@ public class FamilyServiceImpl implements FamilyService {
 	@Override
 	@Statistics(FamilyStatistics.Field.HARVEST_COUNT)
 	@Transactional
-	public void swapSprint(RefreshSprintRequestDto requestDto) {
+	public ServiceProcessResult swapSprint(RefreshSprintRequestDto requestDto) {
 		Long familyId = requestDto.getFamilyId();
 		Optional<Sprint> unHarvestedSprint = sprintRepository.findByFamilyIdAndIsHarvested(familyId, false);
 		if (unHarvestedSprint.isPresent()) {
@@ -284,6 +285,7 @@ public class FamilyServiceImpl implements FamilyService {
 			.build();
 
 		sprintRepository.save(sprint);
+		return new ServiceProcessResult(familyId);
 	}
 
 	@Override
