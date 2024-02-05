@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -16,8 +15,11 @@ import com.ssafy.farmily.repository.ImageRepository;
 @Service
 public class LocalFileService extends AbstractFileService {
 
-	@Value("${file-server.local.path}")
-	private final String path = null;
+	@Value("${file-server.local.dir-path}")
+	private final String dirPath = null;
+
+	@Value("${file-server.local.server-url}")
+	private final String serverUrl = null;
 
 	public LocalFileService(ImageRepository imageRepository) {
 		super(imageRepository);
@@ -26,19 +28,20 @@ public class LocalFileService extends AbstractFileService {
 	@Override
 	public ImageDto uploadImage(MultipartFile file) {
 		try {
-			File directory = new File(path);
+			File directory = new File(dirPath);
 			if (!directory.isDirectory()) {
 				directory.mkdirs();
 			}
 			String originalFileName = file.getOriginalFilename();
 			String newFileName = UUID.randomUUID().toString();
 			String extension = StringUtils.getFilenameExtension(originalFileName);
-			String newPath = path + File.separator + newFileName + "." + extension;
+			String newPath = dirPath + File.separator + newFileName + "." + extension;
+			String uri = serverUrl + "/" + newFileName + "." + extension;
 
 			File newFile = new File(newPath);
 			file.transferTo(newFile);
 
-			return ImageDto.of(newPath, originalFileName);
+			return ImageDto.of(uri, originalFileName);
 		} catch (IOException ex) {
 			throw new RuntimeException(ex);
 		}
