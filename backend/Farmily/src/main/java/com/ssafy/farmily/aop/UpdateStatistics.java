@@ -20,10 +20,13 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 public class UpdateStatistics {
 
-	@Autowired
-	public FamilyStatisticsRepository familyStatisticsRepository;
-
 	private Long familyId = 1L;
+	public final FamilyStatisticsRepository familyStatisticsRepository;
+
+	@Autowired
+	public UpdateStatistics(FamilyStatisticsRepository familyStatisticsRepository) {
+		this.familyStatisticsRepository = familyStatisticsRepository;
+	}
 
 	@PostConstruct
 	void initialize() {
