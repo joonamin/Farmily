@@ -62,7 +62,10 @@ export default function MainPage() {
   };
 
   const { familyId } = useParams();
-
+  
+  const handleMark = () => {
+    setIsChanged(!isChanged)
+  }
   useEffect(() => {
     const cookies = document.cookie.split(';');
     const cookie = cookies.find((c) => c.trim().startsWith('accessToken='));
@@ -70,18 +73,17 @@ export default function MainPage() {
     const accessToken = cookie.split('=')[1];
 
     dispatch(getAccessToken({ accessToken }));
-    axios
-      .get(`/family/${familyId}`)
-      .then((res) => {
-        const familyData = {
-          id: res.data.id,
-          name: res.data.name,
-          motto: res.data.motto,
-          tree: res.data.tree,
-          challengesIds: res.data.challengesIds,
-          sprintId: res.data.sprintId,
-        };
-        dispatch(setFamily(familyData));
+    axios.get(`/family/${familyId}`).then(res => {
+      const familyData = {
+        id: res.data.id,
+        name: res.data.name,
+        motto: res.data.motto,
+        tree: res.data.tree,
+        invitationCode: res.data.invitationCode,
+        challengesIds: res.data.challengesIds,
+        sprintId: res.data.sprintId,
+      };
+      dispatch(setFamily(familyData));
 
         if (familyData.challengesIds && familyData.challengesIds.length > 0) {
           Promise.all(
@@ -100,28 +102,34 @@ export default function MainPage() {
                     new Date(b.dateRange.endDate)
                 );
 
-              setChallengeData({
-                challenge1: sortedChallenges[0] || null,
-                challenge2: sortedChallenges[1] || null,
-                challenge3: sortedChallenges[2] || null,
-              });
-            })
-            .catch((err) => console.error(err));
-        }
-      })
-      .catch((err) => console.error(err));
-  }, [dispatch]); // 종속성 배열에 dispatch 추가
+            setChallengeData({
+              challenge1: sortedChallenges[0] || null,
+              challenge2: sortedChallenges[1] || null,
+              challenge3: sortedChallenges[2] || null,
+            });
+          })
+          .catch(err => console.error(err));
+      }
+    }).catch(err => console.error(err));
+  }, [dispatch, isChanged]); // 종속성 배열에 dispatch 추가
+
 
   return (
     <Container>
-      {challengeData.challenge3 && (
-        <Challenge3Styled data={challengeData.challenge3} />
+      {challengeData.challenge3 ? (
+        <Challenge3Styled data={challengeData.challenge3} handleMark={handleMark} />
+      ) : (
+        <div className="w-28 h-28 ml-5"></div> // 챌린지가 없을 때 공간을 차지하는 빈 div
       )}
-      {challengeData.challenge2 && (
-        <Challenge2Styled data={challengeData.challenge2} />
+      {challengeData.challenge2 ? (
+        <Challenge2Styled data={challengeData.challenge2} handleMark={handleMark} />
+      ) : (
+        <div className="w-28 h-28 ml-5"></div>
       )}
-      {challengeData.challenge1 && (
-        <Challenge1Styled data={challengeData.challenge1} />
+      {challengeData.challenge1 ? (
+        <Challenge1Styled data={challengeData.challenge1} handleMark={handleMark} />
+      ) : (
+        <div className="w-28 h-28 ml-5"></div>
       )}
       <MainTree />
       {harvest.needHarvest ? (

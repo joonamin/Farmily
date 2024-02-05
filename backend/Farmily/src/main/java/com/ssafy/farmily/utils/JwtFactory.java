@@ -23,8 +23,8 @@ import lombok.extern.slf4j.Slf4j;
 public class JwtFactory {
 
 	private final Key key;
-	public static final long ACCESS_TOKEN_EXPIRE_TIME_IN_MS = 1000 * 60 * 15; // 15분
-	public static final long REFRESH_TOKEN_EXPIRE_TIME_IN_MS = 1000 * 60 * 15; // 15분
+	public static final long ACCESS_TOKEN_EXPIRE_TIME_IN_MS = 1000 * 60 * 60 * 5; // 5시간
+	public static final long REFRESH_TOKEN_EXPIRE_TIME_IN_MS = 1000 * 60 * 60 * 5; // 추후에 고도화할 예정입니다.
 
 	protected static final String ISSUER = "farmily";
 
