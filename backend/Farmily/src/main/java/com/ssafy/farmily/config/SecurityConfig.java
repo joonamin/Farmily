@@ -19,6 +19,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import com.ssafy.farmily.filter.ExceptionHandlerFilter;
 import com.ssafy.farmily.filter.JwtAuthenticationFilter;
 import com.ssafy.farmily.utils.CustomAuthenticationSuccessHandler;
 
@@ -33,6 +34,7 @@ public class SecurityConfig {
 	private final OidcUserService oidcUserService;
 	private final CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
 	private final JwtAuthenticationFilter jwtAuthenticationFilter;
+	private final ExceptionHandlerFilter exceptionHandlerFilter;
 
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -54,6 +56,7 @@ public class SecurityConfig {
 			)
 			// 로그아웃 필터가 현재 가장 먼저 실행되는 filter입니다.
 			.addFilterBefore(jwtAuthenticationFilter, LogoutFilter.class)
+			.addFilterBefore(exceptionHandlerFilter, JwtAuthenticationFilter.class)
 			.httpBasic(HttpBasicConfigurer::disable);
 
 		return http.build();
