@@ -67,7 +67,8 @@ export default function ChallengeCreatePage() {
       return;
     }
 
-    axios.post('/record/challenge', formData)
+    axios
+      .post('/record/challenge', formData)
       .then((response) => {
         navigate(`/family/record/${family.sprintId}`);
       })
@@ -78,7 +79,7 @@ export default function ChallengeCreatePage() {
 
   return (
     <>
-      <h1>챌린지 글쓰기</h1>
+      <h1 className="text-2xl font-bold">챌린지 글쓰기</h1>
       <div className="h-1/2">
         <CreateDetail
           title={formData.title}

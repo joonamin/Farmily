@@ -45,7 +45,7 @@ export default function DailyCreatePage() {
   return (
     <>
       <div className="h-5/6">
-        <h1>일상 글쓰기</h1>
+        <h1 className="text-2xl font-bold">일상 글쓰기</h1>
         <CreateDetail
           title={formData.title}
           content={formData.content}

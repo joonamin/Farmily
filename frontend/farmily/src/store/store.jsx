@@ -6,17 +6,19 @@ import { persistReducer } from 'redux-persist';
 import authSlice from './auth.jsx';
 import familySlice from './family.jsx';
 import userSlice from './user.jsx';
+import harvestSlice from './harvest.jsx';
 
 const reducers = combineReducers({
   auth: authSlice.reducer,
   family: familySlice.reducer,
   user: userSlice.reducer,
+  harvest: harvestSlice.reducer,
 });
 
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['auth', 'family', 'user'],
+  whitelist: ['auth', 'family', 'user', 'harvest'],
 };
 
 const persistedReducer = persistReducer(persistConfig, reducers);
