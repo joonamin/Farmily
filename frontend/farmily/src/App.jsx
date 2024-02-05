@@ -28,7 +28,7 @@ import TreeCreatePage from './pages/TreeCreatePage.jsx';
 import EnterPage from './pages/EnterPage.jsx';
 import FamilyCreatePage from './pages/FamilyCreatePage.jsx';
 import WelcomePage from './pages/WelcomePage.jsx';
-
+import VideoRoomWrapper from './components/contact/VideoRoomWrapper.jsx'
 const router = createBrowserRouter([
   {
     path: '/',
@@ -71,6 +71,11 @@ const router = createBrowserRouter([
       { path: 'contact', element: <ContactPage /> },
       { path: 'setting', element: <SettingPage /> },
     ],
+  },
+  {
+    path: '/openvidutest/:familyId',
+    element: <MainLayout />,
+    children: [{ path: '', element: <VideoRoomWrapper /> }], // VideoRoomComponent 대신 VideoRoomWrapper 사용
   },
 ]);
 

@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import ChallengeModal from './ChallengeModal';
 import challengeImage from '../../assets/images/challenge_flower2.png';
 
-export default function Challenge({ data }) {
+export default function Challenge({ data, handleMark }) {
   const [isModalOpened, setIsModalOpened] = useState(false);
 
   const openModal = () => {
@@ -27,7 +27,7 @@ export default function Challenge({ data }) {
         onClick={openModal}
       />
       {isModalOpened && (
-        <ChallengeModal challengeData={data} isOpen={isModalOpened} onClose={closeModal} />
+        <ChallengeModal challengeData={data} isOpen={isModalOpened} onClose={closeModal} handleMark={handleMark} />
       )}
     </div>
   );

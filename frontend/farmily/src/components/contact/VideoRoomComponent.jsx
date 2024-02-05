@@ -10,10 +10,15 @@ import OpenViduLayout from "./layout/openvidu-layout.jsx";
 import UserModel from "./models/user-model";
 import ToolbarComponent from "./toolbar/ToolbarComponent.jsx";
 
+
 var localUser = new UserModel();
-const APPLICATION_SERVER_URL = "http://i10e102.p.ssafy.io:8080/webrtc/1";
+const APPLICATION_SERVER_URL = "http://localhost:8080/";
+const cookies = document.cookie.split(';');
+const cookie = cookies.find(c => c.trim().startsWith('accessToken='));
+
 
 class VideoRoomComponent extends Component {
+
   constructor(props) {
     super(props);
     this.hasBeenUpdated = false;
@@ -34,8 +39,9 @@ class VideoRoomComponent extends Component {
       subscribers: [],
       chatDisplay: "none",
       currentVideoDevice: undefined,
+      familyId: null,
     };
-
+    
     this.joinSession = this.joinSession.bind(this);
     this.leaveSession = this.leaveSession.bind(this);
     this.onbeforeunload = this.onbeforeunload.bind(this);
@@ -54,6 +60,11 @@ class VideoRoomComponent extends Component {
   }
 
   componentDidMount() {
+    //familyId 콘솔 찍힘
+    const familyId = this.props.familyId;
+    console.log(familyId)
+    this.setState({ familyId });
+
     const openViduLayoutOptions = {
       maxRatio: 3 / 2, // The narrowest ratio that will be used (default 2x3)
       minRatio: 9 / 16, // The widest ratio that will be used (default 16x9)
@@ -66,7 +77,7 @@ class VideoRoomComponent extends Component {
       bigFirst: true, // Whether to place the big one in the top left (true) or bottom right
       animate: true, // Whether you want to animate the transitions
     };
-
+    
     this.layout.initLayoutContainer(
       document.getElementById("layout"),
       openViduLayoutOptions
@@ -74,8 +85,10 @@ class VideoRoomComponent extends Component {
     window.addEventListener("beforeunload", this.onbeforeunload);
     window.addEventListener("resize", this.updateLayout);
     window.addEventListener("resize", this.checkSize);
+
     this.joinSession();
   }
+
 
   componentWillUnmount() {
     window.removeEventListener("beforeunload", this.onbeforeunload);
@@ -108,12 +121,15 @@ class VideoRoomComponent extends Component {
       this.connect(this.props.token);
     } else {
       try {
-        var token = await this.getToken();
+        var token = "tok_IIOJh6WqkyHq10tn";
         console.log(token);
         this.connect(token);
       } catch (error) {
+        console.log("여긴 출력 되겠지")
+        console.log(token)
+        console.log("왜 안되지")
         console.error(
-          "There was an error getting the token:",
+          "There was an error getting the token123:",
           error.code,
           error.message
         );
@@ -129,14 +145,16 @@ class VideoRoomComponent extends Component {
       }
     }
   }
-
+  
   connect(token) {
     this.state.session
-      .connect(token, { clientData: this.state.myUserName })
+      .connect(token, { clientData: "this.state.myUserName" })
       .then(() => {
+        console.log(this.state.familyId)
         this.connectWebCam();
       })
       .catch((error) => {
+        console.log(this.state.familyId)
         if (this.props.error) {
           this.props.error({
             error: error.error,
@@ -145,10 +163,11 @@ class VideoRoomComponent extends Component {
             status: error.status,
           });
         }
-        alert("There was an error connecting to the session:", error.message);
+        console.log("여기가 안되는건가")
         console.log(
           "There was an error connecting to the session:",
           error.code,
+          "뭘까",
           error.message
         );
       });
@@ -238,7 +257,7 @@ class VideoRoomComponent extends Component {
     this.setState({
       session: undefined,
       subscribers: [],
-      mySessionId: "SessionA",
+      mySessionId: "ses_8",
       myUserName: "OpenVidu_User" + Math.floor(Math.random() * 100),
       localUser: undefined,
     });
@@ -625,33 +644,23 @@ class VideoRoomComponent extends Component {
    * Visit https://docs.openvidu.io/en/stable/application-server to learn
    * more about the integration of OpenVidu in your application server.
    */
-  async getToken() {
-    const sessionId = await this.createSession(this.state.mySessionId);
-    return await this.createToken(sessionId);
-  
+  async createSession(familyId) {
+    const response = await axios.post(
+      APPLICATION_SERVER_URL + "webrtc/" + familyId,
+    );
+    const { sessionUrl } = response.data;
+    const sessionId = sessionUrl.match(/sessionId=([^&]+)/)[1];
+    return sessionId
   }
 
-  async createSession(sessionId) {
+  async createToken(familyId) {
     const response = await axios.post(
-      APPLICATION_SERVER_URL + "api/sessions",
-      { customSessionId: sessionId },
-      {
-        headers: { "Content-Type": "application/json" },
-      }
+      APPLICATION_SERVER_URL + "webrtc/" + familyId ,
     );
-    return response.data; // The sessionId
-  }
-
-  async createToken(sessionId) {
-    const response = await axios.post(
-      APPLICATION_SERVER_URL + "api/sessions/" + sessionId + "/connections",
-      {},
-      {
-        headers: { "Content-Type": "application/json" },
-      }
-    );
- 
-    return response.data; // The token
+    const { sessionUrl } = response.data;
+    const token = sessionUrl.match(/token=([^&]+)/)[1];
+    return token;
   }
 }
+
 export default VideoRoomComponent;
