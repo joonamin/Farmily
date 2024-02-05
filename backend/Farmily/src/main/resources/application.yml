@@ -8,7 +8,7 @@ server:
 spring:
   servlet:
     multipart:
-      maxFileSize: 5MB
+      maxFileSize: 100MB
 
   security:
     oauth2:
