@@ -83,7 +83,7 @@ public class FamilyServiceImpl implements FamilyService {
 
 	private final MemberService memberService;
 	private final FileService fileService;
-
+	private final int RAFFLING_COST = 100;
 	@Override
 	@Transactional
 	public FamilyMainDto setMainFamilyInfo(Long familyId) {
@@ -318,7 +318,7 @@ public class FamilyServiceImpl implements FamilyService {
 		RafflingResponseDto responseDto = new RafflingResponseDto();
 
 		if(rafflingValid(familyPoint,collectedItem.size(), allOfItemList.length)){
-			familyPoint -= 150;
+			familyPoint -= RAFFLING_COST;
 			family.setPoint(familyPoint);
 			responseDto.setFamilyPoint(familyPoint);
 			familyRepository.save(family);
@@ -345,7 +345,7 @@ public class FamilyServiceImpl implements FamilyService {
 	}
 
 	private boolean rafflingValid(int point, int collectedItemListSize, int allOfItemListSize){
-		if(point < 150){
+		if(point < RAFFLING_COST){
 			throw new BusinessException("포인트가 부족합니다.");
 		}
 		if(collectedItemListSize == allOfItemListSize){
