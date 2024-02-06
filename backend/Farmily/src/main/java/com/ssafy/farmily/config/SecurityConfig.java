@@ -40,7 +40,7 @@ public class SecurityConfig {
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		http
 			.cors(cors -> cors.configurationSource(corsConfigurationSource()))
-			.csrf(Customizer.withDefaults())
+			.csrf(AbstractHttpConfigurer::disable) 
 			.sessionManagement(sm -> {
 				sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 				sm.sessionFixation(SessionManagementConfigurer.SessionFixationConfigurer::none);
