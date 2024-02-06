@@ -84,7 +84,7 @@ public class RecordServiceImpl implements RecordService {
 	@Override
 	@Statistics(FamilyStatistics.Field.EVENT_RECORD_COUNT)
 	@Transactional
-	public void createEventRecord(String username, EventRecordPostRequestDto dto) {
+	public ServiceProcessResult createEventRecord(String username, EventRecordPostRequestDto dto) {
 		Member member = memberService.getEntity(username);
 		Sprint sprint = sprintService.getEntityById(dto.getSprintId());
 
@@ -100,6 +100,8 @@ public class RecordServiceImpl implements RecordService {
 		entity.setImageCards(imageCards);
 
 		recordRepository.save(entity);
+
+		return new ServiceProcessResult(dto.getFamilyId());
 	}
 
 	@Override
@@ -122,7 +124,7 @@ public class RecordServiceImpl implements RecordService {
 	@Override
 	@Statistics(FamilyStatistics.Field.CALENDAR_PLAN_COUNT)
 	@Transactional
-	public void createDailyRecord(String username, DailyRecordPostRequestDto dto) {
+	public ServiceProcessResult createDailyRecord(String username, DailyRecordPostRequestDto dto) {
 		Member member = memberService.getEntity(username);
 		Sprint sprint = sprintService.getEntityById(dto.getSprintId());
 
@@ -135,6 +137,8 @@ public class RecordServiceImpl implements RecordService {
 			.build();
 
 		recordRepository.save(entity);
+
+		return new ServiceProcessResult(dto.getFamilyId());
 	}
 
 	@Override
@@ -267,11 +271,14 @@ public class RecordServiceImpl implements RecordService {
 		familyService.assertMembership(dto.getFamilyId(), username);
 
 		ChallengeRecordResponseDto recordDto = (ChallengeRecordResponseDto)getDtoById(recordId);
-		if (checkComplete(recordDto.getDateRange(), recordDto.getProgresses())) {
-			ChallengeRecord challengeRecord = (ChallengeRecord)recordRepository.findById(recordId).orElseThrow(()->new BusinessException("유효하지 않은 챌린지 ID"));
-			challengeRecord.setIsRewarded(true);
-			recordRepository.save(challengeRecord);
+		if (!checkComplete(recordDto.getDateRange(), recordDto.getProgresses())) {
+			throw new BusinessException(()->new BusinessException("요구 조건을 만족하지 않았습니다."));
 		}
+
+		ChallengeRecord challengeRecord = (ChallengeRecord)recordRepository.findById(recordId).orElseThrow(()->new BusinessException("유효하지 않은 챌린지 ID"));
+		challengeRecord.setIsRewarded(true);
+		recordRepository.save(challengeRecord);
+
 		return new ServiceProcessResult(dto.getFamilyId());
 	}
 

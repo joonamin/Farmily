@@ -12,7 +12,7 @@ export default function ChallengeCreatePage() {
   const family = useSelector((state) => state.family.value);
 
   const [formData, setFormData] = useState({
-    sprintId: family.sprintId,
+    sprintId: family.mainSprint.sprintId,
     title: '',
     content: '',
     dateRange: {
@@ -70,7 +70,7 @@ export default function ChallengeCreatePage() {
     axios
       .post('/record/challenge', formData)
       .then((response) => {
-        navigate(`/family/record/${family.sprintId}`);
+        navigate(`/family/record/${family.mainSprint.sprintId}`);
       })
       .catch((error) => {
         console.log(error);

@@ -16,6 +16,9 @@ import lombok.Setter;
 @Builder
 @Schema(description = "일상기록 작성 요청 DTO")
 public class DailyRecordPostRequestDto {
+	@NotNull
+	private Long familyId;
+
 	@Schema(description = "기록이 속할 스프린트의 ID")
 	@NotNull
 	private Long sprintId;

@@ -16,7 +16,7 @@ export default function SideBar() {
 
   const family = useSelector((state) => state.family.value);
 
-  const sprintId = family.sprintId;
+  const sprintId = family.mainSprint.sprintId;
   const category = [
     { name: '📑 기록하기', url: `/family/record/${sprintId}` },
     { name: '🌳 추억보기', url: '/family/memory' },
