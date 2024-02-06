@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ssafy.farmily.dto.ChangeLeaderRequestDto;
 import com.ssafy.farmily.dto.CreateFamilyResponseDto;
 import com.ssafy.farmily.dto.FamilyBasketDto;
+import com.ssafy.farmily.dto.FamilyFruitSkinsDto;
 import com.ssafy.farmily.dto.FamilyItemDto;
 import com.ssafy.farmily.dto.FamilyListDto;
 import com.ssafy.farmily.dto.FamilyMainDto;
@@ -250,5 +251,24 @@ public class FamilyController {
 	public ResponseEntity<RafflingResponseDto> raffleItem(@RequestBody RafflingRequestDto dto,@AuthenticationPrincipal String username){
 		RafflingResponseDto responseDto = familyService.raffleItem(dto,username);
 		return ResponseEntity.ok(responseDto);
+	}
+
+	@PostMapping("/{familyId}/fruit-skin")
+	@PreAuthorize("hasRole('ROLE_USER')")
+	@Operation(
+		summary = "열매 스킨 변경",
+		description = "열매 스킨을 변경합니다."
+	)
+	@ApiResponses({
+		@ApiResponse(responseCode = "200", description = "변경 성공")
+	})
+	public ResponseEntity<Void> putFruitSkin(
+		@AuthenticationPrincipal String username,
+		@PathVariable Long familyId,
+		@RequestBody @Valid FamilyFruitSkinsDto dto
+	) {
+
+
+		return ResponseEntity.ok().build();
 	}
 }

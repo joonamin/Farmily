@@ -369,6 +369,11 @@ public class FamilyServiceImpl implements FamilyService {
 	}
 
 	@Override
+	public void editFruitSkin(String username, Long familyId, FamilyFruitSkinsDto dto) {
+		// TODO
+	}
+
+	@Override
 	public List<FamilyMemberResponseDto> loadFamilyMemberList(Long familyId, String username) {
 		Member me = memberService.getEntity(username);
 		List<FamilyMemberResponseDto> familyMembers = memberRepository.findAllByFamilyId(familyId);
