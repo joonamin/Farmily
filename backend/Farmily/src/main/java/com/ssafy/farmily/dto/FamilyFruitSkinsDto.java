@@ -6,6 +6,7 @@ import com.ssafy.farmily.type.ItemType;
 import com.ssafy.farmily.validation.annotation.AllowedItemType;
 import com.ssafy.farmily.validation.annotation.NoDuplicatedFruitSkins;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,12 +20,15 @@ import lombok.Setter;
 @Builder
 @NoDuplicatedFruitSkins
 public class FamilyFruitSkinsDto {
+	@NotNull
 	@AllowedItemType(itemTypes = ItemType.ACCESSORY)
 	private Item daily;
 
+	@NotNull
 	@AllowedItemType(itemTypes = ItemType.ACCESSORY)
 	private Item challenge;
 
+	@NotNull
 	@AllowedItemType(itemTypes = ItemType.ACCESSORY)
 	private Item event;
 
