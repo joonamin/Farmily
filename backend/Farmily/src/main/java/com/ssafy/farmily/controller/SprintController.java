@@ -70,7 +70,7 @@ public class SprintController {
 	})
 	private ResponseEntity<SprintRecordPageResponseDto> getRecordPagination(
 		@PathVariable Long sprintId,
-		@PathVariable int pageNo,
+		@PathVariable @Min(1) int pageNo,
 		@RequestParam @Min(1) int pageSize
 	) {
 		SprintRecordPageResponseDto dto = sprintService.getRecordsPagination(sprintId, pageNo, pageSize);

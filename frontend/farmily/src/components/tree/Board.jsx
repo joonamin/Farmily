@@ -22,7 +22,7 @@ export default function Board({ title }) {
           src={mainboard}
           alt="main_board"
         />
-        <p className="text-white text-4xl absolute top-20 left-12">{title}</p>
+        <p className="text-white text-4xl absolute top-20 left-12 pl-12">{title}</p>
       </div>
 
       <BoardModal isOpen={isModalOpen} closeModal={closeModal} />
