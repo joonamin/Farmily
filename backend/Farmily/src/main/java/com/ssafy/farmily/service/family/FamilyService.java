@@ -19,10 +19,15 @@ import com.ssafy.farmily.dto.RafflingRequestDto;
 import com.ssafy.farmily.dto.RafflingResponseDto;
 import com.ssafy.farmily.dto.RefreshSprintRequestDto;
 import com.ssafy.farmily.dto.ServiceProcessResult;
+import com.ssafy.farmily.entity.Family;
 import com.ssafy.farmily.exception.NoSuchContentException;
 import com.ssafy.farmily.type.Item;
 
 public interface FamilyService {
+
+	Family getEntity(Long familyId);
+
+	void assertExists(Long familyId);
 
 	/**
 	 *

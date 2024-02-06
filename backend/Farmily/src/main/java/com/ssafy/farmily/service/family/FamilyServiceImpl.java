@@ -92,9 +92,24 @@ public class FamilyServiceImpl implements FamilyService {
 
 	@Override
 	@Transactional
-	public FamilyMainDto setMainFamilyInfo(Long familyId) {
-		Family family = familyRepository.findById(familyId)
+	public Family getEntity(Long familyId) {
+		return familyRepository.findById(familyId)
 			.orElseThrow(() -> new NoSuchContentException("존재하지 않는 가족입니다."));
+	}
+
+	@Override
+	@Transactional
+	public void assertExists(Long familyId) {
+		if (!familyRepository.existsById(familyId)) {
+			throw new NoSuchContentException("존재하지 않는 가족입니다.");
+		}
+	}
+
+	@Override
+	@Transactional
+	public FamilyMainDto setMainFamilyInfo(Long familyId) {
+		Family family = getEntity(familyId);
+
 		Tree tree = treeRepository.findById(familyId).orElseThrow(() -> new NoSuchContentException("존재하지 않는 나무입니다."));
 		List<Placement> placementList = placementRepository.findAllByTreeId(tree.getId());
 		tree.setPlacements(placementList);
@@ -117,7 +132,7 @@ public class FamilyServiceImpl implements FamilyService {
 	@Override
 	@Transactional
 	public List<FamilyItemDto> getFamilyInventory(Long familyId) {
-		familyRepository.findById(familyId).orElseThrow(() -> new NoSuchContentException("존재하지 않는 가족입니다."));
+		assertExists(familyId);
 
 		List<FamilyItemDto> familyItemDtoList = new LinkedList<>();
 		List<FamilyItem> temp = familyItemRepository.findByFamilyId(familyId);
@@ -131,7 +146,7 @@ public class FamilyServiceImpl implements FamilyService {
 	@Override
 	@Transactional
 	public List<FamilyBasketDto> getFamilySprintList(Long familyId) {
-		familyRepository.findById(familyId).orElseThrow(() -> new NoSuchContentException("존재하지 않는 가족입니다."));
+		assertExists(familyId);
 
 		List<FamilyBasketDto> familySprintList = new ArrayList<>();
 		List<Sprint> temp = sprintRepository.findAllByFamilyIdAndIsHarvestedOrderByIdDesc(familyId, true);
@@ -311,17 +326,16 @@ public class FamilyServiceImpl implements FamilyService {
 
 	@Override
 	public String getInvitationCode(Long familyId) throws NoSuchContentException {
-		Family family = familyRepository.findById(familyId)
-			.orElseThrow(() -> new NoSuchContentException("유효하지 않은 가족입니다."));
+		Family family = getEntity(familyId);
+
 		return family.getInvitationCode();
 	}
 
 	@Override
 	public RafflingResponseDto raffleItem(RafflingRequestDto dto, String username) {
 		Long familyId = dto.getFamilyId();
+		Family family = getEntity(familyId);
 		assertMembership(familyId, username);
-		Family family = familyRepository.findById(familyId)
-			.orElseThrow(() -> new NoSuchContentException("유효하지 않은 가족입니다."));
 
 		List<FamilyItem> collectedItem = familyItemRepository.findAllByFamilyId(familyId);
 		Item[] allOfItemList = Item.values();
@@ -416,12 +430,20 @@ public class FamilyServiceImpl implements FamilyService {
 	@Override
 	@Transactional
 	public void changeName(String username, Long familyId, FamilyPatchRequestDto.Name dto) {
-		// TODO
+		this.assertMembership(familyId, username);
+
+		Family family = getEntity(familyId);
+		family.setName(dto.getNewName());
+		familyRepository.save(family);
 	}
 
 	@Override
 	@Transactional
 	public void changeMotto(String username, Long familyId, FamilyPatchRequestDto.Motto dto) {
-		// TODO
+		this.assertMembership(familyId, username);
+
+		Family family = getEntity(familyId);
+		family.setMotto(dto.getNewMotto());
+		familyRepository.save(family);
 	}
 }
