@@ -1,0 +1,25 @@
+version: "3"
+services:
+  farmily-be:
+    # docker image 빌드시에 아래 이름으로 빌드합니다.
+    image: farmily-be
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mariadb
+      - redis
+    environment:
+      - spring.profiles.active= { profile 명 }
+
+  mariadb:
+    image: mariadb:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: { root 계정의 비밀번호 }
+      MYSQL_DATABASE: { JDBC에서 사용할 DB 이름 }
+      MYSQL_USER: { JDBC에서 사용할 계정 이름 }
+      MYSQL_PASSWORD: { JDBC에서 사용할 계정의 비밀번호 }
+
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
