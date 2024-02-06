@@ -21,6 +21,7 @@ import com.ssafy.farmily.dto.FamilyItemDto;
 import com.ssafy.farmily.dto.FamilyListDto;
 import com.ssafy.farmily.dto.FamilyMainDto;
 import com.ssafy.farmily.dto.FamilyMemberResponseDto;
+import com.ssafy.farmily.dto.FamilyPatchRequestDto;
 import com.ssafy.farmily.dto.FamilyStatisticsResponseDto;
 import com.ssafy.farmily.dto.JoinRequestDto;
 import com.ssafy.farmily.dto.MainSprintResponseDto;
@@ -410,5 +411,17 @@ public class FamilyServiceImpl implements FamilyService {
 			familyInfoList.add(new FamilyListDto.FamilyInfo(fm.getFamily().getId(), fm.getFamily().getName()));
 		});
 		return new FamilyListDto(familyInfoList);
+	}
+
+	@Override
+	@Transactional
+	public void changeName(String username, Long familyId, FamilyPatchRequestDto.Name dto) {
+		// TODO
+	}
+
+	@Override
+	@Transactional
+	public void changeMotto(String username, Long familyId, FamilyPatchRequestDto.Motto dto) {
+		// TODO
 	}
 }

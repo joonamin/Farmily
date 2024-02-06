@@ -10,6 +10,7 @@ import com.ssafy.farmily.dto.FamilyListDto;
 import com.ssafy.farmily.dto.FamilyMainDto;
 import com.ssafy.farmily.dto.FamilyMemberResponseDto;
 import com.ssafy.farmily.dto.FamilyAchievementProgressDto;
+import com.ssafy.farmily.dto.FamilyPatchRequestDto;
 import com.ssafy.farmily.dto.FamilyStatisticsResponseDto;
 import com.ssafy.farmily.dto.JoinRequestDto;
 import com.ssafy.farmily.dto.MakingFamilyRequestDto;
@@ -73,4 +74,8 @@ public interface FamilyService {
 	public FamilyListDto getFamilyList(String username);
 
 	public RafflingResponseDto raffleItem(RafflingRequestDto dto,String username);
+
+	void changeName(String username, Long familyId, FamilyPatchRequestDto.Name dto);
+
+	void changeMotto(String username, Long familyId, FamilyPatchRequestDto.Motto dto);
 }

@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -20,6 +21,7 @@ import com.ssafy.farmily.dto.FamilyItemDto;
 import com.ssafy.farmily.dto.FamilyListDto;
 import com.ssafy.farmily.dto.FamilyMainDto;
 import com.ssafy.farmily.dto.FamilyMemberResponseDto;
+import com.ssafy.farmily.dto.FamilyPatchRequestDto;
 import com.ssafy.farmily.dto.JoinRequestDto;
 import com.ssafy.farmily.dto.MakingFamilyRequestDto;
 import com.ssafy.farmily.dto.PlacingItemRequestDto;
@@ -34,6 +36,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -248,5 +251,41 @@ public class FamilyController {
 	public ResponseEntity<RafflingResponseDto> raffleItem(@RequestBody RafflingRequestDto dto,@AuthenticationPrincipal String username){
 		RafflingResponseDto responseDto = familyService.raffleItem(dto,username);
 		return ResponseEntity.ok(responseDto);
+	}
+	
+	@PatchMapping("/{familyId}/name")
+	@PreAuthorize("hasRole('ROLE_USER')")
+	@Operation(
+		summary = "가족 이름 변경",
+		description = "가족 이름을 변경합니다."
+	)
+	@ApiResponses({
+		@ApiResponse(responseCode = "200", description = "변경 성공")
+	})
+	public ResponseEntity<Void> patchName(
+		@AuthenticationPrincipal String username,
+		@PathVariable Long familyId,
+		@RequestBody FamilyPatchRequestDto.Name dto
+	) {
+		// TODO: familyService.changeName(username, familyId, dto);
+		return ResponseEntity.ok().build();
+	}
+
+	@PatchMapping("/{familyId}/name")
+	@PreAuthorize("hasRole('ROLE_USER')")
+	@Operation(
+		summary = "가족 가훈 변경",
+		description = "가족 가훈을 변경합니다."
+	)
+	@ApiResponses({
+		@ApiResponse(responseCode = "200", description = "변경 성공")
+	})
+	public ResponseEntity<Void> patchMotto(
+		@AuthenticationPrincipal String username,
+		@PathVariable Long familyId,
+		@RequestBody FamilyPatchRequestDto.Motto dto
+	) {
+		// TODO: familyService.changeMotto(username, familyId, dto);
+		return ResponseEntity.ok().build();
 	}
 }
