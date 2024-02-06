@@ -19,6 +19,6 @@ import lombok.Setter;
 @Schema(description = "스프린트 기록 최초 요청 DTO")
 public class SprintRecordFirstResponseDto {
 	private DateRange dateRange;
-	private List<ImageDto> images;
+	private List<ImageCardImageDto> images;
 	private SprintRecordPageResponseDto page;
 }
