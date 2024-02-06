@@ -52,7 +52,7 @@ export default function MainPage() {
   const [isChanged, setIsChanged] = useState(false);
 
   const family = useSelector((state) => state.family.value);
-  console.log(family);
+  // console.log(family);
 
   const CalIsHarvest = (date) => {
     const endDate = date;
@@ -63,7 +63,7 @@ export default function MainPage() {
       // console.log(endDateobj);
       if (today > endDateobj) {
         dispatch(setHarvest({ needHarvest: true }));
-        console.log(123123);
+        // console.log(123123);
       } else {
         dispatch(setHarvest({ needHarvest: false }));
       }
@@ -102,7 +102,7 @@ export default function MainPage() {
         dispatch(setFamily(familyData));
 
         CalIsHarvest(res.data.mainSprint.endDate);
-        console.log(family);
+        // console.log(family);
 
         if (familyData.challengesIds && familyData.challengesIds.length > 0) {
           Promise.all(

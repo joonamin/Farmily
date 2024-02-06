@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
-import mainTree from '../assets/images/mainTree.png';
+import mainTree from '../assets/images/maintree.png';
 import board from '../assets/images/mainboard.png';
 
 const welcomeMessage = 'Welcome Farmily';
