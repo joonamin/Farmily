@@ -1,29 +1,31 @@
 import { useState, useEffect } from 'react';
 import CommunityItem from '../components/common/CommunityItem.jsx';
 import SmallButton from '../components/button/SmallButton.jsx';
-
-const TESTITEMS = [
-  { id: 1, title: '게시글 제목1', family: '가족명1' },
-  { id: 2, title: '게시글 제목2', family: '가족명2' },
-  { id: 3, title: '게시글 제목3', family: '가족명3' },
-  { id: 4, title: '게시글 제목4', family: '가족명4' },
-  { id: 5, title: '게시글 제목5', family: '가족명5' },
-  { id: 6, title: '게시글 제목6', family: '가족명6' },
-  { id: 7, title: '게시글 제목7', family: '가족명7' },
-  { id: 8, title: '게시글 제목8', family: '가족명8' },
-  { id: 9, title: '게시글 제목9', family: '가족명9' },
-  { id: 10, title: '게시글 제목', family: '가족명10' },
-  { id: 11, title: '게시글 제목', family: '가족명' },
-  { id: 12, title: '게시글 제목', family: '가족명' },
-  { id: 13, title: '게시글 제목', family: '가족명' },
-];
+import axios from '../api/axios.jsx';
 
 export default function CommunityPage() {
+  const [posts, setPosts] = useState([]);
+  const [hasNext, setHasNext] = useState(false);
+  const [page, setPage] = useState(0);
+  const [time, setTime] = useState(0);
+
+  useEffect(() => {
+    axios
+      .get(`/community?reqPageNum=${page}`)
+      .then((res) => {
+        console.log(res);
+        setPosts(res.data.contents);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
   return (
     <div className="h-full overflow-hidden p-5">
       <div className=" h-5/6 flex flex-wrap justify-center snap-y overflow-y-scroll">
         {/* sprint 정보 보내기 */}
-        {TESTITEMS.map((item, index) => (
+        {posts.map((item, index) => (
           <CommunityItem key={index} {...item} />
         ))}
       </div>
