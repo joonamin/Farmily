@@ -253,7 +253,7 @@ public class FamilyController {
 		return ResponseEntity.ok(responseDto);
 	}
 
-	@PostMapping("/{familyId}/fruit-skin")
+	@PutMapping("/{familyId}/fruit-skin")
 	@PreAuthorize("hasRole('ROLE_USER')")
 	@Operation(
 		summary = "열매 스킨 변경",
@@ -267,7 +267,7 @@ public class FamilyController {
 		@PathVariable Long familyId,
 		@RequestBody @Valid FamilyFruitSkinsDto dto
 	) {
-
+		familyService.editFruitSkin(username, familyId, dto);
 
 		return ResponseEntity.ok().build();
 	}
