@@ -18,7 +18,7 @@ import jakarta.validation.Payload;
  * @author 구본웅
  */
 @Documented
-@Target(ElementType.FIELD)
+@Target({ElementType.FIELD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = NoDuplicatedFruitSkinsValidator.class)
 public @interface NoDuplicatedFruitSkins {
