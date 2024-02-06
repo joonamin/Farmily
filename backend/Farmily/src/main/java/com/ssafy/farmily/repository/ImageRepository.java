@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import com.ssafy.farmily.dto.ImageCardImageDto;
 import com.ssafy.farmily.entity.Image;
 
 @Repository
@@ -22,7 +23,7 @@ public interface ImageRepository extends JpaRepository<Image, Long> {
 	int countAllImagesInSprint(Long sprintId);
 
 	@Query("""
-		SELECT i
+		SELECT new com.ssafy.farmily.dto.ImageCardImageDto(i.location, i.originalFileName, r.id)
 		  FROM Sprint s
 		  	JOIN s.records r ON r.type = com.ssafy.farmily.type.RecordType.EVENT
 		  	JOIN r.imageCards c
@@ -30,10 +31,10 @@ public interface ImageRepository extends JpaRepository<Image, Long> {
 		 WHERE s.id = :sprintId
 		 ORDER BY i.id DESC
 		""")
-	List<Image> findAllImagesInSprintOrderByIdDesc(Long sprintId);
+	List<ImageCardImageDto> findAllImageCardImageDtosInSprintOrderByIdDesc(Long sprintId);
 
 	@Query("""
-		SELECT i
+		SELECT new com.ssafy.farmily.dto.ImageCardImageDto(i.location, i.originalFileName, r.id)
 		  FROM Sprint s
 		  	JOIN s.records r ON r.type = com.ssafy.farmily.type.RecordType.EVENT
 		  	JOIN r.imageCards c
@@ -41,5 +42,5 @@ public interface ImageRepository extends JpaRepository<Image, Long> {
 		 WHERE s.id = :sprintId AND i.id in :imageIds
 		 ORDER BY i.id DESC
 		""")
-	List<Image> findAllImagesInSprintAndIdInOrderByIdDesc(Long sprintId, Collection<Long> imageIds);
+	List<ImageCardImageDto> findAllImageCardImageDtosInSprintAndIdInOrderByIdDesc(Long sprintId, Collection<Long> imageIds);
 }

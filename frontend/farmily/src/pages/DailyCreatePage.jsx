@@ -13,6 +13,7 @@ export default function DailyCreatePage() {
   const [formData, setFormData] = useState({
     // 로그인 후 sprintId 받아오면 수정하기
     sprintId: family.mainSprint.sprintId,
+    familyId: family.id,
     title: '',
     content: '',
   });

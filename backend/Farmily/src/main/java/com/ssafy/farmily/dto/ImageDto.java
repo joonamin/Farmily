@@ -3,7 +3,6 @@ package com.ssafy.farmily.dto;
 import java.util.Objects;
 
 import org.springframework.beans.BeanUtils;
-import org.springframework.util.Assert;
 
 import com.ssafy.farmily.entity.Image;
 
@@ -13,16 +12,18 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Schema(description = "이미지 DTO")
+@SuperBuilder
 @Builder
 public class ImageDto {
-	private String location;
-	private String originalFileName;
+	protected String location;
+	protected String originalFileName;
 
 
 	public static ImageDto from(Image image) {
