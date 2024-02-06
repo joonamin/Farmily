@@ -56,7 +56,7 @@ export default function EventCreatePage() {
     }
 
     const formData = new FormData();
-    formData.append('sprintId', family.sprintId);
+    formData.append('sprintId', family.mainSprint.sprintId);
     formData.append('title', title);
 
     images.forEach((image, index) => {
@@ -92,7 +92,7 @@ export default function EventCreatePage() {
         // 이후 작업 수행 (예: 페이지 이동 등)
 
         // 보낼 때 현재 sprintId 받아서 보내기
-        navigate(`/family/record/${family.sprintId}`);
+        navigate(`/family/record/${family.mainSprint.sprintId}`);
       })
       .catch((error) => {
         // 오류가 발생한 경우

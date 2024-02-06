@@ -16,7 +16,7 @@ public class FamilyMainDto {
 	String motto;
 	FamilyMainTreeDto tree;
 	List<Long> challengesIds;
-	Long sprintId;
+	MainSprintResponseDto mainSprint;
 	String invitationCode;
 	public static FamilyMainDto of(Family family) {
 		FamilyMainDto familyMainDTO = new FamilyMainDto();

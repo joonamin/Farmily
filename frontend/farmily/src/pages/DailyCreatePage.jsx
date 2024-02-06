@@ -12,7 +12,7 @@ export default function DailyCreatePage() {
 
   const [formData, setFormData] = useState({
     // 로그인 후 sprintId 받아오면 수정하기
-    sprintId: family.sprintId,
+    sprintId: family.mainSprint.sprintId,
     title: '',
     content: '',
   });
@@ -35,7 +35,7 @@ export default function DailyCreatePage() {
       .post('/record/daily', formData)
       .then((response) => {
         // 보낼 때 현재 sprintId 받아서 보내기
-        navigate(`/family/record/${family.sprintId}`);
+        navigate(`/family/record/${family.mainSprint.sprintId}`);
       })
       .catch((error) => {
         console.log(error);
@@ -45,7 +45,7 @@ export default function DailyCreatePage() {
   return (
     <>
       <div className="h-5/6">
-        <h1>일상 글쓰기</h1>
+        <h1 className="text-2xl font-bold">일상 글쓰기</h1>
         <CreateDetail
           title={formData.title}
           content={formData.content}

@@ -24,7 +24,7 @@ export default function FamilyCreatePage() {
       })
       .then((response) => {
         console.log(response);
-        navigate('/welcome');
+        navigate(`/tree/${response.data.familyId}`);
       })
       .then((res) => {})
       .catch((error) => {

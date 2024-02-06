@@ -11,6 +11,7 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
+import com.ssafy.farmily.aop.annotation.Statistics;
 import com.ssafy.farmily.dto.ChangeLeaderRequestDto;
 import com.ssafy.farmily.dto.CreateFamilyResponseDto;
 import com.ssafy.farmily.dto.FamilyAchievementProgressDto;
@@ -21,12 +22,14 @@ import com.ssafy.farmily.dto.FamilyMainDto;
 import com.ssafy.farmily.dto.FamilyMemberResponseDto;
 import com.ssafy.farmily.dto.FamilyStatisticsResponseDto;
 import com.ssafy.farmily.dto.JoinRequestDto;
+import com.ssafy.farmily.dto.MainSprintResponseDto;
 import com.ssafy.farmily.dto.MakingFamilyRequestDto;
 import com.ssafy.farmily.dto.PlacementDto;
 import com.ssafy.farmily.dto.PlacingItemRequestDto;
 import com.ssafy.farmily.dto.RefreshSprintRequestDto;
 import com.ssafy.farmily.entity.AccessoryPlacement;
 import com.ssafy.farmily.entity.AchievementRewardHistory;
+import com.ssafy.farmily.entity.ChallengeRecord;
 import com.ssafy.farmily.entity.Family;
 import com.ssafy.farmily.entity.FamilyItem;
 import com.ssafy.farmily.entity.FamilyMembership;
@@ -89,14 +92,17 @@ public class FamilyServiceImpl implements FamilyService {
 		List<Placement> placementList = placementRepository.findAllByTreeId(tree.getId());
 		tree.setPlacements(placementList);
 		family.setTree(tree);
-		List<Long> challenges = recordRepository.findCurrentChallenges(familyId);
+		List<Long> challenges = recordRepository.findCurrentChallenges(familyId).stream()
+			.map(ChallengeRecord::getId)
+			.toList();
 		Optional<Sprint> temp = sprintRepository.findByFamilyIdAndIsHarvested(familyId, false);
 
 		FamilyMainDto familyMainDTO = FamilyMainDto.of(family);
 		familyMainDTO.setChallengesIds(challenges);
 		if (temp.isPresent()) {
 			Sprint sprint = temp.get();
-			familyMainDTO.setSprintId(sprint.getId());
+			MainSprintResponseDto mainSprintResponseDto = MainSprintResponseDto.from(sprint);
+			familyMainDTO.setMainSprint(mainSprintResponseDto);
 		}
 		return familyMainDTO;
 	}
@@ -250,6 +256,7 @@ public class FamilyServiceImpl implements FamilyService {
 	}
 
 	@Override
+	@Statistics(FamilyStatistics.Field.HARVEST_COUNT)
 	@Transactional
 	public void swapSprint(RefreshSprintRequestDto requestDto) {
 		Long familyId = requestDto.getFamilyId();

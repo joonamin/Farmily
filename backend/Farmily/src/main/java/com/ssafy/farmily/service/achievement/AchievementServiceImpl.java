@@ -42,7 +42,7 @@ public class AchievementServiceImpl implements AchievementService {
 
 		List<FamilyStatisticsResponseDto> responseDtoList = new ArrayList<>();
 		for (Achievement achievement : Achievement.values()) {
-			int progress = achievement.getGetter().apply(familyStatistics);
+			int progress = achievement.getField().getGetter().apply(familyStatistics);
 			int rewardPoint = achievement.getReward();
 			float goal = achievement.getGoal();
 			String content = achievement.getContent();
@@ -73,12 +73,19 @@ public class AchievementServiceImpl implements AchievementService {
 	public AchievementRewardResponseDto receiveReward(AchievementRewardRequestDto dto, String username) {
 		Long familyId = dto.getFamilyId();
 		familyService.assertMembership(familyId, username);
+		List<AchievementRewardHistory> rewardHistory = achievementRewardHistoryRepository.findAllByFamilyIdOrderByIdDesc(familyId);
 
+		for(AchievementRewardHistory history : rewardHistory) {
+			if(history.getAchievement() == dto.getAchievement()){
+				throw new BusinessException("이미 보상을 획득했습니다.");
+			}
+		}
 		Family family = familyRepository.findById(familyId)
 			.orElseThrow(() -> new NoSuchContentException("유효하지 않은 가족입니다."));
+
 		FamilyStatistics familyStatistics = familyStatisticsRepository.findById(familyId).get();
 		Achievement achievement = dto.getAchievement();
-		float familyProgress = achievement.getGetter().apply(familyStatistics);
+		float familyProgress = achievement.getField().getGetter().apply(familyStatistics);
 		if (achievement.getGoal() > familyProgress) {
 			throw new BusinessException("요구조건을 만족하지 않았습니다.");
 		}

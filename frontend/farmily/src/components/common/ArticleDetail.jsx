@@ -9,7 +9,7 @@ export default function ArticleDetail(props) {
         </div>
         <div className="flex justify-between">
           <span className="text-left">
-            {/* 작성일자 : {props.createdAt.slice(0, 10)} */}
+            작성일자 : {props.createdAt.slice(0, 10)}
           </span>
           <span className="text-right">작성자 : {props.author.nickname}</span>
         </div>

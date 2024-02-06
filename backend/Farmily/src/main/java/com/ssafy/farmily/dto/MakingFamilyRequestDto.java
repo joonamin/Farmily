@@ -25,11 +25,4 @@ public class MakingFamilyRequestDto {
 	@NotNull
 	@AllowedFileCategories(categories = FileCategory.IMAGE)
 	private MultipartFile image;
-
-
-	public MakingFamilyRequestDto(String name, String motto, MultipartFile image) {
-		this.name = name;
-		this.motto = motto;
-		this.image = image;
-	}
 }
