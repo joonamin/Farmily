@@ -1,6 +1,7 @@
 package com.ssafy.farmily.service.family;
 
 import java.util.List;
+import java.util.Map;
 
 import com.ssafy.farmily.dto.ChangeLeaderRequestDto;
 import com.ssafy.farmily.dto.CreateFamilyResponseDto;
@@ -37,7 +38,7 @@ public interface FamilyService {
 	 * @return familyId에 해당하는 인벤토리를 반환한다.
 	 * @throws NoSuchContentException
 	 */
-	public List<FamilyItemDto> getFamilyInventory(Long familyId);
+	public Map<String,List<?>> getFamilyInventory(String username,Long familyId,Long sprintId);
 
 	/**
 	 *

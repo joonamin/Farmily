@@ -1,6 +1,7 @@
 package com.ssafy.farmily.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -63,7 +64,7 @@ public class FamilyController {
 		return ResponseEntity.ok(familyMainDTO);
 	}
 
-	@GetMapping("/{familyId}/inventory")
+	@GetMapping("/{familyId}/inventory/{sprintId}")
 	@Operation(
 		summary = "인벤토리 조회",
 		description = "가족의 인벤토리를 조회합니다."
@@ -75,10 +76,14 @@ public class FamilyController {
 			content = @Content(schema = @Schema(implementation = FamilyItemDto.class))
 		)
 	})
-	public ResponseEntity<List<FamilyItemDto>> getInventory(@PathVariable(value = "familyId") Long familyId) {
-		List<FamilyItemDto> familyItemDtoList = familyService.getFamilyInventory(familyId);
+	public ResponseEntity<Map<String,List<?>>> getInventory(
+		@AuthenticationPrincipal String username,
+		@PathVariable(value = "familyId") Long familyId,
+		@PathVariable(value = "sprintId") Long sprintId
+	) {
+		Map<String,List<?>> responseMap = familyService.getFamilyInventory(username,familyId,sprintId);
 
-		return ResponseEntity.ok(familyItemDtoList);
+		return ResponseEntity.ok(responseMap);
 	}
 
 	@GetMapping("/{familyId}/basket")

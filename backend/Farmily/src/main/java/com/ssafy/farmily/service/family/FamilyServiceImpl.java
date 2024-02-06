@@ -3,25 +3,25 @@ package com.ssafy.farmily.service.family;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
-import org.apache.commons.validator.routines.DomainValidator;
 import org.springframework.stereotype.Service;
 
 import com.ssafy.farmily.aop.annotation.Statistics;
 import com.ssafy.farmily.dto.ChangeLeaderRequestDto;
 import com.ssafy.farmily.dto.CreateFamilyResponseDto;
-import com.ssafy.farmily.dto.FamilyAchievementProgressDto;
 import com.ssafy.farmily.dto.FamilyBasketDto;
 import com.ssafy.farmily.dto.FamilyItemDto;
 import com.ssafy.farmily.dto.FamilyListDto;
 import com.ssafy.farmily.dto.FamilyMainDto;
 import com.ssafy.farmily.dto.FamilyMemberResponseDto;
-import com.ssafy.farmily.dto.FamilyStatisticsResponseDto;
+import com.ssafy.farmily.dto.FamilyInventoryRecordResponseDtoInterface;
 import com.ssafy.farmily.dto.JoinRequestDto;
 import com.ssafy.farmily.dto.MainSprintResponseDto;
 import com.ssafy.farmily.dto.MakingFamilyRequestDto;
@@ -32,7 +32,6 @@ import com.ssafy.farmily.dto.RafflingResponseDto;
 import com.ssafy.farmily.dto.RefreshSprintRequestDto;
 import com.ssafy.farmily.dto.ServiceProcessResult;
 import com.ssafy.farmily.entity.AccessoryPlacement;
-import com.ssafy.farmily.entity.AchievementRewardHistory;
 import com.ssafy.farmily.entity.ChallengeRecord;
 import com.ssafy.farmily.entity.Family;
 import com.ssafy.farmily.entity.FamilyItem;
@@ -61,7 +60,6 @@ import com.ssafy.farmily.repository.TreeRepository;
 import com.ssafy.farmily.service.file.FileService;
 import com.ssafy.farmily.service.member.MemberService;
 import com.ssafy.farmily.type.AccessoryType;
-import com.ssafy.farmily.type.Achievement;
 import com.ssafy.farmily.type.FamilyRole;
 import com.ssafy.farmily.type.Item;
 import com.ssafy.farmily.utils.DateRange;
@@ -115,16 +113,23 @@ public class FamilyServiceImpl implements FamilyService {
 
 	@Override
 	@Transactional
-	public List<FamilyItemDto> getFamilyInventory(Long familyId) {
+	public Map<String, List<?>> getFamilyInventory(String username, Long familyId,Long sprintId) {
 		familyRepository.findById(familyId).orElseThrow(() -> new NoSuchContentException("존재하지 않는 가족입니다."));
-
+		assertMembership(familyId,username);
 		List<FamilyItemDto> familyItemDtoList = new LinkedList<>();
-		List<FamilyItem> temp = familyItemRepository.findByFamilyId(familyId);
-		for (FamilyItem item : temp) {
+		List<FamilyItem> familyItemEntityList = familyItemRepository.findByFamilyId(familyId);
+		for (FamilyItem item : familyItemEntityList) {
 			FamilyItemDto familyItemDTO = FamilyItemDto.of(item);
 			familyItemDtoList.add(familyItemDTO);
 		}
-		return familyItemDtoList;
+
+		List<FamilyInventoryRecordResponseDtoInterface> responseDtoList
+			= recordRepository.findRecordInInventory(sprintId);
+
+		Map<String, List<?>> responseMap = new HashMap<>();
+		responseMap.put("Accessory",familyItemDtoList);
+		responseMap.put("RecordFruit",responseDtoList);
+		return responseMap;
 	}
 
 	@Override
