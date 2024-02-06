@@ -58,7 +58,6 @@ public class RecordServiceImpl implements RecordService {
 	private final CommentRepository commentRepository;
 	private final ImageCardRepository imageCardRepository;
 	private final ChallengeProgressRepository challengeProgressRepository;
-	private final FamilyRepository familyRepository;
 
 	private final FileService fileService;
 	private final SprintService sprintService;
@@ -272,8 +271,6 @@ public class RecordServiceImpl implements RecordService {
 	@Statistics(FamilyStatistics.Field.CHALLENGE_COMPLETE_COUNT)
 	public ServiceProcessResult getReward(String username, Long recordId, ChallengeRewardRequestDto dto) {
 		familyService.assertMembership(dto.getFamilyId(), username);
-
-		Family family = familyRepository.findById(dto.getFamilyId()).orElseThrow(()->new BusinessException("해당하는 가족이 없습니다."));
 
 		ChallengeRecordResponseDto recordDto = (ChallengeRecordResponseDto)getDtoById(recordId);
 
