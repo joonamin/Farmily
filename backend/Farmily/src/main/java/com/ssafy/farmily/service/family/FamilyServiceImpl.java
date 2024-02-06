@@ -86,7 +86,6 @@ public class FamilyServiceImpl implements FamilyService {
 	private final MemberRepository memberRepository;
 	private final FamilyMembershipRepository familyMembershipRepository;
 	private final FamilyStatisticsRepository familyStatisticsRepository;
-	private final AchievementRewardHistoryRepository achievementRewardHistoryRepository;
 
 	private final MemberService memberService;
 	private final FileService fileService;
@@ -370,7 +369,20 @@ public class FamilyServiceImpl implements FamilyService {
 
 	@Override
 	public void editFruitSkin(String username, Long familyId, FamilyFruitSkinsDto dto) {
-		// TODO
+		// TODO: MR !149 merge된 후 getEntity()로 리팩토링
+		Family family = familyRepository.findById(familyId)
+			.orElseThrow(() -> new NoSuchContentException("유효하지 않은 가족입니다."));
+		assertMembership(familyId, username);
+
+		FamilyFruitSkins entity = FamilyFruitSkins.builder()
+			.daily(dto.getDaily())
+			.challenge(dto.getChallenge())
+			.event(dto.getEvent())
+			.build();
+
+		family.setFruitSkins(entity);
+
+		familyRepository.save(family);
 	}
 
 	@Override
