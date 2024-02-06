@@ -3,7 +3,6 @@ package com.ssafy.farmily.type;
 import java.util.function.Function;
 
 import com.ssafy.farmily.entity.FamilyStatistics;
-import com.ssafy.farmily.exception.NoSuchContentException;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

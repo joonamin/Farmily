@@ -2,7 +2,6 @@ package com.ssafy.farmily.controller;
 
 import java.util.List;
 
-import org.hibernate.annotations.Cascade;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
