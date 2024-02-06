@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.ssafy.farmily.aop.annotation.Statistics;
 import com.ssafy.farmily.dto.ChallengeRecordMarkRequestDto;
 import com.ssafy.farmily.dto.ChallengeRecordPostRequestDto;
 import com.ssafy.farmily.dto.ChallengeRecordPutRequestDto;
@@ -21,14 +22,17 @@ import com.ssafy.farmily.dto.EventRecordResponseDto;
 import com.ssafy.farmily.dto.ImageCardRequestDto;
 import com.ssafy.farmily.dto.RecordCommentDto;
 import com.ssafy.farmily.dto.RecordResponseDto;
+import com.ssafy.farmily.dto.ServiceProcessResult;
 import com.ssafy.farmily.entity.ChallengeProgress;
 import com.ssafy.farmily.entity.ChallengeRecord;
 import com.ssafy.farmily.entity.Comment;
+import com.ssafy.farmily.entity.FamilyStatistics;
 import com.ssafy.farmily.entity.Image;
 import com.ssafy.farmily.entity.ImageCard;
 import com.ssafy.farmily.entity.Member;
 import com.ssafy.farmily.entity.Record;
 import com.ssafy.farmily.entity.Sprint;
+import com.ssafy.farmily.exception.BusinessException;
 import com.ssafy.farmily.exception.NoSuchContentException;
 import com.ssafy.farmily.repository.ChallengeProgressRepository;
 import com.ssafy.farmily.repository.CommentRepository;
@@ -75,8 +79,9 @@ public class RecordServiceImpl implements RecordService {
 	}
 
 	@Override
+	@Statistics(FamilyStatistics.Field.EVENT_RECORD_COUNT)
 	@Transactional
-	public void createEventRecord(String username, EventRecordPostRequestDto dto) {
+	public ServiceProcessResult createEventRecord(String username, EventRecordPostRequestDto dto) {
 		Member member = memberService.getEntity(username);
 		Sprint sprint = sprintService.getEntityById(dto.getSprintId());
 
@@ -92,6 +97,8 @@ public class RecordServiceImpl implements RecordService {
 		entity.setImageCards(imageCards);
 
 		recordRepository.save(entity);
+
+		return new ServiceProcessResult(dto.getFamilyId());
 	}
 
 	@Override
@@ -112,8 +119,9 @@ public class RecordServiceImpl implements RecordService {
 	}
 
 	@Override
+	@Statistics(FamilyStatistics.Field.CALENDAR_PLAN_COUNT)
 	@Transactional
-	public void createDailyRecord(String username, DailyRecordPostRequestDto dto) {
+	public ServiceProcessResult createDailyRecord(String username, DailyRecordPostRequestDto dto) {
 		Member member = memberService.getEntity(username);
 		Sprint sprint = sprintService.getEntityById(dto.getSprintId());
 
@@ -126,6 +134,8 @@ public class RecordServiceImpl implements RecordService {
 			.build();
 
 		recordRepository.save(entity);
+
+		return new ServiceProcessResult(dto.getFamilyId());
 	}
 
 	@Override
@@ -166,6 +176,9 @@ public class RecordServiceImpl implements RecordService {
 	public void markChallengeRecord(String username, ChallengeRecordMarkRequestDto dto) {
 		Member member = memberService.getEntity(username);
 		ChallengeRecord recordEntity = (ChallengeRecord) getEntityById(dto.getChallengeId());
+
+		if(challengeProgressRepository.existsByDateAndId(LocalDate.now(),dto.getChallengeId()))
+			throw new BusinessException("이미 체크 된 날짜입니다.");
 
 		Long familyId = recordEntity.getSprint().getFamily().getId();
 		familyService.assertMembership(familyId, username);

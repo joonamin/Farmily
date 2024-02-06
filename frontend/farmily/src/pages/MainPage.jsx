@@ -8,8 +8,7 @@ import Board from '../components/tree/Board';
 import Harvest from '../components/tree/Harvest';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAccessToken } from '../store/auth';
-import { setFamily } from '../store/family';
-import { setNeedHarvest } from '../store/harvest.jsx';
+import { setFamily, setHarvest } from '../store/family';
 import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
 
@@ -52,12 +51,28 @@ export default function MainPage() {
   });
   const [isChanged, setIsChanged] = useState(false);
 
-  const harvest = useSelector((state) => state.harvest.value);
-  console.log(harvest);
+  const family = useSelector((state) => state.family.value);
+  console.log(family);
+
+  const CalIsHarvest = (date) => {
+    const endDate = date;
+    const today = new Date();
+
+    if (endDate) {
+      const endDateobj = new Date(endDate);
+      // console.log(endDateobj);
+      if (today > endDateobj) {
+        dispatch(setHarvest({ needHarvest: true }));
+        console.log(123123);
+      } else {
+        dispatch(setHarvest({ needHarvest: false }));
+      }
+    }
+  };
 
   const test = () => {
-    dispatch(setNeedHarvest({ needHarvest: true }));
-    console.log(harvest);
+    dispatch(setHarvest({ needHarvest: true }));
+    console.log(family);
   };
 
   const { familyId } = useParams();
@@ -82,9 +97,12 @@ export default function MainPage() {
           tree: res.data.tree,
           invitationCode: res.data.invitationCode,
           challengesIds: res.data.challengesIds,
-          sprintId: res.data.sprintId,
+          mainSprint: res.data.mainSprint,
         };
         dispatch(setFamily(familyData));
+
+        CalIsHarvest(res.data.mainSprint.endDate);
+        console.log(family);
 
         if (familyData.challengesIds && familyData.challengesIds.length > 0) {
           Promise.all(
@@ -142,7 +160,7 @@ export default function MainPage() {
         <div className="w-28 h-28 ml-5"></div>
       )}
       <MainTree />
-      {harvest.needHarvest ? (
+      {family.needHarvest ? (
         <Harvest title="수확하기" />
       ) : (
         <Board title="나무 꾸미기" />

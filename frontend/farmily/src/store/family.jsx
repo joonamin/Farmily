@@ -26,7 +26,11 @@ const initialState = {
       ],
     },
     challengesIds: [0],
-    sprintId: 0,
+    mainSprint: {
+      sprintId: 0,
+      endDate: '',
+    },
+    needHarvest: false,
   },
 };
 
@@ -41,11 +45,14 @@ const familySlice = createSlice({
       state.value.motto = action.payload.motto;
       state.value.tree = action.payload.tree;
       state.value.challengesIds = action.payload.challengesIds;
-      state.value.sprintId = action.payload.sprintId;
+      state.value.mainSprint = action.payload.mainSprint;
+    },
+    setHarvest: (state, action) => {
+      state.value.needHarvest = action.payload.needHarvest;
     },
   },
 });
 
-export const { setFamily } = familySlice.actions;
+export const { setFamily, setHarvest } = familySlice.actions;
 
 export default familySlice;

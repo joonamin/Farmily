@@ -25,6 +25,8 @@ import com.ssafy.farmily.dto.FamilyStatisticsResponseDto;
 import com.ssafy.farmily.dto.JoinRequestDto;
 import com.ssafy.farmily.dto.MakingFamilyRequestDto;
 import com.ssafy.farmily.dto.PlacingItemRequestDto;
+import com.ssafy.farmily.dto.RafflingRequestDto;
+import com.ssafy.farmily.dto.RafflingResponseDto;
 import com.ssafy.farmily.dto.RefreshSprintRequestDto;
 import com.ssafy.farmily.service.family.FamilyService;
 
@@ -233,33 +235,20 @@ public class FamilyController {
 		return ResponseEntity.ok().build();
 	}
 
-
-	@GetMapping("/{familyId}/achievement")
+	@PostMapping("/raffling")
 	@PreAuthorize("hasRole('ROLE_USER')")
 	@Operation(
-		summary = "업적 가져오기",
-		description = "가족 ID를 통해 해당 가족의 업적 현황을 불러옵니다."
+		summary = "뽑기",
+		description = "가족 ID를 request로 남은 point와 뽑은 item을 return합니다."
 	)
 	@ApiResponses({
 		@ApiResponse(
 			responseCode = "200",
-			description = "업적 불러오기 성공"
+			description = "뽑기 성공"
 		)
 	})
-	public ResponseEntity<List<FamilyStatisticsResponseDto>> getAchievements(@PathVariable Long familyId){
-		List<FamilyStatisticsResponseDto> achievementProgress = familyService.familyAchievementProgress(familyId);
-		return ResponseEntity.ok(achievementProgress);
+	public ResponseEntity<RafflingResponseDto> raffleItem(@RequestBody RafflingRequestDto dto,@AuthenticationPrincipal String username){
+		RafflingResponseDto responseDto = familyService.raffleItem(dto,username);
+		return ResponseEntity.ok(responseDto);
 	}
-
-	/*
-	TODO
-	 아이템을 어떻게 지정할 지 정리하고 뽑기 기능 추가 예정
-	@PostMapping("/{familyId}/raffling")
-	@PreAuthorize("hasRole('ROLE_USER')")
-	public ResponseEntity<Long> raffleItem(@PathVariable Long famliyId){
-		Long rafflingItemId = familyService.
-		return ResponseEntity<rafflingItemId>.isOK().build();
-	}
-
-	 */
 }
