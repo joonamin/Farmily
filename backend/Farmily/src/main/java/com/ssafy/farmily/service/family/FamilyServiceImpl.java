@@ -370,11 +370,11 @@ public class FamilyServiceImpl implements FamilyService {
 			.orElseThrow(() -> new NoSuchContentException("유효하지 않은 가족입니다."));
 		assertMembership(familyId, username);
 
-		FamilyFruitSkins entity = FamilyFruitSkins.builder()
-			.daily(dto.getDaily())
-			.challenge(dto.getChallenge())
-			.event(dto.getEvent())
-			.build();
+		FamilyFruitSkins entity = family.getFruitSkins();
+
+		entity.setDaily(dto.getDaily());
+		entity.setChallenge(dto.getChallenge());
+		entity.setEvent(dto.getEvent());
 
 		family.setFruitSkins(entity);
 
