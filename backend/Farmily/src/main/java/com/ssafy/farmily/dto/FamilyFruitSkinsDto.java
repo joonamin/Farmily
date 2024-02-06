@@ -28,24 +28,11 @@ public class FamilyFruitSkinsDto {
 	@AllowedItemType(itemTypes = ItemType.ACCESSORY)
 	private Item event;
 
-
-	public static FamilyFruitSkinsDto DEFAULT = new FamilyFruitSkinsDto(
-		Item.ALPHABET_A, Item.ALPHABET_B, Item.ALPHABET_C
-	);
-
 	public static FamilyFruitSkinsDto from(FamilyFruitSkins entity) {
 		return FamilyFruitSkinsDto.builder()
 			.daily(entity.getDaily())
 			.challenge(entity.getChallenge())
 			.event(entity.getEvent())
-			.build();
-	}
-
-	public static FamilyFruitSkins toEntity(FamilyFruitSkinsDto dto) {
-		return FamilyFruitSkins.builder()
-			.daily(dto.getDaily())
-			.challenge(dto.getChallenge())
-			.event(dto.event)
 			.build();
 	}
 }

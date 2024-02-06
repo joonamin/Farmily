@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.function.Supplier;
 
 import org.apache.commons.validator.routines.DomainValidator;
 import org.springframework.stereotype.Service;
@@ -90,6 +91,12 @@ public class FamilyServiceImpl implements FamilyService {
 	private final MemberService memberService;
 	private final FileService fileService;
 	private final int RAFFLING_COST = 100;
+	private final Supplier<FamilyFruitSkins> DEFAULT_FRUIT_SKINS_GENERATOR = () ->
+		FamilyFruitSkins.builder()
+			.daily(Item.ALPHABET_A)
+			.challenge(Item.ALPHABET_B)
+			.event(Item.ALPHABET_C)
+			.build();
 
 	@Override
 	@Transactional
@@ -211,6 +218,7 @@ public class FamilyServiceImpl implements FamilyService {
 			.point(0)
 			.sprints(null) // setSprints에 의하여 초기화 될 예정
 			.items(List.of())
+			.fruitSkins(DEFAULT_FRUIT_SKINS_GENERATOR.get())
 			.build();
 
 		Sprint sprint = Sprint.builder()
