@@ -19,6 +19,10 @@ public class FamilyFruitSkinsDto {
 	private Item challenge;
 	private Item event;
 
+	public static FamilyFruitSkinsDto DEFAULT = new FamilyFruitSkinsDto(
+		Item.ALPHABET_A, Item.ALPHABET_B, Item.ALPHABET_C
+	);
+
 	public static FamilyFruitSkinsDto from(FamilyFruitSkins entity) {
 		return new FamilyFruitSkinsDto(entity.getDaily(), entity.getChallenge(), entity.getEvent());
 	}
