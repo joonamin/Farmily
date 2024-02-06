@@ -34,6 +34,18 @@ public class FamilyFruitSkinsDto {
 	);
 
 	public static FamilyFruitSkinsDto from(FamilyFruitSkins entity) {
-		return new FamilyFruitSkinsDto(entity.getDaily(), entity.getChallenge(), entity.getEvent());
+		return FamilyFruitSkinsDto.builder()
+			.daily(entity.getDaily())
+			.challenge(entity.getChallenge())
+			.event(entity.getEvent())
+			.build();
+	}
+
+	public static FamilyFruitSkins toEntity(FamilyFruitSkinsDto dto) {
+		return FamilyFruitSkins.builder()
+			.daily(dto.getDaily())
+			.challenge(dto.getChallenge())
+			.event(dto.event)
+			.build();
 	}
 }
