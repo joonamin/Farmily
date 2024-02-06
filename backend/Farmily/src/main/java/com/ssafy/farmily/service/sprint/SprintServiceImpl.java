@@ -95,9 +95,15 @@ public class SprintServiceImpl implements SprintService {
 
 		int recordPageSize = pageSize - challengeCount;
 
-		Pageable pageRequest = PageRequest.of(pageNo, recordPageSize, Sort.Direction.DESC, "id");
+		// PageRequest의 pageNumber는 0부터 시작
+		int zeroBasedPageNo = pageNo - 1;
+
+		Pageable pageRequest = PageRequest.of(zeroBasedPageNo, recordPageSize, Sort.Direction.DESC, "id");
 
 		Page<Record> recordPage = recordRepository.findAllBySprintOrderByIdDesc(sprint, pageRequest);
+
+		if (pageNo > recordPage.getTotalPages())
+			throw new NoSuchContentException("요청받은 페이지는 존재하지 않습니다.");
 
 		List<RecordBriefResponseDto> records = recordPage.stream()
 			.map(RecordBriefResponseDto::from)
