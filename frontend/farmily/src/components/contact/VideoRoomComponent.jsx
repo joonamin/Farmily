@@ -9,10 +9,10 @@ import './VideoRoomComponent.css';
 import OpenViduLayout from './layout/openvidu-layout';
 import UserModel from './models/user-model';
 import ToolbarComponent from './toolbar/ToolbarComponent';
+import { connect } from 'react-redux';
 
 var localUser = new UserModel();
-const APPLICATION_SERVER_URL = 'http://i10e102.p.ssafy.io:8080/'
-
+const APPLICATION_SERVER_URL = import.meta.env.VITE_OPENVIDU_URL;
 
 class VideoRoomComponent extends Component {
     constructor(props) {
@@ -80,37 +80,36 @@ class VideoRoomComponent extends Component {
         this.leaveSession();
     }
 
-    joinSession() {
+    async joinSession() {
+        const { familyId, nickname } = this.props; // props에서 nickname을 가져옵니다.
         this.OV = new OpenVidu();
-
-        this.setState(
-            {
-                session: this.OV.initSession(),
-            },
-            async () => {
-                this.subscribeToStreamCreated();
-                await this.connectToSession();
-            },
-        );
+    
+        // 세션 ID와 토큰 생성
+        const sessionId = await this.createSession(familyId);
+        const token = await this.createToken(familyId);
+    
+        this.setState({
+            session: this.OV.initSession(),
+        }, async () => {
+            this.subscribeToStreamCreated();
+            this.connectToSession(token, nickname); // nickname을 connectToSession에 전달
+        });
     }
-
-    async connectToSession() {
-        if (this.props.token !== undefined) {
-            console.log('token received: ', this.props.token);
-            this.connect(this.props.token);
-        } else {
-            try {
-                var token = `wss://localhost:4443?sessionId=ses_1&token=tok_CwKEEuzfQV6tQAnq`;
-                console.log(token);
-                this.connect(token);
-            } catch (error) {
-                console.error('There was an error getting the token:', error.code, error.message);
-                if(this.props.error){
-                    this.props.error({ error: error.error, messgae: error.message, code: error.code, status: error.status });
+    
+    // connectToSession 메서드 수정
+    async connectToSession(token, nickname) {
+        this.state.session
+            .connect(token, { clientData: nickname }) // nickname을 clientData로 전달
+            .then(() => {
+                this.connectWebCam();
+            })
+            .catch((error) => {
+                console.error('There was an error connecting to the session:', error.message);
+                if (this.props.error) {
+                    this.props.error({ error: error.error, message: error.message, code: error.code, status: error.status });
                 }
-                alert('There was an error getting the token:', error.message);
-            }
-        }
+                alert('There was an error connecting to the session:', error.message);
+            });
     }
     
     connect(token) {
@@ -553,22 +552,23 @@ class VideoRoomComponent extends Component {
      * Visit https://docs.openvidu.io/en/stable/application-server to learn
      * more about the integration of OpenVidu in your application server.
      */
-    async getToken() {
-        return await this.createToken(1);
-    }
-
-    async createSession(sessionId) {
-        const response = await axios.post(APPLICATION_SERVER_URL + 'api/sessions', { customSessionId: sessionId }, {
-            headers: { 'Content-Type': 'application/json', },
-        });
-
-        return response.data; // The sessionId
-    }
-
-    async createToken(sessionId) {
-        const response = await axios.post('http://i10e102.p.ssafy.io:8080/webrtc/1')
-        console.log(1723912739812798)
+    
+    async createToken(familyId) {
+        const response = await axios.post(`${APPLICATION_SERVER_URL}/webrtc/${familyId}`);
         return response.data.sessionUrl; // The token
     }
+
+    async createSession(familyId) {
+        const sessionId = `ses_${familyId}`;
+        // 실제 서버 요청 로직 구현 필요
+        return sessionId;
+    }
 }
-export default VideoRoomComponent;
+
+const mapStateToProps = state => ({
+    familyId: state.family.value.id,
+    nickname: state.user.value.nickname, // nickname을 추가합니다.
+});
+
+// connect 함수를 사용하여 VideoRoomComponent를 리덕스 스토어에 연결
+export default connect(mapStateToProps)(VideoRoomComponent);

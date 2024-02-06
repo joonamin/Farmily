@@ -18,7 +18,7 @@ export default function Board({ title }) {
     <>
       <div onClick={openModal} className="relative hover:cursor-pointer">
         <img
-          className="relative mb-16 mr-28 "
+          className="relative mb-24 mr-24 ml-12 "
           src={mainboard}
           alt="main_board"
         />
