@@ -28,6 +28,7 @@ import com.ssafy.farmily.dto.ServiceProcessResult;
 import com.ssafy.farmily.entity.ChallengeProgress;
 import com.ssafy.farmily.entity.ChallengeRecord;
 import com.ssafy.farmily.entity.Comment;
+import com.ssafy.farmily.entity.Family;
 import com.ssafy.farmily.entity.FamilyStatistics;
 import com.ssafy.farmily.entity.Image;
 import com.ssafy.farmily.entity.ImageCard;
@@ -38,6 +39,7 @@ import com.ssafy.farmily.exception.BusinessException;
 import com.ssafy.farmily.exception.NoSuchContentException;
 import com.ssafy.farmily.repository.ChallengeProgressRepository;
 import com.ssafy.farmily.repository.CommentRepository;
+import com.ssafy.farmily.repository.FamilyRepository;
 import com.ssafy.farmily.repository.ImageCardRepository;
 import com.ssafy.farmily.repository.RecordRepository;
 import com.ssafy.farmily.service.family.FamilyService;
@@ -56,6 +58,7 @@ public class RecordServiceImpl implements RecordService {
 	private final CommentRepository commentRepository;
 	private final ImageCardRepository imageCardRepository;
 	private final ChallengeProgressRepository challengeProgressRepository;
+	private final FamilyRepository familyRepository;
 
 	private final FileService fileService;
 	private final SprintService sprintService;
@@ -270,9 +273,12 @@ public class RecordServiceImpl implements RecordService {
 	public ServiceProcessResult getReward(String username, Long recordId, ChallengeRewardRequestDto dto) {
 		familyService.assertMembership(dto.getFamilyId(), username);
 
+		Family family = familyRepository.findById(dto.getFamilyId()).orElseThrow(()->new BusinessException("해당하는 가족이 없습니다."));
+
 		ChallengeRecordResponseDto recordDto = (ChallengeRecordResponseDto)getDtoById(recordId);
+
 		if (!checkComplete(recordDto.getDateRange(), recordDto.getProgresses())) {
-			throw new BusinessException(()->new BusinessException("요구 조건을 만족하지 않았습니다."));
+			throw new BusinessException("요구 조건을 만족하지 않았습니다.");
 		}
 
 		ChallengeRecord challengeRecord = (ChallengeRecord)recordRepository.findById(recordId).orElseThrow(()->new BusinessException("유효하지 않은 챌린지 ID"));
