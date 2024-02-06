@@ -3,7 +3,6 @@ package com.ssafy.farmily.dto;
 import java.util.Objects;
 
 import org.springframework.beans.BeanUtils;
-import org.springframework.util.Assert;
 
 import com.ssafy.farmily.entity.Image;
 

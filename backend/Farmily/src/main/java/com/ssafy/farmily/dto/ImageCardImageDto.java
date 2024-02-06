@@ -1,17 +1,17 @@
 package com.ssafy.farmily.dto;
 
-import com.ssafy.farmily.entity.Image;
-
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Builder;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 @Getter
 @Setter
 @RequiredArgsConstructor
-@Builder
+@AllArgsConstructor
+@SuperBuilder
 @Schema(description = "이미지카드의 이미지 DTO")
 public class ImageCardImageDto extends ImageDto {
 	private Long recordId;
