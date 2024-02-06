@@ -8,14 +8,17 @@ function getDayOfWeek(date) {
   return days[date.getDay()];
 }
 
-export default function ChallengeModal({ isOpen, onClose, challengeData }) {
+export default function ChallengeModal({ isOpen, onClose, challengeData, handleMark }) {
   const [currentWeekIndex, setCurrentWeekIndex] = useState(0);
   const [weekDates, setWeekDates] = useState([]);
   const [images, setImages] = useState({});
   const [selectedDate, setSelectedDate] = useState(null);
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const modalRef = useRef();
-
+  const handleClose = () => {
+    onClose(); // 모달 닫기
+    // window.location.reload(); // 페이지 새로고침
+  };
   const generateWeekDates = (weekIndex) => {
     const now = new Date();
     now.setDate(now.getDate() + weekIndex * 7);
@@ -48,6 +51,8 @@ export default function ChallengeModal({ isOpen, onClose, challengeData }) {
     const handleClickOutside = (event) => {
       if (modalRef.current && !modalRef.current.contains(event.target)) {
         onClose();
+        // 그냥 모달 닫을 때 새로고침 하도록 만들었음
+        // window.location.reload();
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
@@ -71,6 +76,7 @@ export default function ChallengeModal({ isOpen, onClose, challengeData }) {
           date: clickedDate,
         })
         .then((response) => {
+           handleMark()
           // 성공적으로 마크되었을 때의 처리
         })
         .catch((error) => {
@@ -123,7 +129,7 @@ export default function ChallengeModal({ isOpen, onClose, challengeData }) {
           <SmallButton text="열매받기" onClick={() => console.log('열매받기')} />
         </div>
 
-        <button onClick={onClose} className="absolute top-2 right-2">&times;</button>
+        <button onClick={ handleClose } className="absolute top-2 right-2">&times;</button>
         {showConfirmationModal && (
           <div> {/* Confirmation Modal 내용 */} </div>
         )}

@@ -21,12 +21,12 @@
       <>
         {isOpen && (
           <div
-            className="fixed inset-0 flex items-center justify-center z-50"
+            className="fixed inset-0 flex items-center justify-center z-50 ml-[12%] px-[20%] mb-40"
             id="my-modal"
             onClick={handleOutsideClick}
           >
-            <div className="relative p-5 mx-auto bg-white border rounded-md shadow-lg top-20 w-96">
-              <div className="bg-gray-200 rounded-lg" style={{ padding: "2px" }}>
+            <div className="relative p-5 mx-auto bg-white border rounded-md shadow-lg top-20 w-96 h-96 flex flex-col">
+              <div className="bg-gray-200 rounded-lg mb-5" style={{ padding: "2px" }}>
                 <div className="relative flex items-center">
                   {/* Tab dividers */}
                   <div className="absolute w-full">
@@ -77,24 +77,26 @@
 
               {/* Content based on selected tab */}
               {selectedTab === "segment1" && (
-                <div>
+                <div className="overflow-auto max-h-[calc(100vh-10rem)]">
                   <Fruits />
                 </div>
               )}
               {selectedTab === "segment2" && (
-                <div>
+                 <div className="overflow-auto max-h-[calc(100vh-10rem)]">
                   <Collection />
                 </div>
               )}
               {selectedTab === "segment3" && (
-                <div>
+                <div className="overflow-auto max-h-[calc(100vh-10rem)]">
                   <Draw />
                 </div>
               )}
+             <div className="mt-auto">
 
-              <div className="flex justify-end mt-5">
+              <div className="flex justify-end">
                 <span onClick={closeModal}><SmallButton text="닫기" /></span>
               </div>
+             </div>
             </div>
           </div>
         )}

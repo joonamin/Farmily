@@ -20,9 +20,9 @@ const WelcomePage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const cookies = document.cookie.split(';');
-  const cookie = cookies.find((c) => c.startsWith('accessToken='));
+  const cookie = cookies.find((c) => c.trim().startsWith('accessToken='));
   const accessToken = cookie.split('accessToken=')[1];
-
+  
   useEffect(() => {
     dispatch(getAccessToken({ accessToken: accessToken }));
 

@@ -5,10 +5,12 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.ssafy.farmily.aop.annotation.Statistics;
 import com.ssafy.farmily.dto.CalendarPlanRequestDto;
 import com.ssafy.farmily.dto.CalendarPlanResponseDto;
 import com.ssafy.farmily.entity.CalendarSchedule;
 import com.ssafy.farmily.entity.Family;
+import com.ssafy.farmily.entity.FamilyStatistics;
 import com.ssafy.farmily.exception.NoSuchContentException;
 import com.ssafy.farmily.repository.CalendarScheduleRepository;
 import com.ssafy.farmily.repository.FamilyRepository;
@@ -25,6 +27,7 @@ public class CalendarServiceImpl implements CalendarService {
 	private final FamilyService familyService;
 
 	@Override
+	@Statistics(FamilyStatistics.Field.CALENDAR_PLAN_COUNT)
 	public void postCalendarPlan(CalendarPlanRequestDto dto, String username) {
 		familyService.assertMembership(dto.getFamilyId(), username);
 		Family family = familyRepository.findById(dto.getFamilyId()).orElseThrow(
@@ -37,7 +40,6 @@ public class CalendarServiceImpl implements CalendarService {
 			.memo(dto.getContent())
 			.family(family)
 			.build();
-
 		calendarScheduleRepository.save(entity);
 	}
 

@@ -13,10 +13,10 @@ export default function RecordPage() {
   const [isValid, setIsValid] = useState(false);
 
   useEffect(() => {
-    if (family.sprintId === parseInt(sprintId)) {
+    if (family.mainSprint.sprintId === parseInt(sprintId)) {
       setIsValid(true);
     }
-  }, [family.sprintId, sprintId, isValid]);
+  }, [family.mainSprint.sprintId, sprintId, isValid]);
 
   // console.log(isValid);
 

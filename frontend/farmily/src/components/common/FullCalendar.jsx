@@ -69,7 +69,9 @@ const MyCalendar = () => {
 
   const handleAddEvent = () => {
     const startDate = new Date(dateRange.startDate);
-    const endDate = new Date(dateRange.endDate + 'T24:00:00');
+    const endDate = new Date(dateRange.endDate);
+
+    endDate.setDate(endDate.getDate() + 1);
 
     if (startDate > endDate) {
       setValidationError(true);
@@ -88,8 +90,8 @@ const MyCalendar = () => {
 
     const createEvent = {
       dateRange: {
-        startDate: new Date(dateRange.startDate),
-        endDate: new Date(dateRange.endDate),
+        startDate,
+        endDate,
       },
       familyId: family.id,
       content: newEventTitle,
@@ -111,7 +113,7 @@ const MyCalendar = () => {
 
             // 서버에서 받아온 데이터를 기존 이벤트 배열에 추가
             const newEvents = res.data.map((d, index) => ({
-              id: d.id, // 데이터에서 식별 가능한 고유한 값 사용
+              id: d.id,
               title: d.content,
               start: d.dateRange.startDate,
               end: d.dateRange.endDate,

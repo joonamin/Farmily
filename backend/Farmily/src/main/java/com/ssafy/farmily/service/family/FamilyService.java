@@ -72,6 +72,4 @@ public interface FamilyService {
 	public FamilyListDto getFamilyList(String username);
 
 	public RafflingResponseDto raffleItem(RafflingRequestDto dto,String username);
-
-	public List<FamilyStatisticsResponseDto> familyAchievementProgress(Long familyId);
 }

@@ -12,6 +12,7 @@ import java.util.UUID;
 import org.apache.commons.validator.routines.DomainValidator;
 import org.springframework.stereotype.Service;
 
+import com.ssafy.farmily.aop.annotation.Statistics;
 import com.ssafy.farmily.dto.ChangeLeaderRequestDto;
 import com.ssafy.farmily.dto.CreateFamilyResponseDto;
 import com.ssafy.farmily.dto.FamilyAchievementProgressDto;
@@ -22,6 +23,7 @@ import com.ssafy.farmily.dto.FamilyMainDto;
 import com.ssafy.farmily.dto.FamilyMemberResponseDto;
 import com.ssafy.farmily.dto.FamilyStatisticsResponseDto;
 import com.ssafy.farmily.dto.JoinRequestDto;
+import com.ssafy.farmily.dto.MainSprintResponseDto;
 import com.ssafy.farmily.dto.MakingFamilyRequestDto;
 import com.ssafy.farmily.dto.PlacementDto;
 import com.ssafy.farmily.dto.PlacingItemRequestDto;
@@ -30,6 +32,7 @@ import com.ssafy.farmily.dto.RafflingResponseDto;
 import com.ssafy.farmily.dto.RefreshSprintRequestDto;
 import com.ssafy.farmily.entity.AccessoryPlacement;
 import com.ssafy.farmily.entity.AchievementRewardHistory;
+import com.ssafy.farmily.entity.ChallengeRecord;
 import com.ssafy.farmily.entity.Family;
 import com.ssafy.farmily.entity.FamilyItem;
 import com.ssafy.farmily.entity.FamilyMembership;
@@ -94,14 +97,17 @@ public class FamilyServiceImpl implements FamilyService {
 		List<Placement> placementList = placementRepository.findAllByTreeId(tree.getId());
 		tree.setPlacements(placementList);
 		family.setTree(tree);
-		List<Long> challenges = recordRepository.findCurrentChallenges(familyId);
+		List<Long> challenges = recordRepository.findCurrentChallenges(familyId).stream()
+			.map(ChallengeRecord::getId)
+			.toList();
 		Optional<Sprint> temp = sprintRepository.findByFamilyIdAndIsHarvested(familyId, false);
 
 		FamilyMainDto familyMainDTO = FamilyMainDto.of(family);
 		familyMainDTO.setChallengesIds(challenges);
 		if (temp.isPresent()) {
 			Sprint sprint = temp.get();
-			familyMainDTO.setSprintId(sprint.getId());
+			MainSprintResponseDto mainSprintResponseDto = MainSprintResponseDto.from(sprint);
+			familyMainDTO.setMainSprint(mainSprintResponseDto);
 		}
 		return familyMainDTO;
 	}
@@ -255,6 +261,7 @@ public class FamilyServiceImpl implements FamilyService {
 	}
 
 	@Override
+	@Statistics(FamilyStatistics.Field.HARVEST_COUNT)
 	@Transactional
 	public void swapSprint(RefreshSprintRequestDto requestDto) {
 		Long familyId = requestDto.getFamilyId();
@@ -379,52 +386,6 @@ public class FamilyServiceImpl implements FamilyService {
 
 		familyMembershipRepository.save(newLeaderMemberShip);
 		familyMembershipRepository.save(pastLeaderMemberShip);
-	}
-
-	@Override
-	public List<FamilyStatisticsResponseDto> familyAchievementProgress(Long familyId) {
-		FamilyStatistics familyStatistics = familyStatisticsRepository.findById(familyId)
-			.orElseThrow(() -> new NoSuchContentException("유효하지 않은 가족입니다."));
-		FamilyAchievementProgressDto progressDto = FamilyAchievementProgressDto.from(familyStatistics);
-		List<Achievement> receivedRewardChallenge = from(
-			achievementRewardHistoryRepository.findAllByFamilyIdOrderByIdDesc(familyId));
-		progressDto.setReceivedRewardChallenge(receivedRewardChallenge);
-
-		List<FamilyStatisticsResponseDto> responseDtoList = new ArrayList<>();
-		for (Achievement achievement : Achievement.values()) {
-			int progress = achievement.getGetter().apply(familyStatistics);
-			int rewardPoint = achievement.getReward();
-			float goal = achievement.getGoal();
-			String content = achievement.getContent();
-
-			int percent = 0;
-			if (progress >= goal) {
-				progress = (int)goal;
-				percent = 100;
-			} else {
-				percent = Math.round((progress / goal) * 100);
-			}
-
-			FamilyStatisticsResponseDto responseDto = FamilyStatisticsResponseDto.builder()
-				.content(content)
-				.rewardPoint(rewardPoint)
-				.percent(percent)
-				.progress(progress)
-				.rewarded(false)
-				.build();
-			if (progressDto.getReceivedRewardChallenge().contains(achievement))
-				responseDto.setRewarded(true);
-			responseDtoList.add(responseDto);
-		}
-		return responseDtoList;
-	}
-
-	private List<Achievement> from(List<AchievementRewardHistory> achievementRewardHistoryList) {
-		List<Achievement> getAchievementList = new ArrayList<>();
-		for (AchievementRewardHistory entity : achievementRewardHistoryList) {
-			getAchievementList.add(entity.getAchievement());
-		}
-		return getAchievementList;
 	}
 
 	private FamilyMembership getPastLeaderMembership(Long familyId, Long pastLeaderId) throws BusinessException {
