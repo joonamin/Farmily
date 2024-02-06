@@ -165,7 +165,6 @@ export default function MainPage() {
       ) : (
         <Board title="나무 꾸미기" />
       )}
-      <button onClick={test}>테스트버튼</button>
     </Container>
   );
 }

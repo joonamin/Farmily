@@ -28,7 +28,8 @@ import TreeCreatePage from './pages/TreeCreatePage.jsx';
 import EnterPage from './pages/EnterPage.jsx';
 import FamilyCreatePage from './pages/FamilyCreatePage.jsx';
 import WelcomePage from './pages/WelcomePage.jsx';
-import VideoRoomWrapper from './components/contact/VideoRoomWrapper.jsx'
+import VideoRoomWrapper from './components/contact/VideoRoomWrapper.jsx';
+import TreeDecoratePage from './pages/TreeDecoratePage.jsx';
 const router = createBrowserRouter([
   {
     path: '/',
@@ -45,7 +46,10 @@ const router = createBrowserRouter([
   {
     path: '/tree/:familyId',
     element: <MainLayout />,
-    children: [{ path: '', element: <MainPage /> }],
+    children: [
+      { path: '', element: <MainPage /> },
+      { path: 'decorate', element: <TreeDecoratePage /> },
+    ],
   },
   {
     path: '/family',

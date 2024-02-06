@@ -1,15 +1,16 @@
-  import React, { useState } from "react";
-  import SmallButton from "../button/SmallButton";
-  import Draw from "./Draw";
-  import Collection from "./Collection";
-  import Fruits from "./Fruits";
+import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
+import SmallButton from '../button/SmallButton';
+import Draw from './Draw';
+import Collection from './Collection';
+import Fruits from './Fruits';
 
-  const BoardModal = ({ isOpen, closeModal }) => {
-    const [selectedTab, setSelectedTab] = useState("segment1");
-
-    const handleOutsideClick = (e) => {
-      if (e.target.id === "my-modal") {
-        closeModal();
+const BoardModal = ({ isOpen, closeModal }) => {
+  const [selectedTab, setSelectedTab] = useState('segment1');
+  const family = useSelector((state) => state.family.value);
+  const handleOutsideClick = (e) => {
+    if (e.target.id === 'my-modal') {
+      closeModal();
       }
     };
 
@@ -94,6 +95,10 @@
              <div className="mt-auto">
 
               <div className="flex justify-end">
+                <SmallButton
+                  text="열매 배치"
+                  url={`/tree/${family.id}/decorate`}
+                />
                 <span onClick={closeModal}><SmallButton text="닫기" /></span>
               </div>
              </div>
@@ -102,6 +107,6 @@
         )}
       </>
     );
-  };
+};
 
-  export default BoardModal;
+export default BoardModal;
