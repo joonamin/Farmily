@@ -36,7 +36,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -267,11 +266,11 @@ public class FamilyController {
 		@PathVariable Long familyId,
 		@RequestBody FamilyPatchRequestDto.Name dto
 	) {
-		// TODO: familyService.changeName(username, familyId, dto);
+		familyService.changeName(username, familyId, dto);
 		return ResponseEntity.ok().build();
 	}
 
-	@PatchMapping("/{familyId}/name")
+	@PatchMapping("/{familyId}/motto")
 	@PreAuthorize("hasRole('ROLE_USER')")
 	@Operation(
 		summary = "가족 가훈 변경",
@@ -285,7 +284,7 @@ public class FamilyController {
 		@PathVariable Long familyId,
 		@RequestBody FamilyPatchRequestDto.Motto dto
 	) {
-		// TODO: familyService.changeMotto(username, familyId, dto);
+		familyService.changeMotto(username, familyId, dto);
 		return ResponseEntity.ok().build();
 	}
 }
