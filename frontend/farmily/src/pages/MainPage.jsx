@@ -12,7 +12,6 @@ import { setFamily } from '../store/family';
 import { setNeedHarvest } from '../store/harvest.jsx';
 import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
-import FruitItem from '../components/tree/FruitItem.jsx';
 
 const MainPageContainer = styled.div`
   display: flex;
@@ -148,8 +147,6 @@ export default function MainPage() {
       ) : (
         <Board title="나무 꾸미기" />
       )}
-      <FruitItem />
-      <button onClick={test}>테스트버튼</button>
     </Container>
   );
 }
