@@ -1,6 +1,7 @@
 package com.ssafy.farmily.service.record;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -14,6 +15,7 @@ import com.ssafy.farmily.dto.ChallengeRecordMarkRequestDto;
 import com.ssafy.farmily.dto.ChallengeRecordPostRequestDto;
 import com.ssafy.farmily.dto.ChallengeRecordPutRequestDto;
 import com.ssafy.farmily.dto.ChallengeRecordResponseDto;
+import com.ssafy.farmily.dto.ChallengeRewardRequestDto;
 import com.ssafy.farmily.dto.DailyRecordPostRequestDto;
 import com.ssafy.farmily.dto.DailyRecordPutRequestDto;
 import com.ssafy.farmily.dto.EventRecordPostRequestDto;
@@ -22,6 +24,7 @@ import com.ssafy.farmily.dto.EventRecordResponseDto;
 import com.ssafy.farmily.dto.ImageCardRequestDto;
 import com.ssafy.farmily.dto.RecordCommentDto;
 import com.ssafy.farmily.dto.RecordResponseDto;
+import com.ssafy.farmily.dto.ServiceProcessResult;
 import com.ssafy.farmily.entity.ChallengeProgress;
 import com.ssafy.farmily.entity.ChallengeRecord;
 import com.ssafy.farmily.entity.Comment;
@@ -42,6 +45,7 @@ import com.ssafy.farmily.service.file.FileService;
 import com.ssafy.farmily.service.member.MemberService;
 import com.ssafy.farmily.service.sprint.SprintService;
 import com.ssafy.farmily.type.RecordType;
+import com.ssafy.farmily.utils.DateRange;
 
 import lombok.RequiredArgsConstructor;
 
@@ -73,7 +77,7 @@ public class RecordServiceImpl implements RecordService {
 		return switch (entity.getType()) {
 			case DAILY -> RecordResponseDto.from(entity);
 			case EVENT -> EventRecordResponseDto.from(entity);
-			case CHALLENGE -> ChallengeRecordResponseDto.from((ChallengeRecord) entity);
+			case CHALLENGE -> ChallengeRecordResponseDto.from((ChallengeRecord)entity);
 		};
 	}
 
@@ -170,9 +174,9 @@ public class RecordServiceImpl implements RecordService {
 	@Transactional
 	public void markChallengeRecord(String username, ChallengeRecordMarkRequestDto dto) {
 		Member member = memberService.getEntity(username);
-		ChallengeRecord recordEntity = (ChallengeRecord) getEntityById(dto.getChallengeId());
+		ChallengeRecord recordEntity = (ChallengeRecord)getEntityById(dto.getChallengeId());
 
-		if(challengeProgressRepository.existsByDateAndId(LocalDate.now(),dto.getChallengeId()))
+		if (challengeProgressRepository.existsByDateAndId(LocalDate.now(), dto.getChallengeId()))
 			throw new BusinessException("이미 체크 된 날짜입니다.");
 
 		Long familyId = recordEntity.getSprint().getFamily().getId();
@@ -189,7 +193,7 @@ public class RecordServiceImpl implements RecordService {
 	@Override
 	@Transactional
 	public void editChallengeRecord(String username, ChallengeRecordPutRequestDto dto) {
-		ChallengeRecord entity = (ChallengeRecord) getEntityById(dto.getRecordId());
+		ChallengeRecord entity = (ChallengeRecord)getEntityById(dto.getRecordId());
 
 		memberService.assertAuthorship(entity.getAuthor(), username);
 
@@ -242,7 +246,7 @@ public class RecordServiceImpl implements RecordService {
 			.toList().toArray(new String[0]);
 
 		List<ImageCard> imageCards = new ArrayList<>();
-		for (int i=0; i<images.length; i++) {
+		for (int i = 0; i < images.length; i++) {
 			ImageCard imageCard = ImageCard.builder()
 				.image(images[i])
 				.description(descriptions[i])
@@ -254,5 +258,30 @@ public class RecordServiceImpl implements RecordService {
 		}
 
 		return imageCards;
+	}
+
+	@Override
+	@Transactional
+	@Statistics(FamilyStatistics.Field.CHALLENGE_COMPLETE_COUNT)
+	public ServiceProcessResult getReward(String username, Long recordId, ChallengeRewardRequestDto dto) {
+		familyService.assertMembership(dto.getFamilyId(), username);
+
+		ChallengeRecordResponseDto recordDto = (ChallengeRecordResponseDto)getDtoById(recordId);
+		if (checkComplete(recordDto.getDateRange(), recordDto.getProgresses())) {
+			ChallengeRecord challengeRecord = (ChallengeRecord)recordRepository.findById(recordId).orElseThrow(()->new BusinessException("유효하지 않은 챌린지 ID"));
+			challengeRecord.setIsRewarded(true);
+			recordRepository.save(challengeRecord);
+		}
+		return new ServiceProcessResult(dto.getFamilyId());
+	}
+
+	private boolean checkComplete(DateRange dateRange, List<LocalDate> progress) {
+		long duration = dateRange.getStartDate().until(dateRange.getEndDate(), ChronoUnit.DAYS);
+		long completeDays = progress.size();
+		double percent = completeDays / (double)duration;
+		if (percent >= 0.7) {
+			return true;
+		}
+		return false;
 	}
 }

@@ -5,6 +5,7 @@ import com.ssafy.farmily.dto.ChallengeRecordMarkRequestDto;
 import com.ssafy.farmily.dto.ChallengeRecordPostRequestDto;
 import com.ssafy.farmily.dto.ChallengeRecordPutRequestDto;
 import com.ssafy.farmily.dto.ChallengeRecordResponseDto;
+import com.ssafy.farmily.dto.ChallengeRewardRequestDto;
 import com.ssafy.farmily.dto.DailyRecordPostRequestDto;
 import com.ssafy.farmily.dto.DailyRecordPutRequestDto;
 import com.ssafy.farmily.dto.EventRecordPostRequestDto;
@@ -12,6 +13,8 @@ import com.ssafy.farmily.dto.EventRecordPutRequestDto;
 import com.ssafy.farmily.dto.EventRecordResponseDto;
 import com.ssafy.farmily.dto.RecordCommentDto;
 import com.ssafy.farmily.dto.RecordResponseDto;
+import com.ssafy.farmily.dto.ServiceProcessResult;
+import com.ssafy.farmily.entity.ChallengeRecord;
 import com.ssafy.farmily.entity.Record;
 
 public interface RecordService {
@@ -34,4 +37,6 @@ public interface RecordService {
 	void createComment(Long recordId, String username, RecordCommentDto.Request.Post dto);
 
 	void editComment(Long recordId, Long commentId, String username, RecordCommentDto.Request.Put dto);
+
+	ServiceProcessResult getReward(String username, Long recordId, ChallengeRewardRequestDto dto);
 }
