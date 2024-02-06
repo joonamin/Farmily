@@ -22,7 +22,7 @@ import lombok.Setter;
 @RequiredArgsConstructor
 @AllArgsConstructor
 @Builder
-public class FamilyFruitSkin {
+public class FamilyFruitSkins {
 	@Id
 	private Long id;
 
