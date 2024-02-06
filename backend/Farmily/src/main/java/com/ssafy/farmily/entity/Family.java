@@ -65,7 +65,7 @@ public class Family extends BaseEntity {
 	@OneToMany(mappedBy = "family")
 	private List<Sprint> sprints;
 
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(mappedBy = "family", cascade = CascadeType.ALL)
 	@PrimaryKeyJoinColumn
 	private FamilyFruitSkins fruitSkins;
 }
