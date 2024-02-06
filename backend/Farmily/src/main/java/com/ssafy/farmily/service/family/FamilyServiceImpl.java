@@ -22,6 +22,7 @@ import com.ssafy.farmily.dto.FamilyListDto;
 import com.ssafy.farmily.dto.FamilyMainDto;
 import com.ssafy.farmily.dto.FamilyMemberResponseDto;
 import com.ssafy.farmily.dto.FamilyInventoryRecordResponseDtoInterface;
+import com.ssafy.farmily.dto.GetInventoryResponseDto;
 import com.ssafy.farmily.dto.JoinRequestDto;
 import com.ssafy.farmily.dto.MainSprintResponseDto;
 import com.ssafy.farmily.dto.MakingFamilyRequestDto;
@@ -113,7 +114,7 @@ public class FamilyServiceImpl implements FamilyService {
 
 	@Override
 	@Transactional
-	public Map<String, List<?>> getFamilyInventory(String username, Long familyId,Long sprintId) {
+	public GetInventoryResponseDto getFamilyInventory(String username, Long familyId,Long sprintId) {
 		familyRepository.findById(familyId).orElseThrow(() -> new NoSuchContentException("존재하지 않는 가족입니다."));
 		assertMembership(familyId,username);
 		List<FamilyItemDto> familyItemDtoList = new LinkedList<>();
@@ -123,13 +124,12 @@ public class FamilyServiceImpl implements FamilyService {
 			familyItemDtoList.add(familyItemDTO);
 		}
 
-		List<FamilyInventoryRecordResponseDtoInterface> responseDtoList
+		List<FamilyInventoryRecordResponseDtoInterface> recordFruitList
 			= recordRepository.findRecordInInventory(sprintId);
 
-		Map<String, List<?>> responseMap = new HashMap<>();
-		responseMap.put("Accessory",familyItemDtoList);
-		responseMap.put("RecordFruit",responseDtoList);
-		return responseMap;
+		GetInventoryResponseDto responseDto
+			= new GetInventoryResponseDto(familyItemDtoList,recordFruitList);
+		return responseDto;
 	}
 
 	@Override
@@ -348,7 +348,7 @@ public class FamilyServiceImpl implements FamilyService {
 			int rafflingItemId = (int)(Math.random() * allOfItemList.length);
 			Item item = allOfItemList[rafflingItemId];
 
-			if (!familyItemRepository.existsByCodeAndFamilyId(familyId,item)) {
+			if (!familyItemRepository.existsByCodeAndFamilyId(item,familyId)) {
 				FamilyItem entity = FamilyItem.builder()
 					.family(family)
 					.code(item)

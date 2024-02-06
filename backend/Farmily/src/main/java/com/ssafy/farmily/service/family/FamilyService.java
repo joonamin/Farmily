@@ -12,6 +12,7 @@ import com.ssafy.farmily.dto.FamilyMainDto;
 import com.ssafy.farmily.dto.FamilyMemberResponseDto;
 import com.ssafy.farmily.dto.FamilyAchievementProgressDto;
 import com.ssafy.farmily.dto.FamilyStatisticsResponseDto;
+import com.ssafy.farmily.dto.GetInventoryResponseDto;
 import com.ssafy.farmily.dto.JoinRequestDto;
 import com.ssafy.farmily.dto.MakingFamilyRequestDto;
 import com.ssafy.farmily.dto.PlacingItemRequestDto;
@@ -38,7 +39,7 @@ public interface FamilyService {
 	 * @return familyId에 해당하는 인벤토리를 반환한다.
 	 * @throws NoSuchContentException
 	 */
-	public Map<String,List<?>> getFamilyInventory(String username,Long familyId,Long sprintId);
+	public GetInventoryResponseDto getFamilyInventory(String username,Long familyId,Long sprintId);
 
 	/**
 	 *
