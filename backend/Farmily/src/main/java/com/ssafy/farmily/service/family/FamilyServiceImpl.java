@@ -348,7 +348,7 @@ public class FamilyServiceImpl implements FamilyService {
 			int rafflingItemId = (int)(Math.random() * allOfItemList.length);
 			Item item = allOfItemList[rafflingItemId];
 
-			if (!familyItemRepository.existsByCode(item)) {
+			if (!familyItemRepository.existsByCodeAndFamilyId(familyId,item)) {
 				FamilyItem entity = FamilyItem.builder()
 					.family(family)
 					.code(item)

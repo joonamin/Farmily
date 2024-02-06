@@ -29,13 +29,13 @@ public interface RecordRepository extends JpaRepository<Record, Long> {
 	@Query(value = """
 		SELECT a.id,a.title,a.type
 		FROM 
-		(SELECT a.id,a.title,a.type
-		FROM record a LEFT JOIN 
-		(SELECT * FROM 
-		challenge_record 
-		WHERE is_rewarded = FALSE) b 
-		ON a.id = b.id 
-		WHERE b.id IS NULL AND a.sprint_id = :sprintId) a 
+			(SELECT a.id,a.title,a.type
+			FROM record a LEFT JOIN 
+				(SELECT * FROM 
+				challenge_record 
+				WHERE is_rewarded = FALSE) b 
+			ON a.id = b.id 
+			WHERE b.id IS NULL AND a.sprint_id = :sprintId) a 
 		LEFT JOIN placement b 
 		ON a.id = b.record_id 
 		WHERE b.record_id is NULL
