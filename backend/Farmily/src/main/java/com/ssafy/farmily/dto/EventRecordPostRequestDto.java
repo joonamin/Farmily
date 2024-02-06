@@ -19,6 +19,9 @@ import lombok.Setter;
 @Schema(description = "이벤트기록 작성 요청 DTO")
 public class EventRecordPostRequestDto {
 	@NotNull
+	private Long familyId;
+
+	@NotNull
 	private Long sprintId;
 
 	@NotBlank
