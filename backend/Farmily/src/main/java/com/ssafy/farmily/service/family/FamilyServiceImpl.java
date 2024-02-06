@@ -84,6 +84,7 @@ public class FamilyServiceImpl implements FamilyService {
 	private final MemberService memberService;
 	private final FileService fileService;
 	private final int RAFFLING_COST = 100;
+
 	@Override
 	@Transactional
 	public FamilyMainDto setMainFamilyInfo(Long familyId) {
@@ -308,50 +309,44 @@ public class FamilyServiceImpl implements FamilyService {
 	@Override
 	public RafflingResponseDto raffleItem(RafflingRequestDto dto, String username) {
 		Long familyId = dto.getFamilyId();
-		assertMembership(familyId,username);
-		Family family = familyRepository.findById(familyId).orElseThrow(()->new NoSuchContentException("유효하지 않은 가족입니다."));
+		assertMembership(familyId, username);
+		Family family = familyRepository.findById(familyId)
+			.orElseThrow(() -> new NoSuchContentException("유효하지 않은 가족입니다."));
 
 		List<FamilyItem> collectedItem = familyItemRepository.findAllByFamilyId(familyId);
 		Item[] allOfItemList = Item.values();
 
 		int familyPoint = family.getPoint();
 		RafflingResponseDto responseDto = new RafflingResponseDto();
+		if (familyPoint < RAFFLING_COST) {
+			throw new BusinessException("포인트가 부족합니다.");
+		}
+		if (collectedItem.size() == allOfItemList.length) {
+			throw new BusinessException("이미 모든 아이템을 수집했습니다.");
+		}
+		familyPoint -= RAFFLING_COST;
+		family.setPoint(familyPoint);
+		responseDto.setFamilyPoint(familyPoint);
+		familyRepository.save(family);
 
-		if(rafflingValid(familyPoint,collectedItem.size(), allOfItemList.length)){
-			familyPoint -= RAFFLING_COST;
-			family.setPoint(familyPoint);
-			responseDto.setFamilyPoint(familyPoint);
-			familyRepository.save(family);
+		boolean duplication = true;
+		while (duplication) {
+			int rafflingItemId = (int)(Math.random() * allOfItemList.length);
+			Item item = allOfItemList[rafflingItemId];
 
-			boolean duplication = true;
-			while (duplication) {
-				int rafflingItemId = (int)(Math.random() * allOfItemList.length);
-				Item item = allOfItemList[rafflingItemId];
-
-				if (!familyItemRepository.existsByCode(item)) {
-					FamilyItem entity = FamilyItem.builder()
-						.family(family)
-						.code(item)
-						.type(item.getType())
-						.build();
-					familyItemRepository.save(entity);
-					responseDto.setRafflingCode(String.valueOf(item));
-					duplication = false;
-				}
+			if (!familyItemRepository.existsByCode(item)) {
+				FamilyItem entity = FamilyItem.builder()
+					.family(family)
+					.code(item)
+					.type(item.getType())
+					.build();
+				familyItemRepository.save(entity);
+				responseDto.setRafflingCode(String.valueOf(item));
+				duplication = false;
 			}
 		}
 
 		return responseDto;
-	}
-
-	private boolean rafflingValid(int point, int collectedItemListSize, int allOfItemListSize){
-		if(point < RAFFLING_COST){
-			throw new BusinessException("포인트가 부족합니다.");
-		}
-		if(collectedItemListSize == allOfItemListSize){
-			throw new BusinessException("이미 모든 아이템을 수집했습니다.");
-		}
-		return true;
 	}
 
 	@Override
