@@ -9,6 +9,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.apache.commons.validator.routines.DomainValidator;
 import org.springframework.stereotype.Service;
 
 import com.ssafy.farmily.aop.annotation.Statistics;
@@ -26,7 +27,10 @@ import com.ssafy.farmily.dto.MainSprintResponseDto;
 import com.ssafy.farmily.dto.MakingFamilyRequestDto;
 import com.ssafy.farmily.dto.PlacementDto;
 import com.ssafy.farmily.dto.PlacingItemRequestDto;
+import com.ssafy.farmily.dto.RafflingRequestDto;
+import com.ssafy.farmily.dto.RafflingResponseDto;
 import com.ssafy.farmily.dto.RefreshSprintRequestDto;
+import com.ssafy.farmily.dto.ServiceProcessResult;
 import com.ssafy.farmily.entity.AccessoryPlacement;
 import com.ssafy.farmily.entity.AchievementRewardHistory;
 import com.ssafy.farmily.entity.ChallengeRecord;
@@ -59,6 +63,7 @@ import com.ssafy.farmily.service.member.MemberService;
 import com.ssafy.farmily.type.AccessoryType;
 import com.ssafy.farmily.type.Achievement;
 import com.ssafy.farmily.type.FamilyRole;
+import com.ssafy.farmily.type.Item;
 import com.ssafy.farmily.utils.DateRange;
 
 import jakarta.transaction.Transactional;
@@ -82,6 +87,7 @@ public class FamilyServiceImpl implements FamilyService {
 
 	private final MemberService memberService;
 	private final FileService fileService;
+	private final int RAFFLING_COST = 100;
 
 	@Override
 	@Transactional
@@ -258,7 +264,7 @@ public class FamilyServiceImpl implements FamilyService {
 	@Override
 	@Statistics(FamilyStatistics.Field.HARVEST_COUNT)
 	@Transactional
-	public void swapSprint(RefreshSprintRequestDto requestDto) {
+	public ServiceProcessResult swapSprint(RefreshSprintRequestDto requestDto) {
 		Long familyId = requestDto.getFamilyId();
 		Optional<Sprint> unHarvestedSprint = sprintRepository.findByFamilyIdAndIsHarvested(familyId, false);
 		if (unHarvestedSprint.isPresent()) {
@@ -284,6 +290,7 @@ public class FamilyServiceImpl implements FamilyService {
 			.build();
 
 		sprintRepository.save(sprint);
+		return new ServiceProcessResult(familyId);
 	}
 
 	@Override
@@ -308,32 +315,49 @@ public class FamilyServiceImpl implements FamilyService {
 		return family.getInvitationCode();
 	}
 
-	// @Override
-	// public Long raffleItem(Long familyId) {
-	// 	Family family = familyRepository.findById(familyId)
-	// 		.orElseThrow(() -> new NoSuchContentException("유효하지 않은 가족입니다."));
-	//
-	// 	int familyPoint = family.getPoint();
-	// 	if (familyPoint >= 150) {
-	// 		familyPoint -= 150;
-	// 		boolean duplication = true;
-	//
-	// 		// TODO 아이템 DB or ENUM 어떻게 저장할 지 얘기해보고 모든 아이템 개수 가져오는 로직 만들어야 될 것 같아요
-	// 		int NumOfAllItem = 10;
-	// 		while (duplication) {
-	// 			int rafflingItemId = (int) Math.random() * NumOfAllItem + 1;
-	// 			// rafflingItemId를 통해 아이템 가져오고
-	//
-	// 			// duplication이 발생하지 않으면
-	// 			if() {    // getFamilyInventory not contain item(rafflingItemId)
-	// 				familyItemRepository.save(item);
-	// 				duplication = false;
-	// 			}
-	// 		}
-	// 	}
-	//
-	// 	return item.getid;
-	// }
+	@Override
+	public RafflingResponseDto raffleItem(RafflingRequestDto dto, String username) {
+		Long familyId = dto.getFamilyId();
+		assertMembership(familyId, username);
+		Family family = familyRepository.findById(familyId)
+			.orElseThrow(() -> new NoSuchContentException("유효하지 않은 가족입니다."));
+
+		List<FamilyItem> collectedItem = familyItemRepository.findAllByFamilyId(familyId);
+		Item[] allOfItemList = Item.values();
+
+		int familyPoint = family.getPoint();
+		RafflingResponseDto responseDto = new RafflingResponseDto();
+		if (familyPoint < RAFFLING_COST) {
+			throw new BusinessException("포인트가 부족합니다.");
+		}
+		if (collectedItem.size() == allOfItemList.length) {
+			throw new BusinessException("이미 모든 아이템을 수집했습니다.");
+		}
+		familyPoint -= RAFFLING_COST;
+		family.setPoint(familyPoint);
+		responseDto.setFamilyPoint(familyPoint);
+		familyRepository.save(family);
+
+		boolean duplication = true;
+		while (duplication) {
+			int rafflingItemId = (int)(Math.random() * allOfItemList.length);
+			Item item = allOfItemList[rafflingItemId];
+
+			if (!familyItemRepository.existsByCode(item)) {
+				FamilyItem entity = FamilyItem.builder()
+					.family(family)
+					.code(item)
+					.type(item.getType())
+					.build();
+				familyItemRepository.save(entity);
+				responseDto.setRafflingCode(String.valueOf(item));
+				duplication = false;
+			}
+		}
+
+		return responseDto;
+	}
+
 	@Override
 	public List<FamilyMemberResponseDto> loadFamilyMemberList(Long familyId, String username) {
 		Member me = memberService.getEntity(username);
@@ -364,52 +388,6 @@ public class FamilyServiceImpl implements FamilyService {
 
 		familyMembershipRepository.save(newLeaderMemberShip);
 		familyMembershipRepository.save(pastLeaderMemberShip);
-	}
-
-	@Override
-	public List<FamilyStatisticsResponseDto> familyAchievementProgress(Long familyId) {
-		FamilyStatistics familyStatistics = familyStatisticsRepository.findById(familyId)
-			.orElseThrow(() -> new NoSuchContentException("유효하지 않은 가족입니다."));
-		FamilyAchievementProgressDto progressDto = FamilyAchievementProgressDto.from(familyStatistics);
-		List<Achievement> receivedRewardChallenge = from(
-			achievementRewardHistoryRepository.findAllByFamilyIdOrderByIdDesc(familyId));
-		progressDto.setReceivedRewardChallenge(receivedRewardChallenge);
-
-		List<FamilyStatisticsResponseDto> responseDtoList = new ArrayList<>();
-		for (Achievement achievement : Achievement.values()) {
-			int progress = achievement.getField().getGetter().apply(familyStatistics);
-			int rewardPoint = achievement.getReward();
-			float goal = achievement.getGoal();
-			String content = achievement.getContent();
-
-			int percent = 0;
-			if (progress >= goal) {
-				progress = (int)goal;
-				percent = 100;
-			} else {
-				percent = Math.round((progress / goal) * 100);
-			}
-
-			FamilyStatisticsResponseDto responseDto = FamilyStatisticsResponseDto.builder()
-				.content(content)
-				.rewardPoint(rewardPoint)
-				.percent(percent)
-				.progress(progress)
-				.rewarded(false)
-				.build();
-			if (progressDto.getReceivedRewardChallenge().contains(achievement))
-				responseDto.setRewarded(true);
-			responseDtoList.add(responseDto);
-		}
-		return responseDtoList;
-	}
-
-	private List<Achievement> from(List<AchievementRewardHistory> achievementRewardHistoryList) {
-		List<Achievement> getAchievementList = new ArrayList<>();
-		for (AchievementRewardHistory entity : achievementRewardHistoryList) {
-			getAchievementList.add(entity.getAchievement());
-		}
-		return getAchievementList;
 	}
 
 	private FamilyMembership getPastLeaderMembership(Long familyId, Long pastLeaderId) throws BusinessException {

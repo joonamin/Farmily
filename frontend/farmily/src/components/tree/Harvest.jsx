@@ -4,12 +4,16 @@ import { useNavigate } from 'react-router-dom';
 import mainboard from '../../assets/images/mainboard.png';
 import axios from '../../api/axios.jsx';
 import { setNeedHarvest } from '../../store/harvest.jsx';
-import { setFamily } from '../../store/family.jsx';
+import { setFamily, setHarvest } from '../../store/family.jsx';
 import HarvestModal from './HarvestModal.jsx';
 
 export default function Harvest({ title }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const family = useSelector((state) => state.family.value);
+  const [formData, setFormData] = useState({
+    familyId: family.id,
+  });
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [curSprintId, setCurSprintId] = useState(0);
 
@@ -21,16 +25,11 @@ export default function Harvest({ title }) {
     setIsModalOpen(false);
   };
 
-  const family = useSelector((state) => state.family.value);
-  const [formData, setFormData] = useState({
-    familyId: family.id,
-  });
-
-  setCurSprintId(family.sprintId);
+  setCurSprintId(family.mainSprint.sprintId);
 
   const onClickHandler = async () => {
     try {
-      const harvestRes = await axios.post(`/sprint/${family.sprintId}/harvest`);
+      const harvestRes = await axios.post(`/sprint/${curSprintId}/harvest`);
 
       const refreshSprintRes = await axios.post(
         `/family/refreshSprint`,
@@ -38,7 +37,7 @@ export default function Harvest({ title }) {
       );
       // console.log(refreshSprintRes);
 
-      dispatch(setNeedHarvest(false));
+      dispatch(setHarvest(false));
 
       const familyRes = await axios.get(`/family/${family.id}`);
       console.log(familyRes);
@@ -49,10 +48,10 @@ export default function Harvest({ title }) {
         motto: familyRes.data.motto,
         tree: familyRes.data.tree,
         challengesIds: familyRes.data.challengesIds,
-        sprintId: familyRes.data.sprintId,
+        mainSprint: familyRes.data.mainSprint,
       };
 
-      dispatch(setFamily(familyData));
+      await dispatch(setFamily(familyData));
 
       await navigate(`/family/record/${curSprintId}`);
     } catch (err) {

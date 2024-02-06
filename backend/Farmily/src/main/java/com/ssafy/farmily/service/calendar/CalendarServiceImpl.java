@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.ssafy.farmily.aop.annotation.Statistics;
 import com.ssafy.farmily.dto.CalendarPlanRequestDto;
 import com.ssafy.farmily.dto.CalendarPlanResponseDto;
+import com.ssafy.farmily.dto.ServiceProcessResult;
 import com.ssafy.farmily.entity.CalendarSchedule;
 import com.ssafy.farmily.entity.Family;
 import com.ssafy.farmily.entity.FamilyStatistics;
@@ -28,7 +29,7 @@ public class CalendarServiceImpl implements CalendarService {
 
 	@Override
 	@Statistics(FamilyStatistics.Field.CALENDAR_PLAN_COUNT)
-	public void postCalendarPlan(CalendarPlanRequestDto dto, String username) {
+	public ServiceProcessResult postCalendarPlan(CalendarPlanRequestDto dto, String username) {
 		familyService.assertMembership(dto.getFamilyId(), username);
 		Family family = familyRepository.findById(dto.getFamilyId()).orElseThrow(
 			() -> new NoSuchContentException("유효하지 않은 가족입니다.")
@@ -41,6 +42,8 @@ public class CalendarServiceImpl implements CalendarService {
 			.family(family)
 			.build();
 		calendarScheduleRepository.save(entity);
+
+		return new ServiceProcessResult(dto.getFamilyId());
 	}
 
 	@Override

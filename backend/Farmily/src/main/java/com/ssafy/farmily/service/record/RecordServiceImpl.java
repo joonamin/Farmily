@@ -22,6 +22,7 @@ import com.ssafy.farmily.dto.EventRecordResponseDto;
 import com.ssafy.farmily.dto.ImageCardRequestDto;
 import com.ssafy.farmily.dto.RecordCommentDto;
 import com.ssafy.farmily.dto.RecordResponseDto;
+import com.ssafy.farmily.dto.ServiceProcessResult;
 import com.ssafy.farmily.entity.ChallengeProgress;
 import com.ssafy.farmily.entity.ChallengeRecord;
 import com.ssafy.farmily.entity.Comment;
@@ -80,7 +81,7 @@ public class RecordServiceImpl implements RecordService {
 	@Override
 	@Statistics(FamilyStatistics.Field.EVENT_RECORD_COUNT)
 	@Transactional
-	public void createEventRecord(String username, EventRecordPostRequestDto dto) {
+	public ServiceProcessResult createEventRecord(String username, EventRecordPostRequestDto dto) {
 		Member member = memberService.getEntity(username);
 		Sprint sprint = sprintService.getEntityById(dto.getSprintId());
 
@@ -96,6 +97,8 @@ public class RecordServiceImpl implements RecordService {
 		entity.setImageCards(imageCards);
 
 		recordRepository.save(entity);
+
+		return new ServiceProcessResult(dto.getFamilyId());
 	}
 
 	@Override
@@ -118,7 +121,7 @@ public class RecordServiceImpl implements RecordService {
 	@Override
 	@Statistics(FamilyStatistics.Field.CALENDAR_PLAN_COUNT)
 	@Transactional
-	public void createDailyRecord(String username, DailyRecordPostRequestDto dto) {
+	public ServiceProcessResult createDailyRecord(String username, DailyRecordPostRequestDto dto) {
 		Member member = memberService.getEntity(username);
 		Sprint sprint = sprintService.getEntityById(dto.getSprintId());
 
@@ -131,6 +134,8 @@ public class RecordServiceImpl implements RecordService {
 			.build();
 
 		recordRepository.save(entity);
+
+		return new ServiceProcessResult(dto.getFamilyId());
 	}
 
 	@Override
