@@ -39,12 +39,4 @@ public enum Achievement {
 	private float goal;
 	private String content;
 	private int reward;
-
-	public static Achievement of(String code){
-		for(Achievement a : Achievement.values()){
-			return a;
-		}
-
-		throw new NoSuchContentException("일치하는 도전과제가 없습니다.");
-	}
 }

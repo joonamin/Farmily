@@ -77,21 +77,19 @@ public class AchievementServiceImpl implements AchievementService {
 
 		Family family = familyRepository.findById(familyId)
 			.orElseThrow(() -> new NoSuchContentException("유효하지 않은 가족입니다."));
-
-		String achievement = dto.getAchievement();
-		Achievement RewardForAchievement = Achievement.of(achievement);
-		int point = family.getPoint();
-		point += RewardForAchievement.getReward();
-		family.setPoint(point);
-		Integer now = RewardForAchievement.getReward();
-
-		if (RewardForAchievement.getGoal() > now) {
+		FamilyStatistics familyStatistics = familyStatisticsRepository.findById(familyId).get();
+		Achievement achievement = dto.getAchievement();
+		float familyProgress = achievement.getGetter().apply(familyStatistics);
+		if (achievement.getGoal() > familyProgress) {
 			throw new BusinessException("요구조건을 만족하지 않았습니다.");
 		}
+		int point = family.getPoint();
+		point += achievement.getReward();
+		family.setPoint(point);
 
 		familyRepository.save(family);
 		AchievementRewardHistory achievementRewardHistory = AchievementRewardHistory.builder()
-			.achievement(RewardForAchievement)
+			.achievement(achievement)
 			.family(family)
 			.build();
 		achievementRewardHistoryRepository.save(achievementRewardHistory);
