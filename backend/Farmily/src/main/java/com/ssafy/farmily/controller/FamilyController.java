@@ -23,6 +23,7 @@ import com.ssafy.farmily.dto.FamilyListDto;
 import com.ssafy.farmily.dto.FamilyMainDto;
 import com.ssafy.farmily.dto.FamilyMemberResponseDto;
 import com.ssafy.farmily.dto.FamilyStatisticsResponseDto;
+import com.ssafy.farmily.dto.GetInventoryResponseDto;
 import com.ssafy.farmily.dto.JoinRequestDto;
 import com.ssafy.farmily.dto.MakingFamilyRequestDto;
 import com.ssafy.farmily.dto.PlacingItemRequestDto;
@@ -76,14 +77,14 @@ public class FamilyController {
 			content = @Content(schema = @Schema(implementation = FamilyItemDto.class))
 		)
 	})
-	public ResponseEntity<Map<String,List<?>>> getInventory(
+	public ResponseEntity<GetInventoryResponseDto> getInventory(
 		@AuthenticationPrincipal String username,
 		@PathVariable(value = "familyId") Long familyId,
 		@PathVariable(value = "sprintId") Long sprintId
 	) {
-		Map<String,List<?>> responseMap = familyService.getFamilyInventory(username,familyId,sprintId);
+		GetInventoryResponseDto responseDto = familyService.getFamilyInventory(username,familyId,sprintId);
 
-		return ResponseEntity.ok(responseMap);
+		return ResponseEntity.ok(responseDto);
 	}
 
 	@GetMapping("/{familyId}/basket")
