@@ -64,6 +64,7 @@ public class Family extends BaseEntity {
 	@OneToMany(mappedBy = "family")
 	private List<Sprint> sprints;
 
-	@OneToMany(mappedBy = "family")
+	@OneToOne
+	@PrimaryKeyJoinColumn
 	private FamilyFruitSkins fruitSkins;
 }
