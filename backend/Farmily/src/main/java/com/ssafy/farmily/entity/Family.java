@@ -2,6 +2,7 @@ package com.ssafy.farmily.entity;
 
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -64,7 +65,7 @@ public class Family extends BaseEntity {
 	@OneToMany(mappedBy = "family")
 	private List<Sprint> sprints;
 
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	@PrimaryKeyJoinColumn
 	private FamilyFruitSkins fruitSkins;
 }
