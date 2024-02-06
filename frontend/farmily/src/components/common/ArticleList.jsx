@@ -26,7 +26,7 @@ export default function ArticleList({ sprintId }) {
     },
   ]);
   const [images, setImages] = useState([]);
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
 
   useEffect(() => {
@@ -63,13 +63,13 @@ export default function ArticleList({ sprintId }) {
   };
 
   const handleNextPage = () => {
-    if (page < totalPages - 1) {
+    if (page < totalPages) {
       setPage((prevPage) => prevPage + 1);
     }
   };
 
   const handlePageClick = (pageNumber) => {
-    setPage(pageNumber - 1);
+    setPage(pageNumber);
   };
 
   return (
@@ -109,10 +109,10 @@ export default function ArticleList({ sprintId }) {
           <div className="flex justify-between mt-4">
             <button
               className={`bg-blue-500 text-white px-4 py-2 mr-4 rounded ${
-                page === 0 ? 'disabled bg-stone-700' : ''
+                page === 1 ? 'disabled bg-stone-700' : ''
               }`}
               onClick={handlePrevPage}
-              disabled={page === 0}
+              disabled={page === 1}
             >
               이전
             </button>
@@ -120,7 +120,9 @@ export default function ArticleList({ sprintId }) {
               <button
                 key={pageNumber}
                 className={`${
-                  pageNumber === page ? 'bg-blue-500 text-white' : 'bg-gray-300'
+                  pageNumber + 1 === page
+                    ? 'bg-blue-500 text-white'
+                    : 'bg-gray-300'
                 } px-4 py-2 rounded`}
                 onClick={() => handlePageClick(pageNumber + 1)}
               >
@@ -129,10 +131,10 @@ export default function ArticleList({ sprintId }) {
             ))}
             <button
               className={`bg-blue-500 text-white px-4 py-2 ml-4 rounded ${
-                page === totalPages - 1 ? 'disabled bg-stone-700' : ''
+                page === totalPages ? 'disabled bg-stone-700' : ''
               }`}
               onClick={handleNextPage}
-              disabled={page === totalPages - 1}
+              disabled={page === totalPages}
             >
               다음
             </button>
