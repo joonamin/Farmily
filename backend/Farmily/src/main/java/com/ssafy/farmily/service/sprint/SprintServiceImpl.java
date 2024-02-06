@@ -11,11 +11,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ssafy.farmily.dto.ImageCardImageDto;
-import com.ssafy.farmily.dto.ImageDto;
 import com.ssafy.farmily.dto.RecordBriefResponseDto;
 import com.ssafy.farmily.dto.SprintRecordFirstResponseDto;
 import com.ssafy.farmily.dto.SprintRecordPageResponseDto;
-import com.ssafy.farmily.entity.Image;
 import com.ssafy.farmily.entity.Record;
 import com.ssafy.farmily.entity.Sprint;
 import com.ssafy.farmily.exception.NoSuchContentException;
@@ -59,7 +57,7 @@ public class SprintServiceImpl implements SprintService {
 
 		return SprintRecordFirstResponseDto.builder()
 			.dateRange(sprint.getDateRange())
-			.images(this.getRandomImages(sprintId, imageCountMax))
+			.images(this.getRandomImageCardImageDtos(sprintId, imageCountMax))
 			.page(this.getRecordsPagination(sprint, 1, pageSize))
 			.build();
 	}
@@ -71,7 +69,7 @@ public class SprintServiceImpl implements SprintService {
 		return this.getRecordsPagination(sprint, pageNo, pageSize);
 	}
 
-	private List<ImageCardImageDto> getRandomImages(Long sprintId, int countMax) {
+	private List<ImageCardImageDto> getRandomImageCardImageDtos(Long sprintId, int countMax) {
 		int imageTotalCount = imageRepository.countAllImagesInSprint(sprintId);
 
 		List<ImageCardImageDto> imageCardImageDtos;
