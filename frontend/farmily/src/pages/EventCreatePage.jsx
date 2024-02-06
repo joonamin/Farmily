@@ -57,6 +57,7 @@ export default function EventCreatePage() {
 
     const formData = new FormData();
     formData.append('sprintId', family.mainSprint.sprintId);
+    formData.append('familyId', family.id);
     formData.append('title', title);
 
     images.forEach((image, index) => {
