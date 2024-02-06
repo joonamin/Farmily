@@ -23,7 +23,7 @@ public interface ImageRepository extends JpaRepository<Image, Long> {
 	int countAllImagesInSprint(Long sprintId);
 
 	@Query("""
-		SELECT com.ssafy.farmily.dto.ImageCardImageDto(i.location, i.originalFileName, r.id)
+		SELECT new com.ssafy.farmily.dto.ImageCardImageDto(i.location, i.originalFileName, r.id)
 		  FROM Sprint s
 		  	JOIN s.records r ON r.type = com.ssafy.farmily.type.RecordType.EVENT
 		  	JOIN r.imageCards c
@@ -34,7 +34,7 @@ public interface ImageRepository extends JpaRepository<Image, Long> {
 	List<ImageCardImageDto> findAllImageCardImageDtosInSprintOrderByIdDesc(Long sprintId);
 
 	@Query("""
-		SELECT com.ssafy.farmily.dto.ImageCardImageDto(i.location, i.originalFileName, r.id)
+		SELECT new com.ssafy.farmily.dto.ImageCardImageDto(i.location, i.originalFileName, r.id)
 		  FROM Sprint s
 		  	JOIN s.records r ON r.type = com.ssafy.farmily.type.RecordType.EVENT
 		  	JOIN r.imageCards c
