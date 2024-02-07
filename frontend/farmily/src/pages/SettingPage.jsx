@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import axios from '../api/axios.jsx';
+import { getFamilies } from '../store/user.jsx';
 
 export default function SettingPage() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const family = useSelector((state) => state.family.value);
   const user = useSelector((state) => state.user.value);
   const [isChanged, setIsChanged] = useState(true);
@@ -26,7 +28,7 @@ export default function SettingPage() {
       me: false,
     },
   ]);
-  console.log(user);
+
   useEffect(() => {
     axios
       .get(`family/${family.id}/familyMembers`)
@@ -42,6 +44,10 @@ export default function SettingPage() {
       .catch((error) => {
         console.log(error);
       });
+    axios.get('/member/family').then((res) => {
+      dispatch(getFamilies({ familyInfo: res.data }));
+      setFamilies(res.data);
+    });
   }, [isChanged, isLeader]);
 
   const handleMandate = () => {
@@ -58,12 +64,24 @@ export default function SettingPage() {
       });
   };
 
-  const handleNameChange = (e) => {
+  const handleFamilyNameChange = (e) => {
     setFamilyName(e.target.value);
   };
 
   const handleMottoChange = (e) => {
     setMotto(e.target.value);
+  };
+  const handleMotto = (e) => {
+    axios
+      .patch(`family/${family.id}/motto`, {
+        newMotto: motto,
+      })
+      .then((response) => {
+        setIsChanged(!isChanged);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   const handleNewLeader = (e) => {
@@ -74,6 +92,18 @@ export default function SettingPage() {
     setNickname(e.target.value);
   };
 
+  const handleFamilyName = (e) => {
+    axios
+      .patch(`family/${family.id}/name`, {
+        newName: familyName,
+      })
+      .then((response) => {
+        setIsChanged(!isChanged);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   const handleNickname = (e) => {
     axios
       .put('/member', {
@@ -86,6 +116,7 @@ export default function SettingPage() {
         console.log(error);
       });
   };
+
   const handleStart = () => {
     navigate(`/tree/${selectedFamilyId}`);
   };
@@ -133,10 +164,15 @@ export default function SettingPage() {
               <input
                 value={familyName}
                 type="text"
-                onChange={handleNameChange}
+                onChange={handleFamilyNameChange}
                 className="w-5/6"
               />
-              <button className="bg-gray-300 px-4 w-20">저장</button>
+              <button
+                onClick={handleFamilyName}
+                className="bg-gray-300 px-4 w-20"
+              >
+                저장
+              </button>
             </div>
           </div>
 
@@ -149,7 +185,9 @@ export default function SettingPage() {
                 onChange={handleMottoChange}
                 className="w-5/6"
               />
-              <button className="bg-gray-300 px-4 w-20">저장</button>
+              <button onClick={handleMotto} className="bg-gray-300 px-4 w-20">
+                저장
+              </button>
             </div>
           </div>
 
