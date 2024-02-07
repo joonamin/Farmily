@@ -23,7 +23,7 @@ import jakarta.validation.Payload;
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = AllowedItemTypeValidator.class)
 public @interface AllowedItemType {
-	String message() default "열매 스킨들 중 중복이 없어야 합니다.";
+	String message() default "허용되지 않은 타입의 아이템입니다.";
 	Class<?>[] groups() default {};
 	Class<? extends Payload>[] payload() default {};
 
