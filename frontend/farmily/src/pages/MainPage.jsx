@@ -52,18 +52,14 @@ export default function MainPage() {
   const [isChanged, setIsChanged] = useState(false);
 
   const family = useSelector((state) => state.family.value);
-  // console.log(family);
-
   const CalIsHarvest = (date) => {
     const endDate = date;
     const today = new Date();
 
     if (endDate) {
       const endDateobj = new Date(endDate);
-      // console.log(endDateobj);
       if (today > endDateobj) {
         dispatch(setHarvest({ needHarvest: true }));
-        // console.log(123123);
       } else {
         dispatch(setHarvest({ needHarvest: false }));
       }
@@ -72,12 +68,11 @@ export default function MainPage() {
 
   const test = () => {
     dispatch(setHarvest({ needHarvest: true }));
-    console.log(family);
   };
 
   const { familyId } = useParams();
 
-  const handleMark = () => {
+  const handleChange = () => {
     setIsChanged(!isChanged);
   };
   useEffect(() => {
@@ -98,6 +93,7 @@ export default function MainPage() {
           invitationCode: res.data.invitationCode,
           challengesIds: res.data.challengesIds,
           mainSprint: res.data.mainSprint,
+          point: res.data.point
         };
         dispatch(setFamily(familyData));
 
@@ -138,7 +134,7 @@ export default function MainPage() {
       {challengeData.challenge3 ? (
         <Challenge3Styled
           data={challengeData.challenge3}
-          handleMark={handleMark}
+          handleMark={handleChange}
         />
       ) : (
         <div className="w-28 h-28 ml-5"></div> // 챌린지가 없을 때 공간을 차지하는 빈 div
@@ -146,7 +142,7 @@ export default function MainPage() {
       {challengeData.challenge2 ? (
         <Challenge2Styled
           data={challengeData.challenge2}
-          handleMark={handleMark}
+          handleMark={handleChange}
         />
       ) : (
         <div className="w-28 h-28 ml-5"></div>
@@ -154,7 +150,7 @@ export default function MainPage() {
       {challengeData.challenge1 ? (
         <Challenge1Styled
           data={challengeData.challenge1}
-          handleMark={handleMark}
+          handleMark={handleChange}
         />
       ) : (
         <div className="w-28 h-28 ml-5"></div>

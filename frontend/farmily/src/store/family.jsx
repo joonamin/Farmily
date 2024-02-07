@@ -31,6 +31,7 @@ const initialState = {
       endDate: '',
     },
     needHarvest: false,
+    point: 0,
   },
 };
 
@@ -46,6 +47,7 @@ const familySlice = createSlice({
       state.value.tree = action.payload.tree;
       state.value.challengesIds = action.payload.challengesIds;
       state.value.mainSprint = action.payload.mainSprint;
+      state.value.point = action.payload.point;
     },
     setHarvest: (state, action) => {
       state.value.needHarvest = action.payload.needHarvest;
