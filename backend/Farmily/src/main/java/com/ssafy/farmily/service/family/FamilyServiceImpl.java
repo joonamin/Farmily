@@ -225,7 +225,10 @@ public class FamilyServiceImpl implements FamilyService {
 		sprintRepository.save(sprint);
 		Tree tree = Tree.builder().family(family).placements(List.of()).build();
 
-		family.setSprints(new ArrayList<>());
+		List<Sprint> sprints = new ArrayList<>();
+		sprints.add(sprint);
+
+		family.setSprints(sprints);
 		family.setTree(tree);
 
 		FamilyStatistics familyStatistics = FamilyStatistics.builder()
