@@ -2,7 +2,7 @@ import LoginButton from '../components/button/LoginButton.jsx';
 import meta from '../assets/images/meta.png';
 import kakao from '../assets/images/kakao.png';
 import google from '../assets/images/google.png';
-import farmily from '../assets/images/farmily.png';
+import farmily from '../assets/images/Farmily.png';
 
 const sites = [
   { name: '카카오', url: 'kakao', image: kakao },
