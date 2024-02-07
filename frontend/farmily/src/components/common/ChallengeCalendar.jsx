@@ -30,7 +30,7 @@ function getDayStyle(date) {
   }
 }
 
-export default function ChallengeCalendar({ startDate, endDate, recordId, progresses }) {
+export default function ChallengeCalendar({ startDate, endDate, recordId, progresses, handleMark }) {
   const [currentWeekIndex, setCurrentWeekIndex] = useState(0);
   const [weekDates, setWeekDates] = useState([]);
   const [images, setImages] = useState({});
@@ -76,10 +76,29 @@ export default function ChallengeCalendar({ startDate, endDate, recordId, progre
   };
 
   const handleImageClick = (date) => {
-    const formattedDate = date.toISOString().slice(0, 10);
-    if (images[formattedDate]) {
-      setSelectedDate(formattedDate);
-      setShowConfirmationModal(true);
+    const today = new Date().toISOString().slice(0, 10);
+    const clickedDate = date.toISOString().slice(0, 10);
+
+    if (clickedDate === today) {
+      if (images[clickedDate]) {
+        setSelectedDate(clickedDate);
+        setShowConfirmationModal(true);
+      } else {
+        setImages({ ...images, [clickedDate]: challenge });
+        axios.post('/record/challenge/mark', {
+          challengeId: progresses.id,
+          date: clickedDate,
+        })
+        .then((response) => {
+           handleMark()
+          // 성공적으로 마크되었을 때의 처리
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+      }
+    } else {
+      console.log('오늘 날짜만 선택 가능합니다.');
     }
   };
 

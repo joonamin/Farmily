@@ -1,35 +1,25 @@
 import React, { useState, useEffect } from "react";
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import SmallButton from "../button/SmallButton";
 import Draw from "./Draw";
 import Collection from "./Collection";
 import Fruits from "./Fruits";
 import { useParams } from 'react-router-dom';
+import { setFamily } from '../../store/family';
 import axios from '../../api/axios.jsx'
 
+
+
 const BoardModal = ({ isOpen, closeModal }) => {
+  const dispatch = useDispatch();
   const [selectedTab, setSelectedTab] = useState("segment1");
   const family = useSelector((state) => state.family.value);
-  const { familyId } = useParams();
+  const familyId = family.id;
   const [isRaffling, setIsRaffling] = useState(false);
   const [rafflingResponse, setRafflingResponse] = useState(null);
-  const [familyPoint, setFamilyPoint] = useState(0);
-  
-  useEffect(() => {
-    // familyPoint
-    const fetchFamilyPoint = async () => {
-      try {
-        const response = await axios.get(`/family/point/${familyId}`);
-        setFamilyPoint(response.data.point);
-      } catch (error) {
-        console.error('Fetching family point error:', error);
-      }
-    };
+  const [familyPoint, setFamilyPoint] = useState(family.point);
+  const [isChanged, setIsChanged] = useState(null );
 
-    if (isOpen) {
-      fetchFamilyPoint();
-    }
-  }, [isOpen, familyId]);
 
   const handleOutsideClick = (e) => {
     if (e.target.id === "my-modal") {
@@ -44,23 +34,28 @@ const BoardModal = ({ isOpen, closeModal }) => {
 
   //  뽑기 로직
   const handleRaffle = async () => {
-    if (familyPoint < 100) {
-      alert("포인트가 부족합니다.");
-      return;
-    }
+    // if(point < 100) return;
     setIsRaffling(true); // 뽑기 시작
-
-    try {
-      const response = await axios.post('/family/raffling', { familyId });
-      setRafflingResponse(response.data);
-      setFamilyPoint(prev => prev - 100); // 포인트 사용
-    } catch (error) {
-      console.error('Raffle error:', error);
-    } finally {
-      setIsRaffling(false); // 뽑기 종료
+    
+  try {
+    const response = await axios.post('/family/raffling', { familyId }).then(
+      setIsChanged(!isChanged));
+    setRafflingResponse(response.data);
+    // 데이터베이스에서 차감된 포인트를 즉각적으로 반영
+    if(response.data.point !== undefined) {
+      setFamilyPoint(response.data.point); // 여기서는 응답으로 받은 최신 포인트로 상태를 업데이트
     }
-  };
+  } catch (error) {
+    console.error('Raffle error:', error);
+  }
 
+  setTimeout(() => {
+    setIsRaffling(false);
+  }, 6000);
+};
+
+
+const disableOpenBoxButton = isRaffling || familyPoint < 100;
   useEffect(() => {
     // Event listener for clicking outside the modal
     const handleDocumentClick = (e) => {
@@ -79,13 +74,37 @@ const BoardModal = ({ isOpen, closeModal }) => {
     return () => {
       document.removeEventListener("click", handleDocumentClick);
     };
-  }, [isOpen, closeModal]);
+  }, [isOpen, closeModal]); 
+
+  useEffect(() => {
+    setIsRaffling(false);
+  }, [isOpen, selectedTab]);
+
+  useEffect(() => {
+    // isChanged가 null이 아니고, isOpen 상태일 때만 API 호출 실행
+    if (isChanged !== null && isOpen) {
+      axios.get(`/family/${familyId}`).then((res) => {
+        const familyData = {
+          id: res.data.id,
+          name: res.data.name,
+          motto: res.data.motto,
+          tree: res.data.tree,
+          invitationCode: res.data.invitationCode,
+          challengesIds: res.data.challengesIds,
+          mainSprint: res.data.mainSprint,
+          point: res.data.point,
+        };
+        dispatch(setFamily(familyData));
+        setFamilyPoint(res.data.point);
+      });
+    }
+  }, [isChanged, isOpen]);
 
   return (
     <>
       {isOpen && (
         <div
-          className="fixed inset-0 flex items-center justify-center z-50 ml-[5%] px-[20%] mb-40 py-40 pb-10"
+          className="fixed inset-0 flex items-center justify-center z-50 ml-60 py-20"
           id="my-modal"
           onClick={handleOutsideClick}
         >
@@ -100,14 +119,13 @@ const BoardModal = ({ isOpen, closeModal }) => {
                         key={segment}
                         className="w-px h-3 transition-opacity duration-100 ease-in-out bg-gray-400 rounded-full"
                         style={{
-                          opacity: selectedTab === segment ? 1 : 0.4, // 선택된 탭은 투명도 1, 나머지 탭은 투명도 0.5
+                          opacity: selectedTab === segment ? 1 : 0.4, 
                         }}
                       ></div>
                     ))}
                   </div>
                 </div>
 
-                {/* White sliding tab block */}
                 <div
                   className={`absolute left-0 inset-y-0 w-1/3 flex bg-white transition-all ease-in-out duration-200 transform rounded-md shadow`}
                   style={{
@@ -130,7 +148,7 @@ const BoardModal = ({ isOpen, closeModal }) => {
                     }`}
                     onClick={() => handleTabClick(segment)}
                     style={{
-                      opacity: selectedTab === segment ? 1 : 0.5, // 선택된 탭은 투명도 1, 나머지 탭은 투명도 0.5
+                      opacity: selectedTab === segment ? 1 : 0.5, 
                     }}
                   >
                     {segment === "segment1" ? "열매" : segment === "segment2" ? "도감" : "뽑기"}
@@ -169,9 +187,10 @@ const BoardModal = ({ isOpen, closeModal }) => {
                 )}
 
                 {/* segment3일 때 "상자 열기" 버튼 표시 */}
-                {selectedTab === "segment3" &&  (
-                  <span className="mr-auto" onClick={handleRaffle}>
-                    <SmallButton text="상자 열기" />
+                {selectedTab === "segment3" && (
+                  <span className="mr-auto" onClick={!disableOpenBoxButton ? handleRaffle : undefined}>
+                    <SmallButton text="상자 열기" disabled={disableOpenBoxButton}
+                     />
                   </span>
                 )}
 

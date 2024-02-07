@@ -47,19 +47,29 @@ import ALPHABET_T_B from '../../assets/images/fruits/20_b.png';
 import ALPHABET_U_B from '../../assets/images/fruits/21_b.png';
 
 const Collection = () => {
-  const familyId = useSelector((state) => state.family.value.id);
+  const family = useSelector((state) => state.family.value);
   const [fruitInventory, setFruitInventory] = useState([]);
-
+  const familyId = family.id
+  const sprintId = family.mainSprint.sprintId
   useEffect(() => {
-    axios.get(`family/${familyId}/inventory`)
+    axios.get(`family/${familyId}/inventory/${sprintId}`)
       .then((response) => {
-        console.log(response.data);
-        setFruitInventory(response.data);
-      })
+        console.log("Server response:", response.data); // 서버 응답 로그
+        const familyItemList = response.data.familyItemList;
+        console.log("familyItemList:", familyItemList); // familyItemList 로그
+  
+        if (Array.isArray(familyItemList)) {
+          setFruitInventory(familyItemList); // familyItemList가 배열이면 상태 업데이트
+        } else {
+          console.error("familyItemList is not an array:", familyItemList);
+          setFruitInventory([]); // familyItemList가 배열이 아니면 빈 배열로 초기화
+        }
+      })  
       .catch((error) => {
         console.error("Error fetching fruit inventory:", error);
       });
-  }, [familyId]);
+  }, [familyId, sprintId]);
+ 
 
   const fruitsToShow = [
     ALPHABET_A,
