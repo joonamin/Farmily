@@ -10,6 +10,7 @@ import com.ssafy.farmily.dto.FamilyListDto;
 import com.ssafy.farmily.dto.FamilyMainDto;
 import com.ssafy.farmily.dto.FamilyMemberResponseDto;
 import com.ssafy.farmily.dto.FamilyAchievementProgressDto;
+import com.ssafy.farmily.dto.FamilyPatchRequestDto;
 import com.ssafy.farmily.dto.FamilyStatisticsResponseDto;
 import com.ssafy.farmily.dto.JoinRequestDto;
 import com.ssafy.farmily.dto.MakingFamilyRequestDto;
@@ -18,10 +19,15 @@ import com.ssafy.farmily.dto.RafflingRequestDto;
 import com.ssafy.farmily.dto.RafflingResponseDto;
 import com.ssafy.farmily.dto.RefreshSprintRequestDto;
 import com.ssafy.farmily.dto.ServiceProcessResult;
+import com.ssafy.farmily.entity.Family;
 import com.ssafy.farmily.exception.NoSuchContentException;
 import com.ssafy.farmily.type.Item;
 
 public interface FamilyService {
+
+	Family getEntity(Long familyId);
+
+	void assertExists(Long familyId);
 
 	/**
 	 *
@@ -73,4 +79,10 @@ public interface FamilyService {
 	public FamilyListDto getFamilyList(String username);
 
 	public RafflingResponseDto raffleItem(RafflingRequestDto dto,String username);
+
+	void changeName(String username, Long familyId, FamilyPatchRequestDto.Name dto);
+
+	void changeMotto(String username, Long familyId, FamilyPatchRequestDto.Motto dto);
+
+	void changeImage(String username, Long familyId, FamilyPatchRequestDto.Image dto);
 }
