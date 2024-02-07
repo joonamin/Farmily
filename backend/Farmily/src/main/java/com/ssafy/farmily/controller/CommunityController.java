@@ -20,6 +20,7 @@ import com.ssafy.farmily.service.community.CommunityService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 import com.ssafy.farmily.utils.SliceResponse;
@@ -46,7 +47,7 @@ public class CommunityController {
 		@RequestParam(value = "reqLastSeenId", required = false) Long reqLastSeenId
 	) {
 		SliceResponse<CommunityPostDto> communityPostDtoList =
-			communityService.getCommunityPostList(3, reqPageNum, reqLastSeenId);
+			communityService.getCommunityPostList(8, reqPageNum, reqLastSeenId);
 		return ResponseEntity.ok(communityPostDtoList);
 	}
 
@@ -78,7 +79,7 @@ public class CommunityController {
 		)
 	})
 	public ResponseEntity<String> insertPost(
-		@RequestBody InsertCommunityPostRequestDto insertPostRequestDto,
+		@Valid InsertCommunityPostRequestDto insertPostRequestDto,
 		@AuthenticationPrincipal String username
 	) {
 		String result = communityService.insertCommunityPost(insertPostRequestDto, username);
