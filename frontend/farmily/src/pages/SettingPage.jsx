@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import axios from '../api/axios.jsx';
 import { getFamilies } from '../store/user.jsx';
+import { setFamily } from '../store/family';
 
 export default function SettingPage() {
   const navigate = useNavigate();
@@ -47,6 +48,19 @@ export default function SettingPage() {
     axios.get('/member/family').then((res) => {
       dispatch(getFamilies({ familyInfo: res.data }));
       setFamilies(res.data);
+    });
+    axios.get(`/family/${family.id}`).then((response) => {
+      const familyData = {
+        id: response.data.id,
+        name: response.data.name,
+        motto: response.data.motto,
+        tree: response.data.tree,
+        invitationCode: response.data.invitationCode,
+        challengesIds: response.data.challengesIds,
+        mainSprint: response.data.mainSprint,
+        fruitSkins: response.data.fruitSkins,
+      };
+      dispatch(setFamily(familyData));
     });
   }, [isChanged, isLeader]);
 
