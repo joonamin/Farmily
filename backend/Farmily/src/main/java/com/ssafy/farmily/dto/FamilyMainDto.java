@@ -18,6 +18,7 @@ public class FamilyMainDto {
 	private List<Long> challengesIds;
 	private MainSprintResponseDto mainSprint;
 	private String invitationCode;
+	private int point;
 	private FamilyFruitSkinsDto fruitSkins;
 	public static FamilyMainDto of(Family family) {
 		FamilyMainDto familyMainDTO = new FamilyMainDto();
@@ -27,7 +28,7 @@ public class FamilyMainDto {
 		familyMainDTO.setInvitationCode(family.getInvitationCode());
 		Tree tree = family.getTree();
 		familyMainDTO.setTree(FamilyMainTreeDto.from(tree));
-
+		familyMainDTO.setPoint(family.getPoint());
 		familyMainDTO.setFruitSkins(FamilyFruitSkinsDto.from(family.getFruitSkins()));
 
 		return familyMainDTO;
