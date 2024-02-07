@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ssafy.farmily.dto.ChangeLeaderRequestDto;
 import com.ssafy.farmily.dto.CreateFamilyResponseDto;
 import com.ssafy.farmily.dto.FamilyBasketDto;
+import com.ssafy.farmily.dto.FamilyFruitSkinsDto;
 import com.ssafy.farmily.dto.FamilyItemDto;
 import com.ssafy.farmily.dto.FamilyListDto;
 import com.ssafy.farmily.dto.FamilyMainDto;
@@ -251,16 +252,32 @@ public class FamilyController {
 		RafflingResponseDto responseDto = familyService.raffleItem(dto,username);
 		return ResponseEntity.ok(responseDto);
 	}
-	
+
+	@PutMapping("/{familyId}/fruit-skin")
+	@PreAuthorize("hasRole('ROLE_USER')")
+	@Operation(
+		summary = "열매 스킨 변경",
+		description = "열매 스킨을 변경합니다."
+	)
+	@ApiResponses({
+		@ApiResponse(responseCode = "200", description = "변경 성공")
+	})
+	public ResponseEntity<Void> putFruitSkin(
+		@AuthenticationPrincipal String username,
+		@PathVariable Long familyId,
+		@RequestBody @Valid FamilyFruitSkinsDto dto
+	) {
+		familyService.editFruitSkin(username, familyId, dto);
+		return ResponseEntity.ok().build();
+	}
+
+
 	@PatchMapping("/{familyId}/name")
 	@PreAuthorize("hasRole('ROLE_USER')")
 	@Operation(
 		summary = "가족 이름 변경",
 		description = "가족 이름을 변경합니다."
 	)
-	@ApiResponses({
-		@ApiResponse(responseCode = "200", description = "변경 성공")
-	})
 	public ResponseEntity<Void> patchName(
 		@AuthenticationPrincipal String username,
 		@PathVariable Long familyId,
@@ -303,6 +320,7 @@ public class FamilyController {
 		@RequestBody @Valid FamilyPatchRequestDto.Image dto
 	) {
 		familyService.changeImage(username, familyId, dto);
+
 		return ResponseEntity.ok().build();
 	}
 }

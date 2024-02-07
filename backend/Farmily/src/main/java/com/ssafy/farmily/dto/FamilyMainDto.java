@@ -11,13 +11,14 @@ import lombok.ToString;
 @Data
 @ToString
 public class FamilyMainDto {
-	Long id;
-	String name;
-	String motto;
-	FamilyMainTreeDto tree;
-	List<Long> challengesIds;
-	MainSprintResponseDto mainSprint;
-	String invitationCode;
+	private Long id;
+	private String name;
+	private String motto;
+	private FamilyMainTreeDto tree;
+	private List<Long> challengesIds;
+	private MainSprintResponseDto mainSprint;
+	private String invitationCode;
+	private FamilyFruitSkinsDto fruitSkins;
 	public static FamilyMainDto of(Family family) {
 		FamilyMainDto familyMainDTO = new FamilyMainDto();
 		familyMainDTO.setId(family.getId());
@@ -26,6 +27,9 @@ public class FamilyMainDto {
 		familyMainDTO.setInvitationCode(family.getInvitationCode());
 		Tree tree = family.getTree();
 		familyMainDTO.setTree(FamilyMainTreeDto.from(tree));
+
+		familyMainDTO.setFruitSkins(FamilyFruitSkinsDto.from(family.getFruitSkins()));
+
 		return familyMainDTO;
 	}
 

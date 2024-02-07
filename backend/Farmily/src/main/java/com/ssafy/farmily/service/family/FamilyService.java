@@ -5,6 +5,7 @@ import java.util.List;
 import com.ssafy.farmily.dto.ChangeLeaderRequestDto;
 import com.ssafy.farmily.dto.CreateFamilyResponseDto;
 import com.ssafy.farmily.dto.FamilyBasketDto;
+import com.ssafy.farmily.dto.FamilyFruitSkinsDto;
 import com.ssafy.farmily.dto.FamilyItemDto;
 import com.ssafy.farmily.dto.FamilyListDto;
 import com.ssafy.farmily.dto.FamilyMainDto;
@@ -79,6 +80,8 @@ public interface FamilyService {
 	public FamilyListDto getFamilyList(String username);
 
 	public RafflingResponseDto raffleItem(RafflingRequestDto dto,String username);
+
+	void editFruitSkin(String username, Long familyId, FamilyFruitSkinsDto dto);
 
 	void changeName(String username, Long familyId, FamilyPatchRequestDto.Name dto);
 

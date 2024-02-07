@@ -8,22 +8,20 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.function.Function;
 
-import org.apache.commons.validator.routines.DomainValidator;
 import org.springframework.stereotype.Service;
 
 import com.ssafy.farmily.aop.annotation.Statistics;
 import com.ssafy.farmily.dto.ChangeLeaderRequestDto;
 import com.ssafy.farmily.dto.CreateFamilyResponseDto;
-import com.ssafy.farmily.dto.FamilyAchievementProgressDto;
 import com.ssafy.farmily.dto.FamilyBasketDto;
+import com.ssafy.farmily.dto.FamilyFruitSkinsDto;
 import com.ssafy.farmily.dto.FamilyItemDto;
 import com.ssafy.farmily.dto.FamilyListDto;
 import com.ssafy.farmily.dto.FamilyMainDto;
 import com.ssafy.farmily.dto.FamilyMemberResponseDto;
 import com.ssafy.farmily.dto.FamilyPatchRequestDto;
-import com.ssafy.farmily.dto.FamilyStatisticsResponseDto;
-import com.ssafy.farmily.dto.ImageDto;
 import com.ssafy.farmily.dto.JoinRequestDto;
 import com.ssafy.farmily.dto.MainSprintResponseDto;
 import com.ssafy.farmily.dto.MakingFamilyRequestDto;
@@ -34,9 +32,9 @@ import com.ssafy.farmily.dto.RafflingResponseDto;
 import com.ssafy.farmily.dto.RefreshSprintRequestDto;
 import com.ssafy.farmily.dto.ServiceProcessResult;
 import com.ssafy.farmily.entity.AccessoryPlacement;
-import com.ssafy.farmily.entity.AchievementRewardHistory;
 import com.ssafy.farmily.entity.ChallengeRecord;
 import com.ssafy.farmily.entity.Family;
+import com.ssafy.farmily.entity.FamilyFruitSkins;
 import com.ssafy.farmily.entity.FamilyItem;
 import com.ssafy.farmily.entity.FamilyMembership;
 import com.ssafy.farmily.entity.FamilyStatistics;
@@ -50,7 +48,6 @@ import com.ssafy.farmily.entity.Tree;
 import com.ssafy.farmily.exception.BusinessException;
 import com.ssafy.farmily.exception.ForbiddenException;
 import com.ssafy.farmily.exception.NoSuchContentException;
-import com.ssafy.farmily.repository.AchievementRewardHistoryRepository;
 import com.ssafy.farmily.repository.FamilyItemRepository;
 import com.ssafy.farmily.repository.FamilyMembershipRepository;
 import com.ssafy.farmily.repository.FamilyRepository;
@@ -63,7 +60,6 @@ import com.ssafy.farmily.repository.TreeRepository;
 import com.ssafy.farmily.service.file.FileService;
 import com.ssafy.farmily.service.member.MemberService;
 import com.ssafy.farmily.type.AccessoryType;
-import com.ssafy.farmily.type.Achievement;
 import com.ssafy.farmily.type.FamilyRole;
 import com.ssafy.farmily.type.Item;
 import com.ssafy.farmily.utils.DateRange;
@@ -85,11 +81,17 @@ public class FamilyServiceImpl implements FamilyService {
 	private final MemberRepository memberRepository;
 	private final FamilyMembershipRepository familyMembershipRepository;
 	private final FamilyStatisticsRepository familyStatisticsRepository;
-	private final AchievementRewardHistoryRepository achievementRewardHistoryRepository;
 
 	private final MemberService memberService;
 	private final FileService fileService;
 	private final int RAFFLING_COST = 100;
+	private final Function<Family, FamilyFruitSkins> DEFAULT_FRUIT_SKINS_GENERATOR
+		= family -> FamilyFruitSkins.builder()
+			.family(family)
+			.daily(Item.ALPHABET_A)
+			.challenge(Item.ALPHABET_B)
+			.event(Item.ALPHABET_C)
+			.build();
 
 	@Override
 	@Transactional
@@ -239,9 +241,11 @@ public class FamilyServiceImpl implements FamilyService {
 		sprintRepository.save(sprint);
 		Tree tree = Tree.builder().family(family).placements(List.of()).build();
 
-		family.setSprints(List.of(sprint));
+		List<Sprint> sprints = new ArrayList<>();
+		sprints.add(sprint);
+
+		family.setSprints(sprints);
 		family.setTree(tree);
-		familyRepository.save(family);
 
 		FamilyStatistics familyStatistics = FamilyStatistics.builder()
 			.family(family)
@@ -262,6 +266,9 @@ public class FamilyServiceImpl implements FamilyService {
 			.build();
 
 		familyMembershipRepository.save(familyMembership);
+
+		family.setFruitSkins(DEFAULT_FRUIT_SKINS_GENERATOR.apply(family));
+		familyRepository.save(family);
 
 		CreateFamilyResponseDto createFamilyResponseDto = CreateFamilyResponseDto.builder()
 			.familyId(family.getId())
@@ -375,6 +382,24 @@ public class FamilyServiceImpl implements FamilyService {
 	}
 
 	@Override
+	public void editFruitSkin(String username, Long familyId, FamilyFruitSkinsDto dto) {
+		// TODO: MR !149 merge된 후 getEntity()로 리팩토링
+		Family family = familyRepository.findById(familyId)
+			.orElseThrow(() -> new NoSuchContentException("유효하지 않은 가족입니다."));
+		assertMembership(familyId, username);
+
+		FamilyFruitSkins entity = family.getFruitSkins();
+
+		entity.setDaily(dto.getDaily());
+		entity.setChallenge(dto.getChallenge());
+		entity.setEvent(dto.getEvent());
+
+		family.setFruitSkins(entity);
+
+		familyRepository.save(family);
+	}
+
+	@Override
 	public List<FamilyMemberResponseDto> loadFamilyMemberList(Long familyId, String username) {
 		Member me = memberService.getEntity(username);
 		List<FamilyMemberResponseDto> familyMembers = memberRepository.findAllByFamilyId(familyId);
@@ -455,7 +480,7 @@ public class FamilyServiceImpl implements FamilyService {
 
 		Family family = getEntity(familyId);
 
-		Image image = fileService.saveImage(dto.getMultipartFile());
+		Image image = fileService.saveImage(dto.getNewImage());
 
 		family.setImage(image);
 		familyRepository.save(family);
