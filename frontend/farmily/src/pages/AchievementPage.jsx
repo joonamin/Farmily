@@ -4,6 +4,7 @@ import AchievementList from '../components/common/AchievementList.jsx';
 import axios from '../api/axios.jsx';
 
 export default function AchievementPage() {
+  const [isChanged, setIsChanged] = useState(false);
   const [achievement, setAchievement] = useState([
     {
       content: '',
@@ -14,6 +15,9 @@ export default function AchievementPage() {
     },
   ]);
   const family = useSelector((state) => state.family.value);
+  const handleChange = () => {
+    setIsChanged(!isChanged);
+  };
   useEffect(() => {
     axios
       .get(`/achievement/${family.id}`)
@@ -23,16 +27,28 @@ export default function AchievementPage() {
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+  }, [isChanged]);
 
   const beforeTasks = filteredByPercent(achievement, 0, 0);
   const ongoingTasks = filteredByPercent(achievement, 1, 99);
   const finishedTasks = filteredByPercent(achievement, 100, 100);
   return (
     <>
-      <AchievementList title="시작 전 업적" tasks={beforeTasks} />
-      <AchievementList title="진행 중 업적" tasks={ongoingTasks} />
-      <AchievementList title="완료 업적" tasks={finishedTasks} />
+      <AchievementList
+        title="시작 전 업적"
+        tasks={beforeTasks}
+        handleChange={handleChange}
+      />
+      <AchievementList
+        title="진행 중 업적"
+        tasks={ongoingTasks}
+        handleChange={handleChange}
+      />
+      <AchievementList
+        title="완료 업적"
+        tasks={finishedTasks}
+        handleChange={handleChange}
+      />
     </>
   );
 }
