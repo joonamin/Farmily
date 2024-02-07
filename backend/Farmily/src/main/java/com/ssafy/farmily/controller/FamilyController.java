@@ -75,7 +75,7 @@ public class FamilyController {
 		@ApiResponse(
 			responseCode = "200",
 			description = "조회 성공",
-			content = @Content(schema = @Schema(implementation = FamilyItemDto.class))
+			content = @Content(schema = @Schema(implementation = GetInventoryResponseDto.class))
 		)
 	})
 	public ResponseEntity<GetInventoryResponseDto> getInventory(

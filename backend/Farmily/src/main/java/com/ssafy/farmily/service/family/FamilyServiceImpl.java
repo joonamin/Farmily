@@ -19,6 +19,7 @@ import com.ssafy.farmily.dto.ChangeLeaderRequestDto;
 import com.ssafy.farmily.dto.CreateFamilyResponseDto;
 import com.ssafy.farmily.dto.FamilyBasketDto;
 import com.ssafy.farmily.dto.FamilyFruitSkinsDto;
+import com.ssafy.farmily.dto.FamilyInventoryRecordResponseDto;
 import com.ssafy.farmily.dto.FamilyItemDto;
 import com.ssafy.farmily.dto.FamilyListDto;
 import com.ssafy.farmily.dto.FamilyMainDto;
@@ -152,9 +153,11 @@ public class FamilyServiceImpl implements FamilyService {
 		List<FamilyInventoryRecordResponseDtoInterface> recordFruitList
 			= recordRepository.findRecordInInventory(sprintId);
 
-		GetInventoryResponseDto responseDto
-			= new GetInventoryResponseDto(familyItemDtoList,recordFruitList);
-		return responseDto;
+		List<FamilyInventoryRecordResponseDto> dtoList = recordFruitList.stream()
+			.map(FamilyInventoryRecordResponseDto::of)
+			.toList();
+
+		return new GetInventoryResponseDto(familyItemDtoList, dtoList);
 	}
 
 	@Override
