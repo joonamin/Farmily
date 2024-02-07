@@ -83,4 +83,6 @@ public interface FamilyService {
 	void changeName(String username, Long familyId, FamilyPatchRequestDto.Name dto);
 
 	void changeMotto(String username, Long familyId, FamilyPatchRequestDto.Motto dto);
+
+	void changeImage(String username, Long familyId, FamilyPatchRequestDto.Image dto);
 }

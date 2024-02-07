@@ -43,6 +43,6 @@ public class FamilyPatchRequestDto {
 	public static class Image {
 		@NotNull
 		@AllowedFileCategories(categories = FileCategory.IMAGE)
-		private MultipartFile multipartFile;
+		private MultipartFile newImage;
 	}
 }

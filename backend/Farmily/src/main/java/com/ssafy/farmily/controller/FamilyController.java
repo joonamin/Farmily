@@ -287,4 +287,22 @@ public class FamilyController {
 		familyService.changeMotto(username, familyId, dto);
 		return ResponseEntity.ok().build();
 	}
+
+	@PatchMapping("/{familyId}/image")
+	@PreAuthorize("hasRole('ROLE_USER')")
+	@Operation(
+		summary = "가족 이미지 변경",
+		description = "가족 이미지를 변경합니다."
+	)
+	@ApiResponses({
+		@ApiResponse(responseCode = "200", description = "변경 성공")
+	})
+	public ResponseEntity<Void> patchImage(
+		@AuthenticationPrincipal String username,
+		@PathVariable Long familyId,
+		@RequestBody FamilyPatchRequestDto.Image dto
+	) {
+		familyService.changeImage(username, familyId, dto);
+		return ResponseEntity.ok().build();
+	}
 }

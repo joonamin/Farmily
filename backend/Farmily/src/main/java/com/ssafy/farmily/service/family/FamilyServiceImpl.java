@@ -23,6 +23,7 @@ import com.ssafy.farmily.dto.FamilyMainDto;
 import com.ssafy.farmily.dto.FamilyMemberResponseDto;
 import com.ssafy.farmily.dto.FamilyPatchRequestDto;
 import com.ssafy.farmily.dto.FamilyStatisticsResponseDto;
+import com.ssafy.farmily.dto.ImageDto;
 import com.ssafy.farmily.dto.JoinRequestDto;
 import com.ssafy.farmily.dto.MainSprintResponseDto;
 import com.ssafy.farmily.dto.MakingFamilyRequestDto;
@@ -444,6 +445,19 @@ public class FamilyServiceImpl implements FamilyService {
 
 		Family family = getEntity(familyId);
 		family.setMotto(dto.getNewMotto());
+		familyRepository.save(family);
+	}
+
+	@Override
+	@Transactional
+	public void changeImage(String username, Long familyId, FamilyPatchRequestDto.Image dto) {
+		this.assertMembership(familyId, username);
+
+		Family family = getEntity(familyId);
+
+		Image image = fileService.saveImage(dto.getMultipartFile());
+
+		family.setImage(image);
 		familyRepository.save(family);
 	}
 }
