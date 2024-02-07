@@ -1,6 +1,7 @@
 package com.ssafy.farmily.service.family;
 
 import java.util.List;
+import java.util.Map;
 
 import com.ssafy.farmily.dto.ChangeLeaderRequestDto;
 import com.ssafy.farmily.dto.CreateFamilyResponseDto;
@@ -13,6 +14,7 @@ import com.ssafy.farmily.dto.FamilyMemberResponseDto;
 import com.ssafy.farmily.dto.FamilyAchievementProgressDto;
 import com.ssafy.farmily.dto.FamilyPatchRequestDto;
 import com.ssafy.farmily.dto.FamilyStatisticsResponseDto;
+import com.ssafy.farmily.dto.GetInventoryResponseDto;
 import com.ssafy.farmily.dto.JoinRequestDto;
 import com.ssafy.farmily.dto.MakingFamilyRequestDto;
 import com.ssafy.farmily.dto.PlacingItemRequestDto;
@@ -44,7 +46,7 @@ public interface FamilyService {
 	 * @return familyId에 해당하는 인벤토리를 반환한다.
 	 * @throws NoSuchContentException
 	 */
-	public List<FamilyItemDto> getFamilyInventory(Long familyId);
+	public GetInventoryResponseDto getFamilyInventory(String username,Long familyId,Long sprintId);
 
 	/**
 	 *

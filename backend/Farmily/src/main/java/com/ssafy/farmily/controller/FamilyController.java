@@ -1,6 +1,7 @@
 package com.ssafy.farmily.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -22,6 +23,7 @@ import com.ssafy.farmily.dto.FamilyItemDto;
 import com.ssafy.farmily.dto.FamilyListDto;
 import com.ssafy.farmily.dto.FamilyMainDto;
 import com.ssafy.farmily.dto.FamilyMemberResponseDto;
+import com.ssafy.farmily.dto.GetInventoryResponseDto;
 import com.ssafy.farmily.dto.FamilyPatchRequestDto;
 import com.ssafy.farmily.dto.JoinRequestDto;
 import com.ssafy.farmily.dto.MakingFamilyRequestDto;
@@ -64,7 +66,7 @@ public class FamilyController {
 		return ResponseEntity.ok(familyMainDTO);
 	}
 
-	@GetMapping("/{familyId}/inventory")
+	@GetMapping("/{familyId}/inventory/{sprintId}")
 	@Operation(
 		summary = "인벤토리 조회",
 		description = "가족의 인벤토리를 조회합니다."
@@ -76,10 +78,14 @@ public class FamilyController {
 			content = @Content(schema = @Schema(implementation = FamilyItemDto.class))
 		)
 	})
-	public ResponseEntity<List<FamilyItemDto>> getInventory(@PathVariable(value = "familyId") Long familyId) {
-		List<FamilyItemDto> familyItemDtoList = familyService.getFamilyInventory(familyId);
+	public ResponseEntity<GetInventoryResponseDto> getInventory(
+		@AuthenticationPrincipal String username,
+		@PathVariable(value = "familyId") Long familyId,
+		@PathVariable(value = "sprintId") Long sprintId
+	) {
+		GetInventoryResponseDto responseDto = familyService.getFamilyInventory(username,familyId,sprintId);
 
-		return ResponseEntity.ok(familyItemDtoList);
+		return ResponseEntity.ok(responseDto);
 	}
 
 	@GetMapping("/{familyId}/basket")

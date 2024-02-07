@@ -21,6 +21,9 @@ import lombok.Setter;
 @Schema(description = "챌린지기록 작성 요청 DTO")
 public class ChallengeRecordPostRequestDto {
 	@NotNull
+	private Long familyId;
+
+	@NotNull
 	private Long sprintId;
 
 	@NotBlank

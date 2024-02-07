@@ -3,8 +3,10 @@ package com.ssafy.farmily.service.family;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
@@ -21,6 +23,8 @@ import com.ssafy.farmily.dto.FamilyItemDto;
 import com.ssafy.farmily.dto.FamilyListDto;
 import com.ssafy.farmily.dto.FamilyMainDto;
 import com.ssafy.farmily.dto.FamilyMemberResponseDto;
+import com.ssafy.farmily.dto.FamilyInventoryRecordResponseDtoInterface;
+import com.ssafy.farmily.dto.GetInventoryResponseDto;
 import com.ssafy.farmily.dto.FamilyPatchRequestDto;
 import com.ssafy.farmily.dto.JoinRequestDto;
 import com.ssafy.farmily.dto.MainSprintResponseDto;
@@ -134,16 +138,23 @@ public class FamilyServiceImpl implements FamilyService {
 
 	@Override
 	@Transactional
-	public List<FamilyItemDto> getFamilyInventory(Long familyId) {
-		assertExists(familyId);
+	public GetInventoryResponseDto getFamilyInventory(String username, Long familyId,Long sprintId) {
+		familyRepository.findById(familyId).orElseThrow(() -> new NoSuchContentException("존재하지 않는 가족입니다."));
+		assertMembership(familyId,username);
 
 		List<FamilyItemDto> familyItemDtoList = new LinkedList<>();
-		List<FamilyItem> temp = familyItemRepository.findByFamilyId(familyId);
-		for (FamilyItem item : temp) {
+		List<FamilyItem> familyItemEntityList = familyItemRepository.findByFamilyId(familyId);
+		for (FamilyItem item : familyItemEntityList) {
 			FamilyItemDto familyItemDTO = FamilyItemDto.of(item);
 			familyItemDtoList.add(familyItemDTO);
 		}
-		return familyItemDtoList;
+
+		List<FamilyInventoryRecordResponseDtoInterface> recordFruitList
+			= recordRepository.findRecordInInventory(sprintId);
+
+		GetInventoryResponseDto responseDto
+			= new GetInventoryResponseDto(familyItemDtoList,recordFruitList);
+		return responseDto;
 	}
 
 	@Override
@@ -366,7 +377,7 @@ public class FamilyServiceImpl implements FamilyService {
 			int rafflingItemId = (int)(Math.random() * allOfItemList.length);
 			Item item = allOfItemList[rafflingItemId];
 
-			if (!familyItemRepository.existsByCode(item)) {
+			if (!familyItemRepository.existsByCodeAndFamilyId(item,familyId)) {
 				FamilyItem entity = FamilyItem.builder()
 					.family(family)
 					.code(item)

@@ -46,6 +46,7 @@ public class AchievementServiceImpl implements AchievementService {
 			int rewardPoint = achievement.getReward();
 			float goal = achievement.getGoal();
 			String content = achievement.getContent();
+			String achivementString = achievement.getAchievement();
 
 			int percent = 0;
 			if (progress >= goal) {
@@ -61,6 +62,7 @@ public class AchievementServiceImpl implements AchievementService {
 				.percent(percent)
 				.progress(progress)
 				.rewarded(false)
+				.achievement(achivementString)
 				.build();
 			if (progressDto.getReceivedRewardChallenge().contains(achievement))
 				responseDto.setRewarded(true);
