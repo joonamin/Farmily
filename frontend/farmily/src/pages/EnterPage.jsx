@@ -10,7 +10,7 @@ export default function EnterPage() {
       .post('/family/join', { invitationCode: invitationCode })
       .then((response) => {
         console.log(response.data);
-        navigate('/tree');
+        navigate('/welcome');
       })
       .catch((error) => {
         console.log(error);
