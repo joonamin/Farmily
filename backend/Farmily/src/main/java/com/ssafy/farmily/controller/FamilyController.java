@@ -1,27 +1,30 @@
 package com.ssafy.farmily.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.farmily.dto.ChangeLeaderRequestDto;
 import com.ssafy.farmily.dto.CreateFamilyResponseDto;
 import com.ssafy.farmily.dto.FamilyBasketDto;
+import com.ssafy.farmily.dto.FamilyFruitSkinsDto;
 import com.ssafy.farmily.dto.FamilyItemDto;
 import com.ssafy.farmily.dto.FamilyListDto;
 import com.ssafy.farmily.dto.FamilyMainDto;
 import com.ssafy.farmily.dto.FamilyMemberResponseDto;
-import com.ssafy.farmily.dto.FamilyStatisticsResponseDto;
+import com.ssafy.farmily.dto.GetInventoryResponseDto;
+import com.ssafy.farmily.dto.FamilyPatchRequestDto;
 import com.ssafy.farmily.dto.JoinRequestDto;
 import com.ssafy.farmily.dto.MakingFamilyRequestDto;
 import com.ssafy.farmily.dto.PlacingItemRequestDto;
@@ -63,7 +66,7 @@ public class FamilyController {
 		return ResponseEntity.ok(familyMainDTO);
 	}
 
-	@GetMapping("/{familyId}/inventory")
+	@GetMapping("/{familyId}/inventory/{sprintId}")
 	@Operation(
 		summary = "인벤토리 조회",
 		description = "가족의 인벤토리를 조회합니다."
@@ -75,10 +78,14 @@ public class FamilyController {
 			content = @Content(schema = @Schema(implementation = FamilyItemDto.class))
 		)
 	})
-	public ResponseEntity<List<FamilyItemDto>> getInventory(@PathVariable(value = "familyId") Long familyId) {
-		List<FamilyItemDto> familyItemDtoList = familyService.getFamilyInventory(familyId);
+	public ResponseEntity<GetInventoryResponseDto> getInventory(
+		@AuthenticationPrincipal String username,
+		@PathVariable(value = "familyId") Long familyId,
+		@PathVariable(value = "sprintId") Long sprintId
+	) {
+		GetInventoryResponseDto responseDto = familyService.getFamilyInventory(username,familyId,sprintId);
 
-		return ResponseEntity.ok(familyItemDtoList);
+		return ResponseEntity.ok(responseDto);
 	}
 
 	@GetMapping("/{familyId}/basket")
@@ -250,5 +257,76 @@ public class FamilyController {
 	public ResponseEntity<RafflingResponseDto> raffleItem(@RequestBody RafflingRequestDto dto,@AuthenticationPrincipal String username){
 		RafflingResponseDto responseDto = familyService.raffleItem(dto,username);
 		return ResponseEntity.ok(responseDto);
+	}
+
+	@PutMapping("/{familyId}/fruit-skin")
+	@PreAuthorize("hasRole('ROLE_USER')")
+	@Operation(
+		summary = "열매 스킨 변경",
+		description = "열매 스킨을 변경합니다."
+	)
+	@ApiResponses({
+		@ApiResponse(responseCode = "200", description = "변경 성공")
+	})
+	public ResponseEntity<Void> putFruitSkin(
+		@AuthenticationPrincipal String username,
+		@PathVariable Long familyId,
+		@RequestBody @Valid FamilyFruitSkinsDto dto
+	) {
+		familyService.editFruitSkin(username, familyId, dto);
+		return ResponseEntity.ok().build();
+	}
+
+
+	@PatchMapping("/{familyId}/name")
+	@PreAuthorize("hasRole('ROLE_USER')")
+	@Operation(
+		summary = "가족 이름 변경",
+		description = "가족 이름을 변경합니다."
+	)
+	public ResponseEntity<Void> patchName(
+		@AuthenticationPrincipal String username,
+		@PathVariable Long familyId,
+		@RequestBody @Valid FamilyPatchRequestDto.Name dto
+	) {
+		familyService.changeName(username, familyId, dto);
+		return ResponseEntity.ok().build();
+	}
+
+	@PatchMapping("/{familyId}/motto")
+	@PreAuthorize("hasRole('ROLE_USER')")
+	@Operation(
+		summary = "가족 가훈 변경",
+		description = "가족 가훈을 변경합니다."
+	)
+	@ApiResponses({
+		@ApiResponse(responseCode = "200", description = "변경 성공")
+	})
+	public ResponseEntity<Void> patchMotto(
+		@AuthenticationPrincipal String username,
+		@PathVariable Long familyId,
+		@RequestBody @Valid FamilyPatchRequestDto.Motto dto
+	) {
+		familyService.changeMotto(username, familyId, dto);
+		return ResponseEntity.ok().build();
+	}
+
+	@PatchMapping("/{familyId}/image")
+	@PreAuthorize("hasRole('ROLE_USER')")
+	@Operation(
+		summary = "가족 이미지 변경",
+		description = "가족 이미지를 변경합니다."
+	)
+	@ApiResponses({
+		@ApiResponse(responseCode = "200", description = "변경 성공")
+	})
+	public ResponseEntity<Void> patchImage(
+		@AuthenticationPrincipal String username,
+		@PathVariable Long familyId,
+		@RequestBody @Valid FamilyPatchRequestDto.Image dto
+	) {
+		familyService.changeImage(username, familyId, dto);
+
+		return ResponseEntity.ok().build();
 	}
 }

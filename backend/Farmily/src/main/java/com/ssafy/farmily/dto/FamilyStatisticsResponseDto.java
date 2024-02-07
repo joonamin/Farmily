@@ -16,4 +16,5 @@ public class FamilyStatisticsResponseDto {
 	private int rewardPoint;
 	private int progress;
 	private boolean rewarded;
+	private String achievement;
 }

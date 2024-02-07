@@ -1,16 +1,20 @@
 package com.ssafy.farmily.service.family;
 
 import java.util.List;
+import java.util.Map;
 
 import com.ssafy.farmily.dto.ChangeLeaderRequestDto;
 import com.ssafy.farmily.dto.CreateFamilyResponseDto;
 import com.ssafy.farmily.dto.FamilyBasketDto;
+import com.ssafy.farmily.dto.FamilyFruitSkinsDto;
 import com.ssafy.farmily.dto.FamilyItemDto;
 import com.ssafy.farmily.dto.FamilyListDto;
 import com.ssafy.farmily.dto.FamilyMainDto;
 import com.ssafy.farmily.dto.FamilyMemberResponseDto;
 import com.ssafy.farmily.dto.FamilyAchievementProgressDto;
+import com.ssafy.farmily.dto.FamilyPatchRequestDto;
 import com.ssafy.farmily.dto.FamilyStatisticsResponseDto;
+import com.ssafy.farmily.dto.GetInventoryResponseDto;
 import com.ssafy.farmily.dto.JoinRequestDto;
 import com.ssafy.farmily.dto.MakingFamilyRequestDto;
 import com.ssafy.farmily.dto.PlacingItemRequestDto;
@@ -18,10 +22,15 @@ import com.ssafy.farmily.dto.RafflingRequestDto;
 import com.ssafy.farmily.dto.RafflingResponseDto;
 import com.ssafy.farmily.dto.RefreshSprintRequestDto;
 import com.ssafy.farmily.dto.ServiceProcessResult;
+import com.ssafy.farmily.entity.Family;
 import com.ssafy.farmily.exception.NoSuchContentException;
 import com.ssafy.farmily.type.Item;
 
 public interface FamilyService {
+
+	Family getEntity(Long familyId);
+
+	void assertExists(Long familyId);
 
 	/**
 	 *
@@ -37,7 +46,7 @@ public interface FamilyService {
 	 * @return familyId에 해당하는 인벤토리를 반환한다.
 	 * @throws NoSuchContentException
 	 */
-	public List<FamilyItemDto> getFamilyInventory(Long familyId);
+	public GetInventoryResponseDto getFamilyInventory(String username,Long familyId,Long sprintId);
 
 	/**
 	 *
@@ -73,4 +82,12 @@ public interface FamilyService {
 	public FamilyListDto getFamilyList(String username);
 
 	public RafflingResponseDto raffleItem(RafflingRequestDto dto,String username);
+
+	void editFruitSkin(String username, Long familyId, FamilyFruitSkinsDto dto);
+
+	void changeName(String username, Long familyId, FamilyPatchRequestDto.Name dto);
+
+	void changeMotto(String username, Long familyId, FamilyPatchRequestDto.Motto dto);
+
+	void changeImage(String username, Long familyId, FamilyPatchRequestDto.Image dto);
 }

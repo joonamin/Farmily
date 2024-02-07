@@ -16,7 +16,7 @@ export default function AchievementPage() {
   const family = useSelector((state) => state.family.value);
   useEffect(() => {
     axios
-      .get(`/family/${family.id}/achievement`)
+      .get(`/achievement/${family.id}`)
       .then((response) => {
         setAchievement(response.data);
       })

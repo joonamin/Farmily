@@ -12,5 +12,5 @@ import com.ssafy.farmily.type.Item;
 public interface FamilyItemRepository extends JpaRepository<FamilyItem, Long> {
 	List<FamilyItem> findByFamilyId(Long familyId);
 	List<FamilyItem> findAllByFamilyId(Long familyId);
-	boolean existsByCode(Item item);
+	boolean existsByCodeAndFamilyId(Item item, Long familyId);
 }
