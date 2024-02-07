@@ -1,31 +1,82 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import CommunityItem from '../components/common/CommunityItem.jsx';
 import SmallButton from '../components/button/SmallButton.jsx';
-
-const TESTITEMS = [
-  { id: 1, title: '게시글 제목1', family: '가족명1' },
-  { id: 2, title: '게시글 제목2', family: '가족명2' },
-  { id: 3, title: '게시글 제목3', family: '가족명3' },
-  { id: 4, title: '게시글 제목4', family: '가족명4' },
-  { id: 5, title: '게시글 제목5', family: '가족명5' },
-  { id: 6, title: '게시글 제목6', family: '가족명6' },
-  { id: 7, title: '게시글 제목7', family: '가족명7' },
-  { id: 8, title: '게시글 제목8', family: '가족명8' },
-  { id: 9, title: '게시글 제목9', family: '가족명9' },
-  { id: 10, title: '게시글 제목', family: '가족명10' },
-  { id: 11, title: '게시글 제목', family: '가족명' },
-  { id: 12, title: '게시글 제목', family: '가족명' },
-  { id: 13, title: '게시글 제목', family: '가족명' },
-];
+import axios from '../api/axios.jsx';
 
 export default function CommunityPage() {
+  const [posts, setPosts] = useState([]);
+  const [hasNext, setHasNext] = useState(true);
+  const [page, setPage] = useState(0);
+
+  const observerRef = useRef(null);
+
+  const handleIntersection = (entries) => {
+    if (entries[0].isIntersecting) {
+      // Intersection 발생 시 다음 페이지 데이터 로딩
+      loadNextPage();
+      // console.log('끝');
+    }
+  };
+
+  const loadNextPage = () => {
+    if (hasNext) {
+      // 다음 페이지로 이동
+      setPage((prevPage) => prevPage + 1);
+    }
+  };
+
+  useEffect(() => {
+    // 초기 데이터 로딩
+    axios
+      .get(`/community?reqPageNum=${page}`)
+      .then((res) => {
+        setPosts(res.data.contents);
+        setHasNext(res.data.hasNext);
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+    // Intersection Observer 생성
+    observerRef.current = new IntersectionObserver(handleIntersection, {
+      root: null, // 기본값은 viewport
+      rootMargin: '0px',
+      threshold: 0.1, // 엘리먼트가 화면에 10% 이상 나타나면 콜백 실행
+    });
+
+    // Intersection Observer에 관찰 대상 추가
+    observerRef.current.observe(document.getElementById('scroll-trigger'));
+
+    // 컴포넌트가 언마운트될 때 Intersection Observer 해제
+    return () => {
+      observerRef.current.disconnect();
+    };
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    // 스크롤이 끝에 도달했을 때 추가 페이지 데이터를 불러와서 기존 데이터에 추가
+    if (page > 0) {
+      axios
+        .get(`/community?reqPageNum=${page}`)
+        .then((res) => {
+          setPosts((prevPosts) => [...prevPosts, ...res.data.contents]);
+          setHasNext(res.data.hasNext);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }, [page]);
+
   return (
     <div className="h-full overflow-hidden p-5">
-      <div className=" h-5/6 flex flex-wrap justify-center snap-y overflow-y-scroll">
-        {/* sprint 정보 보내기 */}
-        {TESTITEMS.map((item, index) => (
+      <div className="h-5/6 flex flex-wrap justify-center snap-y overflow-y-scroll">
+        {posts.map((item, index) => (
           <CommunityItem key={index} {...item} />
         ))}
+        <div id="scroll-trigger" style={{ height: '10px' }}></div>
+        {/* Intersection Observer의 관찰 대상으로 사용되는 엘리먼트 */}
       </div>
       <div className="flex justify-end pr-4 pt-4">
         <SmallButton text="글쓰기" url="/family/community/write" />

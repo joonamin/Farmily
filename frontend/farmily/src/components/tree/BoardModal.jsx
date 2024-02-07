@@ -1,4 +1,6 @@
+<<<<<<< frontend/farmily/src/components/tree/BoardModal.jsx
   import React, { useState, useEffect } from "react";
+  import { useSelector } from 'react-redux';
   import SmallButton from "../button/SmallButton";
   import Draw from "./Draw";
   import Collection from "./Collection";
@@ -8,6 +10,7 @@
 
   const BoardModal = ({ isOpen, closeModal }) => {
     const [selectedTab, setSelectedTab] = useState("segment1");
+    const family = useSelector((state) => state.family.value);
     const { familyId } = useParams();
     const [isRaffling, setIsRaffling] = useState(false);
     const [rafflingResponse, setRafflingResponse] = useState(null);
@@ -32,6 +35,21 @@
     const handleOutsideClick = (e) => {
       if (e.target.id === "my-modal") {
         closeModal();
+=======
+import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
+import SmallButton from '../button/SmallButton';
+import Draw from './Draw';
+import Collection from './Collection';
+import Fruits from './Fruits';
+
+const BoardModal = ({ isOpen, closeModal }) => {
+  const [selectedTab, setSelectedTab] = useState('segment1');
+  const family = useSelector((state) => state.family.value);
+  const handleOutsideClick = (e) => {
+    if (e.target.id === 'my-modal') {
+      closeModal();
+>>>>>>> frontend/farmily/src/components/tree/BoardModal.jsx
       }
     };
 
@@ -157,6 +175,7 @@
                   />
                 </div>
               )}
+<<<<<<< frontend/farmily/src/components/tree/BoardModal.jsx
         <div className="mt-auto w-full">
           <div className="flex justify-end items-center">
             {selectedTab === "segment3" && (
@@ -165,11 +184,23 @@
             <span onClick={closeModal}><SmallButton text="닫기" /></span>
             </div>
           </div>
+=======
+             <div className="mt-auto w-full">
+
+              <div className="flex justify-end items-center">
+                <SmallButton
+                  text="열매 배치"
+                  url={`/tree/${family.id}/decorate`}
+                />
+                <span onClick={closeModal}><SmallButton text="닫기" /></span>
+              </div>
+             </div>
+>>>>>>> frontend/farmily/src/components/tree/BoardModal.jsx
             </div>
           </div>
         )}
       </>
     );
-  };
+};
 
-  export default BoardModal;
+export default BoardModal;

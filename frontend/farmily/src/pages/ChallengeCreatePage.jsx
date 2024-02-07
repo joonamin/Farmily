@@ -13,6 +13,7 @@ export default function ChallengeCreatePage() {
 
   const [formData, setFormData] = useState({
     sprintId: family.mainSprint.sprintId,
+    familyId: family.id,
     title: '',
     content: '',
     dateRange: {

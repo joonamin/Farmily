@@ -5,5 +5,5 @@ export default function IndexLayout() {
     <main className="absolute flex items-end justify-between h-screen w-screen bg-main bg-cover bg-bottom mx-0 font-['DungGeunMo']">
       <Outlet />
     </main>
-  )
+  );
 }
