@@ -45,7 +45,7 @@ public interface RecordRepository extends JpaRepository<Record, Long> {
 
 	@Query("""
 		SELECT		r.type AS type, COUNT(r.id) AS count
-		FROM		Sprint s JOIN Record r
+		FROM		Sprint s JOIN s.records r
 		WHERE		s.id = :sprintId
 		GROUP BY	r.type
 	""")

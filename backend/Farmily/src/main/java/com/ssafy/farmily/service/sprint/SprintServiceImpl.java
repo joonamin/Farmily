@@ -56,8 +56,11 @@ public class SprintServiceImpl implements SprintService {
 	public SprintRecordFirstResponseDto getRecordsInitially(Long sprintId, int pageSize, int imageCountMax) {
 		Sprint sprint = this.getEntityById(sprintId);
 
+		SprintRecordCountsDto countsDto
+			= SprintRecordCountsDto.from(recordRepository.countRecordGroupByRecordType(sprintId));
+
 		return SprintRecordFirstResponseDto.builder()
-			.counts(this.getRecordCounts(sprintId))
+			.counts(countsDto)
 			.dateRange(sprint.getDateRange())
 			.images(this.getRandomImageCardImageDtos(sprintId, imageCountMax))
 			.page(this.getRecordsPagination(sprint, 1, pageSize))
@@ -69,10 +72,6 @@ public class SprintServiceImpl implements SprintService {
 		Sprint sprint = this.getEntityById(sprintId);
 
 		return this.getRecordsPagination(sprint, pageNo, pageSize);
-	}
-
-	private SprintRecordCountsDto getRecordCounts(Long sprintId) {
-
 	}
 
 	private List<ImageCardImageDto> getRandomImageCardImageDtos(Long sprintId, int countMax) {
