@@ -80,7 +80,7 @@ const WelcomePage = () => {
       </div>
       <div className="w-1/6 mr-32 mb-28 relative">
         <p
-          className="text-white text-4xl absolute top-16 left-12 cursor-pointer"
+          className="text-white text-4xl absolute top-16 left-16 cursor-pointer mt-3"
           onClick={openModal}
         >
           시작하기
@@ -133,20 +133,24 @@ const WelcomePage = () => {
                         htmlFor="family_select"
                         className="block text-sm font-medium text-gray-700"
                       >
-                        가족을 선택하세요:
+                        가족을 선택하세요
                       </label>
-                      <select
-                        id="family_select"
-                        value={selectedFamilyId}
-                        onChange={(e) => setSelectedFamilyId(e.target.value)}
-                        className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-blue-300"
-                      >
-                        {families.map((family, index) => (
-                          <option key={index} value={family.familyId}>
-                            {family.name}
-                          </option>
-                        ))}
-                      </select>
+                      {families ? (
+                        <select
+                          id="family_select"
+                          value={selectedFamilyId}
+                          onChange={(e) => setSelectedFamilyId(e.target.value)}
+                          className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-blue-300"
+                        >
+                          {families.map((family, index) => (
+                            <option key={index} value={family.familyId}>
+                              {family.name}
+                            </option>
+                          ))}
+                        </select>
+                      ) : (
+                        <p>새로운 가족을 만들어주세요</p>
+                      )}
                     </div>
                   </div>
                 </div>
