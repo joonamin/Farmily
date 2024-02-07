@@ -269,7 +269,7 @@ public class RecordServiceImpl implements RecordService {
 	@Override
 	@Transactional
 	@Statistics(FamilyStatistics.Field.CHALLENGE_COMPLETE_COUNT)
-	public ServiceProcessResult getReward(String username, Long recordId, ChallengeRewardRequestDto dto) {
+	public ServiceProcessResult setChallengeComplete(String username, Long recordId, ChallengeRewardRequestDto dto) {
 		familyService.assertMembership(dto.getFamilyId(), username);
 
 		ChallengeRecordResponseDto recordDto = (ChallengeRecordResponseDto)getDtoById(recordId);
@@ -289,9 +289,6 @@ public class RecordServiceImpl implements RecordService {
 		long duration = dateRange.getStartDate().until(dateRange.getEndDate(), ChronoUnit.DAYS);
 		long completeDays = progress.size();
 		double percent = completeDays / (double)duration;
-		if (percent >= 0.7) {
-			return true;
-		}
-		return false;
+		return percent >= 0.7;
 	}
 }

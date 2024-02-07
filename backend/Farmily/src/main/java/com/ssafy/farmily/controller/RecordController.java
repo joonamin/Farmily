@@ -229,13 +229,13 @@ public class RecordController {
 		return ResponseEntity.ok().build();
 	}
 
-	@PostMapping("/{recordId}/getReward")
-	private ResponseEntity<Void> getChallengeReward(
+	@PostMapping("/{recordId}/receive-reward")
+	private ResponseEntity<Void> receiveChallengeReward(
 		@AuthenticationPrincipal String username,
 		@PathVariable Long recordId,
 		@RequestBody ChallengeRewardRequestDto dto
 	){
-		ServiceProcessResult result = recordService.getReward(username,recordId,dto);
+		recordService.setChallengeComplete(username,recordId,dto);
 		return ResponseEntity.ok().build();
 	}
 }
