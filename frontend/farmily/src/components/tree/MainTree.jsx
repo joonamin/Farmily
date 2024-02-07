@@ -89,9 +89,11 @@ export default function MainTree() {
       {
         <div className="flex h-28 items-center justify-center">
           {isMotto && (
-            <div className={`relative animate-fade-up`}>
+            <div
+              className={`relative animate-fade-up h-full flex items-center`}
+            >
               <img src={MottoBoard} />
-              <p className="absolute text-xl text-black text inset-x-10 bottom-5 flex justify-center">
+              <p className="absolute text-xl top-0 text-black text h-full inset-x-10 flex justify-center items-center">
                 {family.motto}
               </p>
             </div>
