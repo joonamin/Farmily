@@ -323,7 +323,7 @@ public class FamilyController {
 	public ResponseEntity<Void> patchImage(
 		@AuthenticationPrincipal String username,
 		@PathVariable Long familyId,
-		@RequestBody @Valid FamilyPatchRequestDto.Image dto
+		@Valid FamilyPatchRequestDto.Image dto
 	) {
 		familyService.changeImage(username, familyId, dto);
 
