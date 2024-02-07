@@ -92,11 +92,11 @@ public class FamilyServiceImpl implements FamilyService {
 	private final int RAFFLING_COST = 100;
 	private final Function<Family, FamilyFruitSkins> DEFAULT_FRUIT_SKINS_GENERATOR
 		= family -> FamilyFruitSkins.builder()
-			.family(family)
-			.daily(Item.ALPHABET_A)
-			.challenge(Item.ALPHABET_B)
-			.event(Item.ALPHABET_C)
-			.build();
+		.family(family)
+		.daily(Item.ALPHABET_A)
+		.challenge(Item.ALPHABET_B)
+		.event(Item.ALPHABET_C)
+		.build();
 
 	@Override
 	@Transactional
@@ -139,9 +139,9 @@ public class FamilyServiceImpl implements FamilyService {
 
 	@Override
 	@Transactional
-	public GetInventoryResponseDto getFamilyInventory(String username, Long familyId,Long sprintId) {
+	public GetInventoryResponseDto getFamilyInventory(String username, Long familyId, Long sprintId) {
 		familyRepository.findById(familyId).orElseThrow(() -> new NoSuchContentException("존재하지 않는 가족입니다."));
-		assertMembership(familyId,username);
+		assertMembership(familyId, username);
 
 		List<FamilyItemDto> familyItemDtoList = new LinkedList<>();
 		List<FamilyItem> familyItemEntityList = familyItemRepository.findByFamilyId(familyId);
@@ -191,30 +191,14 @@ public class FamilyServiceImpl implements FamilyService {
 		Tree tree = treeRepository.findById(treeId).orElseThrow(() -> new NoSuchContentException("잘못 된 트리입니다."));
 		deletePlacement(treeId);
 		for (PlacementDto placementDto : placingItemRequestDto.getPlacementDtoList()) {
-				/*
-				TODO
-				 해당 아이템이 인벤토리에 존재하는 지 확인하는 로직이 필요할 거 같은데
-				 아직 placement에 accessory에 대한 고유 Id가 없어서 구현 불가
-				 */
-
-			if (placementDto.getDtype().equals("A")) {
-				AccessoryPlacement accessoryPlacement = AccessoryPlacement.builder()
-					.position(placementDto.getPosition())
-					.tree(tree)
-					.type(AccessoryType.HIDDEN_FRUIT)
-					.build();
-
-				placementRepository.save(accessoryPlacement);
-			} else if (placementDto.getDtype().equals("F")) {
-				Record record = recordRepository.findById(placementDto.getRecordId())
-					.orElseThrow(() -> new NoSuchContentException("존재하지 않는 글입니다."));
-				FruitPlacement fruitPlacement = FruitPlacement.builder()
-					.position(placementDto.getPosition())
-					.tree(tree)
-					.record(record)
-					.build();
-				placementRepository.save(fruitPlacement);
-			}
+			Record record = recordRepository.findById(placementDto.getRecordId())
+				.orElseThrow(() -> new NoSuchContentException("존재하지 않는 글입니다."));
+			FruitPlacement fruitPlacement = FruitPlacement.builder()
+				.position(placementDto.getPosition())
+				.tree(tree)
+				.record(record)
+				.build();
+			placementRepository.save(fruitPlacement);
 		}
 	}
 
@@ -380,7 +364,7 @@ public class FamilyServiceImpl implements FamilyService {
 			int rafflingItemId = (int)(Math.random() * allOfItemList.length);
 			Item item = allOfItemList[rafflingItemId];
 
-			if (!familyItemRepository.existsByCodeAndFamilyId(item,familyId)) {
+			if (!familyItemRepository.existsByCodeAndFamilyId(item, familyId)) {
 				FamilyItem entity = FamilyItem.builder()
 					.family(family)
 					.code(item)

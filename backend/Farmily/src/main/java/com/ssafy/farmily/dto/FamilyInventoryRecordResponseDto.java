@@ -1,6 +1,5 @@
 package com.ssafy.farmily.dto;
 
-import com.ssafy.farmily.entity.Record;
 import com.ssafy.farmily.type.RecordType;
 
 import lombok.Data;

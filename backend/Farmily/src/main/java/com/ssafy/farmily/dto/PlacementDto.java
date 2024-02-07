@@ -13,9 +13,7 @@ public class PlacementDto {
 	@InRectangle(minCol = 0, maxCol = 99, minRow = 0, maxRow = 99)
 	private Position position;
 
-	private String dtype;
-
 	private Long recordId;
 
-	private AccessoryType type;
+
 }
