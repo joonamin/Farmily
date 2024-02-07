@@ -3,20 +3,23 @@ import logout from '../assets/images/logout.png';
 import SideButton from './SideButton.jsx';
 import logo from '../assets/images/Farmily.png';
 import { Link } from 'react-router-dom';
-
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { logOut } from '../store/auth.jsx';
 import { useNavigate } from 'react-router-dom';
-
-// record => 현재 sprintId 받아오면 수정하기
 
 export default function SideBar() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const family = useSelector((state) => state.family.value);
+  const [familyName, setFamilyName] = useState(family.name);
+  const [sprintId, setSprintId] = useState(family.mainSprint.sprintId);
+  useEffect(() => {
+    setFamilyName(family.name);
+    setSprintId(family.mainSprint.sprintId);
+  }, [family]);
 
-  const sprintId = family.mainSprint.sprintId;
   const category = [
     { name: '📑 기록하기', url: `/family/record/${sprintId}` },
     { name: '🌳 추억보기', url: '/family/memory' },
@@ -43,7 +46,7 @@ export default function SideBar() {
 
       {/* 가족이름 */}
       <h2 className="mx-auto my-4 font-semibold text-xl text-stone-900">
-        {family.name}
+        {familyName}
         <Link to="/family/setting" className="text-lg align-middle">
           {' '}
           ⚙️

@@ -5,6 +5,7 @@ import { CopyToClipboard } from 'react-copy-to-clipboard';
 import axios from '../api/axios.jsx';
 import { getFamilies } from '../store/user.jsx';
 import fruitImages from '../api/fruitImages.jsx';
+import { setFamily } from '../store/family';
 
 export default function SettingPage() {
   const navigate = useNavigate();
@@ -65,9 +66,21 @@ export default function SettingPage() {
     axios
       .get(`/family/${family.id}/inventory/${family.mainSprint.sprintId}`)
       .then((res) => {
-        // console.log(res.data.familyItemList);
         setFamilyItem(res.data.familyItemList);
       });
+    axios.get(`/family/${family.id}`).then((response) => {
+      const familyData = {
+        id: response.data.id,
+        name: response.data.name,
+        motto: response.data.motto,
+        tree: response.data.tree,
+        invitationCode: response.data.invitationCode,
+        challengesIds: response.data.challengesIds,
+        mainSprint: response.data.mainSprint,
+        fruitSkins: response.data.fruitSkins,
+      };
+      dispatch(setFamily(familyData));
+    });
   }, [isChanged, isLeader]);
 
   const handleMandate = () => {
