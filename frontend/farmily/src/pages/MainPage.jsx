@@ -98,6 +98,7 @@ export default function MainPage() {
           invitationCode: res.data.invitationCode,
           challengesIds: res.data.challengesIds,
           mainSprint: res.data.mainSprint,
+          fruitSkins: res.data.fruitSkins,
         };
         dispatch(setFamily(familyData));
 

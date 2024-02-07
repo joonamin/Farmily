@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
 import axios from '../../api/axios.jsx';
 
-export default function AchievementItem({ task }) {
+export default function AchievementItem({ task, handleChange }) {
   const family = useSelector((state) => state.family.value);
   const handleClick = () => {
     axios
@@ -10,7 +10,8 @@ export default function AchievementItem({ task }) {
         achievement: task.achievement,
       })
       .then((response) => {
-        console.log(response.data);
+        alert(`point 획득! 현재 point: ${response.data.point}`);
+        handleChange();
       })
       .catch((error) => {
         console.log(error);
