@@ -275,7 +275,7 @@ public class RecordServiceImpl implements RecordService {
 		ChallengeRecordResponseDto recordDto = (ChallengeRecordResponseDto)getDtoById(recordId);
 
 		if (!checkComplete(recordDto.getDateRange(), recordDto.getProgresses())) {
-			throw new BusinessException("요구 조건을 만족하지 않았습니다.");
+			throw new BusinessException("챌린지가 달성되지 않았습니다.");
 		}
 
 		ChallengeRecord challengeRecord = (ChallengeRecord)recordRepository.findById(recordId).orElseThrow(()->new BusinessException("유효하지 않은 챌린지 ID"));
