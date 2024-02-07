@@ -26,7 +26,6 @@ export default function FamilyCreatePage() {
         console.log(response);
         navigate(`/tree/${response.data.familyId}`);
       })
-      .then((res) => {})
       .catch((error) => {
         console.log(error);
       });

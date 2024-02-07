@@ -6,12 +6,15 @@ import axios from '../api/axios.jsx';
 import { getFamilies } from '../store/user.jsx';
 import fruitImages from '../api/fruitImages.jsx';
 import { setFamily } from '../store/family';
+import chunsik from '../assets/images/chunsik.jpg';
 
 export default function SettingPage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const family = useSelector((state) => state.family.value);
   const user = useSelector((state) => state.user.value);
+  const [previewImage, setPreviewImage] = useState(chunsik);
+  const [familyImage, setFamilyImage] = useState(null);
   const [isChanged, setIsChanged] = useState(true);
   const [tabIndex, setTabIndex] = useState(0);
   const [familyName, setFamilyName] = useState(family.name);
@@ -165,25 +168,39 @@ export default function SettingPage() {
       .put(`/family/${family.id}/fruit-skin`, formData)
       .then((res) => {
         console.log(res);
-        navigate(`/tree/${family.id}`);
       })
       .catch((error) => {
         console.log(error);
       });
   };
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
 
-  const ChangeDaily = () => {
-    setDailyFruit(dailyFruit);
+    if (file) {
+      const reader = new FileReader();
+
+      reader.onloadend = () => {
+        setPreviewImage(reader.result);
+        setFamilyImage(file);
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
-  const ChangeEvent = () => {
-    setEventFruit(eventFruit);
+  const handleFamilyImage = () => {
+    const formData = new FormData();
+    formData.append('newImage', familyImage);
+    axios
+      .patch(`/family/${family.id}/image`, formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      })
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
-
-  const ChangeChallenge = () => {
-    setChallengeFruit(challengeFruit);
-  };
-
   return (
     <>
       <h1>설정 페이지</h1>
@@ -215,23 +232,48 @@ export default function SettingPage() {
           개인
         </button>
       </p>
+
+      <div className="w-full flex justify-around h-12">
+        <div className="rounded-md px-4 w-full pl-4 flex justify-center items-center">
+          {familyMembers.map((member) => (
+            <>
+              <div className="bg-gray-300 rounded-3xl px-2 mx-2">
+                {member.role === 'LEADER' ? '👑 ' : ''}
+                {member.nickname}
+              </div>
+            </>
+          ))}
+        </div>
+      </div>
+
       {/* 가족 설정 탭 */}
       {tabIndex === 0 ? (
-        <div className="w-full h-5/6 m-auto pt-5">
-          <div className="w-full flex justify-around mb-10 h-12">
-            <div className="rounded-md px-4 w-full pl-4 flex justify-center items-center">
-              {familyMembers.map((member) => (
-                <>
-                  <div className="bg-gray-300 rounded-3xl px-2 mx-2">
-                    {member.role === 'LEADER' ? '👑 ' : ''}
-                    {member.nickname}
-                  </div>
-                </>
-              ))}
+        <div className="w-full h-5/6 m-auto">
+          <div className="flex h-1/3 w-full justify-center">
+            <img
+              src={previewImage}
+              alt="미리보기"
+              className="h-40 w-40 object-contain rounded-md"
+            />
+          </div>
+          <div className="w-full flex justify-around items-center mb-4 h-12">
+            <p className="w-1/4">가족 대표 사진</p>
+            <div className="border-4 border-black rounded-md p-1 w-1/2 pl-4 flex justify-between h-full text-left">
+              <input
+                type="file"
+                className="w-5/6"
+                onChange={handleFileChange}
+              />
+              <button
+                onClick={handleFamilyImage}
+                className="bg-gray-300 px-4 w-20"
+              >
+                저장
+              </button>
             </div>
           </div>
 
-          <div className="w-full flex justify-around items-center mb-10 h-12">
+          <div className="w-full flex justify-around items-center mb-4 h-12">
             <p className="w-1/4">가족 이름</p>
             <div className="border-4 border-black rounded-md p-1 w-1/2 pl-4 flex justify-between h-full">
               <input
@@ -249,7 +291,7 @@ export default function SettingPage() {
             </div>
           </div>
 
-          <div className="w-full flex justify-around items-center mb-10 h-12">
+          <div className="w-full flex justify-around items-center mb-4 h-12">
             <p className="w-1/4">가훈</p>
             <div className="border-4 border-black rounded-md p-1 w-1/2 pl-4 flex justify-between h-full">
               <input
@@ -264,7 +306,7 @@ export default function SettingPage() {
             </div>
           </div>
 
-          <div className="w-full flex justify-around items-center mb-10 h-12">
+          <div className="w-full flex justify-around items-center mb-4 h-12">
             <p className="w-1/4">초대코드</p>
             <div className="border-4 border-black rounded-md p-1 w-1/2 flex justify-between pl-4 h-full">
               <p className="w-5/6 truncate text-left">{invitationCode}</p>
@@ -274,11 +316,11 @@ export default function SettingPage() {
             </div>
           </div>
           {isLeader && (
-            <div className="w-full flex justify-around items-center mb-10 h-12">
+            <div className="w-full flex justify-around items-center h-12">
               <p className="w-1/4">가장 위임</p>
               <div className="border-4 border-black rounded-md p-1 w-1/2 pl-4 flex justify-between h-full">
                 <select name="" className="w-5/6" onChange={handleNewLeader}>
-                  {/* <option value="" className="w-full"></option> */}
+                  <option value="" className="w-full"></option>
                   {familyMembers.map((member, index) =>
                     member.role === 'LEADER' ? null : (
                       <>
