@@ -163,7 +163,7 @@ const BoardModal = ({ isOpen, closeModal }) => {
               <div className="flex justify-end items-center">
                 {/* segment1일 때 "열매 배치" 버튼 표시 */}
                 {selectedTab === "segment1" && (
-                  <span className="mr-auto" onClick={handleRaffle}>
+                  <span className="mr-auto">
                     <SmallButton text="열매 배치" url={`/tree/${family.id}/decorate`} />
                   </span>
                 )}
