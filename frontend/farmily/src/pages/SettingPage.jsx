@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import axios from '../api/axios.jsx';
 import { getFamilies } from '../store/user.jsx';
+import fruitImages from '../api/fruitImages.jsx';
 import { setFamily } from '../store/family';
 
 export default function SettingPage() {
@@ -21,6 +22,17 @@ export default function SettingPage() {
   const [invitationCode, setInvitationCode] = useState(family.invitationCode);
   const [newLeaderMemberId, setNewLeaderMemberId] = useState(null);
   const [isLeader, setIsLeader] = useState(false);
+  const [dailyFruit, setDailyFruit] = useState(family.fruitSkins.daily);
+  const [eventFruit, setEventFruit] = useState(family.fruitSkins.event);
+  const [challengeFruit, setChallengeFruit] = useState(
+    family.fruitSkins.challenge
+  );
+  const [familyItem, setFamilyItem] = useState([
+    {
+      itemCode: '',
+      type: '',
+    },
+  ]);
   const [familyMembers, setFamilyMembers] = useState([
     {
       memberId: 0,
@@ -48,7 +60,14 @@ export default function SettingPage() {
     axios.get('/member/family').then((res) => {
       dispatch(getFamilies({ familyInfo: res.data }));
       setFamilies(res.data);
+      console.log(res.data);
     });
+
+    axios
+      .get(`/family/${family.id}/inventory/${family.mainSprint.sprintId}`)
+      .then((res) => {
+        setFamilyItem(res.data.familyItemList);
+      });
     axios.get(`/family/${family.id}`).then((response) => {
       const familyData = {
         id: response.data.id,
@@ -134,6 +153,37 @@ export default function SettingPage() {
   const handleStart = () => {
     navigate(`/tree/${selectedFamilyId}`);
   };
+
+  const FruitChange = () => {
+    const formData = {
+      daily: dailyFruit,
+      event: eventFruit,
+      challenge: challengeFruit,
+    };
+
+    axios
+      .put(`/family/${family.id}/fruit-skin`, formData)
+      .then((res) => {
+        console.log(res);
+        navigate(`/tree/${family.id}`);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const ChangeDaily = () => {
+    setDailyFruit(dailyFruit);
+  };
+
+  const ChangeEvent = () => {
+    setEventFruit(eventFruit);
+  };
+
+  const ChangeChallenge = () => {
+    setChallengeFruit(challengeFruit);
+  };
+
   return (
     <>
       <h1>설정 페이지</h1>
@@ -153,12 +203,21 @@ export default function SettingPage() {
             tabIndex === 1 ? 'bg-gray-300 px-4 py-2  rounded-md' : 'px-4 py-2'
           }
         >
+          열매
+        </button>
+        |
+        <button
+          onClick={() => setTabIndex(2)}
+          className={
+            tabIndex === 2 ? 'bg-gray-300 px-4 py-2  rounded-md' : 'px-4 py-2'
+          }
+        >
           개인
         </button>
       </p>
       {/* 가족 설정 탭 */}
       {tabIndex === 0 ? (
-        <div className="w-full h-5/6 m-auto pt-10">
+        <div className="w-full h-5/6 m-auto pt-5">
           <div className="w-full flex justify-around mb-10 h-12">
             <div className="rounded-md px-4 w-full pl-4 flex justify-center items-center">
               {familyMembers.map((member) => (
@@ -240,8 +299,104 @@ export default function SettingPage() {
             </div>
           )}
         </div>
-      ) : (
-        <div className="w-full h-5/6 m-auto pt-10">
+      ) : null}
+      {/* 열매 */}
+      {tabIndex === 1 ? (
+        <div className="h-full">
+          <div className="flex h-5/6 pt-5">
+            <div className="h-5/6 w-1/2 p-5">
+              <div className="flex h-1/3 mb-5">
+                <h1 className="text-2xl my-auto justify-center w-2/12 mr-20">
+                  일상
+                </h1>
+                <select
+                  value={dailyFruit}
+                  onChange={(e) => setDailyFruit(e.target.value)}
+                  className="h-1/3 my-auto mr-20"
+                >
+                  {familyItem.map((item, index) => (
+                    <option key={index} value={item.itemCode}>
+                      {item.itemCode}
+                    </option>
+                  ))}
+                </select>
+
+                <img
+                  src={fruitImages[dailyFruit]}
+                  alt="dailyFruit"
+                  className=" h-28 w-28"
+                />
+              </div>
+              <div className="flex h-1/3 mb-5">
+                <h1 className="text-2xl my-auto justify-center w-2/12 mr-20">
+                  이벤트
+                </h1>
+                <select
+                  value={eventFruit}
+                  onChange={(e) => setEventFruit(e.target.value)}
+                  className="h-1/3 my-auto mr-20"
+                >
+                  {familyItem.map((item, index) => (
+                    <option key={index} value={item.itemCode}>
+                      {item.itemCode}
+                    </option>
+                  ))}
+                </select>
+
+                <img
+                  src={fruitImages[eventFruit]}
+                  alt="eventFruit"
+                  className=" h-28 w-28"
+                />
+              </div>
+              <div className="flex h-1/3 mb-5">
+                <h1 className="text-2xl my-auto justify-center w-2/12 mr-20">
+                  챌린지
+                </h1>
+                <select
+                  value={challengeFruit}
+                  onChange={(e) => setChallengeFruit(e.target.value)}
+                  className="h-1/3 my-auto mr-20"
+                >
+                  {familyItem.map((item, index) => (
+                    <option key={index} value={item.itemCode}>
+                      {item.itemCode}
+                    </option>
+                  ))}
+                </select>
+
+                <img
+                  src={fruitImages[challengeFruit]}
+                  alt="challengeFruit"
+                  className=" h-28 w-28"
+                />
+              </div>
+            </div>
+            <div className="w-1/2 h-5/6 p-5">
+              <p>획득한 과일 목록</p>
+              <div className="flex flex-wrap justify-between bg-gray-200 h-full overflow-y-scroll">
+                {familyItem.map((item, index) => (
+                  <img
+                    key={index}
+                    src={fruitImages[item.itemCode]}
+                    alt=""
+                    className="h-28 w-28 m-4"
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
+          <button
+            onClick={FruitChange}
+            className="bg-gray-300 px-4 w-20 hover:bg-gray-400 text-center rounded-md"
+          >
+            저장
+          </button>
+        </div>
+      ) : null}
+      {/* 개인 */}
+      {tabIndex === 2 ? (
+        <div className="w-full h-5/6 m-auto pt-5">
           <div className="w-full flex justify-around items-center mb-10 h-12">
             <p className="w-1/4">닉네임</p>
             <div className="border-4 border-black rounded-md p-1 w-1/2 pl-4 flex justify-between h-full">
@@ -286,7 +441,7 @@ export default function SettingPage() {
 
           <Link to="/createtree">가족 생성하기</Link>
         </div>
-      )}
+      ) : null}
     </>
   );
 }
