@@ -1,9 +1,13 @@
 import { useState, useEffect } from 'react';
 import maintree from '../../assets/images/maintree.png';
 import FruitItem from './FruitItem.jsx';
+import MottoBoard from '../../assets/images/motto.png';
+
+import { useSelector } from 'react-redux';
 
 export default function MainTree() {
   // 임시데이터, 연결 후 열매에 대한 데이터 받아오기
+  const [isMotto, setIsMotto] = useState(false);
   const [mainRecordFruitDtoList, setMainRecordFruitDtoList] = useState([
     {
       recordId: 1,
@@ -43,9 +47,15 @@ export default function MainTree() {
     },
   ]);
 
+  const family = useSelector((state) => state.family.value);
+
+  const onClickHandler = () => {
+    setIsMotto(!isMotto);
+  };
+
   return (
     <div className="relative overflow-hidden">
-      <img className="mb-24" src={maintree} alt="MainTree" />
+      <img className="" src={maintree} alt="MainTree" />
       {mainRecordFruitDtoList.map((fruit, index) => (
         <div
           key={index}
@@ -70,6 +80,24 @@ export default function MainTree() {
           <FruitItem />
         </div>
       ))}
+      <div className="absolute inset-x-0 bottom-32 flex justify-center">
+        <div
+          className="h-32 opacity-100 text-opacity-100 w-16 hover:cursor-pointer"
+          onClick={onClickHandler}
+        ></div>
+      </div>
+      {
+        <div className="flex h-28 items-center justify-center">
+          {isMotto && (
+            <div className={`relative animate-fade-up`}>
+              <img src={MottoBoard} />
+              <p className="absolute text-xl text-black text inset-x-10 bottom-5 flex justify-center">
+                {family.motto}
+              </p>
+            </div>
+          )}
+        </div>
+      }
     </div>
   );
 }

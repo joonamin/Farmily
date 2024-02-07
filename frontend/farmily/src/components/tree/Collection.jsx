@@ -128,7 +128,7 @@ const Collection = () => {
       <h2 style={{ textAlign: "center", position: "sticky", top: 0, backgroundColor: "white", fontSize: "x-large" }}>열매 도감</h2>
       <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "flex-start", alignItems: "flex-start" }}>
         {sortedFruits.map(({ fruit, itemCode }) => (
-          <div key={itemCode} style={{ width: imageSize, height: imageSize }}>
+          <div key={itemCode} style={{ width: imageSize, height: imageSize, margin: "5px" }}>
             <img
               src={fruit}
               alt={itemCode}
