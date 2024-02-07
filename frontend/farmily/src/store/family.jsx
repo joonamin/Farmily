@@ -32,6 +32,11 @@ const initialState = {
     },
     needHarvest: false,
     point: 0,
+    fruitSkins: {
+      daily: '',
+      challenge: '',
+      event: '',
+    },
   },
 };
 
@@ -48,6 +53,7 @@ const familySlice = createSlice({
       state.value.challengesIds = action.payload.challengesIds;
       state.value.mainSprint = action.payload.mainSprint;
       state.value.point = action.payload.point;
+      state.value.fruitSkins = action.payload.fruitSkins;
     },
     setHarvest: (state, action) => {
       state.value.needHarvest = action.payload.needHarvest;
