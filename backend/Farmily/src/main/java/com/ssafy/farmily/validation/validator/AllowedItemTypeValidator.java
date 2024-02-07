@@ -21,6 +21,6 @@ public class AllowedItemTypeValidator
 
 	@Override
 	public boolean isValid(Item item, ConstraintValidatorContext constraintValidatorContext) {
-		return Arrays.stream(allowedTypes).anyMatch(i -> i == item.getType());
+		return Arrays.stream(allowedTypes).anyMatch(allowedType -> allowedType == item.getType());
 	}
 }
