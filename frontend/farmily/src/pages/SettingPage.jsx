@@ -1,13 +1,11 @@
 import { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import axios from '../api/axios.jsx';
-import { getFamilies } from '../store/user.jsx';
 
 export default function SettingPage() {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const family = useSelector((state) => state.family.value);
   const user = useSelector((state) => state.user.value);
   const [isChanged, setIsChanged] = useState(true);
@@ -44,10 +42,6 @@ export default function SettingPage() {
       .catch((error) => {
         console.log(error);
       });
-    axios.get('/member/family').then((res) => {
-      dispatch(getFamilies({ familyInfo: res.data }));
-      setFamilies(res.data);
-    });
   }, [isChanged, isLeader]);
 
   const handleMandate = () => {
