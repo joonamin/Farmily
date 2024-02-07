@@ -264,7 +264,7 @@ public class FamilyController {
 	public ResponseEntity<Void> patchName(
 		@AuthenticationPrincipal String username,
 		@PathVariable Long familyId,
-		@RequestBody FamilyPatchRequestDto.Name dto
+		@RequestBody @Valid FamilyPatchRequestDto.Name dto
 	) {
 		familyService.changeName(username, familyId, dto);
 		return ResponseEntity.ok().build();
@@ -282,7 +282,7 @@ public class FamilyController {
 	public ResponseEntity<Void> patchMotto(
 		@AuthenticationPrincipal String username,
 		@PathVariable Long familyId,
-		@RequestBody FamilyPatchRequestDto.Motto dto
+		@RequestBody @Valid FamilyPatchRequestDto.Motto dto
 	) {
 		familyService.changeMotto(username, familyId, dto);
 		return ResponseEntity.ok().build();
@@ -300,7 +300,7 @@ public class FamilyController {
 	public ResponseEntity<Void> patchImage(
 		@AuthenticationPrincipal String username,
 		@PathVariable Long familyId,
-		@RequestBody FamilyPatchRequestDto.Image dto
+		@RequestBody @Valid FamilyPatchRequestDto.Image dto
 	) {
 		familyService.changeImage(username, familyId, dto);
 		return ResponseEntity.ok().build();
