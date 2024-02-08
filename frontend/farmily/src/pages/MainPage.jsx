@@ -44,6 +44,7 @@ const Container = styled.div`
 
 export default function MainPage() {
   const dispatch = useDispatch();
+  const family = useSelector((state) => state.family.value);
   const [challengeData, setChallengeData] = useState({
     challenge1: null,
     challenge2: null,
@@ -51,7 +52,9 @@ export default function MainPage() {
   });
   const [isChanged, setIsChanged] = useState(false);
 
-  const family = useSelector((state) => state.family.value);
+  const [treeFruits, setTreeFruits] = useState(
+    family.tree.mainRecordFruitDtoList
+  );
   const CalIsHarvest = (date) => {
     const endDate = date;
     const today = new Date();
@@ -97,9 +100,8 @@ export default function MainPage() {
           fruitSkins: res.data.fruitSkins,
         };
         dispatch(setFamily(familyData));
-
+        setTreeFruits(res.data.tree.mainRecordFruitDtoList);
         CalIsHarvest(res.data.mainSprint.endDate);
-        // console.log(family);
 
         if (familyData.challengesIds && familyData.challengesIds.length > 0) {
           Promise.all(
@@ -156,7 +158,7 @@ export default function MainPage() {
       ) : (
         <div className="w-28 h-28 ml-5"></div>
       )}
-      <MainTree />
+      <MainTree treeFruits={treeFruits} />
       {family.needHarvest ? (
         <Harvest title="수확하기" />
       ) : (
