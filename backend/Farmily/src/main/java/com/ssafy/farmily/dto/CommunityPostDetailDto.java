@@ -23,6 +23,7 @@ public class CommunityPostDetailDto {
 		BeanUtils.copyProperties(communityPost, postDetailDto);
 		ImageDto treeSnapshot = ImageDto.from(communityPost.getTreeImage());
 		postDetailDto.setTreeImage(treeSnapshot);
+		postDetailDto.setAuthor(communityPost.getAuthor().getNickname());
 		return postDetailDto;
 	}
 }
