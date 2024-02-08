@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import BoardModal from './BoardModal';
 import mainboard from '../../assets/images/mainboard.png';
 
-export default function Board({ title }) {
+export default function Board({ title, handleChange }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const openModal = () => {
@@ -25,7 +25,7 @@ export default function Board({ title }) {
         <p className="text-white text-4xl absolute top-20 left-12 pl-12">{title}</p>
       </div>
 
-      <BoardModal isOpen={isModalOpen} closeModal={closeModal} />
+      <BoardModal isOpen={isModalOpen} closeModal={closeModal} handleChange={handleChange} />
     </>
   );
 }

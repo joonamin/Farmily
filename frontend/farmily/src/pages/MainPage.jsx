@@ -160,7 +160,7 @@ export default function MainPage() {
       {family.needHarvest ? (
         <Harvest title="수확하기" />
       ) : (
-        <Board title="나무 꾸미기" />
+        <Board title="나무 꾸미기" handleChange={handleChange} />
       )}
     </Container>
   );

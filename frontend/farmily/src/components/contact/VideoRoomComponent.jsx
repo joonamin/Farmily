@@ -1,4 +1,7 @@
 import axios from '../../api/axios.jsx';
+import { useSelector } from 'react-redux';
+import { connect } from 'react-redux';
+
 import { OpenVidu } from 'openvidu-browser';
 import React, { Component } from 'react';
 import ChatComponent from './chat/ChatComponent';
@@ -6,21 +9,21 @@ import DialogExtensionComponent from './dialog-extension/DialogExtension';
 import StreamComponent from './stream/StreamComponent';
 import './VideoRoomComponent.css';
 
-import OpenViduLayout from './layout/openvidu-layout';
-import UserModel from './models/user-model';
+import OpenViduLayout from '../layout/openvidu-layout';
+import UserModel from '../models/user-model';
 import ToolbarComponent from './toolbar/ToolbarComponent';
-import { connect } from 'react-redux';
 
 var localUser = new UserModel();
-const APPLICATION_SERVER_URL = import.meta.env.VITE_OPENVIDU_URL;
+const APPLICATION_SERVER_URL = import.meta.env.VITE_OPENVIDU_URLL;
 
 class VideoRoomComponent extends Component {
     constructor(props) {
         super(props);
         this.hasBeenUpdated = false;
         this.layout = new OpenViduLayout();
-        let sessionName = this.props.sessionName ? this.props.sessionName : 'SessionA';
-        let userName = this.props.user ? this.props.user : 'OpenVidu_User' + Math.floor(Math.random() * 100);
+        let sessionName = `${props.family.name}`
+        let userId = props.family.id
+        let userName = props.user.nickname;
         this.remotes = [];
         this.localUserAccessAllowed = false;
         this.state = {
@@ -42,6 +45,8 @@ class VideoRoomComponent extends Component {
         this.nicknameChanged = this.nicknameChanged.bind(this);
         this.toggleFullscreen = this.toggleFullscreen.bind(this);
         this.switchCamera = this.switchCamera.bind(this);
+        this.screenShare = this.screenShare.bind(this);
+        this.stopScreenShare = this.stopScreenShare.bind(this);
         this.closeDialogExtension = this.closeDialogExtension.bind(this);
         this.toggleChat = this.toggleChat.bind(this);
         this.checkNotification = this.checkNotification.bind(this);
@@ -80,38 +85,39 @@ class VideoRoomComponent extends Component {
         this.leaveSession();
     }
 
-    async joinSession() {
-        const { familyId, nickname } = this.props; // props에서 nickname을 가져옵니다.
+    joinSession() {
         this.OV = new OpenVidu();
-    
-        // 세션 ID와 토큰 생성
-        const sessionId = await this.createSession(familyId);
-        const token = await this.createToken(familyId);
-    
-        this.setState({
-            session: this.OV.initSession(),
-        }, async () => {
-            this.subscribeToStreamCreated();
-            this.connectToSession(token, nickname); // nickname을 connectToSession에 전달
-        });
+
+        this.setState(
+            {
+                session: this.OV.initSession(),
+            },
+            async () => {
+                this.subscribeToStreamCreated();
+                await this.connectToSession();
+            },
+        );
     }
-    
-    // connectToSession 메서드 수정
-    async connectToSession(token, nickname) {
-        this.state.session
-            .connect(token, { clientData: nickname }) // nickname을 clientData로 전달
-            .then(() => {
-                this.connectWebCam();
-            })
-            .catch((error) => {
-                console.error('There was an error connecting to the session:', error.message);
-                if (this.props.error) {
-                    this.props.error({ error: error.error, message: error.message, code: error.code, status: error.status });
+
+    async connectToSession() {
+        if (this.props.token !== undefined) {
+            console.log('token received: ', this.props.token);
+            this.connect(this.props.token);
+        } else {
+            try {
+                var token = await this.getToken();
+                console.log(token);
+                this.connect(token);
+            } catch (error) {
+                console.error('There was an error getting the token:', error.code, error.message);
+                if(this.props.error){
+                    this.props.error({ error: error.error, messgae: error.message, code: error.code, status: error.status });
                 }
-                alert('There was an error connecting to the session:', error.message);
-            });
+                alert('There was an error getting the token:', error.message);
+            }
+        }
     }
-    
+
     connect(token) {
         this.state.session
             .connect(
@@ -565,10 +571,10 @@ class VideoRoomComponent extends Component {
     }
 }
 
-const mapStateToProps = state => ({
-    familyId: state.family.value.id,
-    nickname: state.user.value.nickname, // nickname을 추가합니다.
-});
+    const mapStateToProps = (state) => ({
+        family: state.family.value,
+        user: state.user.value,
+    });
 
 // connect 함수를 사용하여 VideoRoomComponent를 리덕스 스토어에 연결
 export default connect(mapStateToProps)(VideoRoomComponent);

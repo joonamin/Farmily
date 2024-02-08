@@ -86,7 +86,7 @@ export default function ChallengeCalendar({ startDate, endDate, recordId, progre
       } else {
         setImages({ ...images, [clickedDate]: challenge });
         axios.post('/record/challenge/mark', {
-          challengeId: progresses.id,
+          challengeId: recordId,
           date: clickedDate,
         })
         .then((response) => {
