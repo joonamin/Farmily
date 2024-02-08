@@ -25,7 +25,11 @@ export default function MainTree({ treeFruits }) {
             left: fruit.position.row,
           }}
         >
-          <FruitItem type={fruit.type} />
+          <FruitItem
+            type={fruit.type}
+            title={fruit.recordTitle}
+            id={fruit.recordId}
+          />
         </div>
       ))}
 
