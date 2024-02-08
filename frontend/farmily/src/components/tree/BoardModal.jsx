@@ -10,7 +10,7 @@ import axios from '../../api/axios.jsx'
 
 
 
-const BoardModal = ({ isOpen, closeModal }) => {
+const BoardModal = ({ isOpen, closeModal, handleChange }) => {
   const dispatch = useDispatch();
   const [selectedTab, setSelectedTab] = useState("segment1");
   const family = useSelector((state) => state.family.value);
@@ -18,8 +18,7 @@ const BoardModal = ({ isOpen, closeModal }) => {
   const [isRaffling, setIsRaffling] = useState(false);
   const [rafflingResponse, setRafflingResponse] = useState(null);
   const [familyPoint, setFamilyPoint] = useState(family.point);
-  const [isChanged, setIsChanged] = useState(null );
-
+  const itemSkinsLength = family.fruitSkins ? family.fruitSkins.length : 0;
 
   const handleOutsideClick = (e) => {
     if (e.target.id === "my-modal") {
@@ -39,7 +38,7 @@ const BoardModal = ({ isOpen, closeModal }) => {
     
   try {
     const response = await axios.post('/family/raffling', { familyId }).then(
-      setIsChanged(!isChanged));
+      handleChange());
     setRafflingResponse(response.data);
     // 데이터베이스에서 차감된 포인트를 즉각적으로 반영
     if(response.data.point !== undefined) {
@@ -55,7 +54,7 @@ const BoardModal = ({ isOpen, closeModal }) => {
 };
 
 
-const disableOpenBoxButton = isRaffling || familyPoint < 100;
+const disableOpenBoxButton = isRaffling || familyPoint < 100 || itemSkinsLength >= 21;
   useEffect(() => {
     // Event listener for clicking outside the modal
     const handleDocumentClick = (e) => {
@@ -81,24 +80,9 @@ const disableOpenBoxButton = isRaffling || familyPoint < 100;
   }, [isOpen, selectedTab]);
 
   useEffect(() => {
-    // isChanged가 null이 아니고, isOpen 상태일 때만 API 호출 실행
-    if (isChanged !== null && isOpen) {
-      axios.get(`/family/${familyId}`).then((res) => {
-        const familyData = {
-          id: res.data.id,
-          name: res.data.name,
-          motto: res.data.motto,
-          tree: res.data.tree,
-          invitationCode: res.data.invitationCode,
-          challengesIds: res.data.challengesIds,
-          mainSprint: res.data.mainSprint,
-          point: res.data.point,
-        };
-        dispatch(setFamily(familyData));
-        setFamilyPoint(res.data.point);
-      });
-    }
-  }, [isChanged, isOpen]);
+    setFamilyPoint(family.point)
+  }, [family])
+
 
   return (
     <>
@@ -173,7 +157,8 @@ const disableOpenBoxButton = isRaffling || familyPoint < 100;
                 <Draw
                   isRaffling={isRaffling}
                   rafflingResponse={rafflingResponse}
-                  familyPoint={familyPoint} // Draw 컴포넌트에 familyPoint 전달
+                  familyPoint={familyPoint} // Draw 컴포넌트에 familyPoint 
+                  resetTrigger={isOpen || selectedTab}
                 />
               </div>
             )}
@@ -188,9 +173,18 @@ const disableOpenBoxButton = isRaffling || familyPoint < 100;
 
                 {/* segment3일 때 "상자 열기" 버튼 표시 */}
                 {selectedTab === "segment3" && (
-                  <span className="mr-auto" onClick={!disableOpenBoxButton ? handleRaffle : undefined}>
-                    <SmallButton text="상자 열기" disabled={disableOpenBoxButton}
-                     />
+                  <span className="mr-auto">
+                   <button
+                      className={`px-4 py-2 rounded-md m-4 transition-all duration-150 ${
+                        disableOpenBoxButton
+                          ? "bg-gray-300 text-white opacity-50 cursor-not-allowed pointer-events-none"
+                          : "bg-gray-300 hover:bg-gray-400 text-black"
+                      }`}
+                      onClick={!disableOpenBoxButton ? handleRaffle : undefined}
+                      disabled={disableOpenBoxButton} // HTML의 기본 disabled 속성을 사용하여 접근성 향상
+                    >
+                      상자 열기
+                    </button>
                   </span>
                 )}
 

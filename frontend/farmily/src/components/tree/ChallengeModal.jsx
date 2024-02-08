@@ -51,8 +51,6 @@ export default function ChallengeModal({ isOpen, onClose, challengeData, handleM
     const handleClickOutside = (event) => {
       if (modalRef.current && !modalRef.current.contains(event.target)) {
         onClose();
-        // 그냥 모달 닫을 때 새로고침 하도록 만들었음
-        // window.location.reload();
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
@@ -77,7 +75,6 @@ export default function ChallengeModal({ isOpen, onClose, challengeData, handleM
         })
         .then((response) => {
            handleMark()
-          // 성공적으로 마크되었을 때의 처리
         })
         .catch((error) => {
           console.log(error);
