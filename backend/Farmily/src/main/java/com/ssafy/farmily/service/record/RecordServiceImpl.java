@@ -124,7 +124,7 @@ public class RecordServiceImpl implements RecordService {
 	}
 
 	@Override
-	@Statistics(FamilyStatistics.Field.CALENDAR_PLAN_COUNT)
+	@Statistics(FamilyStatistics.Field.DAILY_RECORD_COUNT)
 	@Transactional
 	public ServiceProcessResult createDailyRecord(String username, DailyRecordPostRequestDto dto) {
 		Member member = memberService.getEntity(username);

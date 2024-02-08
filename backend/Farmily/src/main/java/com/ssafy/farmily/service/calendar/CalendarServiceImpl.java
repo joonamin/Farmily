@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ssafy.farmily.aop.annotation.Statistics;
 import com.ssafy.farmily.dto.CalendarPlanRequestDto;
@@ -29,6 +30,7 @@ public class CalendarServiceImpl implements CalendarService {
 
 	@Override
 	@Statistics(FamilyStatistics.Field.CALENDAR_PLAN_COUNT)
+	@Transactional
 	public ServiceProcessResult postCalendarPlan(CalendarPlanRequestDto dto, String username) {
 		familyService.assertMembership(dto.getFamilyId(), username);
 		Family family = familyRepository.findById(dto.getFamilyId()).orElseThrow(
