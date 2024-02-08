@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.ssafy.farmily.dto.FamilyInventoryRecordResponseDtoInterface;
+import com.ssafy.farmily.dto.SprintRecordCountsDto;
 import com.ssafy.farmily.entity.ChallengeRecord;
 import com.ssafy.farmily.entity.Record;
 import com.ssafy.farmily.entity.Sprint;
@@ -41,4 +42,12 @@ public interface RecordRepository extends JpaRepository<Record, Long> {
 		WHERE b.record_id is NULL
 		""", nativeQuery = true)
 	List<FamilyInventoryRecordResponseDtoInterface> findRecordInInventory(Long sprintId);
+
+	@Query("""
+		SELECT		r.type AS type, COUNT(r.id) AS count
+		FROM		Sprint s JOIN s.records r
+		WHERE		s.id = :sprintId
+		GROUP BY	r.type
+	""")
+	List<SprintRecordCountsDto.Tuple> countRecordGroupByRecordType(Long sprintId);
 }

@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ssafy.farmily.dto.ImageCardImageDto;
 import com.ssafy.farmily.dto.RecordBriefResponseDto;
+import com.ssafy.farmily.dto.SprintRecordCountsDto;
 import com.ssafy.farmily.dto.SprintRecordFirstResponseDto;
 import com.ssafy.farmily.dto.SprintRecordPageResponseDto;
 import com.ssafy.farmily.entity.Record;
@@ -55,7 +56,11 @@ public class SprintServiceImpl implements SprintService {
 	public SprintRecordFirstResponseDto getRecordsInitially(Long sprintId, int pageSize, int imageCountMax) {
 		Sprint sprint = this.getEntityById(sprintId);
 
+		SprintRecordCountsDto countsDto
+			= SprintRecordCountsDto.from(recordRepository.countRecordGroupByRecordType(sprintId));
+
 		return SprintRecordFirstResponseDto.builder()
+			.counts(countsDto)
 			.dateRange(sprint.getDateRange())
 			.images(this.getRandomImageCardImageDtos(sprintId, imageCountMax))
 			.page(this.getRecordsPagination(sprint, 1, pageSize))
