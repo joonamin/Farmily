@@ -82,7 +82,7 @@ export default function TreeDecoratePage() {
               data-fruit-index={index}
               onClick={(e) => handleInventoryFruitClick(e, index)}
             >
-              <FruitItem type={fruit.type} />
+              <FruitItem type={fruit.type} title={fruit.title} id={fruit.id} />
             </div>
           ))}
         </div>
