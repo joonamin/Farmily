@@ -12,7 +12,7 @@ export default function ArticleItem(article) {
   const onClickHandler = () => {
     navigate(URL);
   };
-  console.log(family);
+  // console.log(family);
   // article.type에 따라서 적절한 이미지 설정
   if (article.type === 'DAILY') {
     setFruitImg(fruitImages[family.fruitSkins.daily]);

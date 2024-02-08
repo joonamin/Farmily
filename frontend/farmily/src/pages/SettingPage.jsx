@@ -345,8 +345,8 @@ export default function SettingPage() {
       {/* 열매 */}
       {tabIndex === 1 ? (
         <div className="h-full">
-          <div className="flex h-5/6 pt-5">
-            <div className="h-5/6 w-1/2 p-5">
+          <div className="flex h-3/4">
+            <div className="h-5/6 w-1/2 p-5 pt-0">
               <div className="flex h-1/3 mb-5">
                 <h1 className="text-2xl my-auto justify-center w-2/12 mr-20">
                   일상
@@ -414,9 +414,9 @@ export default function SettingPage() {
                 />
               </div>
             </div>
-            <div className="w-1/2 h-5/6 p-5">
+            <div className="w-1/2 h-5/6 p-5 pt-0">
               <p>획득한 과일 목록</p>
-              <div className="flex flex-wrap justify-between bg-gray-200 h-full overflow-y-scroll">
+              <div className="flex flex-wrap justify-center bg-gray-200 h-full overflow-y-scroll">
                 {familyItem.map((item, index) => (
                   <img
                     key={index}
