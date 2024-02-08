@@ -6,7 +6,11 @@ import SmallButton from '../button/SmallButton.jsx';
 import axios from '../../api/axios.jsx';
 import { useSelector } from 'react-redux';
 
-export default function MainTree({ treeFruits, setTreeFruits }) {
+export default function MainTree({
+  treeFruits,
+  setTreeFruits,
+  handleTreeFruitRightClick,
+}) {
   const navigate = useNavigate();
   const family = useSelector((state) => state.family.value);
   const [draggedFruitIndex, setDraggedFruitIndex] = useState(null);
@@ -88,10 +92,11 @@ export default function MainTree({ treeFruits, setTreeFruits }) {
           }}
           onClick={handleMouseClick}
           onMouseMove={handleMouseMove}
+          onContextMenu={(e) => handleTreeFruitRightClick(e, index)}
           draggable="true"
           data-fruit-index={index}
         >
-          <FruitItem />
+          <FruitItem type={fruit.type} />
         </div>
       ))}
 

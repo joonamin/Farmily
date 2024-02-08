@@ -47,13 +47,31 @@ export default function TreeDecoratePage() {
     setTreeFruits(updatedTreeFruits);
     setInventoryFruits(updatedInventoryFruits);
   };
+  const handleTreeFruitRightClick = (e, fruitIndex) => {
+    e.preventDefault();
+    const updatedTreeFruits = treeFruits.filter(
+      (item, index) => index !== fruitIndex
+    );
+    const newInventoryFruit = {
+      id: treeFruits[fruitIndex].recordId,
+      title: treeFruits[fruitIndex].recordTitle,
+      type: treeFruits[fruitIndex].type,
+    };
+    const updatedInventoryFruits = [...inventoryFruits, newInventoryFruit];
+    setTreeFruits(updatedTreeFruits);
+    setInventoryFruits(updatedInventoryFruits);
+  };
 
   return (
     <div className="flex items-end">
       <div className="w-28 h-28 ml-5"></div>
       <div className="w-28 h-28 ml-5"></div>
       <div className="w-28 h-28 ml-5"></div>
-      <Tree treeFruits={treeFruits} setTreeFruits={setTreeFruits} />
+      <Tree
+        treeFruits={treeFruits}
+        setTreeFruits={setTreeFruits}
+        handleTreeFruitRightClick={handleTreeFruitRightClick}
+      />
       <div>
         <div className="flex bg-gray-200 w-80 h-80">
           {inventoryFruits.map((fruit, index) => (
@@ -64,7 +82,7 @@ export default function TreeDecoratePage() {
               data-fruit-index={index}
               onClick={(e) => handleInventoryFruitClick(e, index)}
             >
-              <FruitItem />
+              <FruitItem type={fruit.type} />
             </div>
           ))}
         </div>

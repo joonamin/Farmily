@@ -2,12 +2,9 @@ import { useState, useEffect } from 'react';
 import maintree from '../../assets/images/maintree.png';
 import FruitItem from './FruitItem.jsx';
 import MottoBoard from '../../assets/images/motto.png';
-
 import { useSelector } from 'react-redux';
 
 export default function MainTree({ treeFruits }) {
-  // 임시데이터, 연결 후 열매에 대한 데이터 받아오기
-
   const family = useSelector((state) => state.family.value);
 
   const [isMotto, setIsMotto] = useState(false);
@@ -28,7 +25,7 @@ export default function MainTree({ treeFruits }) {
             left: fruit.position.row,
           }}
         >
-          <FruitItem />
+          <FruitItem type={fruit.type} />
         </div>
       ))}
 
