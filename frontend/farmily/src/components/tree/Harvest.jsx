@@ -39,16 +39,17 @@ export default function Harvest({ title }) {
 
       dispatch(setHarvest(false));
 
-      const familyRes = await axios.get(`/family/${family.id}`);
-      console.log(familyRes);
-
+      const res = await axios.get(`/family/${family.id}`);
       const familyData = {
-        id: familyRes.data.id,
-        name: familyRes.data.name,
-        motto: familyRes.data.motto,
-        tree: familyRes.data.tree,
-        challengesIds: familyRes.data.challengesIds,
-        mainSprint: familyRes.data.mainSprint,
+        id: res.data.id,
+        name: res.data.name,
+        motto: res.data.motto,
+        tree: res.data.tree,
+        invitationCode: res.data.invitationCode,
+        challengesIds: res.data.challengesIds,
+        mainSprint: res.data.mainSprint,
+        point: res.data.point,
+        fruitSkins: res.data.fruitSkins,
       };
 
       await dispatch(setFamily(familyData));
@@ -62,18 +63,15 @@ export default function Harvest({ title }) {
 
   return (
     <>
-      <div
-        className="relative hover:cursor-pointer"
-        onClick={() => {
-          openModal();
-        }}
-      >
+      <div className="relative hover:cursor-pointer" onClick={openModal}>
         <img
-          className="relative mb-16 mr-28 "
+          className="relative mb-24 mr-24 ml-12 "
           src={mainboard}
           alt="main_board"
         />
-        <p className="text-white text-4xl absolute top-20 left-12">{title}</p>
+        <p className="text-white text-4xl absolute top-20 left-16 pl-12">
+          {title}
+        </p>
       </div>
 
       <HarvestModal

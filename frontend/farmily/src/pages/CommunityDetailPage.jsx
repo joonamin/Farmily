@@ -8,6 +8,7 @@ export default function CommunityDetailPage() {
     title: '',
     content: '',
     author: '',
+    createdAt: '',
     treeImage: {
       location: '',
       originalFileName: '',
@@ -21,6 +22,7 @@ export default function CommunityDetailPage() {
       .get(`/community/${id}`)
       .then((res) => {
         setCommunity(res.data);
+        console.log(res);
       })
       .catch((err) => {
         console.log(err);
@@ -33,7 +35,12 @@ export default function CommunityDetailPage() {
         <div className="border-4 p-2 border-black rounded-xl text-left flex justify-between">
           <p>{community.title}</p>
         </div>
-        <p>작성자 : {community.author}</p>
+        <div className="flex justify-between mt-1">
+          <span className="text-left">
+            작성일자 :{/* 작성일자 : {community.createdAt.slice(0, 10)} */}
+          </span>
+          <span className="text-right">작성자 : {community.author}</span>
+        </div>
       </div>
       <div className="h-3/6">
         <div className="">
