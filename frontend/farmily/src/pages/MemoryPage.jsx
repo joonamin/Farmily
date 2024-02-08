@@ -1,16 +1,17 @@
 import { useState, useEffect } from 'react';
 import axios from '../api/axios.jsx';
 import MemoryItem from '../components/common/MemoryItem.jsx';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { setMemory } from '../store/memory.jsx';
 
 export default function MemoryPage() {
+  const dispatch = useDispatch();
   const [basket, setBasket] = useState([
     {
       id: 0,
       range: {
         startDate: '',
         endDate: '',
-        period: '',
       },
     },
   ]);
@@ -23,7 +24,7 @@ export default function MemoryPage() {
       .get(`/family/${family.id}/basket`)
       .then((res) => {
         setBasket(res.data);
-        // console.log(res.data);
+        dispatch(setMemory(res.data));
       })
       .catch((err) => {
         // console.log(err);
