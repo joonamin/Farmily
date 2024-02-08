@@ -7,18 +7,20 @@ import authSlice from './auth.jsx';
 import familySlice from './family.jsx';
 import userSlice from './user.jsx';
 import harvestSlice from './harvest.jsx';
+import memorySlice from './memory.jsx';
 
 const reducers = combineReducers({
   auth: authSlice.reducer,
   family: familySlice.reducer,
   user: userSlice.reducer,
   harvest: harvestSlice.reducer,
+  memory: memorySlice.reducer,
 });
 
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['auth', 'family', 'user', 'harvest'],
+  whitelist: ['auth', 'family', 'user', 'harvest', 'memory'],
 };
 
 const persistedReducer = persistReducer(persistConfig, reducers);

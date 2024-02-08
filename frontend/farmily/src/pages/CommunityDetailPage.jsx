@@ -37,7 +37,7 @@ export default function CommunityDetailPage() {
         </div>
         <div className="flex justify-between mt-1">
           <span className="text-left">
-            작성일자 :{/* 작성일자 : {community.createdAt.slice(0, 10)} */}
+            {/* 작성일자 :작성일자 : {community.createdAt.slice(0, 10)} */}
           </span>
           <span className="text-right">작성자 : {community.author}</span>
         </div>

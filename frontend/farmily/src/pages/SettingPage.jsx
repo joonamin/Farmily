@@ -7,6 +7,7 @@ import { getFamilies } from '../store/user.jsx';
 import fruitImages from '../api/fruitImages.jsx';
 import { setFamily } from '../store/family';
 import chunsik from '../assets/images/chunsik.jpg';
+import CommonModal from '../components/common/CommonModal.jsx';
 
 export default function SettingPage() {
   const navigate = useNavigate();
@@ -27,6 +28,9 @@ export default function SettingPage() {
   const [isLeader, setIsLeader] = useState(false);
   const [dailyFruit, setDailyFruit] = useState(family.fruitSkins.daily);
   const [eventFruit, setEventFruit] = useState(family.fruitSkins.event);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isChangeFruit, setIsChangeFruit] = useState(false);
+  const [isCopy, setIsCopy] = useState(false);
   const [challengeFruit, setChallengeFruit] = useState(
     family.fruitSkins.challenge
   );
@@ -44,6 +48,22 @@ export default function SettingPage() {
       me: false,
     },
   ]);
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const openCopyModal = () => {
+    setIsCopy(true);
+  };
+
+  const closeCopyModal = () => {
+    setIsCopy(false);
+  };
 
   useEffect(() => {
     axios
@@ -84,7 +104,7 @@ export default function SettingPage() {
       };
       dispatch(setFamily(familyData));
     });
-  }, [isChanged, isLeader]);
+  }, [isChanged, isLeader, isChangeFruit]);
 
   const handleMandate = () => {
     axios
@@ -94,6 +114,7 @@ export default function SettingPage() {
       .then((response) => {
         setIsChanged(!isChanged);
         setIsLeader(false);
+        openModal();
       })
       .catch((error) => {
         console.log(error);
@@ -114,6 +135,7 @@ export default function SettingPage() {
       })
       .then((response) => {
         setIsChanged(!isChanged);
+        openModal();
       })
       .catch((error) => {
         console.log(error);
@@ -135,6 +157,7 @@ export default function SettingPage() {
       })
       .then((response) => {
         setIsChanged(!isChanged);
+        openModal();
       })
       .catch((error) => {
         console.log(error);
@@ -147,6 +170,7 @@ export default function SettingPage() {
       })
       .then((response) => {
         setIsChanged(!isChanged);
+        openModal();
       })
       .catch((error) => {
         console.log(error);
@@ -168,6 +192,8 @@ export default function SettingPage() {
       .put(`/family/${family.id}/fruit-skin`, formData)
       .then((res) => {
         console.log(res);
+        setIsChangeFruit(!isChangeFruit);
+        openModal();
       })
       .catch((error) => {
         console.log(error);
@@ -196,6 +222,7 @@ export default function SettingPage() {
       })
       .then((response) => {
         console.log(response.data);
+        openModal();
       })
       .catch((error) => {
         console.log(error);
@@ -311,7 +338,12 @@ export default function SettingPage() {
             <div className="border-4 border-black rounded-md p-1 w-1/2 flex justify-between pl-4 h-full">
               <p className="w-5/6 truncate text-left">{invitationCode}</p>
               <CopyToClipboard text={invitationCode}>
-                <button className="bg-gray-300 px-4 w-20">복사</button>
+                <button
+                  className="bg-gray-300 px-4 w-20"
+                  onClick={openCopyModal}
+                >
+                  복사
+                </button>
               </CopyToClipboard>
             </div>
           </div>
@@ -484,6 +516,18 @@ export default function SettingPage() {
           <Link to="/createtree">가족 생성하기</Link>
         </div>
       ) : null}
+      <CommonModal
+        title="변경사항"
+        content="저장되었습니다!"
+        isOpen={isModalOpen}
+        closeModal={closeModal}
+      />
+      <CommonModal
+        title="가족코드 복사"
+        content="가족코드가 복사되었습니다."
+        isOpen={isCopy}
+        closeModal={closeCopyModal}
+      />
     </>
   );
 }
