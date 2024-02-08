@@ -9,8 +9,8 @@ import DialogExtensionComponent from './dialog-extension/DialogExtension';
 import StreamComponent from './stream/StreamComponent';
 import './VideoRoomComponent.css';
 
-import OpenViduLayout from '../layout/openvidu-layout';
-import UserModel from '../models/user-model';
+import OpenViduLayout from './layout/openvidu-layout';
+import UserModel from './models/user-model';
 import ToolbarComponent from './toolbar/ToolbarComponent';
 
 var localUser = new UserModel();
