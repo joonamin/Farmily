@@ -1,10 +1,22 @@
 import { useState } from 'react';
-import EventFruit from '../../assets/images/EventFruit.png';
+import fruitImages from '../../api/fruitImages.jsx';
+import { useSelector } from 'react-redux';
 
-export default function FruitItem({ fruitIndex }) {
+export default function FruitItem({ type }) {
+  const family = useSelector((state) => state.family.value);
+  const [fruitImg, setFruitImg] = useState();
+
+  if (type === 'DAILY') {
+    setFruitImg(fruitImages[family.fruitSkins.daily]);
+  } else if (type === 'EVENT') {
+    setFruitImg(fruitImages[family.fruitSkins.event]);
+  } else if (type === 'CHALLENGE') {
+    setFruitImg(fruitImages[family.fruitSkins.challenge]);
+  }
+
   return (
     <>
-      <img src={EventFruit} draggable="true" alt="" />
+      <img src={fruitImg} draggable="true" alt="" />
     </>
   );
 }
