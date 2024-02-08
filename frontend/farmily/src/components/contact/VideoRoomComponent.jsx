@@ -14,7 +14,7 @@ import UserModel from './models/user-model';
 import ToolbarComponent from './toolbar/ToolbarComponent';
 
 var localUser = new UserModel();
-const APPLICATION_SERVER_URL = import.meta.env.VITE_OPENVIDU_URLL;
+const APPLICATION_SERVER_URL = import.meta.env.VITE_OPENVIDU_URL;
 
 class VideoRoomComponent extends Component {
     constructor(props) {
@@ -23,6 +23,7 @@ class VideoRoomComponent extends Component {
         this.layout = new OpenViduLayout();
         let sessionName = `${props.family.name}`
         let userId = props.family.id
+        let familyId = props.family.id
         let userName = props.user.nickname;
         this.remotes = [];
         this.localUserAccessAllowed = false;
@@ -570,7 +571,7 @@ class VideoRoomComponent extends Component {
         return sessionId;
     }
 }
-
+    
     const mapStateToProps = (state) => ({
         family: state.family.value,
         user: state.user.value,
