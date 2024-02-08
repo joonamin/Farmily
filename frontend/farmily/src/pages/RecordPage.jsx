@@ -44,17 +44,10 @@ export default function RecordPage() {
     <>
       <div className="flex h-8 justify-between px-10">
         <div className="my-auto">
-          {family.mainSprint.sprintId === parseInt(sprintId) ? (
-            <p className="my-auto text-2xl">
-              {family.mainSprint.endDate.slice(0, 4)}년{' '}
-              {family.mainSprint.endDate.slice(5, 7)}월
-            </p>
-          ) : (
-            <p className="my-auto text-2xl">
-              {sprintDate.endDate.slice(0, 4)}년{' '}
-              {sprintDate.endDate.slice(5, 7)}월
-            </p>
-          )}
+          <p className="my-auto text-2xl">
+            {sprintDate.endDate.slice(0, 4)}년 {sprintDate.endDate.slice(5, 7)}
+            월
+          </p>
         </div>
         <div className="flex h-8 my-auto">
           <span className="flex my-auto mr-5">
