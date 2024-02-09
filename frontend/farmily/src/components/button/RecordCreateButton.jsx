@@ -12,7 +12,7 @@ export default function RecordCreateButton(props) {
   return (
     <div
       onClick={onClickHandler}
-      className="flex justify-around items-center h-1/4 m-5 rounded-md border-black"
+      className="flex justify-around items-center h-1/4 m-5 rounded-md border-black hover:bg-gray-200 hover:cursor-pointer"
     >
       <div className="w-1/2">
         <img src={props.img} alt="" className="m-auto" />
