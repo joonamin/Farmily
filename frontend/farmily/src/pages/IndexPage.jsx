@@ -1,5 +1,8 @@
 import { Link } from 'react-router-dom';
+import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+
+import TextTypingAni from '../components/TextTypingAni.jsx';
 
 import mainTree from '../assets/images/maintree.png';
 import board from '../assets/images/mainboard.png';
@@ -14,13 +17,19 @@ export default function IndexPage() {
   return (
     <>
       <div className="w-2/6 mb-60 pl-36">
-        <p className="text-3xl font-bold mb-4">{welcomeMessage}</p>
-        <p className="text-2xl">{introTitle_1}</p>
+        <TextTypingAni text={welcomeMessage} font={'text-3xl'} />
+        <TextTypingAni text={introTitle_1} font={'text-2xl'} />
+        <TextTypingAni text={introTitle_2} font={'text-2xl'} />
+        <br />
+        <TextTypingAni text={introContent_1} />
+        <TextTypingAni text={introContent_2} />
+        <br />
+        {/* <p className="text-2xl">{introTitle_1}</p>
         <p className="text-2xl">{introTitle_2}</p>
         <br />
         <p className="">{introContent_1}</p>
         <p className="">{introContent_2}</p>
-        <br />
+        <br /> */}
         <Link to="login">
           <button className="bg-gray-700 text-white text-xl px-6 py-4 rounded-xl">
             로그인
@@ -31,7 +40,9 @@ export default function IndexPage() {
         <img className="mb-28" src={mainTree} alt="" />
       </div>
       <div className="w-1/6 mr-32 mb-28 relative">
-        <p className="text-white text-4xl absolute top-16 left-12">시작하기</p>
+        <p className="text-white text-4xl absolute top-16 left-16 mt-3">
+          알아보기
+        </p>
         <img src={board} alt="" />
       </div>
     </>

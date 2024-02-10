@@ -7,17 +7,17 @@ export default function CommentCreate({ recordId, onCommentCreate }) {
   const [errorMessage, setErrorMessage] = useState('');
 
   const handleClick = () => {
+    if (!content) {
+      setError(true);
+      setErrorMessage('내용을 입력해 주세요.');
+      return;
+    }
+
     axios
       .post(`record/${recordId}/comment`, {
         content: content,
       })
       .then((response) => {
-        if (!content) {
-          setError(true);
-          setErrorMessage('내용을 입력해 주세요.');
-          return;
-        }
-
         onCommentCreate();
         setContent('');
         setError(false);
@@ -27,7 +27,7 @@ export default function CommentCreate({ recordId, onCommentCreate }) {
       });
   };
   const handleChange = (e) => {
-    setContent(e.target.value);
+    setContent(e.target.value.trim());
   };
 
   return (
