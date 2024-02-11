@@ -96,7 +96,11 @@ export default function MainTree({
           draggable="true"
           data-fruit-index={index}
         >
-          <FruitItem type={fruit.type} />
+          <FruitItem
+            type={fruit.type}
+            title={fruit.recordTitle}
+            id={fruit.recordId}
+          />
         </div>
       ))}
 

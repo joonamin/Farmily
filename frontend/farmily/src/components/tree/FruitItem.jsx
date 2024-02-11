@@ -1,10 +1,20 @@
 import { useState } from 'react';
 import fruitImages from '../../api/fruitImages.jsx';
 import { useSelector } from 'react-redux';
+import HoverBox from '../common/HoverBox.jsx';
 
-export default function FruitItem({ type }) {
+export default function FruitItem({ type, title, id }) {
   const family = useSelector((state) => state.family.value);
   const [fruitImg, setFruitImg] = useState();
+  const [isHover, setIsHover] = useState(false);
+
+  const openHover = () => {
+    setIsHover(true);
+  };
+
+  const closeHover = () => {
+    setIsHover(false);
+  };
 
   if (type === 'DAILY') {
     setFruitImg(fruitImages[family.fruitSkins.daily]);
@@ -15,8 +25,15 @@ export default function FruitItem({ type }) {
   }
 
   return (
-    <>
-      <img src={fruitImg} draggable="true" alt="" />
-    </>
+    <div className="flex items-center">
+      <img
+        onMouseEnter={openHover}
+        onMouseLeave={closeHover}
+        src={fruitImg}
+        draggable="true"
+        alt=""
+      />
+      {isHover && <HoverBox title={title} />}
+    </div>
   );
 }
