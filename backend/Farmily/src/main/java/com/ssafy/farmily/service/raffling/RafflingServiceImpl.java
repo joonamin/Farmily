@@ -3,6 +3,7 @@ package com.ssafy.farmily.service.raffling;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ssafy.farmily.dto.RafflingRequestDto;
 import com.ssafy.farmily.dto.RafflingResponseDto;
@@ -26,6 +27,7 @@ public class RafflingServiceImpl implements RafflingService {
 	private final int RAFFLING_COST = 100;
 
 	@Override
+	@Transactional
 	public RafflingResponseDto raffleItem(RafflingRequestDto dto, String username) {
 		Long familyId = dto.getFamilyId();
 		Family family = familyService.getEntity(familyId);
@@ -47,8 +49,8 @@ public class RafflingServiceImpl implements RafflingService {
 		responseDto.setFamilyPoint(familyPoint);
 		familyRepository.save(family);
 
-		boolean duplication = true;
-		while (duplication) {
+		boolean IsDuplication = true;
+		while (IsDuplication) {
 			int rafflingItemId = (int)(Math.random() * allOfItemList.length);
 			Item item = allOfItemList[rafflingItemId];
 
@@ -60,7 +62,7 @@ public class RafflingServiceImpl implements RafflingService {
 					.build();
 				familyItemRepository.save(entity);
 				responseDto.setRafflingCode(String.valueOf(item));
-				duplication = false;
+				IsDuplication = false;
 			}
 		}
 		return responseDto;
