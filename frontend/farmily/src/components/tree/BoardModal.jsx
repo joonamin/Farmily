@@ -10,14 +10,13 @@ import axios from '../../api/axios.jsx'
 
 
 
-const BoardModal = ({ isOpen, closeModal, handleChange }) => {
+const BoardModal = ({ isOpen, closeModal, handleChange, familyPoint }) => {
   const dispatch = useDispatch();
   const [selectedTab, setSelectedTab] = useState("segment1");
   const family = useSelector((state) => state.family.value);
   const familyId = family.id;
   const [isRaffling, setIsRaffling] = useState(false);
   const [rafflingResponse, setRafflingResponse] = useState(null);
-  const [familyPoint, setFamilyPoint] = useState(family.point);
   const itemSkinsLength = family.fruitSkins ? family.fruitSkins.length : 0;
 
   const handleOutsideClick = (e) => {
@@ -37,13 +36,11 @@ const BoardModal = ({ isOpen, closeModal, handleChange }) => {
     setIsRaffling(true); // 뽑기 시작
     
   try {
-    const response = await axios.post('/family/raffling', { familyId }).then(
-      handleChange());
-    setRafflingResponse(response.data);
-    // 데이터베이스에서 차감된 포인트를 즉각적으로 반영
-    if(response.data.point !== undefined) {
-      setFamilyPoint(response.data.point); // 여기서는 응답으로 받은 최신 포인트로 상태를 업데이트
-    }
+    await axios.post('/family/raffling', { familyId })
+    .then((response) => {
+      handleChange();
+      setRafflingResponse(response.data);
+    })
   } catch (error) {
     console.error('Raffle error:', error);
   }
@@ -79,9 +76,9 @@ const disableOpenBoxButton = isRaffling || familyPoint < 100 || itemSkinsLength 
     setIsRaffling(false);
   }, [isOpen, selectedTab]);
 
-  useEffect(() => {
-    setFamilyPoint(family.point)
-  }, [family])
+  // useEffect(() => {
+  //   setFamilyPoint(family.point)
+  // }, [family])
 
 
   return (
