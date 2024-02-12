@@ -51,7 +51,7 @@ export default function MainPage() {
     challenge3: null,
   });
   const [isChanged, setIsChanged] = useState(false);
-
+  const [familyPoint, setFamilyPoint] = useState(family.point);
   const [treeFruits, setTreeFruits] = useState(
     family.tree.mainRecordFruitDtoList
   );
@@ -99,10 +99,13 @@ export default function MainPage() {
           point: res.data.point,
           fruitSkins: res.data.fruitSkins,
         };
+        
         dispatch(setFamily(familyData));
         setTreeFruits(res.data.tree.mainRecordFruitDtoList);
+        setFamilyPoint(res.data.point)
+        console.log(res.data.point)
         CalIsHarvest(res.data.mainSprint.endDate);
-
+        
         if (familyData.challengesIds && familyData.challengesIds.length > 0) {
           Promise.all(
             familyData.challengesIds.map((id) => axios.get(`/record/${id}`))
@@ -162,7 +165,7 @@ export default function MainPage() {
       {family.needHarvest ? (
         <Harvest title="수확하기" />
       ) : (
-        <Board title="나무 꾸미기" handleChange={handleChange} />
+        <Board title="나무 꾸미기" handleChange={handleChange} familyPoint={familyPoint} setFamilyPoint={setFamilyPoint} />
       )}
     </Container>
   );

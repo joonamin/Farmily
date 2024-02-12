@@ -26,29 +26,28 @@ export default function MainTree({
 
   // 나무 영역 내에서만 이동 가능하도록 하기
   const handleMouseMove = (e) => {
-    if (draggedFruitIndex !== null) {
-      const parentOffsetX = e.currentTarget.offsetParent.offsetLeft;
-      const parentOffsetY = e.currentTarget.offsetParent.offsetTop;
-      const newX = e.clientX - parentOffsetX - 20;
-      const newY = e.clientY - parentOffsetY - 20;
-      const isOutsideRelativeDiv =
-        e.clientX < parentOffsetX ||
-        e.clientX >
-          parentOffsetX +
-            e.currentTarget.offsetParent.offsetParent.offsetWidth ||
-        e.clientY < parentOffsetY ||
-        e.clientY >
-          parentOffsetY +
-            e.currentTarget.offsetParent.offsetParent.offsetHeight;
-      if (!isOutsideRelativeDiv) {
-        const updatedFruits = [...treeFruits];
-        updatedFruits[draggedFruitIndex] = {
-          ...updatedFruits[draggedFruitIndex],
-          position: { row: newX, col: newY },
-        };
-        setTreeFruits(updatedFruits);
-      }
+    const offsetX = e.currentTarget.offsetLeft;
+    const offsetY = e.currentTarget.offsetTop;
+    const newX = e.clientX - offsetX - 20;
+    const newY = e.clientY - offsetY - 20;
+    const isOutsideRelativeDiv =
+      e.clientX < offsetX ||
+      e.clientX >
+      offsetX +
+          e.currentTarget.offsetWidth ||
+      e.clientY < offsetY ||
+      e.clientY >
+      offsetY +
+          e.currentTarget.offsetHeight;
+    if (!isOutsideRelativeDiv) {
+      const updatedFruits = [...treeFruits];
+      updatedFruits[draggedFruitIndex] = {
+        ...updatedFruits[draggedFruitIndex],
+        position: { row: newX, col: newY },
+      };
+      setTreeFruits(updatedFruits);
     }
+    
   };
 
   // 아이템 배치 취소
@@ -80,7 +79,8 @@ export default function MainTree({
   };
 
   return (
-    <div className="relative overflow-hidden">
+    <div className="relative overflow-hidden" 
+    onMouseMove={draggedFruitIndex ? handleMouseMove : null}>
       <img className="" src={maintree} alt="MainTree" />
       {treeFruits.map((fruit, index) => (
         <div
@@ -91,7 +91,6 @@ export default function MainTree({
             left: fruit.position.row,
           }}
           onClick={handleMouseClick}
-          onMouseMove={handleMouseMove}
           onContextMenu={(e) => handleTreeFruitRightClick(e, index)}
           draggable="true"
           data-fruit-index={index}
