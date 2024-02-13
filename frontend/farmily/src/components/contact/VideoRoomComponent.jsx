@@ -14,7 +14,7 @@ import UserModel from './models/user-model';
 import ToolbarComponent from './toolbar/ToolbarComponent';
 
 var localUser = new UserModel();
-const APPLICATION_SERVER_URL = "development" ? "/" : "https://i10e102.p.ssafy.io/api/";
+const APPLICATION_SERVER_URL = import.meta.env.VITE_OPENVIDU_URL;
 
 class VideoRoomComponent extends Component {
     constructor(props) {
