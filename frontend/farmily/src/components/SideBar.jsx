@@ -14,20 +14,31 @@ export default function SideBar() {
 
   const family = useSelector((state) => state.family.value);
   const [familyName, setFamilyName] = useState('가족');
-  const [sprintId, setSprintId] = useState(0);
-  useEffect(() => {
-    setFamilyName(family.name);
-    setSprintId(family.mainSprint.sprintId);
-  }, [family]);
-
-  const category = [
-    { name: '📑 기록하기', url: `/family/record/${sprintId}` },
+  const [category, setCategory] = useState([
+    {
+      name: '📑 기록하기',
+      url: `/family/record/${family ? family.mainSprint.sprintId : 0}`,
+    },
     { name: '🌳 추억보기', url: '/family/memory' },
     { name: '📅 일정보기', url: '/family/calendar' },
     { name: '🖼 커뮤니티', url: '/family/community' },
     { name: '🏆 업적보기', url: '/family/achievement' },
     { name: '💬 소통하기', url: '/family/contact' },
-  ];
+  ]);
+  useEffect(() => {
+    setFamilyName(family.name);
+    setCategory([
+      {
+        name: '📑 기록하기',
+        url: `/family/record/${family.mainSprint.sprintId}`,
+      },
+      { name: '🌳 추억보기', url: '/family/memory' },
+      { name: '📅 일정보기', url: '/family/calendar' },
+      { name: '🖼 커뮤니티', url: '/family/community' },
+      { name: '🏆 업적보기', url: '/family/achievement' },
+      { name: '💬 소통하기', url: '/family/contact' },
+    ]);
+  }, [family]);
 
   function clickLogout() {
     // 로그아웃 요청 보내기
