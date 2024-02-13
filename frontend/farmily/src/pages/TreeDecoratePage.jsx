@@ -73,18 +73,28 @@ export default function TreeDecoratePage() {
         handleTreeFruitRightClick={handleTreeFruitRightClick}
       />
       <div>
-        <div className="flex bg-gray-200 w-80 h-80">
-          {inventoryFruits.map((fruit, index) => (
-            <div
-              key={index}
-              className="w-10 h-10"
-              draggable="true"
-              data-fruit-index={index}
-              onClick={(e) => handleInventoryFruitClick(e, index)}
-            >
-              <FruitItem type={fruit.type} title={fruit.title} id={fruit.id} />
-            </div>
-          ))}
+        <div className="border-4 border-black bg-white w-80 h-80 rounded-md flex flex-col justify-between">
+          <div className="flex">
+            {inventoryFruits.map((fruit, index) => (
+              <div
+                key={index}
+                className="w-10 h-10"
+                draggable="true"
+                data-fruit-index={index}
+                onClick={(e) => handleInventoryFruitClick(e, index)}
+              >
+                <FruitItem
+                  type={fruit.type}
+                  title={fruit.title}
+                  id={fruit.id}
+                />
+              </div>
+            ))}
+          </div>
+          <p className="text-center">
+            열매 클릭 시 배치가 활성화 되고
+            <br /> 우클릭시 배치가 비활성화 됩니다.
+          </p>
         </div>
         <Board />
       </div>
