@@ -14,7 +14,7 @@ import UserModel from './models/user-model';
 import ToolbarComponent from './toolbar/ToolbarComponent';
 
 var localUser = new UserModel();
-const APPLICATION_SERVER_URL = import.meta.env.VITE_OPENVIDU_URL;
+const APPLICATION_SERVER_URL = import.meta.env.VITE_API_URL;
 
 class VideoRoomComponent extends Component {
     constructor(props) {
@@ -107,6 +107,7 @@ class VideoRoomComponent extends Component {
             try {
                 var token = await this.createToken();
                 console.log(token);
+                console.log("토큰 확인")
                 this.connect(token);
             } catch (error) {
                 console.error('There was an error getting the token:', error.code, error.message);
@@ -560,7 +561,7 @@ class VideoRoomComponent extends Component {
     */
    
     async createToken(familyId) {
-        const response = await axios.post(`${APPLICATION_SERVER_URL}/webrtc/${familyId}`);
+        const response = await axios.post(`/webrtc/${familyId}`);
         return response.data.sessionUrl; // The token
     }
 
@@ -574,7 +575,7 @@ class VideoRoomComponent extends Component {
     const mapStateToProps = (state) => ({
         family: state.family.value,
         user: state.user.value,
-});
+    });
 
 // connect 함수를 사용하여 VideoRoomComponent를 리덕스 스토어에 연결
 export default connect(mapStateToProps)(VideoRoomComponent);
