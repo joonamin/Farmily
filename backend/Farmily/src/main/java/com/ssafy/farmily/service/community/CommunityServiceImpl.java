@@ -42,7 +42,7 @@ public class CommunityServiceImpl implements CommunityService {
 	}
 
 	@Override
-	public String insertCommunityPost(InsertCommunityPostRequestDto requestDto, String username) {
+	public void insertCommunityPost(InsertCommunityPostRequestDto requestDto, String username) {
 		Member member = memberService.getEntity(username);
 
 		Image treeSnapshot = null;
@@ -58,12 +58,10 @@ public class CommunityServiceImpl implements CommunityService {
 				.treeImage(treeSnapshot).build();
 
 		communityPostRepository.save(communityPostDtoToToEntity);
-
-		return "Post Success";
 	}
 
 	@Override
-	public String putCommunityPost(InsertCommunityPostRequestDto requestDto, String username, Long communityPostId) {
+	public void putCommunityPost(InsertCommunityPostRequestDto requestDto, String username, Long communityPostId) {
 		Member member = memberService.getEntity(username);
 		CommunityPost communityPost = communityPostRepository.findById(communityPostId).orElseThrow(() -> new NoSuchContentException("존재하지 않는 게시글입니다."));
 
@@ -80,7 +78,6 @@ public class CommunityServiceImpl implements CommunityService {
 		communityPost.setTreeImage(treeSnapshot);
 
 		communityPostRepository.save(communityPost);
-		return "Put Success";
 	}
 
 	@Override

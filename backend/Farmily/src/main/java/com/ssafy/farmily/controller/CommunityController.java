@@ -83,8 +83,8 @@ public class CommunityController {
 		@Valid InsertCommunityPostRequestDto insertPostRequestDto,
 		@AuthenticationPrincipal String username
 	) {
-		String result = communityService.insertCommunityPost(insertPostRequestDto, username);
-		return ResponseEntity.ok(result);
+		communityService.insertCommunityPost(insertPostRequestDto, username);
+		return ResponseEntity.ok().build();
 	}
 
 	@PutMapping("/{communityPostId}")
