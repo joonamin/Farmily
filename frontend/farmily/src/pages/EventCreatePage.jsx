@@ -55,6 +55,11 @@ export default function EventCreatePage() {
       return; // 함수 종료
     }
 
+    if (images.length === 0) {
+      setTitleError('이미지를 추가해 주세요.');
+      return;
+    }
+
     const formData = new FormData();
     formData.append('sprintId', family.mainSprint.sprintId);
     formData.append('familyId', family.id);

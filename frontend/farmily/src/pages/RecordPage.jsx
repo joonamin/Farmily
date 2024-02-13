@@ -9,9 +9,10 @@ import SmallButton from '../components/button/SmallButton.jsx';
 import StatisticsItem from '../components/common/StatisticsItem.jsx';
 
 export default function RecordPage() {
+  const { sprintId } = useParams();
   const family = useSelector((state) => state.family.value);
   const memory = useSelector((state) => state.memory.value);
-  const { sprintId } = useParams();
+  const [images, setImages] = useState([]);
   const [sprintDate, setSprintDate] = useState({
     startDate: '',
     endDate: '',
@@ -35,6 +36,8 @@ export default function RecordPage() {
       .then((res) => {
         setCount(res.data.counts);
         setSprintDate(res.data.dateRange);
+        setImages(res.data.images);
+        console.log(123, res.data);
       })
       .catch((err) => {
         console.error(err);
@@ -69,7 +72,7 @@ export default function RecordPage() {
         </div>
       </div>
 
-      <ImageList />
+      <ImageList images={images} />
       <ArticleList sprintId={sprintId} />
       {/* 현재 진행중 sprintId와 같은 경우에만 보이게 수정하기 */}
       {isValid && (

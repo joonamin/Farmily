@@ -72,75 +72,83 @@ export default function ArticleList({ sprintId }) {
     setPage(pageNumber);
   };
 
+  // console.log(records);
+
   return (
     <>
-      <div className="px-5 h-2/5 relative">
-        <table className="table-fixed w-full">
-          <thead className="border-b-4 border-gray-500">
-            {/* 테이블 헤더 부분 */}
-          </thead>
-          <tbody>
-            {challenge.map((item, index) => (
-              <ChallengeItem
-                key={index}
-                title={item.title}
-                nickname={item.author.nickname}
-                content={item.content}
-                createdAt={item.createdAt}
-                id={item.id}
-                type={item.type}
-              />
-            ))}
-            {records.map((item, index) => (
-              <ArticleItem
-                key={index}
-                title={item.title}
-                nickname={item.author.nickname}
-                content={item.content}
-                createdAt={item.createdAt}
-                id={item.id}
-                type={item.type}
-              />
-            ))}
-          </tbody>
-        </table>
+      {records.length >= 1 ? (
+        <div className="px-5 h-2/5 relative">
+          <table className="table-fixed w-full">
+            <thead className="border-b-4 border-gray-500">
+              {/* 테이블 헤더 부분 */}
+            </thead>
+            <tbody>
+              {challenge.map((item, index) => (
+                <ChallengeItem
+                  key={index}
+                  title={item.title}
+                  nickname={item.author.nickname}
+                  content={item.content}
+                  createdAt={item.createdAt}
+                  id={item.id}
+                  type={item.type}
+                />
+              ))}
+              {records.map((item, index) => (
+                <ArticleItem
+                  key={index}
+                  title={item.title}
+                  nickname={item.author.nickname}
+                  content={item.content}
+                  createdAt={item.createdAt}
+                  id={item.id}
+                  type={item.type}
+                />
+              ))}
+            </tbody>
+          </table>
 
-        <div className="flex space-x-2 mt-4 justify-center">
-          <div className="flex justify-between mt-4">
-            <button
-              className={`bg-blue-500 text-white px-4 py-2 mr-4 rounded ${
-                page === 1 ? 'disabled bg-stone-700' : ''
-              }`}
-              onClick={handlePrevPage}
-              disabled={page === 1}
-            >
-              이전
-            </button>
-            {[...Array(totalPages).keys()].map((pageNumber) => (
+          <div className="flex space-x-2 mt-4 justify-center">
+            <div className="flex justify-between mt-4">
               <button
-                key={pageNumber}
-                className={`${
-                  pageNumber + 1 === page
-                    ? 'bg-blue-500 text-white'
-                    : 'bg-gray-300'
-                } px-4 py-2 rounded`}
-                onClick={() => handlePageClick(pageNumber + 1)}
+                className={`bg-blue-500 text-white px-4 py-2 mr-4 rounded ${
+                  page === 1 ? 'disabled bg-stone-700' : ''
+                }`}
+                onClick={handlePrevPage}
+                disabled={page === 1}
               >
-                {pageNumber + 1}
+                이전
               </button>
-            ))}
-            <button
-              className={`bg-blue-500 text-white px-4 py-2 ml-4 rounded ${
-                page === totalPages ? 'disabled bg-stone-700' : ''
-              }`}
-              onClick={handleNextPage}
-              disabled={page === totalPages}
-            >
-              다음
-            </button>
+              {[...Array(totalPages).keys()].map((pageNumber) => (
+                <button
+                  key={pageNumber}
+                  className={`${
+                    pageNumber + 1 === page
+                      ? 'bg-blue-500 text-white'
+                      : 'bg-gray-300'
+                  } px-4 py-2 rounded`}
+                  onClick={() => handlePageClick(pageNumber + 1)}
+                >
+                  {pageNumber + 1}
+                </button>
+              ))}
+              <button
+                className={`bg-blue-500 text-white px-4 py-2 ml-4 rounded ${
+                  page === totalPages ? 'disabled bg-stone-700' : ''
+                }`}
+                onClick={handleNextPage}
+                disabled={page === totalPages}
+              >
+                다음
+              </button>
+            </div>
           </div>
         </div>
-      </div>
+      ) : (
+        <div className="h-2/5 flex justify-center">
+          <p className="text-2xl my-auto">가족과 함께한 추억을 작성하세요.</p>
+        </div>
+      )}
     </>
   );
 }

@@ -9,8 +9,8 @@ export default function EventCard(item) {
         <div className="w-full object-cover">
           <img
             className="h-full rounded-lg m-auto"
-            // src={imageURL}
-            src={chunsik}
+            src={imageURL}
+            // src={chunsik}
             alt={item.image.originalFileName}
           />
         </div>
