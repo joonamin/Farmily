@@ -12,16 +12,10 @@ const initialState = {
         {
           recordId: 0,
           recordTitle: '',
-          row: 0,
-          col: 0,
-        },
-      ],
-      mainAccessoryFruitDtoList: [
-        {
-          id: 0,
-          row: 0,
-          col: 0,
-          accessoryType: 'HIDDEN_FRUIT',
+          position: {
+            row: 0,
+            col: 0,
+          },
         },
       ],
     },
