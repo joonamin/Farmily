@@ -5,7 +5,7 @@ public class EnumUtils {
 		StringBuilder stringBuilder = new StringBuilder();
 		char[] charArray = camelCase.toCharArray();
 		for (char c: charArray) {
-			if ('A' <= c && c <= 'Z') {
+			if (Character.isUpperCase(c)) {
 				stringBuilder.append('_').append(c);
 			}
 			else {
