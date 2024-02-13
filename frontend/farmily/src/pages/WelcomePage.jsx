@@ -67,16 +67,16 @@ const WelcomePage = () => {
   return (
     <>
       <div className="w-2/6 mb-60 pl-36">
-        <p className="text-3xl font-bold mb-4">Welcome Farmily</p>
+        <p className="text-3xl">Welcome Farmily</p>
         <p className="text-2xl">가족과 함께</p>
-        <p className="text-2xl">나무를 키워보세요!</p>
+        <p className="text-2xl">새로운 나무를 키워보세요!</p>
         <br />
-        <p>{'가족과의 추억을 기록하고'}</p>
-        <p>{'열매를 맺어 수확하세요.'}</p>
+        <p>{'가족 나무를 심고'}</p>
+        <p>{'소중한 추억을 기록하고 열매를 수확하세요.'}</p>
         <br />
       </div>
       <div className="w-5/12">
-        <img className="mb-28" src={sapling} alt="" />
+        <img className="mb-28 ml-24" src={sapling} alt="" />
       </div>
       <div className="w-1/6 mr-32 mb-28 relative">
         <p
