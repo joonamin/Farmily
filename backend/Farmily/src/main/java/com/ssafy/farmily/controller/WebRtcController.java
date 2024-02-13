@@ -1,10 +1,11 @@
 package com.ssafy.farmily.controller;
 
+import static com.ssafy.farmily.dto.OpenViduWebhookEventDto.*;
+
 import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,8 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ssafy.farmily.dto.ConferenceJoinResponseDto;
 import com.ssafy.farmily.service.webrtc.WebRtcService;
 
-import io.openvidu.java.client.ConnectionProperties;
-import io.openvidu.java.client.SessionProperties;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -57,4 +56,31 @@ public class WebRtcController {
 		return ResponseEntity.ok(dto);
 	}
 
+	@PostMapping("/webhook")
+	@Operation(
+		summary = "OpenVidu 웹훅 endpoint",
+		description = "OpenVidu 서버에서 발생하는 이벤트를 감지하는 웹훅 엔드포인트입니다."
+	)
+	@ApiResponses({
+		@ApiResponse(responseCode = "200", description = "처리 성공")
+	})
+	public ResponseEntity<Void> postWebhook(@RequestBody Map<String, Object> body) {
+		String bodyEvent = (String) body.get("event");
+		EventType eventType = getEventType(bodyEvent);
+		switch (eventType) {
+			case SESSION_CREATED:
+				webRtcService.onSessionCreated(new SessionCreated(body));
+				break;
+			case SESSION_DESTROYED:
+				webRtcService.onSessionDestroyed(new SessionDestroyed(body));
+				break;
+			case PARTICIPANT_JOINED:
+				webRtcService.onParticipantJoined(new ParticipantJoined(body));
+				break;
+			case PARTICIPANT_LEFT:
+				webRtcService.onParticipantLeft(new ParticipantLeft(body));
+				break;
+		}
+		return ResponseEntity.ok().build();
+	}
 }

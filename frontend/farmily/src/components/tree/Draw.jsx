@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Box from '../../assets/images/Box.png';
 import Raffling from '../../assets/images/Box_raffling.gif';
-import fruitImages from '../../api/fruitImages.jsx'
+import fruitImages from '../../api/fruitImages.jsx';
 import { useSelector } from 'react-redux';
 
 const Draw = ({ isRaffling, rafflingResponse, familyPoint, resetTrigger }) => {
@@ -9,17 +9,11 @@ const Draw = ({ isRaffling, rafflingResponse, familyPoint, resetTrigger }) => {
   const [imageSrc, setImageSrc] = useState(Box);
   const [fruitImageSrc, setFruitImageSrc] = useState('');
   const [showRafflingImage, setShowRafflingImage] = useState(true);
-  const [timers, setTimers] = useState({
-    rafflingHide: null,
-    fruitShow: null,
-    fruitHide: null,
-    boxShow: null,
-  });
 
   useEffect(() => {
     setImageSrc(Box);
     let timerRafflingHide, timerFruitShow, timerFruitHide, timerBoxShow;
-    
+
     if (isRaffling) {
       setImageSrc(Raffling); // 뽑기 시작 시 Raffling 이미지로 변경
       setShowRafflingImage(true);
@@ -32,18 +26,18 @@ const Draw = ({ isRaffling, rafflingResponse, familyPoint, resetTrigger }) => {
           setFruitImageSrc(selectedFruitImage);
         }
       }, 3600);
-  
+
       // 4.5초 후 Raffling 이미지 사라짐
       timerRafflingHide = setTimeout(() => {
         setImageSrc('');
         setShowRafflingImage(false); // Raffling 이미지 숨김
       }, 4500);
-  
+
       // 5.9초 후 fruit 이미지 사라짐
       timerFruitHide = setTimeout(() => {
         setFruitImageSrc('');
       }, 6900);
-  
+
       // 6초 후 Box 이미지로 복귀
       timerBoxShow = setTimeout(() => {
         setImageSrc(Box);
@@ -54,12 +48,12 @@ const Draw = ({ isRaffling, rafflingResponse, familyPoint, resetTrigger }) => {
       setShowRafflingImage(false);
       setFruitImageSrc('');
     }
-  
+
     return () => {
-      clearTimeout(timers.rafflingHide);
-      clearTimeout(timers.fruitShow);
-      clearTimeout(timers.fruitHide);
-      clearTimeout(timers.boxShow);
+      clearTimeout(timerFruitShow);
+      clearTimeout(timerRafflingHide);
+      clearTimeout(timerFruitHide);
+      clearTimeout(timerBoxShow);
     };
   }, [isRaffling, rafflingResponse, resetTrigger]);
 
@@ -68,26 +62,35 @@ const Draw = ({ isRaffling, rafflingResponse, familyPoint, resetTrigger }) => {
   const fruitImageStyle = {
     position: 'absolute',
     zIndex: 2,
-    width: showRafflingImage ? `100px` : `200px`, 
+    width: showRafflingImage ? `100px` : `200px`,
     height: showRafflingImage ? `100px` : `200px`,
     visibility: fruitImageSrc ? 'visible' : 'hidden',
     marginTop: showRafflingImage ? '0' : '230px', // fruit 이미지에 마진 적용
-
   };
 
   return (
     <div>
-       <h2>보유 포인트: <span style={pointStyle}>{familyPoint}</span>/100</h2>
+      <h2>
+        보유 포인트: <span style={pointStyle}>{familyPoint}</span>/100
+      </h2>
       <p className="fontSize-small">뽑기 시 100포인트 차감됩니다.</p>
       <br />
-      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
-        <img src={imageSrc} alt="" style={{ visibility: imageSrc ? 'visible' : 'hidden' }} className="h-full" />
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '100%',
+        }}
+      >
+        <img
+          src={imageSrc}
+          alt=""
+          style={{ visibility: imageSrc ? 'visible' : 'hidden' }}
+          className="h-full"
+        />
         {fruitImageSrc && (
-          <img
-            src={fruitImageSrc}
-            alt="Fruit"
-            style={fruitImageStyle}
-          />
+          <img src={fruitImageSrc} alt="Fruit" style={fruitImageStyle} />
         )}
       </div>
     </div>

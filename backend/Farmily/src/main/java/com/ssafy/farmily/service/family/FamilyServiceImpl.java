@@ -93,7 +93,6 @@ public class FamilyServiceImpl implements FamilyService {
 		.challenge(Item.ALPHABET_B)
 		.event(Item.ALPHABET_C)
 		.build();
-
 	@Override
 	@Transactional
 	public Family getEntity(Long familyId) {
@@ -263,6 +262,8 @@ public class FamilyServiceImpl implements FamilyService {
 
 		family.setFruitSkins(DEFAULT_FRUIT_SKINS_GENERATOR.apply(family));
 		familyRepository.save(family);
+		List<FamilyItem> defaultFamilyItems = defaultFamilyItemsGenerate(family);
+		familyItemRepository.saveAll(defaultFamilyItems);
 
 		CreateFamilyResponseDto createFamilyResponseDto = CreateFamilyResponseDto.builder()
 			.familyId(family.getId())
@@ -279,6 +280,22 @@ public class FamilyServiceImpl implements FamilyService {
 			.build();
 	}
 
+	private List<FamilyItem> defaultFamilyItemsGenerate(Family family) {
+		List<Item> list = new ArrayList<>();
+		list.add(Item.ALPHABET_A);
+		list.add(Item.ALPHABET_B);
+		list.add(Item.ALPHABET_C);
+		List<FamilyItem> result = new ArrayList<>();
+		for(Item item : list){
+			FamilyItem familyItem = FamilyItem.builder()
+				.code(item)
+				.type(item.getType())
+				.family(family)
+				.build();
+			result.add(familyItem);
+		}
+		return result;
+	}
 	@Override
 	@Statistics(FamilyStatistics.Field.HARVEST_COUNT)
 	@Transactional

@@ -15,7 +15,6 @@ public class CommunityPostDto {
 	String title;
 	String author;
 	String content;
-	Long sprintId;
 	ImageDto image;
 
 	public static CommunityPostDto from(CommunityPost post) {
@@ -24,8 +23,7 @@ public class CommunityPostDto {
 		communityPostDto.author = post.getAuthor().getNickname();
 		communityPostDto.title = post.getTitle();
 		communityPostDto.content = post.getContent();
-		communityPostDto.image = null;
-
+		communityPostDto.image = ImageDto.from(post.getTreeImage());
 		return communityPostDto;
 	}
 }

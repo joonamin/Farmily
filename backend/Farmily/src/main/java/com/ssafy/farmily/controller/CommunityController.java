@@ -7,6 +7,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -82,10 +83,19 @@ public class CommunityController {
 		@Valid InsertCommunityPostRequestDto insertPostRequestDto,
 		@AuthenticationPrincipal String username
 	) {
-		String result = communityService.insertCommunityPost(insertPostRequestDto, username);
-		return ResponseEntity.ok(result);
+		communityService.insertCommunityPost(insertPostRequestDto, username);
+		return ResponseEntity.ok().build();
 	}
 
+	@PutMapping("/{communityPostId}")
+	public ResponseEntity<Void> putCommunityPost(
+		@AuthenticationPrincipal String username,
+		@PathVariable Long communityPostId,
+		@Valid InsertCommunityPostRequestDto putPostRequestDto
+	){
+		communityService.putCommunityPost(putPostRequestDto,username,communityPostId);
+		return ResponseEntity.ok().build();
+	}
 
 	/*
 	TODO
