@@ -1,5 +1,11 @@
 package com.ssafy.farmily.type;
 
+import java.util.List;
+import java.util.function.Function;
+
+import com.ssafy.farmily.entity.Family;
+import com.ssafy.farmily.entity.FamilyItem;
+
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
