@@ -13,8 +13,8 @@ export default function SideBar() {
   const navigate = useNavigate();
 
   const family = useSelector((state) => state.family.value);
-  const [familyName, setFamilyName] = useState(family.name);
-  const [sprintId, setSprintId] = useState(family.mainSprint.sprintId || 0);
+  const [familyName, setFamilyName] = useState('가족');
+  const [sprintId, setSprintId] = useState(0);
   useEffect(() => {
     setFamilyName(family.name);
     setSprintId(family.mainSprint.sprintId);
