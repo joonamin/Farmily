@@ -14,7 +14,7 @@ import UserModel from './models/user-model';
 import ToolbarComponent from './toolbar/ToolbarComponent';
 
 var localUser = new UserModel();
-const APPLICATION_SERVER_URL = import.meta.env.VITE_OPENVIDU_URL;
+// const APPLICATION_SERVER_URL = import.meta.env.VITE_OPENVIDU_URL;
 
 class VideoRoomComponent extends Component {
     constructor(props) {
@@ -561,7 +561,7 @@ class VideoRoomComponent extends Component {
     */
    
     async createToken(familyId) {
-        const response = await axios.post(`${APPLICATION_SERVER_URL}/webrtc/${familyId}`);
+        const response = await axios.post(`/webrtc/${familyId}`);
         return response.data.sessionUrl; // The token
     }
 
