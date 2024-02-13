@@ -51,10 +51,17 @@ export default function MainPage() {
     challenge3: null,
   });
   const [isChanged, setIsChanged] = useState(false);
-  const [familyPoint, setFamilyPoint] = useState(family.point);
-  const [treeFruits, setTreeFruits] = useState(
-    family.tree.mainRecordFruitDtoList
-  );
+  const [familyPoint, setFamilyPoint] = useState(0);
+  const [treeFruits, setTreeFruits] = useState([
+    {
+      recordId: 0,
+      recordTitle: '',
+      position: {
+        row: 0,
+        col: 0,
+      },
+    },
+  ]);
   const CalIsHarvest = (date) => {
     const endDate = date;
     const today = new Date();
