@@ -20,14 +20,14 @@ export default function SideBar() {
     setSprintId(family.mainSprint.sprintId);
   }, [family]);
 
-  const category = [
+  const [category, setCategory] = useState([
     { name: '📑 기록하기', url: `/family/record/${sprintId}` },
     { name: '🌳 추억보기', url: '/family/memory' },
     { name: '📅 일정보기', url: '/family/calendar' },
     { name: '🖼 커뮤니티', url: '/family/community' },
     { name: '🏆 업적보기', url: '/family/achievement' },
     { name: '💬 소통하기', url: '/family/contact' },
-  ];
+  ]);
 
   function clickLogout() {
     // 로그아웃 요청 보내기
