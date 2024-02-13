@@ -7,7 +7,7 @@
   
   #chatToolbar {
     height: 30px;
-    background-color: #3d3d3d;
+    background-color: #3A1D1D;
     box-sizing: border-box;
     font-weight: bold;
     font-size: 14px;
@@ -82,16 +82,6 @@
     max-width: 80%;
   }
   
-  span.triangle {
-    border-radius: 2px;
-    height: 8px;
-    width: 8px;
-    top: 12px;
-    display: block;
-    -webkit-transform: rotate(45deg);
-    transform: rotate(45deg);
-    position: absolute;
-  }
   
   .text {
     word-break: break-all;color: #000000;
@@ -104,7 +94,12 @@
   }
   
   .message.left .msg-detail {
-    padding-left: 65px;
+    padding-left: 30px;
+    padding-top: 10px;
+  }
+  .message.right .msg-detail {
+    padding-right: 30px;
+    padding-top: 10px;
   }
   
   .message.left .user-img {
@@ -129,6 +124,9 @@
   
   .message.right .msg-detail .msg-info {
     text-align: right;
+  }
+  .message.left .msg-detail .msg-info {
+    text-align: left;
   }
   .message.right .user-img {
     right: -5px;
@@ -155,7 +153,7 @@
     background-color: #ffffff;
     text-align: center;
     padding: 10px 0px;
-    height: 30px;
+    height: 45  px;
     border-bottom-left-radius: 6px;
     border-bottom-right-radius: 6px;
   }

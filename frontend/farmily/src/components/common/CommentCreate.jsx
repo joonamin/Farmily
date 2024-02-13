@@ -3,7 +3,16 @@ import axios from '../../api/axios.jsx';
 
 export default function CommentCreate({ recordId, onCommentCreate }) {
   const [content, setContent] = useState();
+  const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+
   const handleClick = () => {
+    if (!content) {
+      setError(true);
+      setErrorMessage('내용을 입력해 주세요.');
+      return;
+    }
+
     axios
       .post(`record/${recordId}/comment`, {
         content: content,
@@ -11,13 +20,14 @@ export default function CommentCreate({ recordId, onCommentCreate }) {
       .then((response) => {
         onCommentCreate();
         setContent('');
+        setError(false);
       })
       .catch((error) => {
         console.log(error);
       });
   };
   const handleChange = (e) => {
-    setContent(e.target.value);
+    setContent(e.target.value.trim());
   };
 
   return (
@@ -25,7 +35,7 @@ export default function CommentCreate({ recordId, onCommentCreate }) {
       <div className="flex items-center rounded-lg pb-4">
         <textarea
           type="text"
-          placeholder="댓글을 입력하세요."
+          placeholder={error ? errorMessage : '댓글을 입력하세요.'}
           className="border-4 flex-grow py-1 resize-none border-black p-2 rounded-xl"
           value={content}
           onChange={handleChange}

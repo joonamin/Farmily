@@ -14,7 +14,7 @@ import UserModel from './models/user-model';
 import ToolbarComponent from './toolbar/ToolbarComponent';
 
 var localUser = new UserModel();
-const APPLICATION_SERVER_URL = import.meta.env.VITE_OPENVIDU_URLL;
+const APPLICATION_SERVER_URL = "development" ? "/" : "https://i10e102.p.ssafy.io/api/";
 
 class VideoRoomComponent extends Component {
     constructor(props) {
@@ -558,7 +558,6 @@ class VideoRoomComponent extends Component {
      * Visit https://docs.openvidu.io/en/stable/application-server to learn
      * more about the integration of OpenVidu in your application server.
      */
-    
     async createToken(familyId) {
         const response = await axios.post(`${APPLICATION_SERVER_URL}/webrtc/${familyId}`);
         return response.data.sessionUrl; // The token

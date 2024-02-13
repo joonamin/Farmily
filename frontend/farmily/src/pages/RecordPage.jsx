@@ -6,6 +6,7 @@ import fruitImages from '../api/fruitImages.jsx';
 import ArticleList from '../components/common/ArticleList.jsx';
 import ImageList from '../components/common/ImageList.jsx';
 import SmallButton from '../components/button/SmallButton.jsx';
+import StatisticsItem from '../components/common/StatisticsItem.jsx';
 
 export default function RecordPage() {
   const family = useSelector((state) => state.family.value);
@@ -50,33 +51,21 @@ export default function RecordPage() {
           </p>
         </div>
         <div className="flex h-8 my-auto">
-          <span className="flex my-auto mr-5">
-            <img
-              className="h-8 mr-3"
-              src={fruitImages[family.fruitSkins.daily]}
-              alt=""
-            />{' '}
-            <p className="my-auto text-xl mr-1">X</p>
-            <p className="my-auto text-xl">{count.daily}</p>
-          </span>
-          <span className="flex my-auto mr-5">
-            <img
-              className="h-8 mr-3"
-              src={fruitImages[family.fruitSkins.event]}
-              alt=""
-            />{' '}
-            <p className="my-auto text-xl mr-1">X</p>
-            <p className="my-auto text-xl">{count.event}</p>
-          </span>
-          <span className="flex my-auto">
-            <img
-              className="h-8 mr-3"
-              src={fruitImages[family.fruitSkins.challenge]}
-              alt=""
-            />{' '}
-            <p className="my-auto text-xl mr-1">X</p>
-            <p className="my-auto text-xl">{count.challenge}</p>
-          </span>
+          <StatisticsItem
+            type={family.fruitSkins.daily}
+            count={count.daily}
+            text={'일상'}
+          />
+          <StatisticsItem
+            type={family.fruitSkins.event}
+            count={count.event}
+            text={'이벤트'}
+          />
+          <StatisticsItem
+            type={family.fruitSkins.challenge}
+            count={count.challenge}
+            text={'챌린지'}
+          />
         </div>
       </div>
 

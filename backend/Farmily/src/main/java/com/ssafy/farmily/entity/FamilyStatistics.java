@@ -70,7 +70,7 @@ public class FamilyStatistics extends BaseEntity {
 			FamilyStatisticsRepository::incrementHarvestCount
 		),
 		CALENDAR_PLAN_COUNT(
-			FamilyStatistics::getDailyRecordCount,
+			FamilyStatistics::getCalendarPlanCount,
 			FamilyStatisticsRepository::incrementCalendarPlanCount
 		),
 		;
