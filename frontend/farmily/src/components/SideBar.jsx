@@ -14,7 +14,7 @@ export default function SideBar() {
 
   const family = useSelector((state) => state.family.value);
   const [familyName, setFamilyName] = useState(family.name);
-  const [sprintId, setSprintId] = useState(family.mainSprint.sprintId);
+  const [sprintId, setSprintId] = useState(family.mainSprint.sprintId || 0);
   useEffect(() => {
     setFamilyName(family.name);
     setSprintId(family.mainSprint.sprintId);
