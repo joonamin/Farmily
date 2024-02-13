@@ -57,4 +57,15 @@ public class WebRtcController {
 		return ResponseEntity.ok(dto);
 	}
 
+	@PostMapping("/webhook")
+	@Operation(
+		summary = "OpenVidu 웹훅 endpoint",
+		description = "OpenVidu 서버에서 발생하는 이벤트를 감지하는 웹훅 엔드포인트입니다."
+	)
+	@ApiResponses({
+		@ApiResponse(responseCode = "200", description = "처리 성공")
+	})
+	public ResponseEntity<Void> postWebhook(@RequestBody Map<String, Object> body) {
+
+	}
 }
