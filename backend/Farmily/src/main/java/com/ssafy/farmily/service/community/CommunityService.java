@@ -10,5 +10,6 @@ public interface CommunityService {
 	SliceResponse<CommunityPostDto> getCommunityPostList(int size, int pageNum, Long lastSeenId);
 	String insertCommunityPost(InsertCommunityPostRequestDto requestDto, String username);
 
+	String putCommunityPost(InsertCommunityPostRequestDto requestDto, String username, Long communityPostId);
 	CommunityPostDetailDto getPostDetail(Long postId);
 }
