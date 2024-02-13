@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.ssafy.farmily.dto.OpenViduWebhookEventDto;
 import com.ssafy.farmily.entity.Conference;
 import com.ssafy.farmily.dto.ConferenceJoinResponseDto;
 import com.ssafy.farmily.entity.Member;
@@ -95,5 +96,25 @@ public class OpenViduWebRtcService implements WebRtcService {
 		} catch (OpenViduException ex) {
 			throw new RuntimeException(ex);
 		}
+	}
+
+	@Override
+	public void onSessionCreated(OpenViduWebhookEventDto.SessionCreated dto) {
+
+	}
+
+	@Override
+	public void onSessionDestroyed(OpenViduWebhookEventDto.SessionDestroyed dto) {
+
+	}
+
+	@Override
+	public void onParticipantJoined(OpenViduWebhookEventDto.ParticipantJoined dto) {
+
+	}
+
+	@Override
+	public void onParticipantLeft(OpenViduWebhookEventDto.ParticipantLeft dto) {
+
 	}
 }
