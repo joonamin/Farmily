@@ -96,7 +96,7 @@ export default function TreeDecoratePage() {
             <br /> 우클릭시 배치가 비활성화 됩니다.
           </p>
         </div>
-        <Board />
+        <Board title="나무 꾸미기" disabled={true} />
       </div>
     </div>
   );
