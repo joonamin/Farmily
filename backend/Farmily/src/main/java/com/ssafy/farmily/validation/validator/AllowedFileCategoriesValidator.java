@@ -1,6 +1,7 @@
 package com.ssafy.farmily.validation.validator;
 
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -26,6 +27,8 @@ public class AllowedFileCategoriesValidator
 
 	@Override
 	public boolean isValid(MultipartFile multipartFile, ConstraintValidatorContext constraintValidatorContext) {
+		if (Objects.isNull(multipartFile))
+			return true;
 		String extension = StringUtils.getFilenameExtension(multipartFile.getOriginalFilename());
 		return allowedExtensions.contains(extension);
 	}
