@@ -105,11 +105,14 @@ class VideoRoomComponent extends Component {
             this.connect(this.props.token);
         } else {
             try {
-                var token = await this.createToken();
+                // 여기서 this.props.family.id를 사용하여 familyId를 올바르게 참조합니다.
+                var token = await this.createToken(this.props.family.id);
                 console.log(token);
                 console.log("토큰 확인")
                 this.connect(token);
             } catch (error) {
+
+                console.log(`가족 id ${this.props.family.id}`) // 올바른 familyId 참조 방법
                 console.error('There was an error getting the token:', error.code, error.message);
                 if(this.props.error){
                     this.props.error({ error: error.error, messgae: error.message, code: error.code, status: error.status });
@@ -562,6 +565,7 @@ class VideoRoomComponent extends Component {
    
     async createToken(familyId) {
         const response = await axios.post(`/webrtc/${familyId}`);
+            
         return response.data.sessionUrl; // The token
     }
 
