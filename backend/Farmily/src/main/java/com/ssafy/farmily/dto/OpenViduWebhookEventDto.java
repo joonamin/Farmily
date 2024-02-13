@@ -25,6 +25,10 @@ public abstract class OpenViduWebhookEventDto {
 		PARTICIPANT_LEFT
 	}
 
+	public static EventType getEventType(String event) {
+		return EnumUtils.getEnumIgnoreCase(EventType.class, event);
+	}
+
 	private OpenViduWebhookEventDto(Map<String, Object> map) {
 		String mapEvent = (String) map.get("event");
 		this.eventType = EnumUtils.getEnumIgnoreCase(EventType.class, mapEvent);
