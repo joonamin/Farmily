@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 import sapling from '../../assets/images/sapling.png';
-import mainTree from '../../assets/images/mainTree.png';
+import mainTree from '../../assets/images/maintree.png';
 import family from '../../assets/images/family.png';
 import back from '../../assets/images/back.png';
 import familyTree from '../../assets/images/familyTree.png';
