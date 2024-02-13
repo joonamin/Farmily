@@ -24,7 +24,6 @@ public class InsertCommunityPostRequestDto {
 	@NotBlank
 	String content;
 
-	@NotNull
 	@AllowedFileCategories(categories = FileCategory.IMAGE)
 	MultipartFile treeSnapshot;
 }
