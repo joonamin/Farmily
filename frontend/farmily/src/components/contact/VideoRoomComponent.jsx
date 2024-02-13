@@ -105,7 +105,7 @@ class VideoRoomComponent extends Component {
             this.connect(this.props.token);
         } else {
             try {
-                var token = await this.getToken();
+                var token = await this.createToken();
                 console.log(token);
                 this.connect(token);
             } catch (error) {
@@ -557,7 +557,8 @@ class VideoRoomComponent extends Component {
      *
      * Visit https://docs.openvidu.io/en/stable/application-server to learn
      * more about the integration of OpenVidu in your application server.
-     */
+    */
+   
     async createToken(familyId) {
         const response = await axios.post(`${APPLICATION_SERVER_URL}/webrtc/${familyId}`);
         return response.data.sessionUrl; // The token
@@ -573,7 +574,7 @@ class VideoRoomComponent extends Component {
     const mapStateToProps = (state) => ({
         family: state.family.value,
         user: state.user.value,
-    });
+});
 
 // connect 함수를 사용하여 VideoRoomComponent를 리덕스 스토어에 연결
 export default connect(mapStateToProps)(VideoRoomComponent);
