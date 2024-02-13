@@ -1,7 +1,7 @@
 import chunsik from '../../assets/images/chunsik.jpg';
 
 export default function EventCard(item) {
-  const imageURL = `${import.meta.env.VITE_API_URL}${item.image.location}`;
+  const imageURL = `${item.image.location}`;
   console.log(item);
   return (
     <div className="h-full p-5 snap-x w-1/4 flex-shrink-0">
