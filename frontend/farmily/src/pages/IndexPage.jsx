@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import TextTypingAni from '../components/TextTypingAni.jsx';
+import Description from '../components/common/Description.jsx';
 
 import mainTree from '../assets/images/maintree.png';
 import board from '../assets/images/mainboard.png';
@@ -14,6 +15,16 @@ const introContent_1 = '가족과의 추억을 기록하고';
 const introContent_2 = '열매를 맺어 수확하세요.';
 
 export default function IndexPage() {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const openModal = () => {
+    setIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsOpen(false);
+  };
+
   return (
     <>
       <div className="w-2/6 mb-60 pl-36">
@@ -24,12 +35,6 @@ export default function IndexPage() {
         <TextTypingAni text={introContent_1} />
         <TextTypingAni text={introContent_2} />
         <br />
-        {/* <p className="text-2xl">{introTitle_1}</p>
-        <p className="text-2xl">{introTitle_2}</p>
-        <br />
-        <p className="">{introContent_1}</p>
-        <p className="">{introContent_2}</p>
-        <br /> */}
         <Link to="login">
           <button className="bg-gray-700 text-white text-xl px-6 py-4 rounded-xl">
             로그인
@@ -39,12 +44,16 @@ export default function IndexPage() {
       <div className="w-5/12">
         <img className="mb-28" src={mainTree} alt="" />
       </div>
-      <div className="w-1/6 mr-32 mb-28 relative">
+      <div
+        className="w-1/6 mr-32 mb-28 relative hover:cursor-pointer"
+        onClick={openModal}
+      >
         <p className="text-white text-4xl absolute top-16 left-16 mt-3">
           알아보기
         </p>
         <img src={board} alt="" />
       </div>
+      <Description isOpen={isOpen} closeModal={closeModal} />
     </>
   );
 }
