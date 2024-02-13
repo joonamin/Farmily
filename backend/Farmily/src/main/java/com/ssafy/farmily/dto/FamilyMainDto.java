@@ -14,6 +14,7 @@ public class FamilyMainDto {
 	private Long id;
 	private String name;
 	private String motto;
+	private ImageDto profileDto;
 	private FamilyMainTreeDto tree;
 	private List<Long> challengesIds;
 	private MainSprintResponseDto mainSprint;
@@ -29,6 +30,8 @@ public class FamilyMainDto {
 		Tree tree = family.getTree();
 		familyMainDTO.setTree(FamilyMainTreeDto.from(tree));
 		familyMainDTO.setPoint(family.getPoint());
+		ImageDto profileImage = ImageDto.from(family.getImage());
+		familyMainDTO.setProfileDto(profileImage);
 		familyMainDTO.setFruitSkins(FamilyFruitSkinsDto.from(family.getFruitSkins()));
 
 		return familyMainDTO;
