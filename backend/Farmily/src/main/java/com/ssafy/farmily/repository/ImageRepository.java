@@ -34,13 +34,22 @@ public interface ImageRepository extends JpaRepository<Image, Long> {
 	List<ImageCardImageDto> findAllImageCardImageDtosInSprintOrderByIdDesc(Long sprintId);
 
 	@Query("""
-		SELECT new com.ssafy.farmily.dto.ImageCardImageDto(i.location, i.originalFileName, r.id)
-		  FROM Sprint s
-		  	JOIN s.records r ON r.type = com.ssafy.farmily.type.RecordType.EVENT
-		  	JOIN r.imageCards c
-		  	JOIN c.image i
-		 WHERE s.id = :sprintId AND i.id in :imageIds
-		 ORDER BY i.id DESC
+  		SELECT new com.ssafy.farmily.dto.ImageCardImageDto(t.location, t.originalFileName, t.recordId)
+  		  FROM (
+			SELECT
+				i.location AS location,
+				i.originalFileName AS originalFileName,
+				r.id AS recordId,
+				i.id AS imageId
+			  FROM Sprint s
+				JOIN s.records r ON r.type = com.ssafy.farmily.type.RecordType.EVENT
+				JOIN r.imageCards c
+				JOIN c.image i
+			 WHERE s.id = :sprintId
+			 ORDER BY RAND()
+			 LIMIT :countMax
+  		  ) t
+  		  ORDER BY t.imageId DESC
 		""")
-	List<ImageCardImageDto> findAllImageCardImageDtosInSprintAndIdInOrderByIdDesc(Long sprintId, Collection<Long> imageIds);
+	List<ImageCardImageDto> findAllImageCardImageDtosInSprintAndIdInOrderByIdDesc(Long sprintId, int countMax);
 }
