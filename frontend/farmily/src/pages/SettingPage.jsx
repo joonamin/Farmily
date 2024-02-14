@@ -9,6 +9,30 @@ import { setFamily } from '../store/family';
 import chunsik from '../assets/images/chunsik.jpg';
 import CommonModal from '../components/common/CommonModal.jsx';
 
+const fruitName = {
+  ALPHABET_A: '수박',
+  ALPHABET_B: '모과',
+  ALPHABET_C: '자두',
+  ALPHABET_D: '복숭아',
+  ALPHABET_E: '바나나',
+  ALPHABET_F: '감',
+  ALPHABET_G: '배',
+  ALPHABET_H: '망고',
+  ALPHABET_I: '귤',
+  ALPHABET_J: '키위',
+  ALPHABET_K: '레몬',
+  ALPHABET_L: '적포도',
+  ALPHABET_N: '블루베리',
+  ALPHABET_M: '체리',
+  ALPHABET_O: '포도',
+  ALPHABET_P: '청포도',
+  ALPHABET_Q: '파인애플',
+  ALPHABET_R: '두리안',
+  ALPHABET_S: '풋사과',
+  ALPHABET_T: '고무고무열매',
+  ALPHABET_U: '이글이글열매',
+};
+
 export default function SettingPage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -391,7 +415,7 @@ export default function SettingPage() {
                 >
                   {familyItem.map((item, index) => (
                     <option key={index} value={item.itemCode}>
-                      {item.itemCode}
+                      {fruitName[item.itemCode]}
                     </option>
                   ))}
                 </select>
@@ -413,7 +437,7 @@ export default function SettingPage() {
                 >
                   {familyItem.map((item, index) => (
                     <option key={index} value={item.itemCode}>
-                      {item.itemCode}
+                      {fruitName[item.itemCode]}
                     </option>
                   ))}
                 </select>
@@ -435,7 +459,7 @@ export default function SettingPage() {
                 >
                   {familyItem.map((item, index) => (
                     <option key={index} value={item.itemCode}>
-                      {item.itemCode}
+                      {fruitName[item.itemCode]}
                     </option>
                   ))}
                 </select>
