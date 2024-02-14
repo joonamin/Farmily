@@ -376,7 +376,7 @@ export default function SettingPage() {
       ) : null}
       {/* 열매 */}
       {tabIndex === 1 ? (
-        <div className="h-full">
+        <div className="h-5/6">
           <div className="flex h-3/4">
             <div className="h-5/6 w-1/2 p-5 pt-0">
               <div className="flex h-1/3 mb-5">
@@ -462,7 +462,7 @@ export default function SettingPage() {
           </div>
           <button
             onClick={FruitChange}
-            className="bg-gray-300 px-4 w-20 hover:bg-gray-400 text-center rounded-md"
+            className="bg-gray-300 px-4 py-2 rounded-md m-4"
           >
             저장
           </button>
