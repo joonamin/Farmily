@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import challenge from '../../assets/images/challenge_modal.png'; // 이미지를 불러오기 위한 경로 설정
 import axios from '../../api/axios.jsx';
 import SmallButton from '../button/SmallButton';
@@ -30,20 +32,15 @@ function getDayStyle(date) {
   }
 }
 
-export default function ChallengeCalendar({
-  startDate,
-  endDate,
-  recordId,
-  progresses,
-  handleMark,
-  handleRewardClick,
-}) {
+export default function ChallengeCalendar({ startDate, endDate, recordId, progresses, handleMark, handleRewardClick }) {
+  const family = useSelector((state) => state.family.value);
   const [currentWeekIndex, setCurrentWeekIndex] = useState(0);
   const [weekDates, setWeekDates] = useState([]);
   const [images, setImages] = useState({});
   const [selectedDate, setSelectedDate] = useState(null);
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const modalRef = useRef();
+  const navigator = useNavigate();
 
   function generateWeekDates(weekIndex) {
     const startOfWeek = new Date(startDate);
@@ -65,9 +62,7 @@ export default function ChallengeCalendar({
     setWeekDates(newWeekDates);
 
     if (Array.isArray(progresses)) {
-      const uniqueProgresses = new Set(
-        progresses.map((date) => new Date(date).toISOString().slice(0, 10))
-      );
+      const uniqueProgresses = new Set(progresses.map((date) => new Date(date).toISOString().slice(0, 10)));
       const newImages = {};
       uniqueProgresses.forEach((day) => {
         newImages[day] = challenge; // 이미지 할당
@@ -112,16 +107,16 @@ export default function ChallengeCalendar({
     }
   };
 
-  const handleConfirmDelete = () => {
-    const { [selectedDate]: deletedImage, ...remainingImages } = images;
-    setImages(remainingImages);
-    setShowConfirmationModal(false);
+  const handleDeleteClick = () => {
+    axios
+      .delete(`record/${recordId}`)
+      .then((response) => {
+        navigator(`/family/record/${family.mainSprint.sprintId}`);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
-
-  const handleCancelDelete = () => {
-    setShowConfirmationModal(false);
-  };
-
   useEffect(() => {
     const newWeekDates = generateWeekDates(currentWeekIndex);
     setWeekDates(newWeekDates);
@@ -137,18 +132,10 @@ export default function ChallengeCalendar({
             className={`text-center ${getDayStyle(date)}`}
             onClick={() => isToday(date) && handleImageClick(date)}
           >
-            <div>
-              {`${date.getMonth() + 1}/${date.getDate()}(${getDayOfWeek(
-                date
-              )})`}
-            </div>
+            <div>{`${date.getMonth() + 1}/${date.getDate()}(${getDayOfWeek(date)})`}</div>
             <div className="w-20 h-20 mt-2 border">
               {images[date.toISOString().slice(0, 10)] ? (
-                <img
-                  src={images[date.toISOString().slice(0, 10)]}
-                  alt="Selected"
-                  className="w-full h-full"
-                />
+                <img src={images[date.toISOString().slice(0, 10)]} alt="Selected" className="w-full h-full" />
               ) : (
                 <div className="flex items-center justify-center w-full h-full"></div>
               )}
@@ -169,12 +156,11 @@ export default function ChallengeCalendar({
         </div>
       </div>
       <div className="flex justify-center mt-4 space-x-60 ">
-        <SmallButton text="포기하기" onClick={() => console.log('포기하기')} />
+        <span onClick={handleDeleteClick}>
+          <SmallButton text="포기하기" />
+        </span>
         <span onClick={handleRewardClick}>
-          <SmallButton
-            text="열매받기"
-            onClick={() => console.log('열매받기')}
-          />
+          <SmallButton text="열매받기" />
         </span>
       </div>
     </div>
