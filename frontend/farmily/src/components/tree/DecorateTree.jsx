@@ -6,7 +6,7 @@ import SmallButton from '../button/SmallButton.jsx';
 import axios from '../../api/axios.jsx';
 import { useSelector } from 'react-redux';
 
-export default function MainTree({
+export default function DecorateTree({
   treeFruits,
   setTreeFruits,
   handleTreeFruitRightClick,
@@ -32,13 +32,9 @@ export default function MainTree({
     const newY = e.clientY - offsetY - 20;
     const isOutsideRelativeDiv =
       e.clientX < offsetX ||
-      e.clientX >
-      offsetX +
-          e.currentTarget.offsetWidth ||
+      e.clientX > offsetX + e.currentTarget.offsetWidth ||
       e.clientY < offsetY ||
-      e.clientY >
-      offsetY +
-          e.currentTarget.offsetHeight;
+      e.clientY > offsetY + e.currentTarget.offsetHeight;
     if (!isOutsideRelativeDiv) {
       const updatedFruits = [...treeFruits];
       updatedFruits[draggedFruitIndex] = {
@@ -47,7 +43,6 @@ export default function MainTree({
       };
       setTreeFruits(updatedFruits);
     }
-    
   };
 
   // 아이템 배치 취소
@@ -79,8 +74,10 @@ export default function MainTree({
   };
 
   return (
-    <div className="relative overflow-hidden" 
-    onMouseMove={draggedFruitIndex ? handleMouseMove : null}>
+    <div
+      className="relative overflow-hidden"
+      onMouseMove={draggedFruitIndex ? handleMouseMove : null}
+    >
       <img className="" src={maintree} alt="MainTree" />
       {treeFruits.map((fruit, index) => (
         <div

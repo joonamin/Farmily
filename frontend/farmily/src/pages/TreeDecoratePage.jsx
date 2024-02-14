@@ -74,7 +74,7 @@ export default function TreeDecoratePage() {
       />
       <div>
         <div className="border-4 border-black bg-white w-80 h-80 rounded-md flex flex-col justify-between">
-          <div className="flex">
+          <div className="flex flex-wrap">
             {inventoryFruits.map((fruit, index) => (
               <div
                 key={index}
