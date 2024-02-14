@@ -114,21 +114,13 @@ export default function MainPage() {
         CalIsHarvest(res.data.mainSprint.endDate);
 
         if (familyData.challengesIds && familyData.challengesIds.length > 0) {
-          Promise.all(
-            familyData.challengesIds.map((id) => axios.get(`/record/${id}`))
-          )
+          Promise.all(familyData.challengesIds.map((id) => axios.get(`/record/${id}`)))
             .then((responses) => {
               const today = new Date();
               const sortedChallenges = responses
                 .map((res) => res.data)
-                .filter(
-                  (challenge) => new Date(challenge.dateRange.endDate) > today
-                )
-                .sort(
-                  (a, b) =>
-                    new Date(a.dateRange.endDate) -
-                    new Date(b.dateRange.endDate)
-                );
+                .filter((challenge) => new Date(challenge.dateRange.endDate) > today)
+                .sort((a, b) => new Date(a.dateRange.endDate) - new Date(b.dateRange.endDate));
 
               setChallengeData({
                 challenge1: sortedChallenges[0] || null,
@@ -137,6 +129,12 @@ export default function MainPage() {
               });
             })
             .catch((err) => console.error(err));
+        } else if (familyData.challengesIds.length === 0) {
+          setChallengeData({
+            challenge1: null,
+            challenge2: null,
+            challenge3: null,
+          });
         }
       })
       .catch((err) => console.error(err));
@@ -145,26 +143,17 @@ export default function MainPage() {
   return (
     <Container>
       {challengeData.challenge3 ? (
-        <Challenge3Styled
-          data={challengeData.challenge3}
-          handleMark={handleChange}
-        />
+        <Challenge3Styled data={challengeData.challenge3} handleChange={handleChange} />
       ) : (
         <div className="w-28 h-28 ml-5"></div> // 챌린지가 없을 때 공간을 차지하는 빈 div
       )}
       {challengeData.challenge2 ? (
-        <Challenge2Styled
-          data={challengeData.challenge2}
-          handleMark={handleChange}
-        />
+        <Challenge2Styled data={challengeData.challenge2} handleChange={handleChange} />
       ) : (
         <div className="w-28 h-28 ml-5"></div>
       )}
       {challengeData.challenge1 ? (
-        <Challenge1Styled
-          data={challengeData.challenge1}
-          handleMark={handleChange}
-        />
+        <Challenge1Styled data={challengeData.challenge1} handleChange={handleChange} />
       ) : (
         <div className="w-28 h-28 ml-5"></div>
       )}
