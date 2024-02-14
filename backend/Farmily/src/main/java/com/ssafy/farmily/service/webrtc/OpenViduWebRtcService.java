@@ -4,14 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.ssafy.farmily.dto.ConferenceJoinResponseDto;
 import com.ssafy.farmily.dto.OpenViduWebhookEventDto;
 import com.ssafy.farmily.entity.Conference;
-import com.ssafy.farmily.dto.ConferenceJoinResponseDto;
-import com.ssafy.farmily.entity.Member;
 import com.ssafy.farmily.exception.NoSuchContentException;
 import com.ssafy.farmily.repository.ConferenceRepository;
 import com.ssafy.farmily.service.family.FamilyService;
-import com.ssafy.farmily.service.member.MemberService;
 
 import io.openvidu.java.client.Connection;
 import io.openvidu.java.client.ConnectionProperties;
@@ -87,9 +85,10 @@ public class OpenViduWebRtcService implements WebRtcService {
 			.build();
 
 		try {
-			Session session = openVidu.getActiveSession(conference.getSessionId());
-			if (session == null)
-				throw new NoSuchContentException("해당 세션을 찾을 수 없습니다.");
+			Session session = openVidu.getActiveSessions().stream()
+				.filter(s -> conference.getSessionId().equals(s.getSessionId()))
+				.findAny()
+				.orElseThrow(() -> new NoSuchContentException("해당 세션을 찾을 수 없습니다."));
 
 			Connection connection = session.createConnection(properties);
 
