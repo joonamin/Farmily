@@ -28,6 +28,8 @@ public class OpenViduWebRtcService implements WebRtcService {
 
 	private final OpenVidu openVidu;
 
+	private static final String SESSION_ID_PREFIX = "ses_";
+
 	@Autowired
 	public OpenViduWebRtcService(
 		final ConferenceRepository conferenceRepository,
@@ -56,7 +58,7 @@ public class OpenViduWebRtcService implements WebRtcService {
 
 	@Override
 	public Conference createConference(Long familyId) {
-		String sessionId = "ses_" + familyId;
+		String sessionId = SESSION_ID_PREFIX + familyId;
 
 		SessionProperties properties = new SessionProperties.Builder()
 			.customSessionId(sessionId)
@@ -100,21 +102,24 @@ public class OpenViduWebRtcService implements WebRtcService {
 
 	@Override
 	public void onSessionCreated(OpenViduWebhookEventDto.SessionCreated dto) {
-
+		// do nothing
 	}
 
 	@Override
 	public void onSessionDestroyed(OpenViduWebhookEventDto.SessionDestroyed dto) {
+		String sessionId = dto.getSessionId();
+		Long familyId = Long.parseLong(sessionId.substring(SESSION_ID_PREFIX.length()));
 
+		conferenceRepository.deleteById(familyId);
 	}
 
 	@Override
 	public void onParticipantJoined(OpenViduWebhookEventDto.ParticipantJoined dto) {
-
+		// do nothing
 	}
 
 	@Override
 	public void onParticipantLeft(OpenViduWebhookEventDto.ParticipantLeft dto) {
-
+		// do nothing
 	}
 }

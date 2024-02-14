@@ -6,8 +6,7 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Map;
 
-import org.apache.commons.lang3.EnumUtils;
-
+import com.ssafy.farmily.utils.EnumUtils;
 import com.ssafy.farmily.utils.TimeUtils;
 
 import lombok.Getter;
@@ -26,12 +25,12 @@ public abstract class OpenViduWebhookEventDto {
 	}
 
 	public static EventType getEventType(String event) {
-		return EnumUtils.getEnumIgnoreCase(EventType.class, event);
+		return EnumUtils.fromCamelCase(EventType.class, event);
 	}
 
 	private OpenViduWebhookEventDto(Map<String, Object> map) {
 		String mapEvent = (String) map.get("event");
-		this.eventType = EnumUtils.getEnumIgnoreCase(EventType.class, mapEvent);
+		this.eventType = EnumUtils.fromCamelCase(EventType.class, mapEvent);
 
 		Long mapTimestamp = (Long) map.get("timestamp");
 		this.timestamp = TimeUtils.epochMillisToLocalDateTime(mapTimestamp);
@@ -75,7 +74,7 @@ public abstract class OpenViduWebhookEventDto {
 			this.duration = Duration.ofSeconds(mapDuration);
 
 			String mapReason = (String) map.get("reason");
-			this.reason = EnumUtils.getEnumIgnoreCase(Reason.class, mapReason);
+			this.reason = EnumUtils.fromCamelCase(Reason.class, mapReason);
 		}
 	}
 
@@ -140,7 +139,7 @@ public abstract class OpenViduWebhookEventDto {
 			this.duration = Duration.ofSeconds(mapDuration);
 
 			String mapReason = (String)map.get("reason");
-			this.reason = EnumUtils.getEnumIgnoreCase(Reason.class, mapReason);
+			this.reason = EnumUtils.fromCamelCase(Reason.class, mapReason);
 		}
 	}
 }
