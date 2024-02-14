@@ -8,8 +8,13 @@ export default function CommunityItem(community) {
     <div className="p-5 snap-center">
       <Link to={`${community.id}`}>
         <div className="bg-white shadow-md border border-gray-200 rounded-lg max-w-sm dark:bg-gray-800 dark:border-gray-700 p-3">
-          <img className="rounded-lg" src={communityTree} alt="tree" />
+          <img
+            className="rounded-lg"
+            src={community.image.location}
+            alt="tree"
+          />
           <h3 className="text-lg mt-2">{community.title}</h3>
+          <p>작성자 : {community.author}</p>
         </div>
       </Link>
     </div>
