@@ -77,7 +77,7 @@ export default function ArticleList({ sprintId }) {
   return (
     <>
       {records.length >= 1 ? (
-        <div className="px-5 h-2/5 relative">
+        <div className="px-5 h-2/5 relative mb-4">
           <table className="table-fixed w-full">
             <thead className="border-b-4 border-gray-500">
               {/* 테이블 헤더 부분 */}
@@ -108,7 +108,7 @@ export default function ArticleList({ sprintId }) {
             </tbody>
           </table>
 
-          <div className="flex space-x-2 mt-4 justify-center">
+          <span className="flex justify-center">
             <div className="flex justify-between mt-4">
               <button
                 className={`bg-blue-500 text-white px-4 py-2 mr-4 rounded ${
@@ -142,7 +142,7 @@ export default function ArticleList({ sprintId }) {
                 다음
               </button>
             </div>
-          </div>
+          </span>
         </div>
       ) : (
         <div className="h-2/5 flex justify-center">
