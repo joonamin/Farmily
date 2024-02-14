@@ -16,15 +16,12 @@ export default function SideBar() {
   const [familyName, setFamilyName] = useState('가족');
   const [familyImage, setFamilyImage] = useState('');
   const [category, setCategory] = useState([
-    {
-      name: '📑 기록하기',
-      url: `/family/record/${family ? family.mainSprint.sprintId : 0}`,
-    },
-    { name: '🌳 추억보기', url: '/family/memory' },
-    { name: '📅 일정보기', url: '/family/calendar' },
-    { name: '🖼 커뮤니티', url: '/family/community' },
-    { name: '🏆 업적보기', url: '/family/achievement' },
-    { name: '💬 소통하기', url: '/family/contact' },
+    { name: '📑 기록하기', url: `/family/record/${family ? family.mainSprint.sprintId : 0}`, category: 'record' },
+    { name: '🌳 추억보기', url: '/family/memory', category: 'memory' },
+    { name: '📅 일정보기', url: '/family/calendar', category: 'calendar' },
+    { name: '🖼 커뮤니티', url: '/family/community', category: 'community' },
+    { name: '🏆 업적보기', url: '/family/achievement', category: 'achievement' },
+    { name: '💬 소통하기', url: '/family/contact', category: 'contact' },
   ]);
 
   const [loading, setLoading] = useState(true);
@@ -33,15 +30,12 @@ export default function SideBar() {
     setFamilyName(family.name);
     setFamilyImage(family.profileDto.location);
     setCategory([
-      {
-        name: '📑 기록하기',
-        url: `/family/record/${family.mainSprint.sprintId}`,
-      },
-      { name: '🌳 추억보기', url: '/family/memory' },
-      { name: '📅 일정보기', url: '/family/calendar' },
-      { name: '🖼 커뮤니티', url: '/family/community' },
-      { name: '🏆 업적보기', url: '/family/achievement' },
-      { name: '💬 소통하기', url: '/family/contact' },
+      { name: '📑 기록하기', url: `/family/record/${family.mainSprint.sprintId}`, category: 'record' },
+      { name: '🌳 추억보기', url: '/family/memory', category: 'memory' },
+      { name: '📅 일정보기', url: '/family/calendar', category: 'calendar' },
+      { name: '🖼 커뮤니티', url: '/family/community', category: 'community' },
+      { name: '🏆 업적보기', url: '/family/achievement', category: 'achievement' },
+      { name: '💬 소통하기', url: '/family/contact', category: 'contact' },
     ]);
   }, [family]);
 
@@ -95,6 +89,7 @@ export default function SideBar() {
           {category.map((categoryItem, categoryIndex) => (
             <SideButton
               key={categoryIndex}
+              category={categoryItem.category}
               name={categoryItem.name}
               url={categoryItem.url}
             />
