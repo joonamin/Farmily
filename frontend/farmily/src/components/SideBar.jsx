@@ -16,11 +16,19 @@ export default function SideBar() {
   const [familyName, setFamilyName] = useState('가족');
   const [familyImage, setFamilyImage] = useState('');
   const [category, setCategory] = useState([
-    { name: '📑 기록하기', url: `/family/record/${family ? family.mainSprint.sprintId : 0}`, category: 'record' },
+    {
+      name: '📑 기록하기',
+      url: `/family/record/${family ? family.mainSprint.sprintId : 0}`,
+      category: 'record',
+    },
     { name: '🌳 추억보기', url: '/family/memory', category: 'memory' },
     { name: '📅 일정보기', url: '/family/calendar', category: 'calendar' },
     { name: '🖼 커뮤니티', url: '/family/community', category: 'community' },
-    { name: '🏆 업적보기', url: '/family/achievement', category: 'achievement' },
+    {
+      name: '🏆 업적보기',
+      url: '/family/achievement',
+      category: 'achievement',
+    },
     { name: '💬 소통하기', url: '/family/contact', category: 'contact' },
   ]);
 
@@ -30,11 +38,19 @@ export default function SideBar() {
     setFamilyName(family.name);
     setFamilyImage(family.profileDto.location);
     setCategory([
-      { name: '📑 기록하기', url: `/family/record/${family.mainSprint.sprintId}`, category: 'record' },
+      {
+        name: '📑 기록하기',
+        url: `/family/record/${family.mainSprint.sprintId}`,
+        category: 'record',
+      },
       { name: '🌳 추억보기', url: '/family/memory', category: 'memory' },
       { name: '📅 일정보기', url: '/family/calendar', category: 'calendar' },
       { name: '🖼 커뮤니티', url: '/family/community', category: 'community' },
-      { name: '🏆 업적보기', url: '/family/achievement', category: 'achievement' },
+      {
+        name: '🏆 업적보기',
+        url: '/family/achievement',
+        category: 'achievement',
+      },
       { name: '💬 소통하기', url: '/family/contact', category: 'contact' },
     ]);
   }, [family]);
@@ -57,13 +73,15 @@ export default function SideBar() {
 
       {/* 가족 프로필 사진 */}
       {loading ? (
-        <div
-          className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
-          role="status"
-        >
-          <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
-            Loading...
-          </span>
+        <div className="size-40 m-auto">
+          <div
+            className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite] mt-12"
+            role="status"
+          >
+            <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
+              Loading...
+            </span>
+          </div>
         </div>
       ) : (
         <img
