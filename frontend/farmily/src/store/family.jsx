@@ -6,6 +6,10 @@ const initialState = {
     name: '',
     motto: '',
     invitationCode: '',
+    profileDto: {
+      location: '',
+      originalFileName: '',
+    },
     tree: {
       id: 0,
       mainRecordFruitDtoList: [
@@ -42,6 +46,7 @@ const familySlice = createSlice({
       state.value.id = action.payload.id;
       state.value.name = action.payload.name;
       state.value.invitationCode = action.payload.invitationCode;
+      state.value.profileDto = action.payload.profileDto;
       state.value.motto = action.payload.motto;
       state.value.tree = action.payload.tree;
       state.value.challengesIds = action.payload.challengesIds;
