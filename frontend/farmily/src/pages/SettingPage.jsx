@@ -14,7 +14,7 @@ export default function SettingPage() {
   const dispatch = useDispatch();
   const family = useSelector((state) => state.family.value);
   const user = useSelector((state) => state.user.value);
-  const [previewImage, setPreviewImage] = useState(chunsik);
+  const [previewImage, setPreviewImage] = useState(family.profileDto.location);
   const [familyImage, setFamilyImage] = useState(null);
   const [isChanged, setIsChanged] = useState(true);
   const [tabIndex, setTabIndex] = useState(0);
@@ -96,6 +96,7 @@ export default function SettingPage() {
         id: response.data.id,
         name: response.data.name,
         motto: response.data.motto,
+        profileDto: response.data.profileDto,
         tree: response.data.tree,
         invitationCode: response.data.invitationCode,
         challengesIds: response.data.challengesIds,
