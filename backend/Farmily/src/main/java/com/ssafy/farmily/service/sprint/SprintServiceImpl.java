@@ -85,7 +85,7 @@ public class SprintServiceImpl implements SprintService {
 		else {
 			Set<Long> indexes = RandomNumberGenerator.getRandomUniqueLongs(0, imageTotalCount, countMax);
 			imageCardImageDtos
-				= imageRepository.findAllImageCardImageDtosInSprintAndIdInOrderByIdDesc(sprintId, indexes);
+				= imageRepository.findAllImageCardImageDtosInSprintAndIdInOrderByIdDesc(sprintId, countMax);
 		}
 
 		return imageCardImageDtos;
