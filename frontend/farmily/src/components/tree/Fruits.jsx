@@ -26,15 +26,10 @@ const Fruits = () => {
   }, []);
   return (
     <div>
-      <h2 className="text-2xl font-bold text-center mb-4">보유 열매</h2>
+      <h2 className="text-2xl text-center mb-4">보유 열매</h2>
       <div className="flex flex-wrap p-2 pl-6">
         {inventoryFruits.map((fruit, index) => (
-          <div
-            key={index}
-            className="w-10 h-10"
-            draggable="true"
-            data-fruit-index={index}
-          >
+          <div key={index} className="w-10 h-10" draggable="true" data-fruit-index={index}>
             <FruitItem type={fruit.type} title={fruit.title} id={fruit.id} />
           </div>
         ))}
