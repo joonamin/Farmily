@@ -2,10 +2,6 @@ import { useEffect, useState } from 'react';
 import axios from '../api/axios.jsx';
 import { useParams } from 'react-router-dom';
 
-import test1 from '../assets/images/test/testimage1.png';
-import test2 from '../assets/images/test/testimage2.png';
-import test3 from '../assets/images/test/testimage3.png';
-
 export default function CommunityDetailPage() {
   const [community, setCommunity] = useState({
     title: '',
