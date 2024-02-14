@@ -27,7 +27,7 @@ const Fruits = () => {
   return (
     <div>
       <h2 className="text-2xl font-bold text-center mb-4">보유 열매</h2>
-      <div className="flex">
+      <div className="flex flex-wrap p-2 pl-6">
         {inventoryFruits.map((fruit, index) => (
           <div
             key={index}
