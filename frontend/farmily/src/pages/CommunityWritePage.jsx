@@ -10,6 +10,7 @@ import SmallButton from '../components/button/SmallButton.jsx';
 export default function CommunityWritePage() {
   const navigate = useNavigate();
   const [previewImage, setPreviewImage] = useState(chunsik);
+  const [errorMessage, setErrorMessage] = useState('');
   const [data, setData] = useState({
     title: '',
     content: '',
@@ -17,6 +18,21 @@ export default function CommunityWritePage() {
   });
 
   const handleClick = () => {
+    if (!data.title) {
+      setErrorMessage('제목을 입력해 주세요.');
+      return;
+    }
+
+    if (!data.content) {
+      setErrorMessage('내용을 입력해 주세요.');
+      return;
+    }
+
+    if (!data.treeSnapshot) {
+      setErrorMessage('이미지를 추가해 주세요.');
+      return;
+    }
+
     const formData = new FormData();
     formData.append('title', data.title);
     formData.append('content', data.content);
@@ -67,27 +83,27 @@ export default function CommunityWritePage() {
         />
       </div>
       <div className="w-full h-1/3 flex justify-around px-10">
-        <div>
-          <p className="mb-12">이미지 선택</p>
+        <div className="">
           <input
             type="file"
             onChange={handleFileChange}
-            className="border-4 border-black p-1 rounded-md w-1/2"
+            className=" p-1 rounded-md w-full"
           />
-        </div>
-        <div className="h-5/6">
+          {/* </div>
+        <div className="h-5/6"> */}
           <p>미리보기</p>
           <img
             src={previewImage}
             alt="미리보기"
-            className="h-40 w-40 object-contain rounded-md"
+            className="size-48 object-contain rounded-md m-auto"
           />
         </div>
       </div>
-      <div className="flex justify-end pr-4 pt-4" onClick={handleClick}>
+      <div className="flex justify-end pr-4" onClick={handleClick}>
         {/* 이후 버튼에 create 연결 */}
         <SmallButton text="작성" />
       </div>
+      {errorMessage ? <p className=" text-red-400">{errorMessage}</p> : null}
     </div>
   );
 }
