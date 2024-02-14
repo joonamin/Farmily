@@ -87,7 +87,7 @@ export default function SideBar() {
         <img
           src={familyImage}
           alt="family-profile"
-          className="size-40 mx-auto"
+          className="size-40 mx-auto object-cover"
         />
       )}
 

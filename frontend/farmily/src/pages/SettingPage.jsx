@@ -281,7 +281,7 @@ export default function SettingPage() {
             <img
               src={previewImage}
               alt="미리보기"
-              className="h-40 w-40 object-contain rounded-md"
+              className="h-40 w-40 object-cover rounded-md"
             />
           </div>
           <div className="w-full flex justify-around items-center mb-4 h-12">
