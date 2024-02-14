@@ -34,12 +34,10 @@ export default function ChallengeDetailPage() {
       .then((response) => {
         setModalContent('챌린지 보상을 받았습니다 !');
         setIsModalOpen(true);
-        console.log(response.data);
       })
       .catch((error) => {
         setModalContent(error.response.data);
         setIsModalOpen(true);
-        console.log();
       });
   };
   const closeModal = () => {
