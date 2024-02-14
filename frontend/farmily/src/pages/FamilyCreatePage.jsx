@@ -71,7 +71,7 @@ export default function FamilyCreatePage() {
               <img
                 src={previewImage}
                 alt="미리보기"
-                className="h-40 w-40 object-contain rounded-md"
+                className="h-40 w-40 object-cover rounded-md"
               />
             </div>
 
