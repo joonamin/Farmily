@@ -23,10 +23,7 @@ export default function EventCreatePage() {
         description: '',
       }));
       setImages((prevImages) => [...prevImages, ...newImages]);
-      setImageDescriptions((prevDescriptions) => [
-        ...prevDescriptions,
-        ...newImages.map(() => ''),
-      ]);
+      setImageDescriptions((prevDescriptions) => [...prevDescriptions, ...newImages.map(() => '')]);
     }
   };
 
@@ -67,42 +64,17 @@ export default function EventCreatePage() {
 
     images.forEach((image, index) => {
       formData.append(`imageCards[${index}].imageFile`, image.file);
-      formData.append(
-        `imageCards[${index}].description`,
-        imageDescriptions[index]
-      );
+      formData.append(`imageCards[${index}].description`, imageDescriptions[index]);
     });
-    for (const key of formData.keys()) {
-      console.log(key);
-    }
-    // FormData의 value 확인
-    // @ts-ignore
-    for (const value of formData.values()) {
-      console.log(value);
-    }
-    console.log(formData);
 
     axios
       .post('/record/event', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       })
-      //   axios({
-      //     method: 'post',
-      //     url: BASE_URL + 'record/event',
-      //     data: formData,
-      //     headers: { 'Content-Type': 'multipart/form-data' },
-      //   })
       .then((response) => {
-        // 성공적으로 처리된 경우
-        console.log(response.data);
-        // 이후 작업 수행 (예: 페이지 이동 등)
-
-        // 보낼 때 현재 sprintId 받아서 보내기
         navigate(`/family/record/${family.mainSprint.sprintId}`);
       })
       .catch((error) => {
-        // 오류가 발생한 경우
-        console.log(formData);
         console.error('Error creating event:', error);
       });
   };
@@ -110,47 +82,31 @@ export default function EventCreatePage() {
   return (
     <div className="flex flex-col items-center h-full">
       <h1 className="text-2xl font-bold mb-2">이벤트 글쓰기</h1>
-      <form className="w-10/12 h-5/6 bg-gray-100 p-1 rounded-lg shadow-md">
+      <form className="w-10/12 h-5/6 p-1 rounded-lg">
         {/* 제목 입력란 위에 경고 표시 */}
         <input
           type="text"
           placeholder="제목"
-          className={`border border-stone-500 rounded p-2 w-full ${
-            titleError ? 'border-red-500' : ''
-          }`}
+          className="border-4 border-black rounded-lg p-2 w-full"
           value={title}
           onChange={handleTitleChange}
         />
-
-        <label className="block mb-4">
-          이미지 선택
-          <input
-            type="file"
-            accept="image/*"
-            onChange={handleImageChange}
-            className="mt-2"
-            multiple
-          />
-        </label>
+        <div className="w-full flex justify-start pl-4 mb-2">
+          <input type="file" accept="image/*" onChange={handleImageChange} className="mt-2" multiple />
+        </div>
         <div className="flex flex-no-wrap gap-4 overflow-x-auto h-3/4">
           {images.map((image, index) => (
             <div
               key={index}
-              className="relative border border-stone-700 flex-shrink-0 snap-center"
+              className="relative border border-gray-200 flex-shrink-0 snap-center bg-white shadow-md rounded-lg max-w-sm dark:bg-gray-800 dark:border-gray-700 p-3"
             >
-              <img
-                src={image.url}
-                alt={`Selected ${index + 1}`}
-                className="object-contain w-48 h-48 mb-2 rounded"
-              />
+              <img src={image.url} alt={`Selected ${index + 1}`} className="object-contain w-48 h-48 mb-2 rounded" />
               <textarea
                 type="text"
                 placeholder="간단한 설명을 입력하세요"
                 value={imageDescriptions[index]}
-                onChange={(e) =>
-                  handleImageDescriptionChange(index, e.target.value)
-                }
-                className="border border-stone-500 rounded p-2 w-48 absolute bottom-0 left-0 bg-white h-1/3 overflow-hidden whitespace-normal resize-none"
+                onChange={(e) => handleImageDescriptionChange(index, e.target.value)}
+                className="border border-stone-200 rounded p-2 w-full absolute bottom-0 left-0 bg-white h-1/3 overflow-hidden whitespace-normal resize-none"
               ></textarea>
             </div>
           ))}
