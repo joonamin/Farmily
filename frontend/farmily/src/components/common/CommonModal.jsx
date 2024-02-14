@@ -11,7 +11,7 @@ export default function CommonModal({
     <>
       {isOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center overflow-x-hidden overflow-y-auto outline-none focus:outline-none">
-          <div className="relative w-auto max-w-md mx-auto my-6">
+          <div className="relative w-1/5 mx-auto my-6">
             {/* 모달 콘텐츠 */}
             <div className="relative flex flex-col w-full bg-white border-0 rounded-lg shadow-lg outline-none focus:outline-none">
               {/* 헤더 */}
