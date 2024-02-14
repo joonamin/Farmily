@@ -14,31 +14,50 @@ export default function SideBar() {
 
   const family = useSelector((state) => state.family.value);
   const [familyName, setFamilyName] = useState('가족');
+  const [familyImage, setFamilyImage] = useState('');
   const [category, setCategory] = useState([
     {
       name: '📑 기록하기',
       url: `/family/record/${family ? family.mainSprint.sprintId : 0}`,
+      category: 'record',
     },
-    { name: '🌳 추억보기', url: '/family/memory' },
-    { name: '📅 일정보기', url: '/family/calendar' },
-    { name: '🖼 커뮤니티', url: '/family/community' },
-    { name: '🏆 업적보기', url: '/family/achievement' },
-    { name: '💬 소통하기', url: '/family/contact' },
+    { name: '🌳 추억보기', url: '/family/memory', category: 'memory' },
+    { name: '📅 일정보기', url: '/family/calendar', category: 'calendar' },
+    { name: '🖼 커뮤니티', url: '/family/community', category: 'community' },
+    {
+      name: '🏆 업적보기',
+      url: '/family/achievement',
+      category: 'achievement',
+    },
+    { name: '💬 소통하기', url: '/family/contact', category: 'contact' },
   ]);
+
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     setFamilyName(family.name);
+    setFamilyImage(family.profileDto.location);
     setCategory([
       {
         name: '📑 기록하기',
         url: `/family/record/${family.mainSprint.sprintId}`,
+        category: 'record',
       },
-      { name: '🌳 추억보기', url: '/family/memory' },
-      { name: '📅 일정보기', url: '/family/calendar' },
-      { name: '🖼 커뮤니티', url: '/family/community' },
-      { name: '🏆 업적보기', url: '/family/achievement' },
-      { name: '💬 소통하기', url: '/family/contact' },
+      { name: '🌳 추억보기', url: '/family/memory', category: 'memory' },
+      { name: '📅 일정보기', url: '/family/calendar', category: 'calendar' },
+      { name: '🖼 커뮤니티', url: '/family/community', category: 'community' },
+      {
+        name: '🏆 업적보기',
+        url: '/family/achievement',
+        category: 'achievement',
+      },
+      { name: '💬 소통하기', url: '/family/contact', category: 'contact' },
     ]);
   }, [family]);
+
+  useEffect(() => {
+    setLoading(false);
+  }, [familyImage]);
 
   function clickLogout() {
     // 로그아웃 요청 보내기
@@ -53,7 +72,24 @@ export default function SideBar() {
       </Link>
 
       {/* 가족 프로필 사진 */}
-      <img src={chunsik} alt="family-profile" className="size-40 mx-auto" />
+      {loading ? (
+        <div className="size-40 m-auto">
+          <div
+            className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite] mt-12"
+            role="status"
+          >
+            <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
+              Loading...
+            </span>
+          </div>
+        </div>
+      ) : (
+        <img
+          src={familyImage}
+          alt="family-profile"
+          className="size-40 mx-auto"
+        />
+      )}
 
       {/* 가족이름 */}
       <h2 className="mx-auto my-4 font-semibold text-xl text-stone-900">
@@ -71,6 +107,7 @@ export default function SideBar() {
           {category.map((categoryItem, categoryIndex) => (
             <SideButton
               key={categoryIndex}
+              category={categoryItem.category}
               name={categoryItem.name}
               url={categoryItem.url}
             />

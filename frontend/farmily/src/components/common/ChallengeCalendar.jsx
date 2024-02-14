@@ -20,17 +20,24 @@ function isToday(date) {
 function getDayStyle(date) {
   const dayOfWeek = date.getDay();
   if (isToday(date)) {
-    return "cursor-pointer"; // 오늘인 경우
+    return 'cursor-pointer'; // 오늘인 경우
   } else if (dayOfWeek === 0) {
-    return "text-red-500"; // 일요일인 경우
+    return 'text-red-500'; // 일요일인 경우
   } else if (dayOfWeek === 6) {
-    return "text-blue-500"; // 토요일인 경우
+    return 'text-blue-500'; // 토요일인 경우
   } else {
-    return "opacity-60 cursor-not-allowed"; // 다른 날은 불투명하고 클릭 비활성화
+    return 'opacity-60 cursor-not-allowed'; // 다른 날은 불투명하고 클릭 비활성화
   }
 }
 
-export default function ChallengeCalendar({ startDate, endDate, recordId, progresses, handleMark }) {
+export default function ChallengeCalendar({
+  startDate,
+  endDate,
+  recordId,
+  progresses,
+  handleMark,
+  handleRewardClick,
+}) {
   const [currentWeekIndex, setCurrentWeekIndex] = useState(0);
   const [weekDates, setWeekDates] = useState([]);
   const [images, setImages] = useState({});
@@ -58,7 +65,9 @@ export default function ChallengeCalendar({ startDate, endDate, recordId, progre
     setWeekDates(newWeekDates);
 
     if (Array.isArray(progresses)) {
-      const uniqueProgresses = new Set(progresses.map(date => new Date(date).toISOString().slice(0, 10)));
+      const uniqueProgresses = new Set(
+        progresses.map((date) => new Date(date).toISOString().slice(0, 10))
+      );
       const newImages = {};
       uniqueProgresses.forEach((day) => {
         newImages[day] = challenge; // 이미지 할당
@@ -85,17 +94,18 @@ export default function ChallengeCalendar({ startDate, endDate, recordId, progre
         setShowConfirmationModal(true);
       } else {
         setImages({ ...images, [clickedDate]: challenge });
-        axios.post('/record/challenge/mark', {
-          challengeId: recordId,
-          date: clickedDate,
-        })
-        .then((response) => {
-           handleMark()
-          // 성공적으로 마크되었을 때의 처리
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+        axios
+          .post('/record/challenge/mark', {
+            challengeId: recordId,
+            date: clickedDate,
+          })
+          .then((response) => {
+            handleMark();
+            // 성공적으로 마크되었을 때의 처리
+          })
+          .catch((error) => {
+            console.log(error);
+          });
       }
     } else {
       console.log('오늘 날짜만 선택 가능합니다.');
@@ -128,11 +138,17 @@ export default function ChallengeCalendar({ startDate, endDate, recordId, progre
             onClick={() => isToday(date) && handleImageClick(date)}
           >
             <div>
-              {`${date.getMonth() + 1}/${date.getDate()}(${getDayOfWeek(date)})`}
+              {`${date.getMonth() + 1}/${date.getDate()}(${getDayOfWeek(
+                date
+              )})`}
             </div>
             <div className="w-20 h-20 mt-2 border">
               {images[date.toISOString().slice(0, 10)] ? (
-                <img src={images[date.toISOString().slice(0, 10)]} alt="Selected" className="w-full h-full" />
+                <img
+                  src={images[date.toISOString().slice(0, 10)]}
+                  alt="Selected"
+                  className="w-full h-full"
+                />
               ) : (
                 <div className="flex items-center justify-center w-full h-full"></div>
               )}
@@ -146,15 +162,20 @@ export default function ChallengeCalendar({ startDate, endDate, recordId, progre
 
   return (
     <div>
-    <div className="flex items-center justify-center h-1/2 w-full">
-      <div className="relative max-w-2xl mx-auto bg-white rounded-md shadow-lg">
-        {weekDisplay}
-        {/* Confirmation modal and other UI elements as needed */}
+      <div className="flex items-center justify-center h-1/2 w-full">
+        <div className="relative max-w-2xl mx-auto bg-white rounded-md shadow-lg">
+          {weekDisplay}
+          {/* Confirmation modal and other UI elements as needed */}
+        </div>
       </div>
-    </div>
       <div className="flex justify-center mt-4 space-x-60 ">
-          <SmallButton text="포기하기" onClick={() => console.log('포기하기')} />
-          <SmallButton text="열매받기" onClick={() => console.log('열매받기')} />
+        <SmallButton text="포기하기" onClick={() => console.log('포기하기')} />
+        <span onClick={handleRewardClick}>
+          <SmallButton
+            text="열매받기"
+            onClick={() => console.log('열매받기')}
+          />
+        </span>
       </div>
     </div>
   );

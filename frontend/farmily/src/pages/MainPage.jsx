@@ -99,6 +99,7 @@ export default function MainPage() {
           id: res.data.id,
           name: res.data.name,
           motto: res.data.motto,
+          profileDto: res.data.profileDto,
           tree: res.data.tree,
           invitationCode: res.data.invitationCode,
           challengesIds: res.data.challengesIds,
