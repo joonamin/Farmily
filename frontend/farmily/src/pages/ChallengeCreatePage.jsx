@@ -7,7 +7,12 @@ import axios from '../api/axios.jsx';
 
 export default function ChallengeCreatePage() {
   const [errorMessage, setErrorMessage] = useState('');
-  const today = new Date().toISOString().split('T')[0];
+  const day = new Date();
+  const today = new Date(
+    day.toLocaleString('en-US', { timeZone: 'Asia/Seoul' })
+  )
+    .toISOString()
+    .split('T')[0];
   const navigate = useNavigate();
   const family = useSelector((state) => state.family.value);
 
