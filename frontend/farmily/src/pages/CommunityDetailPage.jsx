@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import axios from '../api/axios.jsx';
-import tree from '../assets/images/communityTree.png';
 import { useParams } from 'react-router-dom';
 
 export default function CommunityDetailPage() {
@@ -44,7 +43,11 @@ export default function CommunityDetailPage() {
       </div>
       <div className="h-3/6">
         <div className="">
-          <img src={tree} alt="" className="mx-auto object-cover" />
+          <img
+            src={community.treeImage.location}
+            alt=""
+            className="mx-auto object-cover"
+          />
         </div>
       </div>
       <div className="h-2/6">{community.content}</div>

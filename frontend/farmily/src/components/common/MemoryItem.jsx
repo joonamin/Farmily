@@ -6,6 +6,7 @@ export default function MemoryItem(memory) {
   const date = memory.range.startDate;
   const dateObject = new Date(date);
   const month = dateObject.getMonth() + 1;
+  const year = dateObject.getFullYear();
   // 근데 이게 임의로 스프린트 종료 시킨 데이터라서 1월만 들어가있음
 
   return (
@@ -14,7 +15,7 @@ export default function MemoryItem(memory) {
       <div className="p-5 snap-center">
         <img src={fruits} alt="" />
         <p>
-          2024년 {month}월 <br />
+          {year}년 {month}월 <br />
           수확한 과일바구니
         </p>
       </div>
