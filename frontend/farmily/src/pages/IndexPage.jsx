@@ -36,21 +36,14 @@ export default function IndexPage() {
         <TextTypingAni text={introContent_2} />
         <br />
         <Link to="login">
-          <button className="bg-gray-700 text-white text-xl px-6 py-4 rounded-xl">
-            로그인
-          </button>
+          <button className="bg-gray-700 text-white text-xl px-6 py-4 rounded-xl">로그인</button>
         </Link>
       </div>
       <div className="w-5/12">
         <img className="mb-28" src={mainTree} alt="" />
       </div>
-      <div
-        className="w-1/6 mr-32 mb-28 relative hover:cursor-pointer"
-        onClick={openModal}
-      >
-        <p className="text-white text-4xl absolute top-16 left-16 mt-3">
-          알아보기
-        </p>
+      <div className="w-1/6 mr-32 mb-28 relative hover:cursor-pointer" onClick={openModal}>
+        <p className="text-white text-4xl absolute top-14 left-12 mt-3">알아보기</p>
         <img src={board} alt="" />
       </div>
       <Description isOpen={isOpen} closeModal={closeModal} />

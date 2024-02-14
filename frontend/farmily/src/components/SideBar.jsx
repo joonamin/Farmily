@@ -13,15 +13,26 @@ export default function SideBar() {
   const navigate = useNavigate();
 
   const family = useSelector((state) => state.family.value);
+  const user = useSelector((state) => state.user.value);
   const [familyName, setFamilyName] = useState('가족');
   const [familyImage, setFamilyImage] = useState('');
   const [category, setCategory] = useState([]);
-
   const [loading, setLoading] = useState(true);
+  const [nickname, setNickname] = useState('');
+  const [showFull, setShowFull] = useState(false);
 
+  const handleMouseEnter = () => {
+    setShowFull(true);
+  };
+
+  const handleMouseLeave = () => {
+    setShowFull(false);
+  };
   useEffect(() => {
     setFamilyName(family.name);
     setFamilyImage(family.profileDto.location);
+    setNickname(user.nickname);
+
     setCategory([
       {
         name: '📑 기록하기',
@@ -69,11 +80,23 @@ export default function SideBar() {
           </div>
         </div>
       ) : (
-        <img src={familyImage} alt="family-profile" className="size-40 mx-auto object-cover" />
+        <img src={chunsik} alt="family-profile" className="size-40 mx-auto object-cover" />
       )}
-
+      <div className="flex justify-center mt-2 overflow-hidden">
+        <div
+          className={`h-8 px-2 bg-gray-300 rounded-2xl flex items-center transition-all duration-50 ${
+            showFull ? 'w-full' : 'w-8'
+          }`}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+        >
+          <p className="whitespace-nowrap text-center w-full">
+            {showFull ? <>{nickname}님</> : <>{nickname?.charAt(0)}</>}
+          </p>
+        </div>
+      </div>
       {/* 가족이름 */}
-      <h2 className="mx-auto my-4 font-semibold text-xl text-stone-900">
+      <h2 className="mx-auto mt-2 font-bold text-xl text-stone-900">
         {familyName}
         <Link to="/family/setting" className="text-lg align-middle">
           {' '}
@@ -81,7 +104,7 @@ export default function SideBar() {
         </Link>
       </h2>
 
-      <div className="mb-6">
+      <div className="mb-2">
         {/* 카테고리 */}
         {/* url 정의 후 수정 필요 */}
         <ul>
@@ -95,6 +118,7 @@ export default function SideBar() {
           ))}
         </ul>
       </div>
+
       <button onClick={clickLogout}>
         <img className="mx-auto" src={logout} alt="" />
       </button>
