@@ -1,7 +1,6 @@
 package com.ssafy.farmily.service.sprint;
 
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -21,7 +20,6 @@ import com.ssafy.farmily.exception.NoSuchContentException;
 import com.ssafy.farmily.repository.ImageRepository;
 import com.ssafy.farmily.repository.RecordRepository;
 import com.ssafy.farmily.repository.SprintRepository;
-import com.ssafy.farmily.utils.RandomNumberGenerator;
 
 import lombok.RequiredArgsConstructor;
 
@@ -83,7 +81,6 @@ public class SprintServiceImpl implements SprintService {
 				= imageRepository.findAllImageCardImageDtosInSprintOrderByIdDesc(sprintId);
 		}
 		else {
-			Set<Long> indexes = RandomNumberGenerator.getRandomUniqueLongs(0, imageTotalCount, countMax);
 			imageCardImageDtos
 				= imageRepository.findAllImageCardImageDtosInSprintAndIdInOrderByIdDesc(sprintId, countMax);
 		}
