@@ -1,19 +1,28 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useSelector } from 'react-redux';
 import axios from '../../api/axios';
 import challengeImage from '../../assets/images/challenge_modal.png';
 import SmallButton from '../button/SmallButton';
-
+import CommonModal from '../../components/common/CommonModal.jsx';
 function getDayOfWeek(date) {
   const days = ['일', '월', '화', '수', '목', '금', '토'];
   return days[date.getDay()];
 }
 
-export default function ChallengeModal({ isOpen, onClose, challengeData, handleMark }) {
+export default function ChallengeModal({
+  isOpen,
+  onClose,
+  challengeData,
+  handleMark,
+}) {
   const [currentWeekIndex, setCurrentWeekIndex] = useState(0);
   const [weekDates, setWeekDates] = useState([]);
   const [images, setImages] = useState({});
   const [selectedDate, setSelectedDate] = useState(null);
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalContent, setModalContent] = useState('');
+  const family = useSelector((state) => state.family.value);
   const modalRef = useRef();
   const handleClose = () => {
     onClose(); // 모달 닫기
@@ -32,6 +41,26 @@ export default function ChallengeModal({ isOpen, onClose, challengeData, handleM
       week.push(date);
     }
     return week;
+  };
+
+  const handleRewardClick = () => {
+    axios
+      .post(`record/${challengeData.id}/receive-reward`, {
+        familyId: family.id,
+      })
+      .then((response) => {
+        setModalContent('챌린지 보상을 받았습니다 !');
+        setIsModalOpen(true);
+        // console.log(response.data);
+      })
+      .catch((error) => {
+        setModalContent(error.response.data);
+        setIsModalOpen(true);
+        // console.log();
+      });
+  };
+  const closeModal = () => {
+    setIsModalOpen(false);
   };
 
   useEffect(() => {
@@ -69,16 +98,17 @@ export default function ChallengeModal({ isOpen, onClose, challengeData, handleM
         setShowConfirmationModal(true);
       } else {
         setImages({ ...images, [clickedDate]: challengeImage });
-        axios.post('/record/challenge/mark', {
-          challengeId: challengeData.id,
-          date: clickedDate,
-        })
-        .then((response) => {
-           handleMark()
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+        axios
+          .post('/record/challenge/mark', {
+            challengeId: challengeData.id,
+            date: clickedDate,
+          })
+          .then((response) => {
+            handleMark();
+          })
+          .catch((error) => {
+            console.log(error);
+          });
       }
     } else {
       console.log('오늘 날짜만 선택 가능합니다.');
@@ -86,51 +116,90 @@ export default function ChallengeModal({ isOpen, onClose, challengeData, handleM
   };
 
   return (
-    <div className={`fixed inset-0 flex items-center justify-center ${isOpen ? 'block' : 'hidden'}`} style={{ zIndex: 9999 }}>
+    <div
+      className={`fixed inset-0 flex items-center justify-center ${
+        isOpen ? 'block' : 'hidden'
+      }`}
+      style={{ zIndex: 9999 }}
+    >
       <div className="relative bg-white rounded-lg shadow-lg" ref={modalRef}>
         <div className="flex flex-col items-center justify-center px-4 py-2 border-b">
-          <h1 className="text-xl font-bold">{challengeData?.title || "챌린지 제목"}</h1>
+          <h1 className="text-xl font-bold">
+            {challengeData?.title || '챌린지 제목'}
+          </h1>
           <span>
-            {challengeData?.dateRange?.startDate && new Date(challengeData.dateRange.startDate).toLocaleDateString()} ~ 
-            {challengeData?.dateRange?.endDate && new Date(challengeData.dateRange.endDate).toLocaleDateString()}
+            {challengeData?.dateRange?.startDate &&
+              new Date(
+                challengeData.dateRange.startDate
+              ).toLocaleDateString()}{' '}
+            ~
+            {challengeData?.dateRange?.endDate &&
+              new Date(challengeData.dateRange.endDate).toLocaleDateString()}
           </span>
         </div>
 
         <div className="flex items-center justify-between px-4 py-2">
-          <button onClick={() => setCurrentWeekIndex(currentWeekIndex - 1)}>&lt;</button>
+          <button onClick={() => setCurrentWeekIndex(currentWeekIndex - 1)}>
+            &lt;
+          </button>
           <div className="flex justify-around flex-grow">
             {weekDates.map((date, index) => {
               const dateKey = date.toISOString().split('T')[0];
               const dayOfWeek = date.getDay();
               const isToday = new Date().toDateString() === date.toDateString();
               const dateStyle = isToday ? {} : { opacity: 0.6 }; // 오늘 날짜가 아니면 투명도 50%
-              const dayColor = dayOfWeek === 6 ? 'blue' : dayOfWeek === 0 ? 'red' : 'black'; // 토요일은 파란색, 일요일은 빨간색
+              const dayColor =
+                dayOfWeek === 6 ? 'blue' : dayOfWeek === 0 ? 'red' : 'black'; // 토요일은 파란색, 일요일은 빨간색
 
               return (
                 <div key={index} className="text-center" style={dateStyle}>
                   <div style={{ color: dayColor }}>
-                    {`${date.getMonth() + 1}/${date.getDate()}(${getDayOfWeek(date)})`}
+                    {`${date.getMonth() + 1}/${date.getDate()}(${getDayOfWeek(
+                      date
+                    )})`}
                   </div>
-                  <div className="w-20 h-20 mt-2 border cursor-pointer flex items-center justify-center" onClick={() => handleImageClick(date)}>
-                    {images[dateKey] && <img src={images[dateKey]} alt="Selected" className="max-w-full max-h-full" />}
+                  <div
+                    className="w-20 h-20 mt-2 border cursor-pointer flex items-center justify-center"
+                    onClick={() => handleImageClick(date)}
+                  >
+                    {images[dateKey] && (
+                      <img
+                        src={images[dateKey]}
+                        alt="Selected"
+                        className="max-w-full max-h-full"
+                      />
+                    )}
                   </div>
                 </div>
               );
             })}
           </div>
-          <button onClick={() => setCurrentWeekIndex(currentWeekIndex + 1)}>&gt;</button>
+          <button onClick={() => setCurrentWeekIndex(currentWeekIndex + 1)}>
+            &gt;
+          </button>
         </div>
 
         <div className="flex justify-end mt-4">
-          <SmallButton text="포기하기" onClick={() => console.log('포기하기')} />
-          <SmallButton text="열매받기" onClick={() => console.log('열매받기')} />
+          <SmallButton
+            text="포기하기"
+            onClick={() => console.log('포기하기')}
+          />
+          <span onClick={handleRewardClick}>
+            <SmallButton text="열매받기" />
+          </span>
         </div>
 
-        <button onClick={ handleClose } className="absolute top-2 right-2">&times;</button>
-        {showConfirmationModal && (
-          <div> {/* Confirmation Modal 내용 */} </div>
-        )}
+        <button onClick={handleClose} className="absolute top-2 right-2">
+          &times;
+        </button>
+        {showConfirmationModal && <div> {/* Confirmation Modal 내용 */} </div>}
       </div>
+      <CommonModal
+        title="챌린지"
+        content={modalContent}
+        isOpen={isModalOpen}
+        closeModal={closeModal}
+      />
     </div>
   );
 }
