@@ -15,23 +15,24 @@ export default function StatisticsItem({ type, count, text }) {
 
   return (
     <>
-      <span className="flex my-auto mr-5 ">
+      <div className="flex my-auto ml-8 relative">
         <img
           className="h-8 mr-3"
           src={fruitImages[type]}
           alt=""
           onMouseEnter={openHover}
           onMouseLeave={closeHover}
-        />{' '}
-        {isHover ? (
-          <HoverBox title={text} />
-        ) : (
-          <span className="flex">
-            <p className="my-auto text-xl mr-1">X</p>
-            <p className="my-auto text-xl ">{count}</p>
+        />
+        <span className="flex">
+          <p className="my-auto text-xl mr-1">X</p>
+          <p className="my-auto text-xl ">{count}</p>
+        </span>
+        {isHover && (
+          <span className="z-10 absolute top-0 left-10">
+            <HoverBox title={text} />
           </span>
         )}
-      </span>
+      </div>
     </>
   );
 }
