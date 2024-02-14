@@ -4,8 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.UUID;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -14,9 +12,9 @@ import org.springframework.web.multipart.MultipartFile;
 import com.ssafy.farmily.dto.ImageDto;
 import com.ssafy.farmily.repository.ImageRepository;
 
-import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
 
-@Log4j
+@Slf4j
 @Service
 public class LocalFileService extends AbstractFileService {
 
@@ -25,8 +23,6 @@ public class LocalFileService extends AbstractFileService {
 
 	@Value("${file-server.local.server-url}")
 	private final String serverUrl = null;
-
-	private Logger logger = LoggerFactory.getLogger(LocalFileService.class);
 
 	public LocalFileService(ImageRepository imageRepository) {
 		super(imageRepository);
@@ -48,7 +44,7 @@ public class LocalFileService extends AbstractFileService {
 			File newFile = new File(newPath);
 			file.transferTo(newFile);
 
-			logger.info("파일 업로드 성공: {} -> {}", originalFileName, uri);
+			log.info("파일 업로드 성공: {} -> {}", originalFileName, uri);
 
 			return ImageDto.of(uri, originalFileName);
 		} catch (IOException ex) {

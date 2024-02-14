@@ -34,9 +34,6 @@ dependencies {
     // https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-api
     implementation 'io.jsonwebtoken:jjwt-api:0.12.3'
 
-    implementation 'commons-logging:commons-logging:1.2'
-    implementation group: 'log4j', name: 'log4j', version: '1.2.17'
-
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     runtimeOnly 'com.h2database:h2'
