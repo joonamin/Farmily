@@ -55,6 +55,7 @@ export default function SettingPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isChangeFruit, setIsChangeFruit] = useState(false);
   const [isCopy, setIsCopy] = useState(false);
+  const [fruitError, setFruitError] = useState('');
   const [challengeFruit, setChallengeFruit] = useState(
     family.fruitSkins.challenge
   );
@@ -207,17 +208,26 @@ export default function SettingPage() {
   };
 
   const FruitChange = () => {
+    if (
+      dailyFruit === eventFruit ||
+      eventFruit === challengeFruit ||
+      challengeFruit === dailyFruit
+    ) {
+      setFruitError('과일은 중복선택 할수 없습니다.');
+      return;
+    }
+
     const formData = {
       daily: dailyFruit,
       event: eventFruit,
       challenge: challengeFruit,
     };
-
     axios
       .put(`/family/${family.id}/fruit-skin`, formData)
       .then((res) => {
         console.log(res);
         setIsChangeFruit(!isChangeFruit);
+        setFruitError('');
         openModal();
       })
       .catch((error) => {
@@ -255,8 +265,7 @@ export default function SettingPage() {
   };
   return (
     <>
-      <h1>설정 페이지</h1>
-      <p>
+      <p className="pt-4">
         <button
           onClick={() => setTabIndex(0)}
           className={
@@ -491,6 +500,7 @@ export default function SettingPage() {
           >
             저장
           </button>
+          {fruitError ? <p className=" text-red-400">{fruitError}</p> : null}
         </div>
       ) : null}
       {/* 개인 */}
