@@ -35,4 +35,6 @@ public interface RecordService {
 	void editComment(Long recordId, Long commentId, String username, RecordCommentDto.Request.Put dto);
 
 	ServiceProcessResult setChallengeComplete(String username, Long recordId, ChallengeRewardRequestDto dto);
+
+	void deleteRecord(String username, Long recordId);
 }

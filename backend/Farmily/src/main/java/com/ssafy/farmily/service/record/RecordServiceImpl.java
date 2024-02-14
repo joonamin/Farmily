@@ -41,6 +41,7 @@ import com.ssafy.farmily.repository.ChallengeProgressRepository;
 import com.ssafy.farmily.repository.CommentRepository;
 import com.ssafy.farmily.repository.FamilyRepository;
 import com.ssafy.farmily.repository.ImageCardRepository;
+import com.ssafy.farmily.repository.MemberRepository;
 import com.ssafy.farmily.repository.RecordRepository;
 import com.ssafy.farmily.service.family.FamilyService;
 import com.ssafy.farmily.service.file.FileService;
@@ -285,10 +286,21 @@ public class RecordServiceImpl implements RecordService {
 		return new ServiceProcessResult(dto.getFamilyId());
 	}
 
+	@Override
+	public void deleteRecord(String username, Long recordId) {
+		Record record = recordRepository.findById(recordId).orElseThrow(()-> new BusinessException("존재하지 않는 글입니다."));
+		Family family = record.getSprint().getFamily();
+		familyService.assertMembership(family.getId(), username);
+
+		recordRepository.delete(record);
+	}
+
 	private boolean checkComplete(DateRange dateRange, List<LocalDate> progress) {
 		long duration = dateRange.getStartDate().until(dateRange.getEndDate(), ChronoUnit.DAYS);
 		long completeDays = progress.size();
 		double percent = completeDays / (double)duration;
 		return percent >= 0.7;
 	}
+
+
 }
