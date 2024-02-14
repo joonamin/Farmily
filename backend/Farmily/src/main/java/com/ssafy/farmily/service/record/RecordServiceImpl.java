@@ -278,7 +278,9 @@ public class RecordServiceImpl implements RecordService {
 		if (!checkComplete(recordDto.getDateRange(), recordDto.getProgresses())) {
 			throw new BusinessException("챌린지가 달성되지 않았습니다.");
 		}
-
+		if (recordDto.getIsRewarded()){
+			throw new BusinessException("이미 획득한 챌린지입니다.");
+		}
 		ChallengeRecord challengeRecord = (ChallengeRecord)recordRepository.findById(recordId).orElseThrow(()->new BusinessException("유효하지 않은 챌린지 ID"));
 		challengeRecord.setIsRewarded(true);
 		recordRepository.save(challengeRecord);
