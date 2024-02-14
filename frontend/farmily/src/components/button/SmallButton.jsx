@@ -4,9 +4,7 @@ import { Link } from 'react-router-dom';
 export default function SmallButton(btn) {
   return (
     <Link to={btn.url}>
-      <button className="bg-gray-300 px-4 py-2 rounded-md m-4">
-        {btn.text}
-      </button>
+      <button className="bg-gray-300 px-4 py-2 rounded-md m-4 hover:bg-gray-400">{btn.text}</button>
     </Link>
   );
 }
