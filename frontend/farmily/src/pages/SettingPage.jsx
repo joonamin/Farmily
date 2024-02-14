@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import axios from '../api/axios.jsx';
-import { getFamilies } from '../store/user.jsx';
+import { getFamilies, getUser } from '../store/user.jsx';
 import fruitImages from '../api/fruitImages.jsx';
 import { setFamily } from '../store/family';
 import CommonModal from '../components/common/CommonModal.jsx';
@@ -125,6 +125,14 @@ export default function SettingPage() {
       };
       dispatch(setFamily(familyData));
     });
+    axios
+      .get('/member/me')
+      .then((res) => {
+        dispatch(getUser(res.data));
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, [isChanged, isLeader, isChangeFruit]);
 
   const handleMandate = () => {
@@ -440,7 +448,7 @@ export default function SettingPage() {
               </button>
             </div>
           </div>
-          <div className="w-full flex justify-around items-center mb-40 h-12">
+          <div className="w-full flex justify-around items-center mb-4 h-12">
             <p className="w-1/4">가족 선택</p>
             <div className="border-4 border-black rounded-md p-1 w-1/2 pl-4 flex justify-between h-full">
               <select
