@@ -18,6 +18,7 @@ const WelcomePage = () => {
   const [families, setFamilies] = useState([]);
   const [selectedFamilyId, setSelectedFamilyId] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [error, setError] = useState('');
 
   const cookies = document.cookie.split(';');
   const cookie = cookies.find((c) => c.trim().startsWith('accessToken='));
@@ -41,7 +42,6 @@ const WelcomePage = () => {
       .then((res) => {
         dispatch(getFamilies({ familyInfo: res.data }));
         setFamilies(res.data);
-        console.log(res.data);
       })
       .catch((err) => {
         console.log(err);
@@ -57,6 +57,11 @@ const WelcomePage = () => {
   };
 
   const handleStart = () => {
+    if (!selectedFamilyId) {
+      setError('가족을 선택해주세요.');
+      return;
+    }
+
     // 시작하기 버튼을 눌렀을 때 실행되는 로직 추가
     console.log('가족 선택:', selectedFamilyId);
     // 여기서 선택된 가족에 대한 추가적인 로직을 수행할 수 있습니다.
@@ -79,7 +84,10 @@ const WelcomePage = () => {
         <img className="mb-24 ml-24" src={sapling} alt="" />
       </div>
       <div className="w-1/6 mr-32 mb-28 relative">
-        <p className="text-white text-4xl absolute top-14 left-12 cursor-pointer mt-3" onClick={openModal}>
+        <p
+          className="text-white text-4xl absolute top-14 left-12 cursor-pointer mt-3"
+          onClick={openModal}
+        >
           시작하기
         </p>
         <img src={board} alt="" />
@@ -88,19 +96,29 @@ const WelcomePage = () => {
       {isModalOpen && (
         <div className="fixed z-10 inset-0 overflow-y-auto">
           <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-            <div className="fixed inset-0 transition-opacity" aria-hidden="true">
+            <div
+              className="fixed inset-0 transition-opacity"
+              aria-hidden="true"
+            >
               <div className="absolute inset-0 bg-gray-800 opacity-75"></div>
             </div>
-            <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">
+            <span
+              className="hidden sm:inline-block sm:align-middle sm:h-screen"
+              aria-hidden="true"
+            >
               &#8203;
             </span>
             <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
               <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                 <div className="sm:flex sm:items-start">
                   <div className="w-1/2">
-                    <h3 className="text-lg font-medium text-center">가족 생성 / 참여</h3>
+                    <h3 className="text-lg font-medium text-center">
+                      가족 생성 / 참여
+                    </h3>
                     <div className="flex flex-col items-center">
-                      <p className="text-sm text-gray-500 mb-4 text-center">가족을 생성하거나 참여하세요.</p>
+                      <p className="text-sm text-gray-500 mb-4 text-center">
+                        가족을 생성하거나 참여하세요.
+                      </p>
                       <Link to="/createtree">
                         <button className="bg-green-400 hover:bg-green-600 text-white font-medium py-2 px-4 rounded-md focus:outline-none focus:ring focus:border-blue-300">
                           가족 생성 / 참여
@@ -109,7 +127,10 @@ const WelcomePage = () => {
                     </div>
                   </div>
                   <div className="w-1/2 mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-                    <h3 className="text-lg leading-6 font-medium text-gray-900 text-center" id="modal-title">
+                    <h3
+                      className="text-lg leading-6 font-medium text-gray-900 text-center"
+                      id="modal-title"
+                    >
                       가족 선택
                     </h3>
                     <div className="">
@@ -119,13 +140,16 @@ const WelcomePage = () => {
                       >
                         가족을 선택하세요
                       </label>
-                      {families ? (
+                      {families.length ? (
                         <select
                           id="family_select"
                           value={selectedFamilyId}
                           onChange={(e) => setSelectedFamilyId(e.target.value)}
                           className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-blue-300"
                         >
+                          <option value="" id="disableOption" disabled selected>
+                            가족을 선택해주세요.
+                          </option>
                           {families.map((family, index) => (
                             <option key={index} value={family.familyId}>
                               {family.name}
@@ -139,6 +163,10 @@ const WelcomePage = () => {
                   </div>
                 </div>
               </div>
+              {error ? (
+                <p className=" text-red-400 text-center">{error}</p>
+              ) : null}
+
               <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:justify-center">
                 <button
                   onClick={handleStart}
