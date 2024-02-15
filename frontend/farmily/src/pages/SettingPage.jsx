@@ -57,9 +57,7 @@ export default function SettingPage() {
   const [isCopy, setIsCopy] = useState(false);
   const [fruitError, setFruitError] = useState('');
   const [nicknameError, setNicknameError] = useState('');
-  const [challengeFruit, setChallengeFruit] = useState(
-    family.fruitSkins.challenge
-  );
+  const [challengeFruit, setChallengeFruit] = useState(family.fruitSkins.challenge);
   const [familyItem, setFamilyItem] = useState([
     {
       itemCode: '',
@@ -112,11 +110,9 @@ export default function SettingPage() {
       console.log(res.data);
     });
 
-    axios
-      .get(`/family/${family.id}/inventory/${family.mainSprint.sprintId}`)
-      .then((res) => {
-        setFamilyItem(res.data.familyItemList);
-      });
+    axios.get(`/family/${family.id}/inventory/${family.mainSprint.sprintId}`).then((res) => {
+      setFamilyItem(res.data.familyItemList);
+    });
     axios.get(`/family/${family.id}`).then((response) => {
       const familyData = {
         id: response.data.id,
@@ -223,11 +219,7 @@ export default function SettingPage() {
   };
 
   const FruitChange = () => {
-    if (
-      dailyFruit === eventFruit ||
-      eventFruit === challengeFruit ||
-      challengeFruit === dailyFruit
-    ) {
+    if (dailyFruit === eventFruit || eventFruit === challengeFruit || challengeFruit === dailyFruit) {
       setFruitError('과일은 중복선택 할수 없습니다.');
       return;
     }
@@ -283,27 +275,21 @@ export default function SettingPage() {
       <p className="pt-4">
         <button
           onClick={() => setTabIndex(0)}
-          className={
-            tabIndex === 0 ? 'bg-gray-300 px-4 py-2 rounded-md' : 'px-4 py-2'
-          }
+          className={tabIndex === 0 ? 'bg-gray-300 px-4 py-2 rounded-md transition-all duration-300' : 'px-4 py-2'}
         >
           가족
         </button>
         |
         <button
           onClick={() => setTabIndex(1)}
-          className={
-            tabIndex === 1 ? 'bg-gray-300 px-4 py-2  rounded-md' : 'px-4 py-2'
-          }
+          className={tabIndex === 1 ? 'bg-gray-300 px-4 py-2  rounded-md transition-all duration-300' : 'px-4 py-2'}
         >
           열매
         </button>
         |
         <button
           onClick={() => setTabIndex(2)}
-          className={
-            tabIndex === 2 ? 'bg-gray-300 px-4 py-2  rounded-md' : 'px-4 py-2'
-          }
+          className={tabIndex === 2 ? 'bg-gray-300 px-4 py-2  rounded-md transition-all duration-300' : 'px-4 py-2'}
         >
           개인
         </button>
@@ -326,24 +312,13 @@ export default function SettingPage() {
       {tabIndex === 0 ? (
         <div className="w-full h-5/6 m-auto">
           <div className="flex h-1/3 w-full justify-center">
-            <img
-              src={previewImage}
-              alt="미리보기"
-              className="h-40 w-40 object-cover rounded-md"
-            />
+            <img src={previewImage} alt="미리보기" className="h-40 w-40 object-cover rounded-md" />
           </div>
           <div className="w-full flex justify-around items-center mb-4 h-12">
             <p className="w-1/4">가족 대표 사진</p>
             <div className="border-4 border-black rounded-md p-1 w-1/2 pl-4 flex justify-between h-full text-left">
-              <input
-                type="file"
-                className="w-5/6"
-                onChange={handleFileChange}
-              />
-              <button
-                onClick={handleFamilyImage}
-                className="bg-gray-300 px-4 w-20"
-              >
+              <input type="file" className="w-5/6" onChange={handleFileChange} />
+              <button onClick={handleFamilyImage} className="bg-gray-300 px-4 w-20">
                 저장
               </button>
             </div>
@@ -352,16 +327,8 @@ export default function SettingPage() {
           <div className="w-full flex justify-around items-center mb-4 h-12">
             <p className="w-1/4">가족 이름</p>
             <div className="border-4 border-black rounded-md p-1 w-1/2 pl-4 flex justify-between h-full">
-              <input
-                value={familyName}
-                type="text"
-                onChange={handleFamilyNameChange}
-                className="w-5/6"
-              />
-              <button
-                onClick={handleFamilyName}
-                className="bg-gray-300 px-4 w-20"
-              >
+              <input value={familyName} type="text" onChange={handleFamilyNameChange} className="w-5/6" />
+              <button onClick={handleFamilyName} className="bg-gray-300 px-4 w-20">
                 저장
               </button>
             </div>
@@ -370,12 +337,7 @@ export default function SettingPage() {
           <div className="w-full flex justify-around items-center mb-4 h-12">
             <p className="w-1/4">가훈</p>
             <div className="border-4 border-black rounded-md p-1 w-1/2 pl-4 flex justify-between h-full">
-              <input
-                type="text"
-                value={motto}
-                onChange={handleMottoChange}
-                className="w-5/6"
-              />
+              <input type="text" value={motto} onChange={handleMottoChange} className="w-5/6" />
               <button onClick={handleMotto} className="bg-gray-300 px-4 w-20">
                 저장
               </button>
@@ -387,10 +349,7 @@ export default function SettingPage() {
             <div className="border-4 border-black rounded-md p-1 w-1/2 flex justify-between pl-4 h-full">
               <p className="w-5/6 truncate text-left">{invitationCode}</p>
               <CopyToClipboard text={invitationCode}>
-                <button
-                  className="bg-gray-300 px-4 w-20"
-                  onClick={openCopyModal}
-                >
+                <button className="bg-gray-300 px-4 w-20" onClick={openCopyModal}>
                   복사
                 </button>
               </CopyToClipboard>
@@ -412,10 +371,7 @@ export default function SettingPage() {
                     )
                   )}
                 </select>
-                <button
-                  onClick={handleMandate}
-                  className="bg-gray-300 px-4 w-20"
-                >
+                <button onClick={handleMandate} className="bg-gray-300 px-4 w-20">
                   위임
                 </button>
               </div>
@@ -425,13 +381,11 @@ export default function SettingPage() {
       ) : null}
       {/* 열매 */}
       {tabIndex === 1 ? (
-        <div className="h-5/6">
+        <div className="h-5/6 pt-4">
           <div className="flex h-3/4">
-            <div className="h-5/6 w-1/2 p-5 pt-0">
+            <div className="h-5/6 w-1/2 p-5">
               <div className="flex h-1/3 mb-5">
-                <h1 className="text-2xl my-auto justify-center w-2/12 mr-20">
-                  일상
-                </h1>
+                <h1 className="text-2xl my-auto justify-center w-2/12 mr-20">일상</h1>
                 <select
                   value={dailyFruit}
                   onChange={(e) => setDailyFruit(e.target.value)}
@@ -444,16 +398,10 @@ export default function SettingPage() {
                   ))}
                 </select>
 
-                <img
-                  src={fruitImages[dailyFruit]}
-                  alt="dailyFruit"
-                  className=" h-28 w-28"
-                />
+                <img src={fruitImages[dailyFruit]} alt="dailyFruit" className=" h-28 w-28" />
               </div>
               <div className="flex h-1/3 mb-5">
-                <h1 className="text-2xl my-auto justify-center w-2/12 mr-20">
-                  이벤트
-                </h1>
+                <h1 className="text-2xl my-auto justify-center w-2/12 mr-20">이벤트</h1>
                 <select
                   value={eventFruit}
                   onChange={(e) => setEventFruit(e.target.value)}
@@ -466,16 +414,10 @@ export default function SettingPage() {
                   ))}
                 </select>
 
-                <img
-                  src={fruitImages[eventFruit]}
-                  alt="eventFruit"
-                  className=" h-28 w-28"
-                />
+                <img src={fruitImages[eventFruit]} alt="eventFruit" className=" h-28 w-28" />
               </div>
               <div className="flex h-1/3 mb-5">
-                <h1 className="text-2xl my-auto justify-center w-2/12 mr-20">
-                  챌린지
-                </h1>
+                <h1 className="text-2xl my-auto justify-center w-2/12 mr-20">챌린지</h1>
                 <select
                   value={challengeFruit}
                   onChange={(e) => setChallengeFruit(e.target.value)}
@@ -488,31 +430,19 @@ export default function SettingPage() {
                   ))}
                 </select>
 
-                <img
-                  src={fruitImages[challengeFruit]}
-                  alt="challengeFruit"
-                  className=" h-28 w-28"
-                />
+                <img src={fruitImages[challengeFruit]} alt="challengeFruit" className=" h-28 w-28" />
               </div>
             </div>
             <div className="w-1/2 h-5/6 p-5 pt-0">
               <p>획득한 과일 목록</p>
               <div className="flex flex-wrap justify-center bg-gray-200 h-full overflow-y-scroll">
                 {familyItem.map((item, index) => (
-                  <img
-                    key={index}
-                    src={fruitImages[item.itemCode]}
-                    alt=""
-                    className="h-28 w-28 m-4"
-                  />
+                  <img key={index} src={fruitImages[item.itemCode]} alt="" className="h-28 w-28 m-4" />
                 ))}
               </div>
             </div>
           </div>
-          <button
-            onClick={FruitChange}
-            className="bg-gray-300 px-4 py-2 rounded-md m-4"
-          >
+          <button onClick={FruitChange} className="bg-gray-300 px-4 py-2 rounded-md m-4">
             저장
           </button>
           {fruitError ? <p className=" text-red-400">{fruitError}</p> : null}
@@ -521,20 +451,12 @@ export default function SettingPage() {
 
       {/* 개인 */}
       {tabIndex === 2 ? (
-        <div className="w-full h-5/6 m-auto pt-5 mt-20">
+        <div className="w-full h-5/6 m-auto pt-24">
           <div className="w-full flex justify-around items-center mb-10 h-12">
             <p className="w-1/4">닉네임</p>
             <div className="border-4 border-black rounded-md p-1 w-1/2 pl-4 flex justify-between h-full">
-              <input
-                type="text"
-                value={nickname}
-                onChange={handleNicknameChange}
-                className="w-5/6"
-              />
-              <button
-                onClick={handleNickname}
-                className="bg-gray-300 px-4 w-20"
-              >
+              <input type="text" value={nickname} onChange={handleNicknameChange} className="w-5/6" />
+              <button onClick={handleNickname} className="bg-gray-300 px-4 w-20">
                 저장
               </button>
             </div>
@@ -549,11 +471,7 @@ export default function SettingPage() {
                 className="w-5/6"
               >
                 {families.map((family, index) => (
-                  <option
-                    key={index}
-                    value={family.familyId}
-                    className="w-full"
-                  >
+                  <option key={index} value={family.familyId} className="w-full">
                     {family.name}
                   </option>
                 ))}
@@ -563,18 +481,13 @@ export default function SettingPage() {
               </button>
             </div>
           </div>
-          <SmallButton text="가족 생성하기" url="/createtree"></SmallButton>
-          {nicknameError ? (
-            <p className=" text-red-400">{nicknameError}</p>
-          ) : null}
+          <div className="pt-40">
+            <SmallButton text="가족 생성하기" url="/createtree"></SmallButton>
+          </div>
+          {nicknameError ? <p className=" text-red-400">{nicknameError}</p> : null}
         </div>
       ) : null}
-      <CommonModal
-        title="변경사항"
-        content="저장되었습니다!"
-        isOpen={isModalOpen}
-        closeModal={closeModal}
-      />
+      <CommonModal title="변경사항" content="저장되었습니다!" isOpen={isModalOpen} closeModal={closeModal} />
       <CommonModal
         title="가족코드 복사"
         content="가족코드가 복사되었습니다."

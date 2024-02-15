@@ -46,8 +46,7 @@ const BoardModal = ({ isOpen, closeModal, handleChange, familyPoint }) => {
     }, 6000);
   };
 
-  const disableOpenBoxButton =
-    isRaffling || familyPoint < 100 || itemSkinsLength >= 21;
+  const disableOpenBoxButton = isRaffling || familyPoint < 100 || itemSkinsLength >= 21;
   useEffect(() => {
     // Event listener for clicking outside the modal
     const handleDocumentClick = (e) => {
@@ -85,10 +84,7 @@ const BoardModal = ({ isOpen, closeModal, handleChange, familyPoint }) => {
           onClick={handleOutsideClick}
         >
           <div className="relative p-5 mx-auto bg-white border rounded-md shadow-lg w-96 h-full flex flex-col">
-            <div
-              className="bg-gray-200 rounded-lg mb-5"
-              style={{ padding: '2px' }}
-            >
+            <div className="bg-gray-200 rounded-lg mb-5" style={{ padding: '2px' }}>
               <div className="relative flex items-center">
                 {/* Tab dividers */}
                 <div className="absolute w-full">
@@ -109,11 +105,7 @@ const BoardModal = ({ isOpen, closeModal, handleChange, familyPoint }) => {
                   className={`absolute left-0 inset-y-0 w-1/3 flex bg-white transition-all ease-in-out duration-200 transform rounded-md shadow`}
                   style={{
                     transform: `translateX(${
-                      selectedTab === 'segment1'
-                        ? '0'
-                        : selectedTab === 'segment2'
-                        ? '100%'
-                        : '200%'
+                      selectedTab === 'segment1' ? '0' : selectedTab === 'segment2' ? '100%' : '200%'
                     })`,
                   }}
                 ></div>
@@ -130,11 +122,7 @@ const BoardModal = ({ isOpen, closeModal, handleChange, familyPoint }) => {
                       opacity: selectedTab === segment ? 1 : 0.5,
                     }}
                   >
-                    {segment === 'segment1'
-                      ? '열매'
-                      : segment === 'segment2'
-                      ? '도감'
-                      : '뽑기'}
+                    {segment === 'segment1' ? '열매' : segment === 'segment2' ? '도감' : '뽑기'}
                   </div>
                 ))}
               </div>
@@ -166,10 +154,7 @@ const BoardModal = ({ isOpen, closeModal, handleChange, familyPoint }) => {
                 {/* segment1일 때 "열매 배치" 버튼 표시 */}
                 {selectedTab === 'segment1' && (
                   <span className="mr-auto">
-                    <SmallButton
-                      text="열매 배치"
-                      url={`/tree/${family.id}/decorate`}
-                    />
+                    <SmallButton text="열매 배치" url={`/tree/${family.id}/decorate`} />
                   </span>
                 )}
 

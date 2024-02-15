@@ -27,16 +27,8 @@ export default function EnterPage() {
           <div className="flex align-middle h-1/2 flex-col pt-10 ">
             <p className=" text-xl">가족 코드 입력</p>
             <div className="border-4 border-black rounded-md w-3/4 m-auto">
-              <input
-                type="text"
-                onChange={handleInput}
-                className="px-4 py-2 w-5/6 ml-4"
-                style={{ outline: 'none' }}
-              />
-              <button
-                onClick={handleClick}
-                className="bg-gray-200 px-6 py-1 border-2 border-black rounded-sm"
-              >
+              <input type="text" onChange={handleInput} className="px-4 py-2 w-5/6 ml-4" style={{ outline: 'none' }} />
+              <button onClick={handleClick} className="bg-gray-300 px-4 py-1 w-20">
                 참여
               </button>
             </div>
