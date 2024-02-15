@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import axios from "../../api/axios.jsx";
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import axios from '../../api/axios.jsx';
 
 // 이미지 이름을 itemCode에 따라 수정
 import ALPHABET_A from '../../assets/images/fruits/1.png';
@@ -49,27 +49,25 @@ import ALPHABET_U_B from '../../assets/images/fruits/21_b.png';
 const Collection = () => {
   const family = useSelector((state) => state.family.value);
   const [fruitInventory, setFruitInventory] = useState([]);
-  const familyId = family.id
-  const sprintId = family.mainSprint.sprintId
+  const familyId = family.id;
+  const sprintId = family.mainSprint.sprintId;
   useEffect(() => {
-    axios.get(`family/${familyId}/inventory/${sprintId}`)
+    axios
+      .get(`family/${familyId}/inventory/${sprintId}`)
       .then((response) => {
-        console.log("Server response:", response.data); // 서버 응답 로그
         const familyItemList = response.data.familyItemList;
-        console.log("familyItemList:", familyItemList); // familyItemList 로그
-  
+
         if (Array.isArray(familyItemList)) {
           setFruitInventory(familyItemList); // familyItemList가 배열이면 상태 업데이트
         } else {
-          console.error("familyItemList is not an array:", familyItemList);
+          console.error('familyItemList is not an array:', familyItemList);
           setFruitInventory([]); // familyItemList가 배열이 아니면 빈 배열로 초기화
         }
-      })  
+      })
       .catch((error) => {
-        console.error("Error fetching fruit inventory:", error);
+        console.error('Error fetching fruit inventory:', error);
       });
   }, [familyId, sprintId]);
- 
 
   const fruitsToShow = [
     ALPHABET_A,
@@ -119,30 +117,50 @@ const Collection = () => {
     ALPHABET_U_B,
   ];
 
+  const sortedFruits = fruitsToShow
+    .map((fruit, index) => {
+      const itemCode = `ALPHABET_${String.fromCharCode(65 + index)}`;
+      const isOwned = fruitInventory.some((item) => item.itemCode === itemCode);
+      return {
+        fruit: isOwned ? fruit : fruitsToShowB[index],
+        isOwned,
+        itemCode,
+      };
+    })
+    .sort((a, b) => b.isOwned - a.isOwned); // 소유된 과일을 배열의 앞쪽으로
 
-
-  const sortedFruits = fruitsToShow.map((fruit, index) => {
-    const itemCode = `ALPHABET_${String.fromCharCode(65 + index)}`;
-    const isOwned = fruitInventory.some(item => item.itemCode === itemCode);
-    return {
-      fruit: isOwned ? fruit : fruitsToShowB[index],
-      isOwned,
-      itemCode,
-    };
-  }).sort((a, b) => b.isOwned - a.isOwned); // 소유된 과일을 배열의 앞쪽으로
-
-  const imageSize = "100px";
+  const imageSize = '100px';
 
   return (
     <div>
-      <h2 style={{ textAlign: "center", position: "sticky", top: 0, backgroundColor: "white", fontSize: "x-large" }}>열매 도감</h2>
-      <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "flex-start", alignItems: "flex-start" }}>
+      <h2
+        style={{
+          textAlign: 'center',
+          position: 'sticky',
+          top: 0,
+          backgroundColor: 'white',
+          fontSize: 'x-large',
+        }}
+      >
+        열매 도감
+      </h2>
+      <div
+        style={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          justifyContent: 'flex-start',
+          alignItems: 'flex-start',
+        }}
+      >
         {sortedFruits.map(({ fruit, itemCode }) => (
-          <div key={itemCode} style={{ width: imageSize, height: imageSize, margin: "5px" }}>
+          <div
+            key={itemCode}
+            style={{ width: imageSize, height: imageSize, margin: '5px' }}
+          >
             <img
               src={fruit}
               alt={itemCode}
-              style={{ width: "100%", height: "100%" }}
+              style={{ width: '100%', height: '100%' }}
             />
           </div>
         ))}

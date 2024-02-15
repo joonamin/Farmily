@@ -103,14 +103,11 @@ const MyCalendar = () => {
       .post('/calendar', createEvent)
       .then((res) => {
         // 서버 응답에 따른 추가적인 로직 처리
-        console.log('일정 추가 성공:', res.data);
       })
       .then((res) => {
         axios
           .get(`/calendar/${family.id}`)
           .then((res) => {
-            console.log(res.data);
-
             // 서버에서 받아온 데이터를 기존 이벤트 배열에 추가
             const newEvents = res.data.map((d, index) => ({
               id: d.id,
@@ -131,8 +128,6 @@ const MyCalendar = () => {
       .catch((err) => {
         // 에러 처리
         console.error('일정 추가 실패:', err);
-        console.log(createEvent);
-        console.log(123123);
       });
 
     handleModalClose(); // 모달 닫기
@@ -142,8 +137,6 @@ const MyCalendar = () => {
     axios
       .get(`/calendar/${family.id}`)
       .then((res) => {
-        console.log(res.data);
-
         // 서버에서 받아온 데이터를 기존 이벤트 배열에 추가
         const newEvents = res.data.map((d, index) => ({
           id: d.id, // 데이터에서 식별 가능한 고유한 값 사용
