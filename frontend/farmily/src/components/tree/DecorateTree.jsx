@@ -6,11 +6,7 @@ import SmallButton from '../button/SmallButton.jsx';
 import axios from '../../api/axios.jsx';
 import { useSelector } from 'react-redux';
 
-export default function DecorateTree({
-  treeFruits,
-  setTreeFruits,
-  handleTreeFruitRightClick,
-}) {
+export default function DecorateTree({ treeFruits, setTreeFruits, handleFruitRightClick }) {
   const navigate = useNavigate();
   const family = useSelector((state) => state.family.value);
   const [draggedFruitIndex, setDraggedFruitIndex] = useState(null);
@@ -72,12 +68,12 @@ export default function DecorateTree({
         console.log(error);
       });
   };
-
+  const handleTreeFruitRightClick = (e, index) => {
+    handleFruitRightClick(e, index);
+    setDraggedFruitIndex(null);
+  };
   return (
-    <div
-      className="relative overflow-hidden"
-      onMouseMove={draggedFruitIndex ? handleMouseMove : null}
-    >
+    <div className="relative overflow-hidden" onMouseMove={draggedFruitIndex ? handleMouseMove : null}>
       <img className="" src={maintree} alt="MainTree" />
       {treeFruits.map((fruit, index) => (
         <div
@@ -92,11 +88,7 @@ export default function DecorateTree({
           draggable="true"
           data-fruit-index={index}
         >
-          <FruitItem
-            type={fruit.type}
-            title={fruit.recordTitle}
-            id={fruit.recordId}
-          />
+          <FruitItem type={fruit.type} title={fruit.recordTitle} id={fruit.recordId} />
         </div>
       ))}
 
