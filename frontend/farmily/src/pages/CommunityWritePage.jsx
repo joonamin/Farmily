@@ -82,15 +82,15 @@ export default function CommunityWritePage() {
           onInputChange={handleChange}
         />
       </div>
-      <div className="w-full h-1/3 flex justify-around px-10">
+      <div className="w-full h-1/4 flex justify-around px-10">
         <div className="">
           <input
             type="file"
             onChange={handleFileChange}
             className=" p-1 rounded-md w-full"
           />
-          {/* </div>
-        <div className="h-5/6"> */}
+        </div>
+        <div className="h-5/6">
           <p>미리보기</p>
           <img
             src={previewImage}
@@ -99,11 +99,15 @@ export default function CommunityWritePage() {
           />
         </div>
       </div>
-      <div className="flex justify-end pr-4" onClick={handleClick}>
+      <div className="flex-col pr-4" onClick={handleClick}>
         {/* 이후 버튼에 create 연결 */}
         <SmallButton text="작성" />
+        {errorMessage ? (
+          <p className="text-red-400">{errorMessage}</p>
+        ) : (
+          <p></p>
+        )}
       </div>
-      {errorMessage ? <p className=" text-red-400">{errorMessage}</p> : null}
     </div>
   );
 }
