@@ -40,7 +40,7 @@ export default function MainTree({ treeFruits }) {
         </div>
       ))}
 
-      <div className="absolute inset-x-0 bottom-32 flex justify-center">
+      <div className="absolute bottom-32 flex justify-center motto-div">
         <div
           className="h-32 opacity-100 text-opacity-100 w-16 hover:cursor-pointer"
           onClick={onClickHandler}

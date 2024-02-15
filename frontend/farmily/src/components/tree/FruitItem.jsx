@@ -25,7 +25,7 @@ export default function FruitItem({ type, title, id }) {
   }
 
   return (
-    <div className="flex items-center hover:cursor-pointer">
+    <div className="flex items-center hover:cursor-pointer z-50">
       <img
         onMouseEnter={openHover}
         onMouseLeave={closeHover}
