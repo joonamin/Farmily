@@ -70,7 +70,7 @@ public abstract class OpenViduWebhookEventDto {
 			Long mapStartTime = (Long) map.get("startTime");
 			this.startTime = TimeUtils.epochMillisToLocalDateTime(mapStartTime);
 
-			Long mapDuration = (Long) map.get("duration");
+			Integer mapDuration = (Integer) map.get("duration");
 			this.duration = Duration.ofSeconds(mapDuration);
 
 			String mapReason = (String) map.get("reason");
@@ -135,7 +135,7 @@ public abstract class OpenViduWebhookEventDto {
 			Long mapStartTime = (Long)map.get("startTime");
 			this.startTime = TimeUtils.epochMillisToLocalDateTime(mapStartTime);
 
-			Long mapDuration = (Long)map.get("duration");
+			Integer mapDuration = (Integer)map.get("duration");
 			this.duration = Duration.ofSeconds(mapDuration);
 
 			String mapReason = (String)map.get("reason");
