@@ -17,7 +17,9 @@ import io.openvidu.java.client.OpenVidu;
 import io.openvidu.java.client.OpenViduException;
 import io.openvidu.java.client.Session;
 import io.openvidu.java.client.SessionProperties;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 public class OpenViduWebRtcService implements WebRtcService {
 	private final ConferenceRepository conferenceRepository;
@@ -44,10 +46,17 @@ public class OpenViduWebRtcService implements WebRtcService {
 	public ConferenceJoinResponseDto enterConference(String username, Long familyId) {
 		familyService.assertMembership(familyId, username);
 
+		log.info("가족회의 접속 시도");
+
 		Conference conference = conferenceRepository.findById(familyId)
 			.orElseGet(() -> createConference(familyId));
 
+		log.info("- Conference ID: %s".formatted(conference.getId()));
+		log.info("- Conference Session ID: %s".formatted(conference.getSessionId()));
+
 		String token = joinConference(username, conference);
+
+		log.info("- Token: %s".formatted(token));
 
 		return ConferenceJoinResponseDto.builder()
 			.sessionUrl(token)
@@ -56,6 +65,8 @@ public class OpenViduWebRtcService implements WebRtcService {
 
 	@Override
 	public Conference createConference(Long familyId) {
+		log.info("가족회의 생성");
+
 		String sessionId = SESSION_ID_PREFIX + familyId;
 
 		SessionProperties properties = new SessionProperties.Builder()
@@ -70,6 +81,9 @@ public class OpenViduWebRtcService implements WebRtcService {
 				.sessionId(sessionId)
 				.build();
 
+			log.info("- Conference ID: %s".formatted(conference.getId()));
+			log.info("- Conference Session ID: %s".formatted(conference.getSessionId()));
+
 			conferenceRepository.save(conference);
 
 			return conference;
@@ -80,6 +94,10 @@ public class OpenViduWebRtcService implements WebRtcService {
 
 	@Override
 	public String joinConference(String username, Conference conference) {
+		log.info("가족회의 접속");
+		log.info("- Username: %s".formatted(username));
+		log.info("- Conference Session ID: %s".formatted(conference.getSessionId()));
+
 		ConnectionProperties properties = new ConnectionProperties.Builder()
 			// .data(username)		// TODO: Front 측에서 필요한 데이터 jsonify 후 넘겨주기
 			.build();
@@ -106,6 +124,9 @@ public class OpenViduWebRtcService implements WebRtcService {
 
 	@Override
 	public void onSessionDestroyed(OpenViduWebhookEventDto.SessionDestroyed dto) {
+		log.info("가족회의 삭제됨");
+		log.info("- 삭제 이유: %s".formatted(dto.getReason().toString()));
+
 		String sessionId = dto.getSessionId();
 		Long familyId = Long.parseLong(sessionId.substring(SESSION_ID_PREFIX.length()));
 
