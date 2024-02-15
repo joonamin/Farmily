@@ -6,6 +6,7 @@ import axios from '../api/axios.jsx';
 
 export default function FamilyCreatePage() {
   const [previewImage, setPreviewImage] = useState(chunsik);
+  const [errorMessage, setErrorMessage] = useState('');
   const [data, setData] = useState({
     name: '',
     motto: '',
@@ -13,6 +14,21 @@ export default function FamilyCreatePage() {
   });
   const navigate = useNavigate();
   const handleClick = () => {
+    if (!data.image) {
+      setErrorMessage('가족사진을 추가해주세요.');
+      return;
+    }
+
+    if (!data.name) {
+      setErrorMessage('가족 이름을 적어주세요.');
+      return;
+    }
+
+    if (!data.motto) {
+      setErrorMessage('가훈을 적어주세요.');
+      return;
+    }
+
     const formData = new FormData();
     formData.append('name', data.name);
     formData.append('motto', data.motto);
@@ -62,7 +78,7 @@ export default function FamilyCreatePage() {
 
   return (
     <>
-      <div className="h-screen text-center align-middle w-full py-24 px-60 ">
+      <div className="h-screen text-center align-middle w-full py-16 px-48">
         <div className="border-8 border-black bg-white h-full w-full rounded-xl p-5">
           <h1 className="text-2xl mb-5">가족 생성하기</h1>
           <div className="flex align-middle flex-col w-full h-full">
@@ -102,6 +118,9 @@ export default function FamilyCreatePage() {
             <span onClick={handleClick}>
               <SmallButton text="생성하기" />
             </span>
+            {errorMessage ? (
+              <p className="text-red-400">{errorMessage}</p>
+            ) : null}
           </div>
         </div>
       </div>
