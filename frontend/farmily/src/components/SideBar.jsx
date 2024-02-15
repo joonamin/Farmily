@@ -61,7 +61,7 @@ export default function SideBar() {
     navigate('/');
   }
   return (
-    <aside className="w-1/3 h-full px-4 py-6 bg-slate-50 text-stone-900 md:w-60 rounded-r-md text-center">
+    <aside className="w-1/3 h-full px-4 py-6 bg-slate-50 text-stone-900 md:w-60 rounded-r-md text-center z-50">
       {/* 파밀리 로고 */}
       <Link to={`/tree/${family.id}`}>
         <img src={logo} alt="logo" className="size-32 mx-auto mb-4" />

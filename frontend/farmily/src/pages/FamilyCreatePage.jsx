@@ -62,42 +62,26 @@ export default function FamilyCreatePage() {
 
   return (
     <>
-      <div className="h-screen text-center align-middle w-full py-24 px-60 ">
+      <div className="h-screen text-center align-middle w-full py-24 px-60 z-20">
         <div className="border-8 border-black bg-white h-full w-full rounded-xl p-5">
           <h1 className="text-2xl mb-5">가족 생성하기</h1>
           <div className="flex align-middle flex-col w-full h-full">
             <p>사진 미리보기</p>
             <div className="flex h-1/3 w-full justify-center mb-5">
-              <img
-                src={previewImage}
-                alt="미리보기"
-                className="h-40 w-40 object-cover rounded-md"
-              />
+              <img src={previewImage} alt="미리보기" className="h-40 w-40 object-cover rounded-md" />
             </div>
 
             <div className="w-full flex justify-around m-2">
               <p className="w-1/4">가족 대표 사진</p>
-              <input
-                type="file"
-                onChange={handleFileChange}
-                className="border-4 border-black p-1 rounded-md w-1/2"
-              />
+              <input type="file" onChange={handleFileChange} className="border-4 border-black p-1 rounded-md w-1/2" />
             </div>
             <div className="w-full flex justify-around m-2">
               <p className="w-1/4">가족 이름</p>
-              <input
-                type="text"
-                onChange={handleNameChange}
-                className="border-4 border-black rounded-md p-1 w-1/2"
-              />
+              <input type="text" onChange={handleNameChange} className="border-4 border-black rounded-md p-1 w-1/2" />
             </div>
             <div className="w-full flex justify-around m-2">
               <p className="w-1/4">가훈</p>
-              <input
-                type="text"
-                onChange={handleMottoChange}
-                className="border-4 border-black rounded-md p-1 w-1/2"
-              />
+              <input type="text" onChange={handleMottoChange} className="border-4 border-black rounded-md p-1 w-1/2" />
             </div>
             <span onClick={handleClick}>
               <SmallButton text="생성하기" />
