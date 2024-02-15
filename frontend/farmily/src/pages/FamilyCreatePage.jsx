@@ -24,8 +24,17 @@ export default function FamilyCreatePage() {
       return;
     }
 
+    if (data.name.length > 8) {
+      setErrorMessage('가족 이름은 최대 8글자입니다.');
+      return;
+    }
     if (!data.motto) {
       setErrorMessage('가훈을 적어주세요.');
+      return;
+    }
+
+    if (data.motto.length > 30) {
+      setErrorMessage('가훈은 최대 30글자입니다.');
       return;
     }
 
