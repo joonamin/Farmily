@@ -14,7 +14,7 @@ export default function EventCard(item) {
           />
         </div>
         <div className="h-1/4 w-full">
-          <h3 className="h-full text-lg mt-2">{item.description}</h3>
+          <h3 className="h-full text-md mt-2">{item.description}</h3>
         </div>
       </div>
     </div>
