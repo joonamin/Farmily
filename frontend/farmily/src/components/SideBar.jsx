@@ -1,4 +1,3 @@
-import chunsik from '../assets/images/chunsik.jpg';
 import logout from '../assets/images/logout.png';
 import SideButton from './SideButton.jsx';
 import logo from '../assets/images/Farmily.png';
@@ -80,7 +79,7 @@ export default function SideBar() {
           </div>
         </div>
       ) : (
-        <img src={chunsik} alt="family-profile" className="size-40 mx-auto object-cover" />
+        <img src={familyImage} alt="family-profile" className="size-40 mx-auto object-cover" />
       )}
       <div className="flex justify-center mt-2 overflow-hidden">
         <div

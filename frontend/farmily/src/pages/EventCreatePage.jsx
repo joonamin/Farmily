@@ -23,7 +23,10 @@ export default function EventCreatePage() {
         description: '',
       }));
       setImages((prevImages) => [...prevImages, ...newImages]);
-      setImageDescriptions((prevDescriptions) => [...prevDescriptions, ...newImages.map(() => '')]);
+      setImageDescriptions((prevDescriptions) => [
+        ...prevDescriptions,
+        ...newImages.map(() => ''),
+      ]);
     }
   };
 
@@ -64,7 +67,10 @@ export default function EventCreatePage() {
 
     images.forEach((image, index) => {
       formData.append(`imageCards[${index}].imageFile`, image.file);
-      formData.append(`imageCards[${index}].description`, imageDescriptions[index]);
+      formData.append(
+        `imageCards[${index}].description`,
+        imageDescriptions[index]
+      );
     });
 
     axios
@@ -92,7 +98,13 @@ export default function EventCreatePage() {
           onChange={handleTitleChange}
         />
         <div className="w-full flex justify-start pl-4 mb-2">
-          <input type="file" accept="image/*" onChange={handleImageChange} className="mt-2" multiple />
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleImageChange}
+            className="mt-2"
+            multiple
+          />
         </div>
         <div className="flex flex-no-wrap gap-4 overflow-x-auto h-3/4">
           {images.map((image, index) => (
@@ -100,12 +112,19 @@ export default function EventCreatePage() {
               key={index}
               className="relative border border-gray-200 flex-shrink-0 snap-center bg-white shadow-md rounded-lg max-w-sm dark:bg-gray-800 dark:border-gray-700 p-3"
             >
-              <img src={image.url} alt={`Selected ${index + 1}`} className="object-contain w-48 h-48 mb-2 rounded" />
+              <img
+                src={image.url}
+                alt={`Selected ${index + 1}`}
+                className="object-contain w-48 h-48 mb-2 rounded"
+              />
               <textarea
                 type="text"
-                placeholder="간단한 설명을 입력하세요"
+                placeholder="최대 40자까지 입력 가능합니다."
                 value={imageDescriptions[index]}
-                onChange={(e) => handleImageDescriptionChange(index, e.target.value)}
+                maxLength={40}
+                onChange={(e) =>
+                  handleImageDescriptionChange(index, e.target.value)
+                }
                 className="border border-stone-200 rounded p-2 w-full absolute bottom-0 left-0 bg-white h-1/3 overflow-hidden whitespace-normal resize-none"
               ></textarea>
             </div>

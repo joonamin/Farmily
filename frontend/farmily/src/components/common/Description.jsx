@@ -8,6 +8,10 @@ import back from '../../assets/images/back.png';
 import familyTree from '../../assets/images/familyTree.png';
 import description1 from '../../assets/images/description1.jpg';
 import description2 from '../../assets/images/description2.jpg';
+import intro1 from '../../assets/images/intro1.png';
+import intro2 from '../../assets/images/intro2.png';
+import intro3 from '../../assets/images/intro3.png';
+import intro4 from '../../assets/images/intro4.png';
 
 export default function Description({ isOpen, closeModal }) {
   const [number, setNumber] = useState(1);
@@ -43,7 +47,7 @@ export default function Description({ isOpen, closeModal }) {
               <div className="relative p-6">
                 {/* 내용을 원하는 대로 추가하세요 */}
                 {/* 본문 1 */}
-                {number === 1 ? (
+                {number === 4 ? (
                   <div className="relative p-6 px-20 flex justify-between">
                     <div>
                       <p className="mx-auto text-3xl pb-2">Farmily와 함께</p>
@@ -115,16 +119,16 @@ export default function Description({ isOpen, closeModal }) {
                 {/* 본문 3 */}
                 {/* 본문 4 */}
                 {/* 이미지 실서비스 사진 캡쳐해서 바꿀것 */}
-                {number === 4 ? (
+                {number === 1 ? (
                   <div>
-                    <div className="relative p-6 flex justify-between px-40 pt-2">
-                      <div className="w-1/2 flex flex-wrap">
-                        <img src={family} alt="" className="h-40" />
-                        <img src={family} alt="" className="h-40" />
-                        <img src={family} alt="" className="h-40" />
-                        <img src={family} alt="" className="h-40" />
+                    <div className="relative p-6 flex justify-between px-20 pt-14 pb-12">
+                      <div className="w-4/6 flex flex-wrap gap-x-2 gap-y-4">
+                        <img src={intro1} alt="" className="h-32 w-52" />
+                        <img src={intro2} alt="" className="h-32 w-52" />
+                        <img src={intro3} alt="" className="h-32 w-52" />
+                        <img src={intro4} alt="" className="h-32 w-52" />
                       </div>
-                      <div className="text-center my-auto ml-12">
+                      <div className="text-center my-auto ml-12 w-1/2 flex-col flex text-nowrap">
                         <p className="text-xl">가족의 소중한 순간을</p>
                         <p className="text-xl mt-2">함께 기록하는 공간</p>
                         <p className="text-xl mt-2">
