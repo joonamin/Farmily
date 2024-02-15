@@ -356,7 +356,7 @@ export default function SettingPage() {
       {tabIndex === 0 ? (
         <div>
           <div className="w-full h-5/6 m-auto">
-            <div className="flex h-1/3 w-full justify-center">
+            <div className="flex h-1/3 w-full justify-center pb-2">
               <img
                 src={previewImage}
                 alt="미리보기"
