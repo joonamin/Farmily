@@ -1,9 +1,10 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import axios from '../api/axios.jsx';
 
 export default function EnterPage() {
   const [invitationCode, setInvitationCode] = useState();
+  const [isHover, setIsHover] = useState(false);
   const navigate = useNavigate();
   const handleClick = () => {
     axios
@@ -19,6 +20,15 @@ export default function EnterPage() {
   const handleInput = (e) => {
     setInvitationCode(e.target.value);
   };
+
+  const enterMouse = () => {
+    setIsHover(true);
+  };
+
+  const outMouse = () => {
+    setIsHover(false);
+  };
+
   return (
     <>
       <div className="h-screen text-center align-middle w-full py-16 px-48 ">
@@ -40,6 +50,20 @@ export default function EnterPage() {
                 참여
               </button>
             </div>
+            <span
+              onMouseEnter={enterMouse}
+              onMouseLeave={outMouse}
+              className=" w-2/6 mx-auto transition-all duration-50"
+              style={{ color: isHover ? '#4ADE80' : 'black' }}
+            >
+              {isHover ? (
+                <Link to="/createtree/family">
+                  <span className="text-2xl">새로운 가족 만들기</span>
+                </Link>
+              ) : (
+                <span className="text-2xl">아직 가족코드가 없다면?</span>
+              )}
+            </span>
           </div>
         </div>
       </div>
