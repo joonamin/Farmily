@@ -42,7 +42,6 @@ const WelcomePage = () => {
       .then((res) => {
         dispatch(getFamilies({ familyInfo: res.data }));
         setFamilies(res.data);
-        console.log(res.data);
       })
       .catch((err) => {
         console.log(err);
@@ -141,14 +140,14 @@ const WelcomePage = () => {
                       >
                         가족을 선택하세요
                       </label>
-                      {families ? (
+                      {families.length ? (
                         <select
                           id="family_select"
                           value={selectedFamilyId}
                           onChange={(e) => setSelectedFamilyId(e.target.value)}
                           className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-blue-300"
                         >
-                          <option value="" disabled selected id="disableOption">
+                          <option value="" id="disableOption" disabled selected>
                             가족을 선택해주세요.
                           </option>
                           {families.map((family, index) => (
@@ -167,6 +166,7 @@ const WelcomePage = () => {
               {error ? (
                 <p className=" text-red-400 text-center">{error}</p>
               ) : null}
+
               <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:justify-center">
                 <button
                   onClick={handleStart}
