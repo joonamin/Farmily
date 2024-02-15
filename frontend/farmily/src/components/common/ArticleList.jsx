@@ -111,7 +111,7 @@ export default function ArticleList({ sprintId }) {
           <span className="flex justify-center">
             <div className="flex justify-between mt-4">
               <button
-                className={`bg-blue-500 text-white px-4 py-2 mr-4 rounded ${
+                className={`bg-green-400 text-white px-4 py-2 mr-4 rounded ${
                   page === 1 ? 'disabled bg-stone-700' : ''
                 }`}
                 onClick={handlePrevPage}
@@ -124,7 +124,7 @@ export default function ArticleList({ sprintId }) {
                   key={pageNumber}
                   className={`${
                     pageNumber + 1 === page
-                      ? 'bg-blue-500 text-white'
+                      ? 'bg-gray-500 text-white'
                       : 'bg-gray-300'
                   } px-4 py-2 rounded`}
                   onClick={() => handlePageClick(pageNumber + 1)}
@@ -133,7 +133,7 @@ export default function ArticleList({ sprintId }) {
                 </button>
               ))}
               <button
-                className={`bg-blue-500 text-white px-4 py-2 ml-4 rounded ${
+                className={`bg-green-400 text-white px-4 py-2 ml-4 rounded ${
                   page === totalPages ? 'disabled bg-stone-700' : ''
                 }`}
                 onClick={handleNextPage}
