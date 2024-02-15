@@ -18,7 +18,6 @@ const Fruits = () => {
       .get(`family/${family.id}/inventory/${family.mainSprint.sprintId}`)
       .then((response) => {
         setInventoryFruits(response.data.recordFruitList);
-        console.log(response.data.recordFruitList);
       })
       .catch((error) => {
         console.log(error);
@@ -30,7 +29,12 @@ const Fruits = () => {
       <p className="text-center">기록을 통해 열매를 얻을 수 있습니다.</p>
       <div className="flex flex-wrap p-2 pl-6 h-3/4">
         {inventoryFruits.map((fruit, index) => (
-          <div key={index} className="w-10 h-10" draggable="true" data-fruit-index={index}>
+          <div
+            key={index}
+            className="w-10 h-10"
+            draggable="true"
+            data-fruit-index={index}
+          >
             <FruitItem type={fruit.type} title={fruit.title} id={fruit.id} />
           </div>
         ))}

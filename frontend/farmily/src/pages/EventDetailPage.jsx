@@ -26,7 +26,6 @@ export default function EventDetailPage() {
       .get(`/record/${recordId}`)
       .then((response) => {
         setRecord(response.data);
-        console.log(response.data);
       })
       .catch((error) => {
         console.log(error);

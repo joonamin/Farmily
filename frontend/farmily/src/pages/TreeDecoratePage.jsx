@@ -7,7 +7,9 @@ import axios from '../api/axios.jsx';
 
 export default function TreeDecoratePage() {
   const family = useSelector((state) => state.family.value);
-  const [treeFruits, setTreeFruits] = useState(family.tree.mainRecordFruitDtoList);
+  const [treeFruits, setTreeFruits] = useState(
+    family.tree.mainRecordFruitDtoList
+  );
   const [inventoryFruits, setInventoryFruits] = useState([
     {
       id: 0,
@@ -21,7 +23,6 @@ export default function TreeDecoratePage() {
       .get(`family/${family.id}/inventory/${family.mainSprint.sprintId}`)
       .then((response) => {
         setInventoryFruits(response.data.recordFruitList);
-        console.log(response.data.recordFruitList);
       })
       .catch((error) => {
         console.log(error);
@@ -29,7 +30,9 @@ export default function TreeDecoratePage() {
   }, []);
 
   const handleInventoryFruitClick = (e, fruitIndex) => {
-    const updatedInventoryFruits = inventoryFruits.filter((item, index) => index !== fruitIndex);
+    const updatedInventoryFruits = inventoryFruits.filter(
+      (item, index) => index !== fruitIndex
+    );
     const newTreeFruit = {
       recordId: inventoryFruits[fruitIndex].id,
       recordTitle: inventoryFruits[fruitIndex].title,
@@ -45,7 +48,9 @@ export default function TreeDecoratePage() {
   };
   const handleTreeFruitRightClick = (e, fruitIndex) => {
     e.preventDefault();
-    const updatedTreeFruits = treeFruits.filter((item, index) => index !== fruitIndex);
+    const updatedTreeFruits = treeFruits.filter(
+      (item, index) => index !== fruitIndex
+    );
     const newInventoryFruit = {
       id: treeFruits[fruitIndex].recordId,
       title: treeFruits[fruitIndex].recordTitle,
@@ -77,7 +82,11 @@ export default function TreeDecoratePage() {
                 data-fruit-index={index}
                 onClick={(e) => handleInventoryFruitClick(e, index)}
               >
-                <FruitItem type={fruit.type} title={fruit.title} id={fruit.id} />
+                <FruitItem
+                  type={fruit.type}
+                  title={fruit.title}
+                  id={fruit.id}
+                />
               </div>
             ))}
           </div>

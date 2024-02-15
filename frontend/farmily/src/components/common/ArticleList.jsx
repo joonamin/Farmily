@@ -34,7 +34,6 @@ export default function ArticleList({ sprintId }) {
     axios
       .get(`/sprint/${sprintId}/record?pageSize=8`)
       .then((response) => {
-        // console.log(response);
         setRecords(response.data.page.records);
         setChallenge(response.data.page.challenges);
         setTotalPages(response.data.page.pageTotal);
@@ -48,7 +47,6 @@ export default function ArticleList({ sprintId }) {
     axios
       .get(`/sprint/${sprintId}/record/${page}?pageSize=8`)
       .then((res) => {
-        // console.log(res);
         setRecords(res.data.records);
       })
       .catch((err) => {
@@ -71,8 +69,6 @@ export default function ArticleList({ sprintId }) {
   const handlePageClick = (pageNumber) => {
     setPage(pageNumber);
   };
-
-  // console.log(records);
 
   return (
     <>

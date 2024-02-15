@@ -31,7 +31,6 @@ const WelcomePage = () => {
       .get('/member/me')
       .then((res) => {
         dispatch(getUser(res.data));
-        console.log(res);
       })
       .catch((err) => {
         console.log(err);
@@ -63,7 +62,6 @@ const WelcomePage = () => {
     }
 
     // 시작하기 버튼을 눌렀을 때 실행되는 로직 추가
-    console.log('가족 선택:', selectedFamilyId);
     // 여기서 선택된 가족에 대한 추가적인 로직을 수행할 수 있습니다.
     closeModal(); // 모달 닫기
     navigate(`/tree/${selectedFamilyId}`);

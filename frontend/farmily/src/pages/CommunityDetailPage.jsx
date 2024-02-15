@@ -21,7 +21,6 @@ export default function CommunityDetailPage() {
       .get(`/community/${id}`)
       .then((res) => {
         setCommunity(res.data);
-        console.log(res);
       })
       .catch((err) => {
         console.log(err);
@@ -35,12 +34,18 @@ export default function CommunityDetailPage() {
           <p>{community.title}</p>
         </div>
         <div className="flex justify-between mt-1">
-          <span className="text-left">{/* 작성일자 :작성일자 : {community.createdAt.slice(0, 10)} */}</span>
+          <span className="text-left">
+            {/* 작성일자 :작성일자 : {community.createdAt.slice(0, 10)} */}
+          </span>
           <span className="text-right">작성자 : {community.author}</span>
         </div>
       </div>
       <div className="h-3/6">
-        <img src={community.treeImage.location} alt="" className="mx-auto object-contain h-full" />
+        <img
+          src={community.treeImage.location}
+          alt=""
+          className="mx-auto object-contain h-full"
+        />
       </div>
       <div className="h-2/6">{community.content}</div>
     </div>

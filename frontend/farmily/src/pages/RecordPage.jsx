@@ -37,7 +37,6 @@ export default function RecordPage() {
         setCount(res.data.counts);
         setSprintDate(res.data.dateRange);
         setImages(res.data.images);
-        console.log(123, res.data);
       })
       .catch((err) => {
         console.error(err);

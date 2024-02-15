@@ -110,7 +110,6 @@ export default function SettingPage() {
     axios.get('/member/family').then((res) => {
       dispatch(getFamilies({ familyInfo: res.data }));
       setFamilies(res.data);
-      console.log(res.data);
     });
 
     axios
@@ -258,7 +257,6 @@ export default function SettingPage() {
     axios
       .put(`/family/${family.id}/fruit-skin`, formData)
       .then((res) => {
-        console.log(res);
         setIsChangeFruit(!isChangeFruit);
         setFruitError('');
         openModal();
@@ -294,7 +292,6 @@ export default function SettingPage() {
         headers: { 'Content-Type': 'multipart/form-data' },
       })
       .then((response) => {
-        console.log(response.data);
         setFamilyError('');
         openModal();
       })

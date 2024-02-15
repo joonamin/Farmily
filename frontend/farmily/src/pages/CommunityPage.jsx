@@ -14,7 +14,6 @@ export default function CommunityPage() {
     if (entries[0].isIntersecting) {
       // Intersection 발생 시 다음 페이지 데이터 로딩
       loadNextPage();
-      // console.log('끝');
     }
   };
 
@@ -32,7 +31,6 @@ export default function CommunityPage() {
       .then((res) => {
         setPosts(res.data.contents);
         setHasNext(res.data.hasNext);
-        console.log(res);
       })
       .catch((err) => {
         console.log(err);
