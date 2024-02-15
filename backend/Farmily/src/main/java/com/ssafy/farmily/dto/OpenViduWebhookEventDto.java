@@ -32,7 +32,7 @@ public abstract class OpenViduWebhookEventDto {
 		String mapEvent = (String) map.get("event");
 		this.eventType = EnumUtils.fromCamelCase(EventType.class, mapEvent);
 
-		Long mapTimestamp = (Long) map.get("timestamp");
+		long mapTimestamp = ((Number) map.get("timestamp")).longValue();
 		this.timestamp = TimeUtils.epochMillisToLocalDateTime(mapTimestamp);
 	}
 
@@ -67,10 +67,10 @@ public abstract class OpenViduWebhookEventDto {
 
 			this.sessionId = (String) map.get("sessionId");
 
-			Long mapStartTime = (Long) map.get("startTime");
+			long mapStartTime = ((Number) map.get("startTime")).longValue();
 			this.startTime = TimeUtils.epochMillisToLocalDateTime(mapStartTime);
 
-			Integer mapDuration = (Integer) map.get("duration");
+			long mapDuration = ((Number) map.get("duration")).longValue();
 			this.duration = Duration.ofSeconds(mapDuration);
 
 			String mapReason = (String) map.get("reason");
@@ -132,10 +132,10 @@ public abstract class OpenViduWebhookEventDto {
 		public ParticipantLeft(Map<String, Object> map) {
 			super(map);
 
-			Long mapStartTime = (Long)map.get("startTime");
+			long mapStartTime = ((Number) map.get("startTime")).longValue();
 			this.startTime = TimeUtils.epochMillisToLocalDateTime(mapStartTime);
 
-			Integer mapDuration = (Integer)map.get("duration");
+			long mapDuration = ((Number)map.get("duration")).longValue();
 			this.duration = Duration.ofSeconds(mapDuration);
 
 			String mapReason = (String)map.get("reason");

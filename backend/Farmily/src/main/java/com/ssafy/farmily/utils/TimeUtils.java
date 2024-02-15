@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 import java.util.TimeZone;
 
 public class TimeUtils {
-	public static LocalDateTime epochMillisToLocalDateTime(Long epochTimeInMillis) {
+	public static LocalDateTime epochMillisToLocalDateTime(long epochTimeInMillis) {
 		return LocalDateTime.ofInstant(
 			Instant.ofEpochMilli(epochTimeInMillis),
 			TimeZone.getDefault().toZoneId()
