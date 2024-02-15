@@ -114,6 +114,8 @@ public class OpenViduWebRtcService implements WebRtcService {
 
 	@Override
 	public void onSessionDestroyed(OpenViduWebhookEventDto.SessionDestroyed dto) {
+		log.info("가족회의 삭제됨 (삭제 이유: %s)".formatted(dto.getReason().toString()));
+
 		String sessionId = dto.getSessionId();
 		Long familyId = Long.parseLong(sessionId.substring(SESSION_ID_PREFIX.length()));
 
