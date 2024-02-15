@@ -10,7 +10,7 @@ const sites = [
 
 export default function LoginPage() {
   return (
-    <div className="h-screen text-center align-middle w-full py-24 px-60 ">
+    <div className="h-screen text-center align-middle w-full py-24 px-60 z-20">
       <div className="border-8 border-black bg-white h-full rounded-xl p-10">
         <h1 className="text-2xl mb-5"> 로그인</h1>
         <div className="h-1/2 flex justify-center">

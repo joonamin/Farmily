@@ -31,7 +31,7 @@ export default function EnterPage() {
 
   return (
     <>
-      <div className="h-screen text-center align-middle w-full py-16 px-48 ">
+      <div className="h-screen text-center align-middle w-full py-16 px-48 z-20">
         <div className="border-8 border-black bg-white h-full rounded-xl p-10">
           <h1 className="text-2xl mb-20">참여하기</h1>
           <div className="flex align-middle h-1/2 flex-col pt-10 ">
