@@ -21,5 +21,15 @@ export default {
     },
   },
   // eslint-disable-next-line no-undef
-  plugins: [require('tailwindcss-animated')],
+  plugins: [
+    function ({ addUtilities }) {
+      const newUtilities = {
+        '.motto-div': {
+          left: 'calc(50% - 2rem)',
+        },
+      };
+      addUtilities(newUtilities, ['responsive', 'hover']);
+    },
+    require('tailwindcss-animated'),
+  ],
 };
