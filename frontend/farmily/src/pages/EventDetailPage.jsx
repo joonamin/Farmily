@@ -46,7 +46,7 @@ export default function EventDetailPage() {
         </span>
         <span className="text-right">작성자 : {record.author.nickname}</span>
       </div>
-      <div className="flex h-3/5 snap-x overflow-x-scroll px-6 justify-center">
+      <div className="flex h-3/4 snap-x overflow-x-scroll px-6 justify-center">
         <div className="h-full w-full flex m-auto">
           {record.imageCards.map((item, index) => (
             <EventCard key={index} {...item} />

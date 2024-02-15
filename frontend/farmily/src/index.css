@@ -40,3 +40,7 @@
   animation: blink 1s step-end infinite;
 }
 /* TextTypingAni */
+
+#disableOption {
+  display: none;
+}
