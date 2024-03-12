@@ -1,3 +1,11 @@
+# 소개 영상
+
+
+https://github.com/joonamin/Farmily/assets/97105309/f1ecdfe3-cd65-4451-bb09-7e8b22cf856c
+
+
+
+
 # 포팅 메뉴얼
 
 # 1. 개요
