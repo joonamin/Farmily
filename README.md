@@ -4,6 +4,7 @@
 https://github.com/joonamin/Farmily/assets/97105309/f1ecdfe3-cd65-4451-bb09-7e8b22cf856c
 
 
+# [참고 링크](https://polyester-walnut-ea1.notion.site/_Farmily-ca3a43c23b6f47d1b33f2c4a7dac5a64)
 
 
 # 포팅 메뉴얼
